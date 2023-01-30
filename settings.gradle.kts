@@ -16,4 +16,3 @@ dependencyResolutionManagement {
 rootProject.name = "CAH"
 include(":androidApp")
 include(":shared")
-include(":cah-server")

@@ -8,7 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.eleks.cah.Greeting
+import com.eleks.cah.getPlatform
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,8 +19,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    val greeting = Greeting()
-                    GreetingView("${greeting.greet()}, ${greeting.getPlayer().name}")
+                    val platform = getPlatform()
+                    GreetingView("Hello, ${platform.name}")
                 }
             }
         }

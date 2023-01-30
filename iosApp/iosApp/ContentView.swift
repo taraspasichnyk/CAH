@@ -3,13 +3,11 @@ import shared
 
 struct ContentView: View {
 
-	let greet = Greeting().greet()
-
-    let player = Greeting().getPlayer()
+    let platform = shared.getPlatform()
 
 
 	var body: some View {
-        Text("\(greet), \(player.name)")
+        Text("Hello, \(platform)")
 	}
 }
 

@@ -20,6 +20,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+                implementation("io.github.aakira:napier:2.6.1")
             }
         }
         val commonTest by getting {

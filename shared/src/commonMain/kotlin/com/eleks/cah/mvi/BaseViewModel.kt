@@ -1,6 +1,6 @@
 package com.eleks.cah.mvi
 
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 
 expect abstract class BaseViewModel<T : UiState, E : UiEvent>() {
 

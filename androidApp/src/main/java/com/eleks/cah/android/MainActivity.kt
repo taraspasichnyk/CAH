@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
@@ -15,12 +16,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.eleks.cah.GameState
 import com.eleks.cah.GameViewModel
 import com.eleks.cah.getPlatform
+import com.eleks.cah.init
 
 class MainActivity : ComponentActivity() {
 
     private val viewModel by viewModels<GameViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        init()
         setContent {
             MyApplicationTheme {
                 Surface(
@@ -32,7 +35,9 @@ class MainActivity : ComponentActivity() {
                     when (state) {
                         GameState.InMenu -> {
                             Column {
-                                Text("New Game")
+                                Text("New Game", Modifier.clickable {
+                                    viewModel.onNewGameClick()
+                                })
                                 Text("Join Game")
                                 Text("Settings")
                                 Text("Exit")

@@ -1,22 +1,14 @@
 package com.eleks.cah
 
 import com.eleks.cah.mvi.BaseViewModel
+import com.eleks.cah.mvi.Reducer
 import kotlinx.coroutines.flow.MutableStateFlow
 
-class GameViewModel() {
+class GameViewModel : BaseViewModel<GameState, GameEvent>() {
 
-    private val state:MutableStateFlow<GameState> = MutableStateFlow(GameState.InMenu)
-//    val reducer = GameReducer()
-
-    init {
-//        state.tryEmit(reducer.state.value)
-    }
-
+    override val reducer: Reducer<GameState, GameEvent> = GameReducer()
 
     fun onNewGameClick() {
-        state.tryEmit(GameState.InRoomCreation)
-//        reducer.sendEvent(GameEvent.NewGame)
+        reducer.sendEvent(GameEvent.NewGame)
     }
-
-    fun observeState() = AnyFlow(state)
 }

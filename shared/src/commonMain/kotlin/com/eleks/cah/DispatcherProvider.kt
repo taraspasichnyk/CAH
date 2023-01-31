@@ -3,7 +3,7 @@ package com.eleks.cah
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
-internal object DispatcherProvider {
-    fun mainDispatcher() : CoroutineDispatcher = Dispatchers.Main
-    fun backgroundDispatcher() : CoroutineDispatcher = Dispatchers.Default
+expect object DispatcherProvider {
+    fun mainDispatcher() : CoroutineDispatcher
+    fun backgroundDispatcher() : CoroutineDispatcher
 }

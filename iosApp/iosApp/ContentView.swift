@@ -2,33 +2,29 @@ import SwiftUI
 import shared
 
 struct ContentView: View {
-    @State var state: GameState = GameState.InMenu()
+    @Binding var state: GameState
+    let vm: shared.GameViewModel
 
-    let vm = shared.GameViewModel()
-
-	var body: some View {
+    var body: some View {
         NavigationView {
-            Main(state: state)
-        }.onAppear(perform: {
-            vm.state.collect{ gameState in
-                guard let newState = gameState else { return }
-                self.state = newState
-            } onCompletion: { _ in
-
-            }
-        })
+            map(state: state)
+        }
     }
 
-    func Main(state: GameState) -> AnyView {
+    func map(state: GameState) -> AnyView {
         switch state {
         case is GameState.InMenu: return AnyView(VStack{
-            Text("New Game")
-            Text("Join Game")
-            Text("Settings")
-            Text("Exit")
+            Button("New Game") {
+                vm.onNewGameClick()
+            }
+            Button("Join Game") {}
+            Button("Settings") {}
+            Button("Exit") {}
         })
         case is GameState.InLobby: return AnyView(VStack{})
-        case is GameState.InRoomCreation: return AnyView(VStack{})
+        case is GameState.InRoomCreation: return AnyView(VStack{
+            Text("Room Creation")
+        })
         case is GameState.InSettings: return AnyView(VStack{})
         default:
             return AnyView(VStack{})
@@ -38,6 +34,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		ContentView()
+        ContentView(state: .constant(.InMenu()), vm: GameViewModel())
 	}
 }

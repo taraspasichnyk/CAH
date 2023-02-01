@@ -17,13 +17,27 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting
+        val commonMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+                implementation("io.github.aakira:napier:2.6.1")
+            }
+        }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
             }
         }
-        val androidMain by getting
+        val androidMain by getting {
+            dependencies {
+                implementation("androidx.compose.ui:ui:1.2.1")
+                implementation("androidx.compose.ui:ui-tooling:1.2.1")
+                implementation("androidx.compose.ui:ui-tooling-preview:1.2.1")
+                implementation("androidx.compose.foundation:foundation:1.2.1")
+                implementation("androidx.compose.material:material:1.2.1")
+                implementation("androidx.activity:activity-compose:1.5.1")
+            }
+        }
         val androidTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting

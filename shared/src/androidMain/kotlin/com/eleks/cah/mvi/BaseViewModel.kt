@@ -7,5 +7,6 @@ actual abstract class BaseViewModel<T : UiState, E : UiEvent> : ViewModel() {
 
     protected actual abstract val reducer: Reducer<T, E>
 
-    val state: Flow<T> = this.reducer.state
+    val state: Flow<T>
+        get() = this.reducer.state
 }

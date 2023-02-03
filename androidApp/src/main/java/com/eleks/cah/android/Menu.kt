@@ -14,13 +14,13 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -34,7 +34,10 @@ fun Menu(
     onSettings: () -> Unit = {},
     onExit: () -> Unit
 ) {
-    Surface(Modifier.fillMaxSize()) {
+    Surface(
+        Modifier.fillMaxSize(),
+        color = MaterialTheme.colors.secondary
+    ) {
         Image(
             modifier = Modifier.fillMaxWidth(),
             painter = painterResource(id = R.drawable.main_background),
@@ -51,18 +54,28 @@ fun Menu(
             ) {
                 Column(
                     modifier = Modifier
-                        .background(Color.Black)
+                        .background(MaterialTheme.colors.primary)
                         .padding(top = 30.dp, start = 60.dp, end = 60.dp, bottom = 10.dp)
                 ) {
                     Row() {
-                        Text(text = stringResource(R.string.card_label), color = Color.White)
+                        Text(
+                            text = stringResource(R.string.card_label),
+                            color = MaterialTheme.colors.secondary,
+                            style = labelLarge
+                        )
                         Image(
                             painter = painterResource(id = R.drawable.ic_new),
                             contentDescription = "new",
-                            modifier = Modifier.size(width = 48.dp, height = 20.dp)
+                            modifier = Modifier
+                                .size(width = 48.dp, height = 20.dp)
+                                .align(Alignment.CenterVertically)
                         )
                     }
-                    Text(text = stringResource(R.string.conflict_label), color = Color.White)
+                    Text(
+                        text = stringResource(R.string.conflict_label),
+                        color = MaterialTheme.colors.secondary,
+                        style = labelLarge
+                    )
                 }
             }
 
@@ -70,20 +83,21 @@ fun Menu(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color.White)
+                    .background(MaterialTheme.colors.secondary)
                     .padding(top = 60.dp, bottom = 210.dp)
             ) {
                 Button(
                     shape = RectangleShape,
                     onClick = { onNewGame() },
                     colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color.Black,
+                        backgroundColor = MaterialTheme.colors.primary,
                     )
                 ) {
                     Text(
                         text = stringResource(R.string.create_game_label),
-                        color = Color.White,
-                        modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp)
+                        color = MaterialTheme.colors.secondary,
+                        modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
+                        style = labelMedium
                     )
                 }
 
@@ -91,14 +105,15 @@ fun Menu(
                     shape = RectangleShape,
                     onClick = { onJoinGame() },
                     colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color.Black,
+                        backgroundColor = MaterialTheme.colors.primary,
                     ),
                     modifier = Modifier.padding(top = 24.dp)
                 ) {
                     Text(
                         text = stringResource(R.string.connect_to_game_label),
-                        color = Color.White,
-                        modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp)
+                        color = MaterialTheme.colors.secondary,
+                        modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
+                        style = labelMedium
                     )
                 }
 
@@ -106,15 +121,16 @@ fun Menu(
                     shape = RectangleShape,
                     onClick = { onSettings() },
                     colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color.Black,
+                        backgroundColor = MaterialTheme.colors.primary,
                     ),
                     modifier = Modifier.padding(top = 24.dp)
 
                 ) {
                     Text(
                         text = stringResource(R.string.settings_label),
-                        color = Color.White,
-                        modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp)
+                        color = MaterialTheme.colors.secondary,
+                        modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
+                        style = labelMedium
                     )
                 }
             }
@@ -123,7 +139,7 @@ fun Menu(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(bottom = 140.dp),
+                .padding(bottom = 100.dp),
             contentAlignment = Alignment.BottomCenter,
         ) {
             OutlinedButton(
@@ -131,15 +147,16 @@ fun Menu(
                     .wrapContentHeight()
                     .wrapContentWidth(),
                 onClick = { onExit() },
-                border = BorderStroke(1.dp, Color.Black),
+                border = BorderStroke(1.dp, MaterialTheme.colors.primary),
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color.White
+                    backgroundColor = MaterialTheme.colors.secondary
                 )
             ) {
                 Text(
                     text = stringResource(R.string.exit_label),
-                    color = Color.Black,
-                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp)
+                    color = MaterialTheme.colors.primary,
+                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
+                    style = labelMedium
                 )
             }
         }

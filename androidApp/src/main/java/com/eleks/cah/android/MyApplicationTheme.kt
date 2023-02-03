@@ -10,7 +10,6 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -22,20 +21,20 @@ fun MyApplicationTheme(
 ) {
     val colors = if (darkTheme) {
         darkColors(
-            primary = Color(0xFFBB86FC),
+            primary = Color(0xff222222),
             primaryVariant = Color(0xFF3700B3),
-            secondary = Color(0xFF03DAC5)
+            secondary = Color(0xFFFFFFFF)
         )
     } else {
         lightColors(
-            primary = Color(0xFF6200EE),
+            primary = Color(0xff222222),
             primaryVariant = Color(0xFF3700B3),
-            secondary = Color(0xFF03DAC5)
+            secondary = Color(0xFFFFFFFF)
         )
     }
     val typography = Typography(
         body1 = TextStyle(
-            fontFamily = FontFamily.Default,
+            fontFamily = unboundedFontFamily,
             fontWeight = FontWeight.Normal,
             fontSize = 16.sp
         )

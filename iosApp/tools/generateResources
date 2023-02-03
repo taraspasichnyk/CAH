@@ -1,0 +1,29 @@
+#!/bin/zsh
+
+echo "#warning: RUNNING GENERATE ASSETS SCRIPT"
+
+TEMPLATE=$(cat "tools/.assetsFileTemplate")
+
+IMAGE_ASSETS=""
+COLOR_ASSETS=""
+
+for ASSET in $(ls "iosApp/Assets.xcassets" | grep -v "AccentColor"); do
+
+    if [[ $ASSET = *.imageset ]]; then
+        ASSET="${ASSET%.*}"
+      IMAGE_ASSETS="${IMAGE_ASSETS}    static var ${ASSET}: Image { .init(\"${ASSET}\") }\n"
+    elif [[ $ASSET == *.colorset ]]; then
+        ASSET="${ASSET%.*}"
+      COLOR_ASSETS="${COLOR_ASSETS}    static var ${ASSET}: Color { .init(\"${ASSET}\") }\n"
+    fi
+    
+done
+
+IMAGE_ASSETS="${IMAGE_ASSETS%\\n}"
+COLOR_ASSETS="${COLOR_ASSETS%\\n}"
+
+echo "REPLACE OUTPUT:"
+
+echo "${TEMPLATE}" | sed "s/_image_asset_list_/${IMAGE_ASSETS}/" | sed "s/_color_asset_list_/${COLOR_ASSETS}/" > "iosApp/Assets.swift"
+
+

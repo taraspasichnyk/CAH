@@ -5,11 +5,13 @@ import SwiftUI
 // MARK: - Images
 
 extension Image {
-    static var back: Image { .init("back") }
+_image_asset_list_
 }
 
 // MARK: - Colors
 
 extension Color {
-    static var mainBlack: Color { .init("mainBlack") }
+_color_asset_list_
 }
+
+

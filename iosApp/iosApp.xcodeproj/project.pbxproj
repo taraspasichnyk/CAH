@@ -155,6 +155,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7555FFA5242A565B00829871 /* Build configuration list for PBXNativeTarget "iosApp" */;
 			buildPhases = (
+				92318B79298DB4FC00C37991 /* Generate Assets */,
 				7555FFB5242A651A00829871 /* Embed Shared KMM Code */,
 				7555FF77242A565900829871 /* Sources */,
 				7555FF78242A565900829871 /* Frameworks */,
@@ -242,6 +243,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "ANDROID_STUDIO_JDK_PATH=\"/Applications/Android Studio.app/Contents/jbr/Contents/Home\"\nif [ -d \"$ANDROID_STUDIO_JDK_PATH\" ]; then\n    export JAVA_HOME=\"$ANDROID_STUDIO_JDK_PATH\"\nelse\n    export JAVA_HOME=/opt/homebrew/opt/openjdk\nfi\ncd \"$SRCROOT/..\"\n./gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
+		};
+		92318B79298DB4FC00C37991 /* Generate Assets */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Generate Assets";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/zsh;
+			shellScript = "zsh \"${SRCROOT}/tools/generateResources\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

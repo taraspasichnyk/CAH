@@ -2,11 +2,11 @@ package com.eleks.cah.android
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
-import com.eleks.cah.GameViewModel
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun Menu(
@@ -16,9 +16,20 @@ fun Menu(
     onExit: () -> Unit
 ) {
     Column {
-        Text("New Game", Modifier.clickable { onNewGame() })
-        Text("Join Game", Modifier.clickable { onJoinGame() })
-        Text("Settings", Modifier.clickable { onSettings() })
-        Text("Exit", Modifier.clickable { onExit() })
+        Button(onClick = onNewGame) {
+            Text(stringResource(R.string.menu_new_game_button_title))
+        }
+        Button(onClick = onJoinGame) {
+            Text(stringResource(R.string.join_game_menu_button_title))
+        }
+
+        Button(onClick = onSettings) {
+            Text(stringResource(R.string.settings_menu_button_title))
+        }
+
+        Button(onClick = onExit) {
+            Text(stringResource(R.string.exit_menu_button_title))
+        }
+
     }
 }

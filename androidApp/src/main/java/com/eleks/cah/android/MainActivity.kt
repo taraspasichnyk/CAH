@@ -8,17 +8,22 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.eleks.cah.GameViewModel
+import com.eleks.cah.game.GameViewModel
 import com.eleks.cah.init
+import com.eleks.cah.menu.MenuContract
+import com.eleks.cah.menu.MenuViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 class MainActivity : ComponentActivity() {
 
-    private val viewModel by viewModels<GameViewModel>()
+    private val menuViewModel by viewModels<MenuViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         init()
@@ -30,6 +35,15 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val navController = rememberNavController()
 
+                    LaunchedEffect(key1 = "effects") {
+                        menuViewModel.effect.collectLatest {
+                            when (it) {
+                                is MenuContract.Effect.Navigation.NewGameScreen -> {
+                                    navController.navigate(Route.NewGame.path)
+                                }
+                            }
+                        }
+                    }
                     NavHost(
                         navController = navController,
                         startDestination = Route.Menu.path
@@ -37,13 +51,11 @@ class MainActivity : ComponentActivity() {
                         composable(Route.Menu.path) {
                             Menu(
                                 onNewGame = {
-                                    navController.navigate(Route.NewGame.path)
+                                    menuViewModel.setEvent(MenuContract.Event.StartNewGame)
                                 },
                                 onJoinGame = {
-                                    navController.navigate(Route.Lobby.path)
                                 },
                                 onSettings = {
-                                    navController.navigate(Route.Settings.path)
                                 },
                                 onExit = {
                                     navController.popBackStack()

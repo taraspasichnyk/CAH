@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="menu_new_game_button_title">New Game</string>
+    <string name="join_game_menu_button_title">Join Game</string>
+    <string name="settings_menu_button_title">Settings</string>
+    <string name="exit_menu_button_title">Exit</string>
+</resources>

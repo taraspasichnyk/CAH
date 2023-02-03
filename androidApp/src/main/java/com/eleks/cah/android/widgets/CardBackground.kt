@@ -12,15 +12,25 @@ import androidx.compose.ui.graphics.ImageShader
 import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import com.eleks.cah.android.R
 
+class PatternProvider : PreviewParameterProvider<Int> {
+    override val values =
+        listOf(R.drawable.bg_pattern_big, R.drawable.bg_pattern_normal).asSequence()
+}
+
+@Preview
 @Composable
 fun CardBackground(
-    @DrawableRes patternId: Int,
-    modifier: Modifier = Modifier
+    @PreviewParameter(PatternProvider::class)
+    @DrawableRes patternId: Int
 ) {
     val image = ImageBitmap.imageResource(patternId)
     val brush = remember(image) {
         ShaderBrush(ImageShader(image, TileMode.Repeated, TileMode.Repeated))
     }
-    Box(modifier.background(brush).fillMaxSize()) {}
+    Box(Modifier.background(brush).fillMaxSize()) {}
 }

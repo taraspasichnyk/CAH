@@ -9,9 +9,9 @@ import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
@@ -40,9 +40,9 @@ fun MyApplicationTheme(
         )
     )
     val shapes = Shapes(
-        small = RoundedCornerShape(4.dp),
-        medium = RoundedCornerShape(4.dp),
-        large = RoundedCornerShape(0.dp)
+        small = RoundedCornerShape(dimensionResource(id = R.dimen.round_corner_small)),
+        medium = RoundedCornerShape(dimensionResource(id = R.dimen.round_corner_small)),
+        large = RoundedCornerShape(dimensionResource(id = R.dimen.padding_zero))
     )
 
     MaterialTheme(

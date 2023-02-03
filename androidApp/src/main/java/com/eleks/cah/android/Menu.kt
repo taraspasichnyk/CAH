@@ -41,7 +41,7 @@ fun Menu(
         Image(
             modifier = Modifier.fillMaxWidth(),
             painter = painterResource(id = R.drawable.main_background),
-            contentDescription = "background",
+            contentDescription = "",
             contentScale = ContentScale.Crop
         )
 
@@ -65,7 +65,7 @@ fun Menu(
                         )
                         Image(
                             painter = painterResource(id = R.drawable.ic_new),
-                            contentDescription = "new",
+                            contentDescription = "",
                             modifier = Modifier
                                 .size(width = 48.dp, height = 20.dp)
                                 .align(Alignment.CenterVertically)

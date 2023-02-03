@@ -22,10 +22,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.eleks.cah.android.widgets.CardBackground
 
 @Composable
 fun Menu(
@@ -38,12 +38,8 @@ fun Menu(
         Modifier.fillMaxSize(),
         color = MaterialTheme.colors.secondary
     ) {
-        Image(
-            modifier = Modifier.fillMaxWidth(),
-            painter = painterResource(id = R.drawable.main_background),
-            contentDescription = "",
-            contentScale = ContentScale.Crop
-        )
+
+        CardBackground(R.drawable.bg_pattern_big)
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally

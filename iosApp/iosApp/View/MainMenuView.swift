@@ -15,11 +15,11 @@ struct MainMenuView: View {
     // MARK: - Body
     
     var body: some View {
-        VStack{
-            Button("Створити гру") {
+        VStack.init(spacing: .large) {
+            PrimaryButton("Створити гру") {
                 vm.onNewGameClick()
             }
-            Button("Приєднатися") {
+            PrimaryButton("Приєднатися") {
                 vm.onNewGameClick()
             }
         }

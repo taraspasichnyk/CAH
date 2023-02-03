@@ -20,12 +20,9 @@ struct EnterNameView: View {
         Text("Введіть імʼя")
         TextField("Ваше імʼя", text: $name)
         HStack {
-            Button {
+            BackButton {
                 // TODO: vm.goBack() or manage state locally, depending on how we choose to do it with shared module
-            } label: {
-                Image(systemName: "arrow.left")
             }
-
         }
     }
 }

@@ -5,25 +5,26 @@ struct ContentView: View {
     @Binding var state: GameState
     let vm: shared.GameViewModel
 
+    // MARK: - Body
+
     var body: some View {
         NavigationView {
             map(state: state)
         }
     }
+}
 
-    func map(state: GameState) -> AnyView {
+// MARK: - Private
+
+extension ContentView {
+    private func map(state: GameState) -> AnyView {
         switch state {
-        case is GameState.InMenu: return AnyView(VStack{
-            Button("New Game") {
-                vm.onNewGameClick()
-            }
-            Button("Join Game") {}
-            Button("Settings") {}
-            Button("Exit") {}
-        })
+        case is GameState.InMenu: return AnyView(
+            MainMenuView(vm: vm)
+        )
         case is GameState.InLobby: return AnyView(VStack{})
         case is GameState.InRoomCreation: return AnyView(VStack{
-            Text("Room Creation")
+            EnterNameView(vm: vm)
         })
         case is GameState.InSettings: return AnyView(VStack{})
         default:
@@ -31,6 +32,8 @@ struct ContentView: View {
         }
     }
 }
+
+// MARK: - Previews
 
 struct ContentView_Previews: PreviewProvider {
 	static var previews: some View {

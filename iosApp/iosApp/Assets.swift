@@ -19,3 +19,5 @@ extension Image {
 extension Color {
     static var mainBlack: Color { .init("mainBlack") }
 }
+
+// MARK: - Fonts

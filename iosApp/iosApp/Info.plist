@@ -2,6 +2,17 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>iosApp/Fonts/Unbounded-ExtraLight.ttf</string>
+		<string>iosApp/Fonts/Unbounded-Light.ttf</string>
+		<string>iosApp/Fonts/Unbounded-Regular.ttf</string>
+		<string>iosApp/Fonts/Unbounded-Medium.ttf</string>
+		<string>iosApp/Fonts/Unbounded-SemiBold.ttf</string>
+		<string>iosApp/Fonts/Unbounded-Bold.ttf</string>
+		<string>iosApp/Fonts/Unbounded-ExtraBold.ttf</string>
+		<string>iosApp/Fonts/Unbounded-Black.ttf</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>

@@ -22,6 +22,7 @@ struct PrimaryButton: View {
     var body: some View {
         Button(action: action) {
             Text(title)
+                .font(Font.custom("Unbounded", size: 18))
                 .padding(.vertical, .medium)
                 .padding(.horizontal, .extraLarge)
                 .background(Color.mainBlack)

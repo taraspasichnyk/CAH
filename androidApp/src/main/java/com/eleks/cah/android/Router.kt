@@ -4,6 +4,7 @@ enum class Route(val path: String) {
     Menu("menu"),
     NewGame("new-game"),
     Lobby("lobby"),
-    Settings("settings");
+    Settings("settings"),
+    Round("round");
 
 }

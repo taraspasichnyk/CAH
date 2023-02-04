@@ -1,10 +1,11 @@
-package com.eleks.cah.android
+package com.eleks.cah.android.theme
 
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.eleks.cah.android.R
 
 val unboundedFontFamily = FontFamily(
     Font(R.font.unbounded_light, FontWeight.Light),

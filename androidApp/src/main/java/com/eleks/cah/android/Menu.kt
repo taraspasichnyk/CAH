@@ -26,6 +26,8 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.eleks.cah.android.theme.labelLarge
+import com.eleks.cah.android.theme.labelMedium
 import com.eleks.cah.android.widgets.CardBackground
 
 @Composable

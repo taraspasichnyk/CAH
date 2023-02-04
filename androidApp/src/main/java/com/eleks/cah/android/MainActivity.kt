@@ -6,14 +6,19 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.eleks.cah.GameViewModel
+import com.eleks.cah.android.model.Card
+import com.eleks.cah.android.round.RoundScreen
 import com.eleks.cah.init
 
 class MainActivity : ComponentActivity() {
@@ -53,15 +58,21 @@ class MainActivity : ComponentActivity() {
                         composable(Route.NewGame.path) {
                             CreateRoom()
                         }
-                        composable(Route.Lobby.path) {
-                            Column {
-                                Text("Lobby")
-                            }
-                        }
                         composable(Route.Settings.path) {
                             Column {
                                 Text("Settings")
                             }
+                        }
+                        composable(Route.Round.path) {
+                            RoundScreen(
+                                listOf(
+                                    Card(text = stringResource(id = R.string.miy_instrument)),
+                                    Card(text = stringResource(id = R.string.miy_instrument)),
+                                    Card(text = stringResource(id = R.string.miy_instrument)),
+                                    Card(text = stringResource(id = R.string.miy_instrument)),
+                                    Card(text = stringResource(id = R.string.miy_instrument)),
+                                )
+                            )
                         }
                     }
                 }

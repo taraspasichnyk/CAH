@@ -6,4 +6,5 @@
     <string name="exit_label">Вийти</string>
     <string name="card_label">Карти</string>
     <string name="conflict_label">Конфлікту</string>
+    <string name="miy_instrument">Мій інструмент</string>
 </resources>

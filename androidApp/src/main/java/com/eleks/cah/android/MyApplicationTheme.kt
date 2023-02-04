@@ -9,10 +9,9 @@ import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
@@ -22,28 +21,28 @@ fun MyApplicationTheme(
 ) {
     val colors = if (darkTheme) {
         darkColors(
-            primary = Color(0xFFBB86FC),
+            primary = Color(0xff222222),
             primaryVariant = Color(0xFF3700B3),
-            secondary = Color(0xFF03DAC5)
+            secondary = Color(0xFFFFFFFF)
         )
     } else {
         lightColors(
-            primary = Color(0xFF6200EE),
+            primary = Color(0xff222222),
             primaryVariant = Color(0xFF3700B3),
-            secondary = Color(0xFF03DAC5)
+            secondary = Color(0xFFFFFFFF)
         )
     }
     val typography = Typography(
         body1 = TextStyle(
-            fontFamily = FontFamily.Default,
+            fontFamily = unboundedFontFamily,
             fontWeight = FontWeight.Normal,
             fontSize = 16.sp
         )
     )
     val shapes = Shapes(
-        small = RoundedCornerShape(4.dp),
-        medium = RoundedCornerShape(4.dp),
-        large = RoundedCornerShape(0.dp)
+        small = RoundedCornerShape(dimensionResource(id = R.dimen.round_corner_small)),
+        medium = RoundedCornerShape(dimensionResource(id = R.dimen.round_corner_small)),
+        large = RoundedCornerShape(dimensionResource(id = R.dimen.padding_zero))
     )
 
     MaterialTheme(

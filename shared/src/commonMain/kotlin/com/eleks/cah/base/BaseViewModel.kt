@@ -51,4 +51,6 @@ abstract class BaseViewModel<State : UiState, Event : UiEvent, Effect : UiEffect
         scope.launch { _effect.send(effectValue) }
     }
 
+
+
 }

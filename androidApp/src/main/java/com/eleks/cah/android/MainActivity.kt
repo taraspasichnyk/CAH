@@ -44,6 +44,7 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     }
+
                     NavHost(
                         navController = navController,
                         startDestination = Route.Menu.path
@@ -64,16 +65,6 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(Route.NewGame.path) {
                             CreateRoom()
-                        }
-                        composable(Route.Lobby.path) {
-                            Column {
-                                Text("Lobby")
-                            }
-                        }
-                        composable(Route.Settings.path) {
-                            Column {
-                                Text("Settings")
-                            }
                         }
                     }
                 }

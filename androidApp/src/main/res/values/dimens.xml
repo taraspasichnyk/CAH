@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="padding_zero">0dp</dimen>
+    <dimen name="small_border">1dp</dimen>
+    <dimen name="round_corner_small">4dp</dimen>
+    <dimen name="padding_small">8dp</dimen>
+    <dimen name="padding_medium">16dp</dimen>
+    <dimen name="padding_big">24dp</dimen>
+
+    <dimen name="padding_10">10dp</dimen>
+    <dimen name="padding_20">20dp</dimen>
+    <dimen name="padding_30">30dp</dimen>
+    <dimen name="padding_48">48dp</dimen>
+    <dimen name="padding_60">60dp</dimen>
+    <dimen name="padding_100">100dp</dimen>
+    <dimen name="padding_210">210dp</dimen>
+</resources>

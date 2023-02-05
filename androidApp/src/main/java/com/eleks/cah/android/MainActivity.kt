@@ -22,8 +22,6 @@ import kotlinx.coroutines.flow.collectLatest
 
 class MainActivity : ComponentActivity() {
 
-    private val menuViewModel by viewModels<MenuViewModel>()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         init()
@@ -35,36 +33,26 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val navController = rememberNavController()
 
-                    LaunchedEffect(key1 = "effects") {
-                        menuViewModel.effect.collectLatest {
-                            when (it) {
-                                is MenuContract.Effect.Navigation.NewGameScreen -> {
-                                    navController.navigate(Route.NewGame.path)
-                                }
-                            }
-                        }
-                    }
-
                     NavHost(
                         navController = navController,
                         startDestination = Route.Menu.path
                     ) {
                         composable(Route.Menu.path) {
                             Menu(
-                                onNewGame = {
-                                    menuViewModel.setEvent(MenuContract.Event.StartNewGame)
+                                onNavigationRequired = {
+                                    navController.navigate(it.path)
                                 },
-                                onJoinGame = {
-                                },
-                                onSettings = {
-                                },
-                                onExit = {
-                                    navController.popBackStack()
-                                }
+                                onExit = { finish() }
                             )
                         }
                         composable(Route.NewGame.path) {
                             CreateRoom()
+                        }
+                        composable(Route.JoinGame.path) {
+                            Text("Join Room")
+                        }
+                        composable(Route.Settings.path) {
+                            Text("Settings")
                         }
                     }
                 }

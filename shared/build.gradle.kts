@@ -19,6 +19,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation("io.insert-koin:koin-core:3.3.2")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
                 implementation("io.github.aakira:napier:2.6.1")
             }
@@ -30,12 +31,14 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation("androidx.compose.ui:ui:1.2.1")
-                implementation("androidx.compose.ui:ui-tooling:1.2.1")
-                implementation("androidx.compose.ui:ui-tooling-preview:1.2.1")
-                implementation("androidx.compose.foundation:foundation:1.2.1")
-                implementation("androidx.compose.material:material:1.2.1")
-                implementation("androidx.activity:activity-compose:1.5.1")
+                implementation("io.insert-koin:koin-android:3.3.2")
+                implementation("io.insert-koin:koin-androidx-compose:3.4.1")
+                implementation("androidx.compose.ui:ui:1.3.3")
+                implementation("androidx.compose.ui:ui-tooling:1.3.3")
+                implementation("androidx.compose.ui:ui-tooling-preview:1.3.3")
+                implementation("androidx.compose.foundation:foundation:1.3.1")
+                implementation("androidx.compose.material:material:1.3.1")
+                implementation("androidx.activity:activity-compose:1.6.1")
             }
         }
         val androidTest by getting

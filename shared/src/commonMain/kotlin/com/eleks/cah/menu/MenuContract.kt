@@ -8,6 +8,8 @@ interface MenuContract {
     sealed class Event : UiEvent {
         object StartNewGame : Event()
         object JoinToExistingGame : Event()
+        object OpenSettingsScreen : Event()
+        object Exit : Event()
     }
 
     data class State(
@@ -18,6 +20,9 @@ interface MenuContract {
 
         sealed class Navigation : Effect() {
             object NewGameScreen : Navigation()
+            object JoinGameScreen : Navigation()
+            object SettingsScreen : Navigation()
+            object Exit : Navigation()
         }
     }
 }

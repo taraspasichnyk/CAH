@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
@@ -15,12 +16,14 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.eleks.cah.GameViewModel
+import com.eleks.cah.game.GameViewModel
 import com.eleks.cah.init
+import com.eleks.cah.menu.MenuContract
+import com.eleks.cah.menu.MenuViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 class MainActivity : ComponentActivity() {
 
-    private val viewModel by viewModels<GameViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
@@ -40,18 +43,10 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable(Route.Menu.path) {
                             Menu(
-                                onNewGame = {
-                                    navController.navigate(Route.NewGame.path)
+                                onNavigationRequired = {
+                                    navController.navigate(it.path)
                                 },
-                                onJoinGame = {
-                                    navController.navigate(Route.JoinGame.path)
-                                },
-                                onSettings = {
-                                    navController.navigate(Route.Settings.path)
-                                },
-                                onExit = {
-                                    navController.popBackStack()
-                                }
+                                onExit = { finish() }
                             )
                         }
                         composable(Route.NewGame.path){
@@ -63,9 +58,7 @@ class MainActivity : ComponentActivity() {
                             })
                         }
                         composable(Route.Settings.path) {
-                            Column {
-                                Text("Settings")
-                            }
+                            Text("Settings")
                         }
                     }
                 }

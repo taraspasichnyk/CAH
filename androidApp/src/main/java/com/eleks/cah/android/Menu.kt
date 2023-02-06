@@ -1,18 +1,14 @@
 package com.eleks.cah.android
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
@@ -21,12 +17,12 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.eleks.cah.android.widgets.BlackButton
 import com.eleks.cah.android.widgets.CardBackground
+import com.eleks.cah.android.widgets.GameLabel
 
 @Composable
 fun Menu(
@@ -39,51 +35,18 @@ fun Menu(
         Modifier.fillMaxSize(), color = MaterialTheme.colors.secondary
     ) {
 
-        CardBackground(R.drawable.bg_pattern_big)
+        CardBackground(R.drawable.bg_pattern_big, modifier = Modifier.fillMaxSize())
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Box(
+            GameLabel(
                 modifier = Modifier.padding(
                     top = dimensionResource(id = R.dimen.padding_100),
                     bottom = dimensionResource(id = R.dimen.padding_100)
-                ), contentAlignment = Alignment.TopCenter
-            ) {
-                Column(
-                    modifier = Modifier
-                        .background(MaterialTheme.colors.primary)
-                        .padding(
-                            top = dimensionResource(id = R.dimen.padding_30),
-                            start = dimensionResource(id = R.dimen.padding_60),
-                            end = dimensionResource(id = R.dimen.padding_60),
-                            bottom = dimensionResource(id = R.dimen.padding_10)
-                        )
-                ) {
-                    Row() {
-                        Text(
-                            text = stringResource(R.string.card_label),
-                            color = MaterialTheme.colors.secondary,
-                            style = labelLarge
-                        )
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_new),
-                            contentDescription = "",
-                            modifier = Modifier
-                                .size(
-                                    width = dimensionResource(id = R.dimen.padding_48),
-                                    height = dimensionResource(id = R.dimen.padding_20)
-                                )
-                                .align(Alignment.CenterVertically)
-                        )
-                    }
-                    Text(
-                        text = stringResource(R.string.conflict_label),
-                        color = MaterialTheme.colors.secondary,
-                        style = labelLarge
-                    )
-                }
-            }
+                ),
+                bigSize = true,
+            )
 
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -97,62 +60,27 @@ fun Menu(
                         )
                     )
             ) {
-                Button(
-                    shape = RectangleShape,
-                    onClick = { onNewGame() },
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = MaterialTheme.colors.primary,
-                    )
-                ) {
-                    Text(
-                        text = stringResource(R.string.create_game_label),
-                        color = MaterialTheme.colors.secondary,
-                        modifier = Modifier.padding(
-                            horizontal = dimensionResource(R.dimen.padding_big),
-                            vertical = dimensionResource(R.dimen.padding_small)
-                        ),
-                        style = labelMedium
-                    )
-                }
+                BlackButton(text = R.string.create_game_label, onClick = {
+                    onNewGame()
+                })
 
-                Button(
-                    shape = RectangleShape,
-                    onClick = { onJoinGame() },
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = MaterialTheme.colors.primary,
+                BlackButton(
+                    modifier = Modifier.padding(
+                        top = dimensionResource(R.dimen.padding_big)
                     ),
-                    modifier = Modifier.padding(top = dimensionResource(R.dimen.padding_big))
-                ) {
-                    Text(
-                        text = stringResource(R.string.connect_to_game_label),
-                        color = MaterialTheme.colors.secondary,
-                        modifier = Modifier.padding(
-                            horizontal = dimensionResource(R.dimen.padding_big),
-                            vertical = dimensionResource(R.dimen.padding_small)
-                        ),
-                        style = labelMedium
-                    )
-                }
+                    text = R.string.connect_to_game_label,
+                    onClick = {
+                        onJoinGame()
+                    })
 
-                Button(
-                    shape = RectangleShape,
-                    onClick = { onSettings() },
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = MaterialTheme.colors.primary,
+                BlackButton(
+                    modifier = Modifier.padding(
+                        top = dimensionResource(R.dimen.padding_big)
                     ),
-                    modifier = Modifier.padding(top = dimensionResource(R.dimen.padding_big))
-
-                ) {
-                    Text(
-                        text = stringResource(R.string.settings_label),
-                        color = MaterialTheme.colors.secondary,
-                        modifier = Modifier.padding(
-                            horizontal = dimensionResource(R.dimen.padding_big),
-                            vertical = dimensionResource(R.dimen.padding_small)
-                        ),
-                        style = labelMedium
-                    )
-                }
+                    text = R.string.settings_label,
+                    onClick = {
+                        onSettings()
+                    })
             }
         }
 
@@ -163,9 +91,6 @@ fun Menu(
             contentAlignment = Alignment.BottomCenter
         ) {
             OutlinedButton(
-                modifier = Modifier
-                    .wrapContentHeight()
-                    .wrapContentWidth(),
                 onClick = { onExit() },
                 border = BorderStroke(
                     dimensionResource(id = R.dimen.small_border), MaterialTheme.colors.primary

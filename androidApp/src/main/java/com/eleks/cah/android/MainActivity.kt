@@ -10,6 +10,8 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -20,7 +22,9 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel by viewModels<GameViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
+        setStatusBarLight()
         init()
         setContent {
             MyApplicationTheme {
@@ -40,7 +44,7 @@ class MainActivity : ComponentActivity() {
                                     navController.navigate(Route.NewGame.path)
                                 },
                                 onJoinGame = {
-                                    navController.navigate(Route.Lobby.path)
+                                    navController.navigate(Route.JoinGame.path)
                                 },
                                 onSettings = {
                                     navController.navigate(Route.Settings.path)
@@ -50,13 +54,13 @@ class MainActivity : ComponentActivity() {
                                 }
                             )
                         }
-                        composable(Route.NewGame.path) {
-                            CreateRoom()
+                        composable(Route.NewGame.path){
+                            EnterNameScreen()
                         }
-                        composable(Route.Lobby.path) {
-                            Column {
-                                Text("Lobby")
-                            }
+                        composable(Route.JoinGame.path) {
+                            EnterCodeScreen(onNextClicked ={
+                                navController.navigate(Route.NewGame.path)
+                            })
                         }
                         composable(Route.Settings.path) {
                             Column {
@@ -67,6 +71,12 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+    private fun setStatusBarLight(light: Boolean = true) {
+        WindowInsetsControllerCompat(
+            window,
+            window.decorView
+        ).isAppearanceLightStatusBars = light
     }
 }
 

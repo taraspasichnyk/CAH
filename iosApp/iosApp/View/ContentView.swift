@@ -5,12 +5,18 @@ struct ContentView: View {
     @Binding var state: GameContractGameState
     let vm: GameViewModel
     let menuVm: MenuViewModel = Injector.shared.menuViewModel
+    
+    @EnvironmentObject
+    private var alert: AlertState
 
     // MARK: - Body
 
     var body: some View {
         NavigationView {
             map(state: state)
+        }
+        .alert(isPresented: $alert.isPresentingNoFeature) {
+            alert.noFeature
         }
         .onAppear {
             subscribeToEffects()
@@ -50,7 +56,7 @@ extension ContentView {
         case is MenuContractEffect.NavigationNewGameScreen:
             state = .InRoomCreation()
         case is MenuContractEffect.NavigationJoinGameScreen:
-            state = .InLobby()
+            alert.isPresentingNoFeature = true
         default:
             break
         }

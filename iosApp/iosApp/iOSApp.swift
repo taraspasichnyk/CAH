@@ -4,7 +4,8 @@ import shared
 @main
 struct iOSApp: App {
 
-    @State var state: GameContractGameState = GameContractGameState.InMenu()
+    @State private var state: GameContractGameState = GameContractGameState.InMenu()
+    @StateObject private var alert = AlertState()
     var vm: GameViewModel!
 
     init() {
@@ -25,6 +26,7 @@ struct iOSApp: App {
             .onAppear {
                 subscribeToState()
             }
+            .environmentObject(alert)
 		}
 	}
 }

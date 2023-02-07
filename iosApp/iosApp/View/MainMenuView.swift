@@ -10,17 +10,17 @@ import SwiftUI
 import shared
 
 struct MainMenuView: View {
-    var vm: GameViewModel
+    var vm: MenuViewModel
 
     // MARK: - Body
     
     var body: some View {
         VStack.init(spacing: .large) {
             PrimaryButton("Створити гру") {
-                vm.onNewGameClick()
+                vm.onNewGameSelected()
             }
             PrimaryButton("Приєднатися") {
-                vm.onNewGameClick()
+                vm.onNewGameSelected()
             }
         }
     }

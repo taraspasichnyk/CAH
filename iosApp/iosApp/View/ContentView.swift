@@ -3,7 +3,8 @@ import shared
 
 struct ContentView: View {
     @Binding var state: GameContractGameState
-    let vm: shared.GameViewModel
+    let vm: GameViewModel
+    let menuVm: MenuViewModel
 
     // MARK: - Body
 
@@ -20,8 +21,8 @@ struct ContentView: View {
 extension ContentView {
     private func map(state: GameContractGameState) -> AnyView {
         switch state {
-        case is GameState.InMenu: return AnyView(
-            MainMenuView(vm: vm)
+        case is GameContractGameState.InMenu: return AnyView(
+            MainMenuView(vm: menuVm)
         )
         case is GameContractGameState.InLobby: return AnyView(VStack{})
         case is GameContractGameState.InRoomCreation: return AnyView(VStack{
@@ -38,6 +39,10 @@ extension ContentView {
 
 struct ContentView_Previews: PreviewProvider {
 	static var previews: some View {
-        ContentView(state: .constant(GameContractGameState.InMenu()), vm: GameViewModel())
+        ContentView(
+            state: .constant(.InMenu()),
+            vm: .init(),
+            menuVm: .init()
+        )
 	}
 }

@@ -9,8 +9,10 @@
 import SwiftUI
 
 struct PrimaryButton: View {
-    let title: any StringProtocol
-    let action: () -> Void
+    @Environment(\.isEnabled) private var isEnabled
+
+    private let title: any StringProtocol
+    private let action: () -> Void
 
     init(_ title: String, action: @escaping () -> Void) {
         self.title = title
@@ -25,21 +27,12 @@ struct PrimaryButton: View {
                 .font(.button)
                 .padding(.vertical, .medium)
                 .padding(.horizontal, .extraLarge)
-                .background(Color.mainBlack)
+                .background(
+                    Color.mainBlack
+                        .opacity(isEnabled ? 1 : 0.33)
+                )
                 .cornerRadius(2)
                 .foregroundColor(.white)
-                .buttonStyle(Style())
-        }
-    }
-}
-
-// MARK: - Style
-
-extension PrimaryButton {
-    struct Style: ButtonStyle {
-        func makeBody(configuration: Configuration) -> some View {
-            configuration.label
-                .opacity(configuration.isPressed ? 0.33 : 1)
         }
     }
 }
@@ -48,6 +41,10 @@ extension PrimaryButton {
 
 struct PrimaryButton_Previews: PreviewProvider {
     static var previews: some View {
-        PrimaryButton("Button", action: {})
+        VStack(spacing: Size.medium) {
+            PrimaryButton("Enabled", action: {})
+            PrimaryButton("Disabled", action: {})
+                .disabled(true)
+        }
     }
 }

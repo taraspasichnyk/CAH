@@ -11,19 +11,30 @@ import shared
 
 struct EnterNameView: View {
 
-    @State var name = ""
+    @State private var name = ""
+    @EnvironmentObject private var alert: AlertState
     let vm: GameViewModel
 
     // MARK: - Body
 
     var body: some View {
-        Text("Введіть імʼя")
-        TextField("Ваше імʼя", text: $name)
-        HStack {
-            BackButton {
-                // TODO: vm.goBack() or manage state locally, depending on how we choose to do it with shared module
+        VStack(alignment: .center) {
+            Text("Введіть імʼя")
+                .font(.bodyPrimary)
+            TextField("Ваше імʼя", text: $name)
+            HStack {
+                BackButton {
+                    alert.isPresentingNoFeature = true
+                    // TODO: vm.goBack() or manage state locally, depending on how we choose to do it with shared module
+                }
+                Spacer()
+                PrimaryButton("Далі") {
+                    alert.isPresentingNoFeature = true
+                }
+                .disabled(name.isEmpty)
             }
         }
+        .frame(width: 300)
     }
 }
 

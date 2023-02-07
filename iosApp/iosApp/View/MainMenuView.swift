@@ -15,14 +15,24 @@ struct MainMenuView: View {
     // MARK: - Body
     
     var body: some View {
-        VStack.init(spacing: .large) {
-            PrimaryButton("Створити гру") {
-                vm.onNewGameSelected()
+        VStack {
+            Image.bgTexture
+            Spacer()
+                .frame(height: 64)
+            VStack.init(spacing: .large) {
+                PrimaryButton("Створити гру") {
+                    vm.onNewGameSelected()
+                }
+                PrimaryButton("Приєднатися") {
+                    vm.onNewGameSelected()
+                }
             }
-            PrimaryButton("Приєднатися") {
-                vm.onNewGameSelected()
-            }
+            Spacer()
+                .frame(height: 282)
+            Image.bgTexture
+                .frame(height: 44)
         }
+        .ignoresSafeArea()
     }
 }
 

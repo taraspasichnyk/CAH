@@ -29,6 +29,7 @@
 		927F7F60298D075400A158A8 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927F7F5F298D075400A158A8 /* MainMenuView.swift */; };
 		927F7F62298D1EB800A158A8 /* EnterNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927F7F61298D1EB800A158A8 /* EnterNameView.swift */; };
 		92CD6615299254740003634C /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CD6614299254740003634C /* Fonts.swift */; };
+		92CD661729925B720003634C /* Image+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CD661629925B720003634C /* Image+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +90,7 @@
 		927F7F61298D1EB800A158A8 /* EnterNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNameView.swift; sourceTree = "<group>"; };
 		92CD6611299252170003634C /* OFL.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
 		92CD6614299254740003634C /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
+		92CD661629925B720003634C /* Image+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +190,7 @@
 		927295E4298D65F900C5F0DE /* View */ = {
 			isa = PBXGroup;
 			children = (
+				92CD661629925B720003634C /* Image+Extensions.swift */,
 				7555FF82242A565900829871 /* ContentView.swift */,
 				927F7F61298D1EB800A158A8 /* EnterNameView.swift */,
 				927F7F5F298D075400A158A8 /* MainMenuView.swift */,
@@ -396,6 +399,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				927F7F62298D1EB800A158A8 /* EnterNameView.swift in Sources */,
+				92CD661729925B720003634C /* Image+Extensions.swift in Sources */,
 				927F7F60298D075400A158A8 /* MainMenuView.swift in Sources */,
 				927295EA298D7A6B00C5F0DE /* Assets.swift in Sources */,
 				927295E3298D61F100C5F0DE /* PrimaryButton.swift in Sources */,

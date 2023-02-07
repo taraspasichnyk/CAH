@@ -2,13 +2,14 @@ import SwiftUI
 import shared
 
 struct ContentView: View {
-    @Binding var state: GameState
+    @Binding var state: GameContractGameState
     let vm: shared.GameViewModel
 
     // MARK: - Body
 
     var body: some View {
         NavigationView {
+    
             map(state: state)
         }
     }
@@ -17,16 +18,16 @@ struct ContentView: View {
 // MARK: - Private
 
 extension ContentView {
-    private func map(state: GameState) -> AnyView {
+    private func map(state: GameContractGameState) -> AnyView {
         switch state {
         case is GameState.InMenu: return AnyView(
             MainMenuView(vm: vm)
         )
-        case is GameState.InLobby: return AnyView(VStack{})
-        case is GameState.InRoomCreation: return AnyView(VStack{
+        case is GameContractGameState.InLobby: return AnyView(VStack{})
+        case is GameContractGameState.InRoomCreation: return AnyView(VStack{
             EnterNameView(vm: vm)
         })
-        case is GameState.InSettings: return AnyView(VStack{})
+        case is GameContractGameState.InSettings: return AnyView(VStack{})
         default:
             return AnyView(VStack{})
         }
@@ -37,6 +38,6 @@ extension ContentView {
 
 struct ContentView_Previews: PreviewProvider {
 	static var previews: some View {
-        ContentView(state: .constant(.InMenu()), vm: GameViewModel())
+        ContentView(state: .constant(GameContractGameState.InMenu()), vm: GameViewModel())
 	}
 }

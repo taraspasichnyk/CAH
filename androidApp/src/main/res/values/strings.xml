@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="create_game_label">Створити гру</string>
+    <string name="connect_to_game_label">Приєднатися</string>
+    <string name="settings_label">Налаштування</string>
+    <string name="exit_label">Вийти</string>
+    <string name="card_label">Карти</string>
+    <string name="conflict_label">Конфлікту</string>
+</resources>

@@ -31,6 +31,8 @@
 		92CD6615299254740003634C /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CD6614299254740003634C /* Fonts.swift */; };
 		92CD661729925B720003634C /* Image+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CD661629925B720003634C /* Image+Extensions.swift */; };
 		92CD661929926F220003634C /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CD661829926F220003634C /* Alerts.swift */; };
+		92CD661B2992B83B0003634C /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CD661A2992B83B0003634C /* HeaderView.swift */; };
+		92CD661D2992BD770003634C /* InputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CD661C2992BD770003634C /* InputField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +95,8 @@
 		92CD6614299254740003634C /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		92CD661629925B720003634C /* Image+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extensions.swift"; sourceTree = "<group>"; };
 		92CD661829926F220003634C /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
+		92CD661A2992B83B0003634C /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		92CD661C2992BD770003634C /* InputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,6 +200,8 @@
 				7555FF82242A565900829871 /* ContentView.swift */,
 				92CD661829926F220003634C /* Alerts.swift */,
 				927F7F61298D1EB800A158A8 /* EnterNameView.swift */,
+				92CD661C2992BD770003634C /* InputField.swift */,
+				92CD661A2992B83B0003634C /* HeaderView.swift */,
 				927F7F5F298D075400A158A8 /* MainMenuView.swift */,
 				927295E2298D61F100C5F0DE /* PrimaryButton.swift */,
 				927295E7298D733500C5F0DE /* BackButton.swift */,
@@ -408,6 +414,8 @@
 				927295E3298D61F100C5F0DE /* PrimaryButton.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
+				92CD661D2992BD770003634C /* InputField.swift in Sources */,
+				92CD661B2992B83B0003634C /* HeaderView.swift in Sources */,
 				927295E8298D733500C5F0DE /* BackButton.swift in Sources */,
 				92CD6615299254740003634C /* Fonts.swift in Sources */,
 				92CD661929926F220003634C /* Alerts.swift in Sources */,
@@ -575,6 +583,7 @@
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)";
 				INFOPLIST_FILE = iosApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -601,6 +610,7 @@
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)";
 				INFOPLIST_FILE = iosApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

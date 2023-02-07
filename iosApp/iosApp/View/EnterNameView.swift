@@ -19,13 +19,16 @@ struct EnterNameView: View {
 
     var body: some View {
         VStack(alignment: .center) {
+            HeaderView()
+            Spacer(minLength: 90)
             Text("Введіть імʼя")
                 .font(.bodyPrimary)
-            TextField("Ваше імʼя", text: $name)
+            InputField("Ваше імʼя", text: $name)
+                .frame(width: 286)
+            Spacer(minLength: 112)
             HStack {
                 BackButton {
                     alert.isPresentingNoFeature = true
-                    // TODO: vm.goBack() or manage state locally, depending on how we choose to do it with shared module
                 }
                 Spacer()
                 PrimaryButton("Далі") {
@@ -33,8 +36,13 @@ struct EnterNameView: View {
                 }
                 .disabled(name.isEmpty)
             }
+            .padding(.leading, 40)
+            .padding(.trailing, 36)
+            .padding(.bottom, 42)
+            Image.bgTexture
+                .frame(height: .extraLarge)
         }
-        .frame(width: 300)
+        .ignoresSafeArea()
     }
 }
 

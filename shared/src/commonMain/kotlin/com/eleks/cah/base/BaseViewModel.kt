@@ -1,10 +1,7 @@
 package com.eleks.cah.base
 
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 interface UiState
@@ -21,7 +18,7 @@ abstract class BaseViewModel<State : UiState, Event : UiEvent, Effect : UiEffect
     private val _event = MutableSharedFlow<Event>()
 
     private val _effect = Channel<Effect>()
-    val effect = _effect.consumeAsFlow()
+    val effect = _effect.receiveAsFlow()
 
     init {
         subscribeToEvents()

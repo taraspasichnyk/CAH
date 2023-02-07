@@ -19,6 +19,7 @@ import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
@@ -29,14 +30,37 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.eleks.cah.android.theme.labelLarge
 import com.eleks.cah.android.theme.labelMedium
 import com.eleks.cah.android.widgets.CardBackground
+import com.eleks.cah.menu.MenuContract
+import com.eleks.cah.menu.MenuViewModel
+import kotlinx.coroutines.flow.collectLatest
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun Menu(
-    onNewGame: () -> Unit = {},
-    onJoinGame: () -> Unit = {},
-    onSettings: () -> Unit = {},
-    onExit: () -> Unit
+    menuViewModel: MenuViewModel = koinViewModel(),
+    onNavigationRequired: (Route) -> Unit = {},
+    onExit: () -> Unit = {}
 ) {
+
+    LaunchedEffect(key1 = MenuViewModel.NAVIGATION_EFFECTS_KEY) {
+        menuViewModel.effect.collectLatest {
+            when (it) {
+                is MenuContract.Effect.Navigation.NewGameScreen -> {
+                   onNavigationRequired(Route.NewGame)
+                }
+                is MenuContract.Effect.Navigation.JoinGameScreen -> {
+                    onNavigationRequired(Route.JoinGame)
+                }
+                is MenuContract.Effect.Navigation.SettingsScreen -> {
+                    onNavigationRequired(Route.Settings)
+                }
+                is MenuContract.Effect.Navigation.Exit -> {
+                    onExit()
+                }
+            }
+        }
+    }
+
     Surface(
         Modifier.fillMaxSize(), color = MaterialTheme.colors.secondary
     ) {
@@ -101,7 +125,7 @@ fun Menu(
             ) {
                 Button(
                     shape = RectangleShape,
-                    onClick = { onNewGame() },
+                    onClick = { menuViewModel.onNewGameSelected() },
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = MaterialTheme.colors.primary,
                     )
@@ -119,7 +143,7 @@ fun Menu(
 
                 Button(
                     shape = RectangleShape,
-                    onClick = { onJoinGame() },
+                    onClick = { menuViewModel.onJoinGameSelected() },
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = MaterialTheme.colors.primary,
                     ),
@@ -138,7 +162,7 @@ fun Menu(
 
                 Button(
                     shape = RectangleShape,
-                    onClick = { onSettings() },
+                    onClick = { menuViewModel.onSettingsSelected() },
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = MaterialTheme.colors.primary,
                     ),
@@ -168,7 +192,7 @@ fun Menu(
                 modifier = Modifier
                     .wrapContentHeight()
                     .wrapContentWidth(),
-                onClick = { onExit() },
+                onClick = { menuViewModel.onExitSelected() },
                 border = BorderStroke(
                     dimensionResource(id = R.dimen.small_border), MaterialTheme.colors.primary
                 ),
@@ -190,10 +214,10 @@ fun Menu(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun MenuPreview() {
     MyApplicationTheme {
-        Menu {}
+        Menu()
     }
 }

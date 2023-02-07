@@ -3,8 +3,6 @@ package com.eleks.cah.android
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -13,6 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -23,9 +23,10 @@ import com.eleks.cah.init
 
 class MainActivity : ComponentActivity() {
 
-    private val viewModel by viewModels<GameViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
+        setStatusBarLight()
         init()
         setContent {
             MyApplicationTheme {
@@ -41,25 +42,22 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable(Route.Menu.path) {
                             Menu(
-                                onNewGame = {
-                                    navController.navigate(Route.NewGame.path)
+                                onNavigationRequired = {
+                                    navController.navigate(it.path)
                                 },
-                                onJoinGame = {
-                                    navController.navigate(Route.Lobby.path)
-                                },
-                                onSettings = {
-                                    navController.navigate(Route.Settings.path)
-                                },
-                                onExit = {
-                                    navController.popBackStack()
-                                }
+                                onExit = { finish() }
                             )
                         }
-                        composable(Route.NewGame.path) {
-                            CreateRoom()
+                        composable(Route.NewGame.path){
+                            EnterNameScreen()
+                        }
+                        composable(Route.JoinGame.path) {
+                            EnterCodeScreen(onNextClicked ={
+                                navController.navigate(Route.NewGame.path)
+                            })
                         }
                         composable(Route.Settings.path) {
-                            Column {
+
                                 Text("Settings")
                             }
                         }
@@ -77,7 +75,11 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
-        }
+        }private fun setStatusBarLight(light: Boolean = true) {
+        WindowInsetsControllerCompat(
+            window,
+            window.decorView
+        ).isAppearanceLightStatusBars = light
     }
 }
 

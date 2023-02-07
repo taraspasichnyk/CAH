@@ -21,6 +21,8 @@ kotlin {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
                 implementation("io.github.aakira:napier:2.6.1")
+                implementation("dev.gitlive:firebase-auth:1.6.2")
+                implementation("dev.gitlive:firebase-database:1.6.2")
             }
         }
         val commonTest by getting {

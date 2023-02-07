@@ -9,7 +9,8 @@ struct iOSApp: App {
     init() {
         LoggerKt.doInit()
         KoinIosKt.doInitKoin()
-        vm = KoinIosKt.get() as? GameViewModel
+
+        vm = Injector.shared.gameViewModel as! GameViewModel
     }
 
     @State var state: GameContractGameState = GameContractGameState.InMenu()

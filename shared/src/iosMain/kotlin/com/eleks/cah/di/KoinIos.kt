@@ -11,11 +11,6 @@ import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
-inline fun <reified T> get() =
-    object : KoinComponent {
-        val value: T by inject()
-    }.value
-
 actual val viewModelModule: Module
     get() = module {
         single { GameViewModel() }
@@ -26,4 +21,10 @@ fun initKoin() {
     startKoin {
         modules(viewModelModule)
     }
+}
+
+//service locator
+object Injector : KoinComponent {
+    val menuViewModel: MenuViewModel by inject()
+    val gameViewModel: GameViewModel by inject()
 }

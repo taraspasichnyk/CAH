@@ -1,7 +1,5 @@
 #!/bin/zsh
 
-echo "#warning: RUNNING GENERATE ASSETS SCRIPT"
-
 TEMPLATE=$(cat "tools/.assetsFileTemplate")
 
 IMAGE_ASSETS=""

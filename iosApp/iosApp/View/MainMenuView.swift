@@ -87,16 +87,19 @@ struct MainMenuView: View {
 
 extension MainMenuView {
     private func animateLocalState() {
-        withAnimation(.easeIn) {
+        // This might be moved out if we decide to unify it throughout the project in the future
+        let duration: CGFloat = 0.5
+
+        withAnimation(.easeInOut(duration: duration)) {
             isLoaded = true
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-            withAnimation(.easeOut) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+            withAnimation(.easeOut(duration: duration)) {
                 isShowingButtons = true
             }
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            withAnimation {
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration * 2.5) {
+            withAnimation(.easeIn(duration: duration)) {
                 isShowingVersion = false
             }
         }

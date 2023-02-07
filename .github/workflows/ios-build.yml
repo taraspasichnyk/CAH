@@ -18,9 +18,6 @@ jobs:
         distribution: 'adopt'
         java-version: '15'
 
-    - name: gradlew
-      run: ./gradlew packForXcode --stacktrace
-
     - name: xcodebuild
       run: xcodebuild -project "iosApp/iosApp.xcodeproj" -scheme iosApp test -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14' | xcpretty
 

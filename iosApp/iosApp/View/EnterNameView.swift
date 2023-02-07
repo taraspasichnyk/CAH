@@ -18,8 +18,7 @@ struct EnterNameView: View {
     // MARK: - Body
 
     var body: some View {
-        VStack(alignment: .center) {
-            HeaderView()
+        ContainerView {
             Spacer(minLength: 90)
             Text("Введіть імʼя")
                 .font(.bodyPrimary)
@@ -39,10 +38,7 @@ struct EnterNameView: View {
             .padding(.leading, 40)
             .padding(.trailing, 36)
             .padding(.bottom, 42)
-            Image.bgTexture
-                .frame(height: .extraLarge)
         }
-        .ignoresSafeArea()
     }
 }
 

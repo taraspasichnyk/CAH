@@ -33,6 +33,7 @@
 		92CD661929926F220003634C /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CD661829926F220003634C /* Alerts.swift */; };
 		92CD661B2992B83B0003634C /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CD661A2992B83B0003634C /* HeaderView.swift */; };
 		92CD661D2992BD770003634C /* InputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CD661C2992BD770003634C /* InputField.swift */; };
+		92CD661F2992DEA80003634C /* ContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CD661E2992DEA80003634C /* ContainerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +98,7 @@
 		92CD661829926F220003634C /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
 		92CD661A2992B83B0003634C /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		92CD661C2992BD770003634C /* InputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputField.swift; sourceTree = "<group>"; };
+		92CD661E2992DEA80003634C /* ContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,6 +202,7 @@
 				7555FF82242A565900829871 /* ContentView.swift */,
 				92CD661829926F220003634C /* Alerts.swift */,
 				927F7F61298D1EB800A158A8 /* EnterNameView.swift */,
+				92CD661E2992DEA80003634C /* ContainerView.swift */,
 				92CD661C2992BD770003634C /* InputField.swift */,
 				92CD661A2992B83B0003634C /* HeaderView.swift */,
 				927F7F5F298D075400A158A8 /* MainMenuView.swift */,
@@ -419,6 +422,7 @@
 				927295E8298D733500C5F0DE /* BackButton.swift in Sources */,
 				92CD6615299254740003634C /* Fonts.swift in Sources */,
 				92CD661929926F220003634C /* Alerts.swift in Sources */,
+				92CD661F2992DEA80003634C /* ContainerView.swift in Sources */,
 				927295E6298D666000C5F0DE /* Size.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

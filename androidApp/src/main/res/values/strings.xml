@@ -6,4 +6,9 @@
     <string name="exit_label">Вийти</string>
     <string name="card_label">Карти</string>
     <string name="conflict_label">Конфлікту</string>
+    <string name="label_next">Далі</string>
+    <string name="title_enter_name">Введіть ім\'я</string>
+    <string name="title_your_name">Ваше ім\'я</string>
+    <string name="title_enter_game_code">Введіть код гри</string>
+    <string name="hint_game_code">ХХХХХХХХ</string>
 </resources>

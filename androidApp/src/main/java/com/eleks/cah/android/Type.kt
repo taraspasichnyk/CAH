@@ -4,6 +4,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 
 val unboundedFontFamily = FontFamily(
@@ -33,4 +34,38 @@ val labelMedium = TextStyle(
     fontWeight = FontWeight.Medium,
     fontSize = 16.sp,
     lineHeight = 16.sp,
+)
+
+private fun getDefaultTextStyle(
+    fontSize: TextUnit? = null,
+    fontWeight: FontWeight? = null,
+): TextStyle {
+    return TextStyle(
+        fontFamily = unboundedFontFamily,
+        fontWeight = fontWeight,
+        fontSize = fontSize ?: 16.sp
+    )
+}
+
+val txtBold18 = getDefaultTextStyle(
+    fontWeight = FontWeight.Bold,
+    fontSize = 18.sp,
+)
+
+val txtBold24 = getDefaultTextStyle(
+    fontWeight = FontWeight.Bold,
+    fontSize = 24.sp,
+)
+
+val txtMedium16 = getDefaultTextStyle(
+    fontWeight = FontWeight.Medium,
+)
+
+val txtLight16 = getDefaultTextStyle(
+    fontWeight = FontWeight.Light,
+)
+
+val txtRegular18 = getDefaultTextStyle(
+    fontWeight = FontWeight.Normal,
+    fontSize = 18.sp,
 )

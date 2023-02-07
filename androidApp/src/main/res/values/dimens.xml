@@ -9,6 +9,9 @@
     <dimen name="padding_medium">16dp</dimen>
     <dimen name="padding_big">24dp</dimen>
 
+    <dimen name="padding_small_extra">6dp</dimen>
+    <dimen name="padding_big_extra">34dp</dimen>
+
     <dimen name="padding_10">10dp</dimen>
     <dimen name="padding_20">20dp</dimen>
     <dimen name="padding_30">30dp</dimen>

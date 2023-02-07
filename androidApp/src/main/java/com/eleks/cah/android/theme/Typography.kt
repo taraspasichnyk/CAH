@@ -53,6 +53,10 @@ val txtBold18 = getDefaultTextStyle(
     fontSize = 18.sp,
 )
 
+val txtBold16 = getDefaultTextStyle(
+    fontWeight = FontWeight.Bold
+)
+
 val txtBold24 = getDefaultTextStyle(
     fontWeight = FontWeight.Bold,
     fontSize = 24.sp,
@@ -62,6 +66,15 @@ val txtMedium16 = getDefaultTextStyle(
     fontWeight = FontWeight.Medium,
 )
 
+val txtSemibold32 = getDefaultTextStyle(
+    fontWeight = FontWeight.SemiBold,
+    fontSize = 32.sp,
+)
+
+val txtSemibold16 = getDefaultTextStyle(
+    fontWeight = FontWeight.SemiBold
+)
+
 val txtLight16 = getDefaultTextStyle(
     fontWeight = FontWeight.Light,
 )
@@ -69,4 +82,9 @@ val txtLight16 = getDefaultTextStyle(
 val txtRegular18 = getDefaultTextStyle(
     fontWeight = FontWeight.Normal,
     fontSize = 18.sp,
+)
+
+val txtRegular11 = getDefaultTextStyle(
+    fontWeight = FontWeight.Normal,
+    fontSize = 11.sp,
 )

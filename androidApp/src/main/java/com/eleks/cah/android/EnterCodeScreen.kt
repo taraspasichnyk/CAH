@@ -37,6 +37,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.eleks.cah.android.theme.txtLight16
+import com.eleks.cah.android.theme.txtMedium16
 import com.eleks.cah.android.widgets.BlackButton
 import com.eleks.cah.android.widgets.GameHeader
 

@@ -11,17 +11,20 @@ data class Dimens(
     val sizeMedium: Dp = 16.dp,
     val sizeBig: Dp = 24.dp,
     val cardShadowYOffset: Dp = 12.dp,
+    val headerSize: Dp = 112.dp,
     val ZERO: Dp = 0.dp
 )
 
 val defaultDimens = Dimens(
     touchTarget = 48.dp,
     cardWidth = 180.dp,
-    cardHeight = 240.dp
+    cardHeight = 240.dp,
+    headerSize = 112.dp
 )
 
 val smallDimens = Dimens(
     touchTarget = 48.dp,
     cardWidth = 180.dp,
-    cardHeight = 240.dp
+    cardHeight = 240.dp,
+    headerSize = 60.dp
 )

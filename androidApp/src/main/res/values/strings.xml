@@ -12,4 +12,8 @@
     <string name="title_enter_game_code">Введіть код гри</string>
     <string name="hint_game_code">ХХХХХХХХ</string>
     <string name="miy_instrument">Мій інструмент</string>
+    <string name="round">Раунд %s</string>
+    <string name="master_card_placeholder">Під час візиту до писхотерпевта мені дають _____ щоб я почувавася більш комфортно</string>
+    <string name="choose_answer">Оберіть відповідь</string>
+    <string name="choose">Обрати</string>
 </resources>

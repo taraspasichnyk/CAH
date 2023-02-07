@@ -1,5 +1,6 @@
 package com.eleks.cah.android
 
+import android.content.res.Configuration
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
@@ -23,6 +24,7 @@ import com.eleks.cah.android.theme.smallDimens
 import com.eleks.cah.android.theme.unboundedFontFamily
 
 private val LocalDimens = staticCompositionLocalOf { defaultDimens }
+
 @Composable
 fun ProvideDimens(
     dimensions: Dimens,
@@ -65,7 +67,7 @@ fun MyApplicationTheme(
         large = RoundedCornerShape(dimensionResource(id = R.dimen.round_corner_big))
     )
 
-    val dimensions = if (configuration.screenWidthDp <= 360) defaultDimens else smallDimens
+    val dimensions = if (configuration.isWidescreen()) smallDimens else defaultDimens
 
     ProvideDimens(dimensions = dimensions) {
         MaterialTheme(
@@ -75,6 +77,10 @@ fun MyApplicationTheme(
             content = content
         )
     }
+}
+
+private fun Configuration.isWidescreen(): Boolean {
+    return (screenHeightDp.toFloat() / screenWidthDp) <= (16f / 9f)
 }
 
 object AppTheme {

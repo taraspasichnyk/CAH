@@ -11,7 +11,7 @@ import com.eleks.cah.android.R
 
 @Composable
 fun GameHeader(
-    bigSize: Boolean = false,
+    gameLabelSize: GameLabelSize = GameLabelSize.MEDIUM,
     headerHeight: Dp = 180.dp
 ) {
     Layout(
@@ -22,7 +22,7 @@ fun GameHeader(
                     .height(headerHeight)
                     .fillMaxWidth()
             )
-            GameLabel(bigSize = bigSize)
+            GameLabel(size = gameLabelSize)
         },
         measurePolicy = { measurables, constraints ->
             val backgroundPlaceable = measurables[0].measure(constraints)

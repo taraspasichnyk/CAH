@@ -16,7 +16,13 @@ struct MainMenuView: View {
     
     var body: some View {
         VStack {
-            Image.bgTexture
+            ZStack {
+                Image.bgTexture
+                Image.logo
+                    .resizable()
+                    .scaledToFit()
+                    .padding(.horizontal, 52)
+            }
             Spacer()
                 .frame(height: 64)
             VStack.init(spacing: .large) {

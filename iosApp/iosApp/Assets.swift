@@ -6,6 +6,7 @@ import SwiftUI
 
 extension Image {
     static var back: Image { .init("back") }
+    static var logo: Image { .init("logo") }
     static var pattern: Image { .init("pattern") }
 }
 

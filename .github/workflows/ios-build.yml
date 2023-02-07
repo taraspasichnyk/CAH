@@ -15,8 +15,8 @@ jobs:
 
     - uses: actions/setup-java@v2
       with:
-        distribution: 'adopt'
-        java-version: '15'
+        distribution: 'zulu'
+        java-version: '17'
 
     - name: xcodebuild
       run: xcodebuild -project "iosApp/iosApp.xcodeproj" -scheme iosApp test -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14' | xcpretty

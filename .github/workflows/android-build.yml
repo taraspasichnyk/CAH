@@ -1,7 +1,8 @@
-name: Android build
+name: Android Build
 
 on:
   push:
+      branch
   pull_request:
 
 jobs:
@@ -13,8 +14,8 @@ jobs:
 
     - uses: actions/setup-java@v2
       with:
-        distribution: 'adopt'
-        java-version: '15'
+        distribution: 'zulu'
+        java-version: '17'
 
     - name: gradlew
       run: bash ./gradlew clean build test --stacktrace

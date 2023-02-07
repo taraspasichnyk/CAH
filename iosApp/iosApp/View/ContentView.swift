@@ -4,14 +4,16 @@ import shared
 struct ContentView: View {
     @Binding var state: GameContractGameState
     let vm: GameViewModel
-    let menuVm: MenuViewModel
+    let menuVm: MenuViewModel = Injector.shared.menuViewModel
 
     // MARK: - Body
 
     var body: some View {
         NavigationView {
-    
             map(state: state)
+        }
+        .onAppear {
+            subscribeToEffects()
         }
     }
 }
@@ -19,6 +21,14 @@ struct ContentView: View {
 // MARK: - Private
 
 extension ContentView {
+    private func subscribeToEffects() {
+        AnyFlow<MenuContractEffect>(source: menuVm.effect).collect { effect in
+            guard let effect else { return }
+            process(effect: effect)
+        } onCompletion: { _ in
+        }
+    }
+
     private func map(state: GameContractGameState) -> AnyView {
         switch state {
         case is GameContractGameState.InMenu: return AnyView(
@@ -33,6 +43,16 @@ extension ContentView {
             return AnyView(VStack{})
         }
     }
+
+    private func process(effect: MenuContractEffect) {
+        switch effect {
+        case is MenuContractEffect.NavigationNewGameScreen:
+            state = .InRoomCreation()
+            // TODO: Process other effects
+        default:
+            break
+        }
+    }
 }
 
 // MARK: - Previews
@@ -41,8 +61,7 @@ struct ContentView_Previews: PreviewProvider {
 	static var previews: some View {
         ContentView(
             state: .constant(.InMenu()),
-            vm: .init(),
-            menuVm: .init()
+            vm: .init()
         )
 	}
 }

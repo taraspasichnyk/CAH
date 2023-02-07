@@ -6,14 +6,12 @@ struct iOSApp: App {
 
     @State var state: GameContractGameState = GameContractGameState.InMenu()
     var vm: GameViewModel!
-    var menuVm: MenuViewModel!
 
     init() {
         LoggerKt.doInit()
         KoinIosKt.doInitKoin()
 
         vm = Injector.shared.gameViewModel
-        menuVm = Injector.shared.menuViewModel
     }
 
     // MARK: - Body
@@ -22,8 +20,7 @@ struct iOSApp: App {
 		WindowGroup {
 			ContentView(
                 state: $state,
-                vm: vm,
-                menuVm: menuVm
+                vm: vm
             )
             .onAppear {
                 subscribeToState()

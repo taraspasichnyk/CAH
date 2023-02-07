@@ -30,7 +30,7 @@ struct MainMenuView: View {
                     vm.onNewGameSelected()
                 }
                 PrimaryButton("Приєднатися") {
-                    vm.onNewGameSelected()
+                    vm.onJoinGameSelected()
                 }
             }
             Spacer()

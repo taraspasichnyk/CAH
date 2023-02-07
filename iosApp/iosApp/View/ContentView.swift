@@ -45,10 +45,12 @@ extension ContentView {
     }
 
     private func process(effect: MenuContractEffect) {
+        // TODO: Process effects properly
         switch effect {
         case is MenuContractEffect.NavigationNewGameScreen:
             state = .InRoomCreation()
-            // TODO: Process other effects
+        case is MenuContractEffect.NavigationJoinGameScreen:
+            state = .InLobby()
         default:
             break
         }

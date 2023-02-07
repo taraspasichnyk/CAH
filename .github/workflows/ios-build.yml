@@ -2,7 +2,11 @@ name: iOS Build
 
 on:
   push:
+      branches:
+          - develop
   pull_request:
+      branches:
+          - develop
 
 jobs:
   ios_tests:
@@ -17,6 +21,9 @@ jobs:
       with:
         distribution: 'zulu'
         java-version: '17'
+
+    - name: clean
+      run: xcodebuild -project "iosApp/iosApp.xcodeproj" clean
 
     - name: xcodebuild
       run: xcodebuild -project "iosApp/iosApp.xcodeproj" -scheme iosApp test -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14' | xcpretty

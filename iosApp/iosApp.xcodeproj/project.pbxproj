@@ -28,6 +28,7 @@
 		92729611298D86F300C5F0DE /* Unbounded-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 92729602298D862C00C5F0DE /* Unbounded-ExtraLight.ttf */; };
 		927F7F60298D075400A158A8 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927F7F5F298D075400A158A8 /* MainMenuView.swift */; };
 		927F7F62298D1EB800A158A8 /* EnterNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927F7F61298D1EB800A158A8 /* EnterNameView.swift */; };
+		92CD6615299254740003634C /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CD6614299254740003634C /* Fonts.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +87,8 @@
 		92729609298D862D00C5F0DE /* Unbounded-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Unbounded-Light.ttf"; sourceTree = "<group>"; };
 		927F7F5F298D075400A158A8 /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
 		927F7F61298D1EB800A158A8 /* EnterNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNameView.swift; sourceTree = "<group>"; };
+		92CD6611299252170003634C /* OFL.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
+		92CD6614299254740003634C /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +153,7 @@
 				7555FF8C242A565B00829871 /* Info.plist */,
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
 				927295E5298D666000C5F0DE /* Size.swift */,
+				92CD6614299254740003634C /* Fonts.swift */,
 				927295E9298D7A6B00C5F0DE /* Assets.swift */,
 				927295EB298D81C000C5F0DE /* Fonts */,
 				058557D7273AAEEB004C7B11 /* Preview Content */,
@@ -196,6 +200,7 @@
 		927295EB298D81C000C5F0DE /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				92CD6611299252170003634C /* OFL.txt */,
 				92729606298D862D00C5F0DE /* Unbounded-Black.ttf */,
 				92729607298D862D00C5F0DE /* Unbounded-Bold.ttf */,
 				92729602298D862C00C5F0DE /* Unbounded-ExtraLight.ttf */,
@@ -397,6 +402,7 @@
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				927295E8298D733500C5F0DE /* BackButton.swift in Sources */,
+				92CD6615299254740003634C /* Fonts.swift in Sources */,
 				927295E6298D666000C5F0DE /* Size.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

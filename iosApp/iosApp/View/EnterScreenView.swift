@@ -22,48 +22,34 @@ struct EnterScreenView: View {
     // MARK: - Body
 
     var body: some View {
-        ZStack {
+        ContainerView {
+            Spacer()
+            InputField(stage.placeholder, text: $name, isFocused: $isFocused)
+                .frame(width: 286)
+            Spacer()
+            Spacer()
             VStack {
-                Spacer()
-                Image.bgTexture
-                    .frame(height: .extraLarge)
-            }
-            .ignoresSafeArea(.all)
-            VStack {
-                HeaderView()
-                    .frame(height: 210)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .ignoresSafeArea(.all)
-                Spacer()
-                InputField(stage.placeholder, text: $name, isFocused: $isFocused)
-                    .frame(width: 286)
-                Spacer()
-                Spacer()
-                VStack {
-                    HStack {
-                        BackButton {
-                            // TODO: Replace with call to viewmodel
-                            _ = navState.popLast()
-                        }
-                        Spacer()
-                        PrimaryButton("Далі") {
-                            // TODO: Replace with call to viewmodel
-                            if navState.last == .enterCode {
-                                navState.append(.enterName)
-                            } else {
-                                alert.isPresentingNoFeature = true
-                            }
-                        }
-                        .disabled(name.isEmpty)
+                HStack {
+                    BackButton {
+                        // TODO: Replace with call to viewmodel
+                        _ = navState.popLast()
                     }
-                    .padding(.leading, 40)
-                    .padding(.trailing, 36)
-                    .padding(.bottom, .extraLarge)
+                    Spacer()
+                    PrimaryButton("Далі") {
+                        // TODO: Replace with call to viewmodel
+                        if navState.last == .enterCode {
+                            navState.append(.enterName)
+                        } else {
+                            alert.isPresentingNoFeature = true
+                        }
+                    }
+                    .disabled(name.isEmpty)
                 }
+                .padding(.leading, 40)
+                .padding(.trailing, 36)
+                .padding(.bottom, .extraLarge)
             }
-
         }
-        .navigationBarBackButtonHidden(true)
         .onAppear {
             isFocused = true
         }

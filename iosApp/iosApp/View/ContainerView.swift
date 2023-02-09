@@ -18,13 +18,22 @@ struct ContainerView<Content: View>: View {
     // MARK: - Body
 
     var body: some View {
-        VStack(alignment: .center) {
-            HeaderView()
-            content
-            Image.bgTexture
-                .frame(height: .extraLarge)
+        ZStack {
+            VStack {
+                Spacer()
+                Image.bgTexture
+                    .frame(height: .extraLarge)
+            }
+            .ignoresSafeArea(.all)
+            VStack {
+                HeaderView()
+                    .fixedSize(horizontal: false, vertical: true)
+                    .ignoresSafeArea(.all)
+                content
+            }
+
         }
-        .ignoresSafeArea()
+        .navigationBarBackButtonHidden(true)
     }
 }
 

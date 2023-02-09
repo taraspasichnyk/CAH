@@ -1,5 +1,9 @@
 name: iOS Build
 
+env:
+  CI: true
+  OPEN_API_KEY: ${{ secrets.SuperSecret }}
+
 on:
   push:
       branches:
@@ -7,9 +11,6 @@ on:
   pull_request:
       branches:
           - develop
-
-env:
-    CI: true
 
 jobs:
   ios_tests:
@@ -26,10 +27,12 @@ jobs:
         java-version: '17'
 
     - name: xcodebuild
-      run: xcodebuild -project "iosApp/iosApp.xcodeproj" -scheme iosApp test -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14' | xcpretty && exit ${PIPESTATUS[0]}
+      run: xcodebuild -project "iosApp/iosApp.xcodeproj" -scheme iosApp test -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14' | tee xcodebuild.log | xcpretty && exit ${PIPESTATUS[0]}
 
     - uses: actions/upload-artifact@v2
       if: always()
       with:
-        name: tests.xcresult
-        path: /Users/runner/Library/Developer/Xcode/DerivedData/*/Logs/Test/*.xcresult
+        name: results
+        path: |
+          /Users/runner/Library/Developer/Xcode/DerivedData/*/Logs/Test/*.xcresult
+          xcodebuild.log

@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(
                         navController = navController,
-                        startDestination = Route.PreRoundScreen.path,
+                        startDestination = Route.Menu.path,
                     ) {
                         composable(Route.Menu.path) {
                             Menu(

@@ -36,7 +36,7 @@ fun ProvideDimens(
 
 @Composable
 fun MyApplicationTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = false,//isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
     val configuration = LocalConfiguration.current

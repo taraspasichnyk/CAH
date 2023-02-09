@@ -1,5 +1,9 @@
 name: Android Build
 
+env:
+  CI: true
+  OPEN_API_KEY: ${{ secrets.SuperSecret }}
+
 on:
   push:
       branches:

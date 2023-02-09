@@ -8,6 +8,7 @@ struct ContentView: View {
     
     @EnvironmentObject
     private var alert: AlertState
+    @State private var navState: [NavigationState] = []
 
     // MARK: - Body
 
@@ -22,6 +23,7 @@ struct ContentView: View {
             subscribeToEffects()
         }
     }
+
 }
 
 // MARK: - Private
@@ -38,11 +40,24 @@ extension ContentView {
     private func map(state: GameContractGameState) -> AnyView {
         switch state {
         case is GameContractGameState.InMenu: return AnyView(
-            MainMenuView(vm: menuVm)
+            NavigationStack(path: $navState, root: {
+                MainMenuView(vm: menuVm)
+                    .navigationDestination(for: NavigationState.self, destination: { path in
+                        switch path {
+                        case .enterName:
+                            EnterScreenView(navState: $navState, stage: .playerName)
+                        case .enterCode:
+                            EnterScreenView(navState: $navState, stage: .roomCode)
+                                .keyboardType(.numberPad)
+                        default:
+                            EmptyView()
+                        }
+                    })
+            })
         )
         case is GameContractGameState.InLobby: return AnyView(VStack{})
         case is GameContractGameState.InRoomCreation: return AnyView(VStack{
-            EnterNameView(vm: vm)
+            EnterScreenView(navState: $navState, stage: .playerName)
         })
         case is GameContractGameState.InSettings: return AnyView(VStack{})
         default:
@@ -54,9 +69,9 @@ extension ContentView {
         // TODO: Process effects properly
         switch effect {
         case is MenuContractEffect.NavigationNewGameScreen:
-            state = .InRoomCreation()
+            navState.append(.enterName)
         case is MenuContractEffect.NavigationJoinGameScreen:
-            alert.isPresentingNoFeature = true
+            navState.append(.enterCode)
         default:
             break
         }

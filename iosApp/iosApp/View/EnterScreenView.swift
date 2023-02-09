@@ -1,5 +1,5 @@
 //
-//  EnterNameView.swift
+//  EnterScreenView.swift
 //  iosApp
 //
 //  Created by Artem Yelizarov on 03.02.2023.
@@ -9,25 +9,27 @@
 import SwiftUI
 import shared
 
-struct EnterNameView: View {
+struct EnterScreenView: View {
 
     @State private var name = ""
     @EnvironmentObject private var alert: AlertState
-    let vm: GameViewModel
+    @Binding var navState: [NavigationState]
+
+    let stage: EnterScreenStage
 
     // MARK: - Body
 
     var body: some View {
         ContainerView {
             Spacer(minLength: 90)
-            Text("Введіть імʼя")
+            Text(stage.prompt)
                 .font(.bodyPrimary)
-            InputField("Ваше імʼя", text: $name)
+            InputField(stage.placeholder, text: $name)
                 .frame(width: 286)
             Spacer(minLength: 112)
             HStack {
                 BackButton {
-                    alert.isPresentingNoFeature = true
+                    _ = navState.popLast()
                 }
                 Spacer()
                 PrimaryButton("Далі") {
@@ -39,6 +41,7 @@ struct EnterNameView: View {
             .padding(.trailing, 36)
             .padding(.bottom, 42)
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
@@ -46,6 +49,6 @@ struct EnterNameView: View {
 
 struct EnterNameView_Previews: PreviewProvider {
     static var previews: some View {
-        EnterNameView(vm: .init())
+        EnterScreenView(navState: .constant([]), stage: .playerName)
     }
 }

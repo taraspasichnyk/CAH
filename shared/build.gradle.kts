@@ -1,11 +1,14 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
+    id("com.codingfeline.buildkonfig").version("0.13.3")
 }
 
 kotlin {
     android()
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -65,6 +68,13 @@ kotlin {
             iosArm64Test.dependsOn(this)
             iosSimulatorArm64Test.dependsOn(this)
         }
+    }
+}
+
+buildkonfig {
+    packageName = "com.eleks.cah"
+    defaultConfigs {
+        buildConfigField(STRING, "OPEN_API_KEY", System.getenv("OPEN_API_KEY") ?: "")
     }
 }
 

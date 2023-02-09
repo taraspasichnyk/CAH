@@ -16,7 +16,7 @@ actual val viewModelModule: Module
 
 fun initKoin() {
     startKoin {
-        modules(com.eleks.cah.di.allModules())
+        modules(allModules())
     }
 }
 

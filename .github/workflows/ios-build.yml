@@ -1,5 +1,9 @@
 name: iOS Build
 
+env:
+  CI: true
+  OPEN_API_KEY: ${{ secrets.SuperSecret }}
+
 on:
   push:
       branches:
@@ -7,9 +11,6 @@ on:
   pull_request:
       branches:
           - develop
-
-env:
-    CI: true
 
 jobs:
   ios_tests:

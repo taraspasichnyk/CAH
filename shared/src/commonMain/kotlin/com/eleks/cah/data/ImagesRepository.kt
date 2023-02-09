@@ -1,5 +1,6 @@
 package com.eleks.cah.data
 
+import com.eleks.cah.BuildKonfig
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
@@ -7,14 +8,14 @@ import io.ktor.client.request.*
 class ImagesRepository(
     private val client: HttpClient = HttpClient()
 ) {
-    
+
     suspend fun getImageByPrompt(prompt: String): String {
         val response = client.request {
             headers {
-                set("Authorization", "Bearer $OPEN_API_TOKEN")
+                set("Authorization", "Bearer ${BuildKonfig.OPEN_API_KEY}")
             }
 
-            setBody(ImageRequest(prompt, 1, "256x256"))
+            setBody(ImageRequest(prompt, 1, DEFAULT_IMAGE_SIZE))
         }
         return response.body<ImageResponseBody>()
             .data
@@ -23,7 +24,7 @@ class ImagesRepository(
     }
 
     companion object {
-        private const val OPEN_API_TOKEN = "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"
+        private const val DEFAULT_IMAGE_SIZE = "256x256"
     }
 
     data class ImageRequest(

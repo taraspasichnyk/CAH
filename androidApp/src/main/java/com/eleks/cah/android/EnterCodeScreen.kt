@@ -2,7 +2,6 @@ package com.eleks.cah.android
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,8 +13,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Card
 import androidx.compose.material.ContentAlpha
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
@@ -30,15 +27,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.eleks.cah.android.widgets.BlackButton
 import com.eleks.cah.android.widgets.GameHeader
+import com.eleks.cah.android.widgets.NavigationView
 
 @Preview
 @Composable
@@ -61,7 +57,20 @@ fun EnterCodeScreen(onNextClicked: () -> Unit = {}) {
             Spacer(Modifier.weight(1f))
             EnterCodeView(onNextClicked)
             Spacer(Modifier.weight(1f))
-            NavigationView(onNextClicked)
+            NavigationView(
+                modifier = Modifier.fillMaxWidth().padding(
+                    start = dimensionResource(R.dimen.padding_36),
+                    end = dimensionResource(R.dimen.padding_36),
+                    bottom = dimensionResource(R.dimen.padding_44)
+                ),
+                actionButtonText = R.string.label_next,
+                onBackButtonClick = {
+                    //TODO
+                },
+                onActionButtonClick = {
+                    onNextClicked()
+                },
+            )
         }
     }
 }
@@ -117,32 +126,5 @@ private fun EnterCodeView(onNextClicked: () -> Unit) {
             shape = inputShape,
             textStyle = txtMedium16
         )
-    }
-}
-
-@Composable
-private fun NavigationView(onNextClicked: () -> Unit) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth().padding(
-            start = dimensionResource(R.dimen.padding_36),
-            end = dimensionResource(R.dimen.padding_36),
-            bottom = dimensionResource(R.dimen.padding_44)
-        )
-    ) {
-        IconButton(
-            onClick = {
-                //TODO
-            },
-        ) {
-            Icon(
-                tint = Color.Unspecified,
-                painter = painterResource(id = R.drawable.ic_back), contentDescription = ""
-            )
-        }
-        Spacer(modifier = Modifier.weight(1f))
-        BlackButton(text = R.string.label_next, onClick = {
-            onNextClicked()
-        })
     }
 }

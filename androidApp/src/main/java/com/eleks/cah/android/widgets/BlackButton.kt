@@ -15,7 +15,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.eleks.cah.android.R
-import com.eleks.cah.android.txtRegular18
+import com.eleks.cah.android.theme.txtRegular18
 
 @Composable
 fun BlackButton(

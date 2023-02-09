@@ -263,12 +263,6 @@ class RoomsRepositoryImpl(
 
     private fun savePlayersScores(gameRoom: GameRoomDTO): List<PlayerDTO> {
         val gameRoomPlayersList = gameRoom.players.values.toList()
-
-        Napier.d( // TODO: Remove
-            tag = TAG,
-            message = "savePlayersScores: gameRoomPlayersList = $gameRoomPlayersList"
-        )
-
         val currentRound = gameRoom.currentRound ?: return gameRoomPlayersList
         val updatedPlayers = gameRoomPlayersList.map { player ->
             val playerRoundScore = currentRound.answers.firstOrNull {

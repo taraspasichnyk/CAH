@@ -48,13 +48,17 @@ struct EnterScreenView: View {
                         Spacer()
                         PrimaryButton("Далі") {
                             // TODO: Replace with call to viewmodel
-                            alert.isPresentingNoFeature = true
+                            if navState.last == .enterCode {
+                                navState.append(.enterName)
+                            } else {
+                                alert.isPresentingNoFeature = true
+                            }
                         }
                         .disabled(name.isEmpty)
                     }
                     .padding(.leading, 40)
                     .padding(.trailing, 36)
-                    .padding(.bottom, Size.extraLarge.rawValue)
+                    .padding(.bottom, .extraLarge)
                 }
             }
 

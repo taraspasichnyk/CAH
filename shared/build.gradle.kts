@@ -1,5 +1,6 @@
 plugins {
     kotlin("multiplatform")
+    kotlin("plugin.serialization") version "1.8.10"
     id("com.android.library")
 }
 
@@ -21,6 +22,7 @@ kotlin {
             dependencies {
                 implementation("io.insert-koin:koin-core:3.3.2")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
                 implementation("io.github.aakira:napier:2.6.1")
                 implementation("dev.gitlive:firebase-auth:1.6.2")
                 implementation("dev.gitlive:firebase-database:1.6.2")

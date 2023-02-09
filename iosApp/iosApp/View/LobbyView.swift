@@ -21,39 +21,77 @@ struct LobbyView: View {
         .init(name: "Oleksandr", isGameOwner: false, isReadyToPlay: false),
         .init(name: "Andrii", isGameOwner: false, isReadyToPlay: true),
         .init(name: "Oleh", isGameOwner: false, isReadyToPlay: false),
+        .init(name: "Patron", isGameOwner: false, isReadyToPlay: false),
+        .init(name: "Jerry", isGameOwner: false, isReadyToPlay: false),
     ]
+
+    // MARK: - Body
 
     var body: some View {
         ContainerView {
-            HStack {
-                VStack {
-                    Text("Код для приєднання")
-                    Text("00212314")
+            VStack {
+                HStack {
+                    VStack(alignment: .leading, spacing: Size.medium.rawValue) {
+                        Text("Код для приєднання")
+                            .font(.lightBodySecondary)
+                        Text("00212314")
+                            .font(.titleBoldSecondary)
+                    }
+                    Spacer()
+                    IconButton(.copy) {
+                        // TODO: Replace with call to viewmodel
+                        alert.isPresentingNoFeature = true
+                    }
+                    Spacer()
+                    IconButton(.share) {
+                        // TODO: Replace with call to viewmodel
+                        alert.isPresentingNoFeature = true
+                    }
                 }
-                Image(systemName: "copy")
-                Image(systemName: "share")
-            }
-            List {
-                ForEach(users, id: \.name) {
-                    Text($0.name)
+                .padding(.medium)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 4)
+                        .stroke(Color.mainBlack, lineWidth: 1)
+                )
+                .padding(.horizontal, .extraLarge)
+
+                ScrollView(.vertical) {
+                    LazyVStack {
+                        ForEach($users, id: \.name) {
+                            LobbyRow(user: $0)
+                        }
+                    }
                 }
+                .padding(.top, .large)
+                .padding(.horizontal, 50)
             }
-            .listStyle(.plain)
+            .padding(.top, 32)
+            .ignoresSafeArea(.all)
+            Spacer()
             HStack {
                 BackButton {
+                    // TODO: Replace with call to viewmodel
                     _ = navState.popLast()
                 }
                 Spacer()
-                PrimaryButton("Розпочати гру") {
+                PrimaryButton("Готовий") {
+                    // TODO: Replace with call to viewmodel
                     alert.isPresentingNoFeature = true
                 }
                 .disabled(
                     !users.allSatisfy(\.isReadyToPlay)
                 )
             }
+            .padding(.top, .large)
+            .padding(.leading, 40)
+            .padding(.trailing, 36)
+            .padding(.bottom, .extraLarge)
+            .ignoresSafeArea(.all)
         }
     }
 }
+
+// MARK: - Previews
 
 struct LobbyView_Previews: PreviewProvider {
     static var previews: some View {

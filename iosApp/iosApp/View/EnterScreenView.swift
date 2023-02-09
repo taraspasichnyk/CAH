@@ -27,7 +27,6 @@ struct EnterScreenView: View {
             InputField(stage.placeholder, text: $name, isFocused: $isFocused)
                 .frame(width: 286)
             Spacer()
-            Spacer()
             VStack {
                 HStack {
                     BackButton {

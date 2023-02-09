@@ -29,6 +29,10 @@ struct SquareSize: ViewModifier {
 }
 
 extension View {
+    func padding(_ size: Size) -> some View {
+        padding(size.rawValue)
+    }
+
     func padding(_ edges: Edge.Set = .all, _ spacing: Size) -> some View {
         padding(edges, spacing.rawValue)
     }

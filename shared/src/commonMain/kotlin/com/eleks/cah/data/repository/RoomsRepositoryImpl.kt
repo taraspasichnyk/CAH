@@ -14,7 +14,9 @@ import com.eleks.cah.domain.Constants.DB_REF_CURRENT_ROUND
 import com.eleks.cah.domain.Constants.DB_REF_PLAYERS
 import com.eleks.cah.domain.Constants.DB_REF_ROOMS
 import com.eleks.cah.domain.Constants.DEFAULT_PLAYER_CARDS_AMOUNT
-import com.eleks.cah.domain.model.*
+import com.eleks.cah.domain.model.GameRound
+import com.eleks.cah.domain.model.Player
+import com.eleks.cah.domain.model.RoomID
 import com.eleks.cah.domain.repository.RoomsRepository
 import dev.gitlive.firebase.database.DatabaseReference
 import io.github.aakira.napier.Napier
@@ -47,9 +49,17 @@ class RoomsRepositoryImpl(
         return newRoom
     }
 
-    private fun generateInviteCode(): String {
-        // TODO: Generate UNIQUE room invite code
-        return Random.nextInt(100000, 999999).toString()
+    private suspend fun generateInviteCode(): String {
+        val allRoomsInviteCodes = roomsDbReference.valueEvents
+            .firstOrNull()
+            ?.value<HashMap<String, GameRoomDTO>?>()
+            ?.map { it.value.inviteCode }
+            ?.toSet()
+        var newInviteCode: String = Random.nextInt(100000, 999999).toString()
+        while (allRoomsInviteCodes?.contains(newInviteCode) == true) {
+            newInviteCode = Random.nextInt(100000, 999999).toString()
+        }
+        return newInviteCode
     }
 
     private fun generateQuestionCards(): List<QuestionCardDTO> {

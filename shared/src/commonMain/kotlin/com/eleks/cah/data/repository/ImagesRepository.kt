@@ -1,4 +1,4 @@
-package com.eleks.cah.data
+package com.eleks.cah.data.repository
 
 import com.eleks.cah.BuildKonfig
 import io.ktor.client.*

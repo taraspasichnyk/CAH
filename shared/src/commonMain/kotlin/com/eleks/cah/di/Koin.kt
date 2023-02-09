@@ -1,5 +1,6 @@
 package com.eleks.cah.di
 
+import com.eleks.cah.data.repository.ImagesRepository
 import com.eleks.cah.data.firebase.FirebaseAuth
 import com.eleks.cah.data.repository.PlayersRepositoryImpl
 import com.eleks.cah.data.repository.RoomsRepositoryImpl
@@ -25,7 +26,6 @@ import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.database.database
 import dev.gitlive.firebase.initialize
 import org.koin.core.module.Module
-import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 expect val viewModelModule: Module
@@ -108,11 +108,11 @@ private val domainModule by lazy {
 
 // Repositories
 val repositoryModule = module {
-    singleOf(::ImagesRepository)
+    single { ImagesRepository() }
 }
 
 // Common App Definitions
-fun appModule(context: Any? = null): List<Module> {
+fun allModules(context: Any? = null): List<Module> {
     Firebase.initialize(context)
     return listOf(
         viewModelModule,

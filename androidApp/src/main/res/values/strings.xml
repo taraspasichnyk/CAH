@@ -17,4 +17,9 @@
     <string name="title_start_game">Розпочати гру</string>
     <string name="title_ready">Готовий</string>
     <string name="title_code_is_copied">Код скопійовано</string>
+    <string name="miy_instrument">Мій інструмент</string>
+    <string name="round">Раунд %s</string>
+    <string name="master_card_placeholder">Під час візиту до писхотерпевта мені дають _____ щоб я почувавася більш комфортно</string>
+    <string name="choose_answer">Оберіть відповідь</string>
+    <string name="choose">Обрати</string>
 </resources>

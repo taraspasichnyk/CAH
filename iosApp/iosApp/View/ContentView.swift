@@ -46,9 +46,10 @@ extension ContentView {
                         switch path {
                         case .enterName:
                             EnterScreenView(navState: $navState, stage: .playerName)
+                                .textContentType(.name)
                         case .enterCode:
                             EnterScreenView(navState: $navState, stage: .roomCode)
-                                .keyboardType(.numberPad)
+                                .textContentType(.oneTimeCode)
                         default:
                             EmptyView()
                         }

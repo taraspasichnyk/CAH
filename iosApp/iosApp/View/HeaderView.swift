@@ -25,7 +25,7 @@ struct HeaderView: View {
             }
         }
         .ignoresSafeArea()
-        .frame(height: 224)
+        .frame(height: 210)
     }
 }
 

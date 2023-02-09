@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable(Route.NewGame.path){
-                           LobbyScreen()
+                            EnterNameScreen()
                         }
                         composable(Route.JoinGame.path) {
                             EnterCodeScreen(onNextClicked ={

@@ -11,4 +11,10 @@
     <string name="title_your_name">Ваше ім\'я</string>
     <string name="title_enter_game_code">Введіть код гри</string>
     <string name="hint_game_code">ХХХХХХХХ</string>
+    <string name="title_is_ready">Готовий</string>
+    <string name="title_is_waiting">Очікує</string>
+    <string name="title_code_for_connection">Код для приєднання</string>
+    <string name="title_start_game">Розпочати гру</string>
+    <string name="title_ready">Готовий</string>
+    <string name="title_code_is_copied">Код скопійовано</string>
 </resources>

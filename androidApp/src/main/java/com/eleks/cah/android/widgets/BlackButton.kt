@@ -13,32 +13,33 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.eleks.cah.android.R
 import com.eleks.cah.android.txtRegular18
 
 @Composable
-fun BlackButton(modifier: Modifier = Modifier, onClick: () -> Unit, @StringRes text: Int) {
+fun BlackButton(
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    onClick: () -> Unit,
+    @StringRes text: Int
+) {
     Button(
+        enabled = enabled,
         onClick = {
             onClick()
         },
         //TODO resources
         shape = RoundedCornerShape(2.dp),
-        contentPadding = PaddingValues(0.dp), colors = ButtonDefaults.buttonColors(
-            backgroundColor = MaterialTheme.colors.primary,
-        ),
-
+        contentPadding = PaddingValues(0.dp),
+        colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary),
         //TODO resources
         modifier = modifier.heightIn(56.dp)
     ) {
         Text(
             text = stringResource(text),
             color = MaterialTheme.colors.secondary,
-            modifier = Modifier.padding(
-                horizontal = dimensionResource(R.dimen.padding_48),
-            ),
+            modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.padding_48)),
             style = txtRegular18,
         )
     }

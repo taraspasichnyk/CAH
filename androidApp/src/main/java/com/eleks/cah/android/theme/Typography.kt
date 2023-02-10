@@ -1,4 +1,4 @@
-package com.eleks.cah.android
+package com.eleks.cah.android.theme
 
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -6,6 +6,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+import com.eleks.cah.android.R
 
 val unboundedFontFamily = FontFamily(
     Font(R.font.unbounded_light, FontWeight.Light),
@@ -52,13 +53,41 @@ val txtBold18 = getDefaultTextStyle(
     fontSize = 18.sp,
 )
 
+val txtBold16 = getDefaultTextStyle(
+    fontWeight = FontWeight.Bold
+)
+
 val txtBold24 = getDefaultTextStyle(
     fontWeight = FontWeight.Bold,
     fontSize = 24.sp,
 )
 
+val txtMedium12 = getDefaultTextStyle(
+    fontWeight = FontWeight.Medium,
+    fontSize = 12.sp
+)
+
+val txtMedium14 = getDefaultTextStyle(
+    fontWeight = FontWeight.Medium,
+    fontSize = 14.sp
+)
+
 val txtMedium16 = getDefaultTextStyle(
     fontWeight = FontWeight.Medium,
+)
+
+val txtSemibold32 = getDefaultTextStyle(
+    fontWeight = FontWeight.SemiBold,
+    fontSize = 32.sp,
+)
+
+val txtSemibold16 = getDefaultTextStyle(
+    fontWeight = FontWeight.SemiBold
+)
+
+val txtLight14 = getDefaultTextStyle(
+    fontWeight = FontWeight.Light,
+    fontSize = 14.sp
 )
 
 val txtLight16 = getDefaultTextStyle(
@@ -68,4 +97,9 @@ val txtLight16 = getDefaultTextStyle(
 val txtRegular18 = getDefaultTextStyle(
     fontWeight = FontWeight.Normal,
     fontSize = 18.sp,
+)
+
+val txtRegular11 = getDefaultTextStyle(
+    fontWeight = FontWeight.Normal,
+    fontSize = 11.sp,
 )

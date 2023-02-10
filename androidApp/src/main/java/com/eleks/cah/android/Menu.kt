@@ -1,14 +1,14 @@
 package com.eleks.cah.android
 
-import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -29,7 +29,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.eleks.cah.android.theme.labelLarge
 import com.eleks.cah.android.theme.labelMedium
 import com.eleks.cah.android.widgets.BlackButton
@@ -72,138 +71,93 @@ fun Menu(
         CardBackground(R.drawable.bg_pattern_big)
 
         Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            HeaderView(modifier = Modifier.weight(1f))
 
-            val windowInfo = rememberWindowInfo()
-
-
-            BigSpace(windowInfo)
-
-            HeaderView()
-
-            BigSpace(windowInfo)
-
-            ButtonsView(menuViewModel)
+            ButtonsView(modifier = Modifier.weight(2f), menuViewModel)
         }
     }
 }
 
 @Composable
-private fun HeaderView() {
+private fun HeaderView(modifier: Modifier = Modifier) {
     Column(
-        modifier = Modifier
-            .background(MaterialTheme.colors.primary)
-            .padding(
-                top = dimensionResource(id = R.dimen.padding_30),
-                start = dimensionResource(id = R.dimen.padding_60),
-                end = dimensionResource(id = R.dimen.padding_60),
-                bottom = dimensionResource(id = R.dimen.padding_10)
-            )
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
-        Row {
+        Column(
+            modifier = Modifier
+                .background(MaterialTheme.colors.primary)
+                .padding(
+                    top = dimensionResource(id = R.dimen.padding_30),
+                    start = dimensionResource(id = R.dimen.padding_60),
+                    end = dimensionResource(id = R.dimen.padding_60),
+                    bottom = dimensionResource(id = R.dimen.padding_10)
+                )
+        ) {
+            Row {
+                Text(
+                    text = stringResource(R.string.card_label),
+                    color = MaterialTheme.colors.secondary,
+                    style = labelLarge
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.ic_new),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(
+                            width = dimensionResource(id = R.dimen.padding_48),
+                            height = dimensionResource(id = R.dimen.padding_20)
+                        )
+                        .align(Alignment.CenterVertically)
+                )
+            }
             Text(
-                text = stringResource(R.string.card_label),
+                text = stringResource(R.string.conflict_label),
                 color = MaterialTheme.colors.secondary,
                 style = labelLarge
             )
-            Image(
-                painter = painterResource(id = R.drawable.ic_new),
-                contentDescription = "",
-                modifier = Modifier
-                    .size(
-                        width = dimensionResource(id = R.dimen.padding_48),
-                        height = dimensionResource(id = R.dimen.padding_20)
-                    )
-                    .align(Alignment.CenterVertically)
-            )
         }
-        Text(
-            text = stringResource(R.string.conflict_label),
-            color = MaterialTheme.colors.secondary,
-            style = labelLarge
-        )
     }
 }
 
 @Composable
-private fun ButtonsView(menuViewModel: MenuViewModel) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .background(MaterialTheme.colors.secondary)
-    ) {
-        Spacer(modifier = Modifier.height(64.dp))
+private fun ButtonsView(modifier: Modifier = Modifier, menuViewModel: MenuViewModel) {
+    Column(modifier = modifier) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .padding(bottom = dimensionResource(id = R.dimen.padding_30))
+                .weight(1f)
+                .background(MaterialTheme.colors.secondary)
+        ) {
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_60)))
 
-        BlackButton(text = R.string.create_game_label, onClick = {
-            menuViewModel.onNewGameSelected()
-        })
-
-        BlackButton(
-            modifier = Modifier.padding(top = dimensionResource(id = R.dimen.padding_big)),
-            text = R.string.connect_to_game_label,
-            onClick = {
-                menuViewModel.onJoinGameSelected()
+            BlackButton(text = R.string.create_game_label, onClick = {
+                menuViewModel.onNewGameSelected()
             })
 
-        SmallSpace()
+            BlackButton(modifier = Modifier.padding(top = dimensionResource(id = R.dimen.padding_big)),
+                text = R.string.connect_to_game_label,
+                onClick = {
+                    menuViewModel.onJoinGameSelected()
+                })
 
-        ExitView(menuViewModel)
-
-        SmallSpace()
+            ExitView(menuViewModel)
+        }
     }
-}
-
-@Composable
-private fun SmallSpace() {
-    val windowInfo = rememberWindowInfo()
-
-    Spacer(
-        modifier = Modifier.height(
-            if (windowInfo.screenWidthInfo is WindowInfo.WindowType.Compact) {
-                60.dp
-            } else {
-                120.dp
-            }
-        )
-    )
-}
-
-@Composable
-private fun BigSpace(windowInfo: WindowInfo) {
-
-    when (windowInfo.screenWidthInfo) {
-        is WindowInfo.WindowType.Compact -> Log.e("BigSpace ", "Compact")
-        is WindowInfo.WindowType.Medium -> Log.e("BigSpace ", "Medium")
-        else -> Log.e("BigSpace ", "Expand")
-    }
-
-    Spacer(
-        modifier = Modifier.height(
-            if (windowInfo.screenWidthInfo is WindowInfo.WindowType.Compact) {
-                60.dp
-            } else {
-                120.dp
-            }
-        )
-    )
 }
 
 @Composable
 private fun ExitView(menuViewModel: MenuViewModel) {
-    Box(
-        modifier = Modifier
-            .wrapContentWidth()
-            .wrapContentHeight(),
-        contentAlignment = Alignment.TopCenter
-    ) {
-        ExitButton(
+    Column {
+        ExitButton(Modifier.weight(1f),
             text = R.string.exit_label,
-            onClick = { menuViewModel.onExitSelected() }
-        )
+            onClick = { menuViewModel.onExitSelected() })
     }
 }
 

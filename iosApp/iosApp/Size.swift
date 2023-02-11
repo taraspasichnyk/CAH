@@ -13,6 +13,7 @@ enum Size: CGFloat {
     case small = 8
     case medium = 16
     case large = 24
+    case larger = 32
     case extraLarge = 48
 }
 

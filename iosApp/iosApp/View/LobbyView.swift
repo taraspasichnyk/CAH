@@ -9,7 +9,6 @@
 import SwiftUI
 import shared
 
-
 struct LobbyView: View {
     @Binding var navState: [NavigationState]
     @EnvironmentObject private var alert: AlertState
@@ -25,6 +24,17 @@ struct LobbyView: View {
         .init(name: "Jerry", isGameOwner: false, isReadyToPlay: false),
     ]
 
+    private let shareController: PasteboardControlling
+    private let roomCode = "00212314" // TODO: Get actual code from state
+
+    init(
+        navState: Binding<[NavigationState]>,
+        shareController: PasteboardControlling = PasteboardController.shared
+    ) {
+        self._navState = navState
+        self.shareController = shareController
+    }
+
     // MARK: - Body
 
     var body: some View {
@@ -34,19 +44,19 @@ struct LobbyView: View {
                     VStack(alignment: .leading, spacing: Size.medium.rawValue) {
                         Text("Код для приєднання")
                             .font(.lightBodySecondary)
-                        Text("00212314")
+                        Text(roomCode)
                             .font(.titleBoldSecondary)
                     }
                     Spacer()
                     IconButton(.copy) {
-                        // TODO: Replace with call to viewmodel
-                        alert.isPresentingNoFeature = true
+                        shareController.copyToPasteboard(roomCode)
                     }
+                    .square(.larger)
                     Spacer()
-                    IconButton(.share) {
-                        // TODO: Replace with call to viewmodel
-                        alert.isPresentingNoFeature = true
+                    ShareLink(item: roomCode) {
+                        Image.share
                     }
+                    .square(.larger)
                 }
                 .padding(.medium)
                 .overlay(
@@ -65,7 +75,7 @@ struct LobbyView: View {
                 .padding(.top, .large)
                 .padding(.horizontal, 50)
             }
-            .padding(.top, 32)
+            .padding(.top, .larger)
             .ignoresSafeArea(.all)
             Spacer()
             HStack {

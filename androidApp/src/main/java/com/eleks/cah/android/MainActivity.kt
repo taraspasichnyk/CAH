@@ -95,13 +95,11 @@ class MainActivity : ComponentActivity() {
                         ) {
                             it.arguments?.getInt("number")?.let {
                                 RoundScreen(
-                                    listOf(
-                                        Card(text = stringResource(id = R.string.miy_instrument)),
-                                        Card(text = stringResource(id = R.string.miy_instrument)),
-                                        Card(text = stringResource(id = R.string.miy_instrument)),
-                                        Card(text = stringResource(id = R.string.miy_instrument)),
-                                        Card(text = stringResource(id = R.string.miy_instrument)),
-                                    ), it
+                                    buildList {
+                                        repeat(6) {
+                                            add(Card(text = stringResource(id = R.string.miy_instrument) + " $it"))
+                                        }
+                                    }, it
                                 )
                             }
                         }

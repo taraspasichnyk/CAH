@@ -31,6 +31,7 @@ struct ContainerView<Content: View>: View {
                     .ignoresSafeArea(.all)
                 content
             }
+            .ignoresSafeArea(.all, edges: .top)
         }
         .navigationBarBackButtonHidden(true)
     }

@@ -13,9 +13,9 @@ struct ContentView: View {
     // MARK: - Body
 
     var body: some View {
-        NavigationView {
+        NavigationStack(path: $navState, root: {
             map(state: state)
-        }
+        })
         .alert(isPresented: $alert.isPresentingNoFeature) {
             alert.noFeature
         }
@@ -40,21 +40,21 @@ extension ContentView {
     private func map(state: GameContractGameState) -> AnyView {
         switch state {
         case is GameContractGameState.InMenu: return AnyView(
-            NavigationStack(path: $navState, root: {
-                MainMenuView(vm: menuVm)
-                    .navigationDestination(for: NavigationState.self, destination: { path in
-                        switch path {
-                        case .enterName:
-                            EnterScreenView(navState: $navState, stage: .playerName)
-                                .textContentType(.name)
-                        case .enterCode:
-                            EnterScreenView(navState: $navState, stage: .roomCode)
-                                .textContentType(.oneTimeCode)
-                        default:
-                            EmptyView()
-                        }
-                    })
-            })
+            MainMenuView(vm: menuVm)
+                .navigationDestination(for: NavigationState.self, destination: { path in
+                    switch path {
+                    case .enterName:
+                        EnterScreenView(navState: $navState, stage: .playerName)
+                            .textContentType(.name)
+                    case .enterCode:
+                        EnterScreenView(navState: $navState, stage: .roomCode)
+                            .textContentType(.oneTimeCode)
+                    case .lobby:
+                        LobbyView(navState: $navState)
+                    default:
+                        EmptyView()
+                    }
+                })
         )
         case is GameContractGameState.InLobby: return AnyView(VStack{})
         case is GameContractGameState.InRoomCreation: return AnyView(VStack{

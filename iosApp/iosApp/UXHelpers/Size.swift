@@ -13,6 +13,7 @@ enum Size: CGFloat {
     case small = 8
     case medium = 16
     case large = 24
+    case larger = 32
     case extraLarge = 48
 }
 
@@ -29,6 +30,10 @@ struct SquareSize: ViewModifier {
 }
 
 extension View {
+    func padding(_ size: Size) -> some View {
+        padding(size.rawValue)
+    }
+
     func padding(_ edges: Edge.Set = .all, _ spacing: Size) -> some View {
         padding(edges, spacing.rawValue)
     }

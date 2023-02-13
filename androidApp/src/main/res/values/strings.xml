@@ -22,4 +22,5 @@
     <string name="master_card_placeholder">Під час візиту до писхотерпевта мені дають _____ щоб я почувавася більш комфортно</string>
     <string name="choose_answer">Оберіть відповідь</string>
     <string name="choose">Обрати</string>
+    <string name="message_code_copied">Код скопійовано в буфер обміну</string>
 </resources>

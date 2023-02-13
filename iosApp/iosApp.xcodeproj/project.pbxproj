@@ -172,12 +172,10 @@
 			children = (
 				058557BA273AAA24004C7B11 /* Assets.xcassets */,
 				927295E4298D65F900C5F0DE /* View */,
+				92E9AC09299A3610000367F2 /* Utility */,
+				92E9AC0A299A36F5000367F2 /* UXHelpers */,
 				7555FF8C242A565B00829871 /* Info.plist */,
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
-				927295E5298D666000C5F0DE /* Size.swift */,
-				92CD6614299254740003634C /* Fonts.swift */,
-				9291175C2998454C00B23AF3 /* PasteboardController.swift */,
-				927295E9298D7A6B00C5F0DE /* Assets.swift */,
 				927295EB298D81C000C5F0DE /* Fonts */,
 				058557D7273AAEEB004C7B11 /* Preview Content */,
 			);
@@ -211,21 +209,16 @@
 		927295E4298D65F900C5F0DE /* View */ = {
 			isa = PBXGroup;
 			children = (
-				92CD661629925B720003634C /* Image+Extensions.swift */,
+				92E9AC07299A358A000367F2 /* Buttons */,
+				92E9AC08299A35C9000367F2 /* Lobby */,
 				7555FF82242A565900829871 /* ContentView.swift */,
-				92F57CA3299551C4005D5328 /* LobbyView.swift */,
-				92B9250A29956A1D0089ED88 /* LobbyRow.swift */,
-				92B925082995670C0089ED88 /* IconButton.swift */,
 				921076632994E42D00390F45 /* NavigationState.swift */,
-				92CD661829926F220003634C /* Alerts.swift */,
 				927F7F61298D1EB800A158A8 /* EnterScreenView.swift */,
 				921076652994E46900390F45 /* EnterScreenStage.swift */,
 				92CD661E2992DEA80003634C /* ContainerView.swift */,
 				92CD661C2992BD770003634C /* InputField.swift */,
 				92CD661A2992B83B0003634C /* HeaderView.swift */,
 				927F7F5F298D075400A158A8 /* MainMenuView.swift */,
-				927295E2298D61F100C5F0DE /* PrimaryButton.swift */,
-				927295E7298D733500C5F0DE /* BackButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -244,6 +237,45 @@
 				92729608298D862D00C5F0DE /* Unbounded-Regular.ttf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		92E9AC07299A358A000367F2 /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				92B925082995670C0089ED88 /* IconButton.swift */,
+				927295E2298D61F100C5F0DE /* PrimaryButton.swift */,
+				927295E7298D733500C5F0DE /* BackButton.swift */,
+			);
+			path = Buttons;
+			sourceTree = "<group>";
+		};
+		92E9AC08299A35C9000367F2 /* Lobby */ = {
+			isa = PBXGroup;
+			children = (
+				92F57CA3299551C4005D5328 /* LobbyView.swift */,
+				92B9250A29956A1D0089ED88 /* LobbyRow.swift */,
+			);
+			path = Lobby;
+			sourceTree = "<group>";
+		};
+		92E9AC09299A3610000367F2 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				92CD661829926F220003634C /* Alerts.swift */,
+				9291175C2998454C00B23AF3 /* PasteboardController.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		92E9AC0A299A36F5000367F2 /* UXHelpers */ = {
+			isa = PBXGroup;
+			children = (
+				92CD661629925B720003634C /* Image+Extensions.swift */,
+				927295E5298D666000C5F0DE /* Size.swift */,
+				92CD6614299254740003634C /* Fonts.swift */,
+				927295E9298D7A6B00C5F0DE /* Assets.swift */,
+			);
+			path = UXHelpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

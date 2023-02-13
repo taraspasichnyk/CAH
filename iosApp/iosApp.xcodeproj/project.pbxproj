@@ -175,6 +175,7 @@
 				92E9AC09299A3610000367F2 /* Utility */,
 				92E9AC0A299A36F5000367F2 /* UXHelpers */,
 				7555FF8C242A565B00829871 /* Info.plist */,
+				927295E9298D7A6B00C5F0DE /* Assets.swift */,
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
 				927295EB298D81C000C5F0DE /* Fonts */,
 				058557D7273AAEEB004C7B11 /* Preview Content */,
@@ -273,7 +274,6 @@
 				92CD661629925B720003634C /* Image+Extensions.swift */,
 				927295E5298D666000C5F0DE /* Size.swift */,
 				92CD6614299254740003634C /* Fonts.swift */,
-				927295E9298D7A6B00C5F0DE /* Assets.swift */,
 			);
 			path = UXHelpers;
 			sourceTree = "<group>";

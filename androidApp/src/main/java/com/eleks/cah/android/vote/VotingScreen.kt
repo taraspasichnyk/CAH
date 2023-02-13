@@ -1,4 +1,4 @@
-package com.eleks.cah.android
+package com.eleks.cah.android.vote
 
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -20,13 +20,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.*
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.eleks.cah.android.AppTheme
+import com.eleks.cah.android.MyApplicationTheme
+import com.eleks.cah.android.R
 import com.eleks.cah.android.model.Card
 import com.eleks.cah.android.round.cardPaddings
 import com.eleks.cah.android.round.dropShadow
@@ -35,7 +36,14 @@ import com.eleks.cah.android.widgets.AnimatedValueVisibility
 import com.eleks.cah.android.widgets.ConflictCard
 import com.eleks.cah.android.widgets.GameHeader
 import com.eleks.cah.android.widgets.GameLabelSize
+import kotlinx.coroutines.channels.ticker
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.flow
+import java.time.Duration
+import kotlin.concurrent.fixedRateTimer
+import kotlin.time.seconds
+
 
 @Preview
 @Composable
@@ -48,8 +56,19 @@ private fun VotingScreenPreview() {
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun VotingScreen(
-    roundNumber: Int
+    roundNumber: Int,
+    onTimeout: () -> Unit = {},
+    onLastVote: () -> Unit = {}
 ) {
+    var timeout by remember {
+        mutableStateOf(60)
+    }
+    LaunchedEffect(key1 = "timeout") {
+        while(timeout > 0) {
+            delay(1000L)
+            timeout--
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -61,6 +80,9 @@ fun VotingScreen(
             gameLabelSize = GameLabelSize.SMALL,
             headerHeight = AppTheme.dimens.headerSize
         )
+
+
+        Timer(timeout)
 
         Column(
             modifier = Modifier
@@ -123,6 +145,38 @@ fun VotingScreen(
                         .copy(vote = it)
             }
         }
+    }
+}
+
+@Composable
+private fun Timer(
+    timeoutInSecs: Int = 60,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = Modifier
+            .background(Color.Transparent)
+            .wrapContentSize()
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_timer),
+            contentDescription = "",
+            colorFilter = ColorFilter.tint(color = MainBlack)
+        )
+
+        val mins = timeoutInSecs / 60
+        val minsStr = if (mins <= 9) {
+            "0$mins"
+        } else {
+            "$mins"
+        }
+        var seconds = timeoutInSecs % 60
+        val secondsStr = if (seconds <= 9) {
+            "0$seconds"
+        } else {
+            "$seconds"
+        }
+        Text(text = "$minsStr:$secondsStr", Modifier.padding(start = 6.dp))
     }
 }
 

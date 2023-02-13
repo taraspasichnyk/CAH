@@ -1,6 +1,7 @@
 package com.eleks.cah.android
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,9 +22,11 @@ import com.eleks.cah.android.model.Card
 import com.eleks.cah.android.round.PreRoundScreen
 import com.eleks.cah.android.round.RoundScreen
 import com.eleks.cah.android.router.MainRoute
+import com.eleks.cah.android.vote.VotingScreen
 import com.eleks.cah.init
 import kotlinx.coroutines.delay
 import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.scope.scope
 import org.koin.core.parameter.parametersOf
 
 class MainActivity : ComponentActivity() {
@@ -120,7 +123,17 @@ class MainActivity : ComponentActivity() {
                             )
                         ) {
                             it.arguments?.getInt("number")?.let { number ->
-                                VotingScreen(number)
+                                VotingScreen(
+                                    number,
+                                    onTimeout = {
+                                        Toast.makeText(this@MainActivity, "onTimeout", Toast.LENGTH_LONG)
+                                            .show()
+                                    },
+                                    onLastVote = {
+                                        Toast.makeText(this@MainActivity, "last item voted", Toast.LENGTH_LONG)
+                                            .show()
+                                    }
+                                )
                             }
                         }
                     }

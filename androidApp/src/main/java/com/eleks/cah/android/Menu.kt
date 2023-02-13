@@ -29,6 +29,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.eleks.cah.android.router.MainRoute
 import com.eleks.cah.android.theme.labelLarge
 import com.eleks.cah.android.theme.labelMedium
 import com.eleks.cah.android.widgets.BlackButton
@@ -41,21 +42,17 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun Menu(
     menuViewModel: MenuViewModel = koinViewModel(),
-    onNavigationRequired: (Route) -> Unit = {},
+    onNavigationRequired: (String) -> Unit = {},
     onExit: () -> Unit = {}
 ) {
-
-    LaunchedEffect(key1 = MenuViewModel.NAVIGATION_EFFECTS_KEY) {
+    LaunchedEffect(key1 = Unit) {
         menuViewModel.effect.collectLatest {
             when (it) {
                 is MenuContract.Effect.Navigation.NewGameScreen -> {
-                    onNavigationRequired(Route.NewGame)
+                    onNavigationRequired(MainRoute.Lobby.getPath(true))
                 }
                 is MenuContract.Effect.Navigation.JoinGameScreen -> {
-                    onNavigationRequired(Route.JoinGame)
-                }
-                is MenuContract.Effect.Navigation.SettingsScreen -> {
-                    onNavigationRequired(Route.Settings)
+                    onNavigationRequired(MainRoute.Lobby.getPath(false))
                 }
                 is MenuContract.Effect.Navigation.Exit -> {
                     onExit()

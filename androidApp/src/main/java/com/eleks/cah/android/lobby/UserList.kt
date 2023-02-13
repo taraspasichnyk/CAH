@@ -54,7 +54,7 @@ import com.eleks.cah.models.UserInLobby
 private fun UserListScreenPreview() {
     MyApplicationTheme {
         Box(modifier = Modifier.background(Color.White)) {
-            UserList(LobbyViewModel(true))
+            UserList(LobbyViewModel())
         }
     }
 }

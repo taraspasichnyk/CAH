@@ -45,7 +45,7 @@ import com.eleks.cah.lobby.LobbyViewModel
 private fun EnterNameScreenPreview() {
     MyApplicationTheme {
         Box(modifier = Modifier.background(Color.White)) {
-            EnterName(LobbyViewModel(true))
+            EnterName(LobbyViewModel())
         }
     }
 }

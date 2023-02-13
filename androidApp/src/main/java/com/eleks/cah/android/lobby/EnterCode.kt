@@ -45,7 +45,7 @@ import com.eleks.cah.lobby.LobbyViewModel
 private fun EnterCodeScreenPreview() {
     MyApplicationTheme {
         Box(modifier = Modifier.background(Color.White)) {
-            EnterCode(LobbyViewModel(true))
+            EnterCode(LobbyViewModel())
         }
     }
 }

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "628733342084",
+    "project_id": "ua-cah-new",
+    "storage_bucket": "ua-cah-new.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:628733342084:android:df907b24e7853dcdab6dd1",
+        "android_client_info": {
+          "package_name": "com.eleks.cah.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "628733342084-6qelblh4hao63jl6o22dki8irdvhbmv8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBC-Vd-WO3out47yDDslol1OWiMkIm4lHE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "628733342084-6qelblh4hao63jl6o22dki8irdvhbmv8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

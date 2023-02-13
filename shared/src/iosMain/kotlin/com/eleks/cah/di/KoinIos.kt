@@ -1,5 +1,6 @@
 package com.eleks.cah.di
 
+import com.eleks.cah.domain.usecase.login.AnonymousLoginUseCase
 import com.eleks.cah.game.GameViewModel
 import com.eleks.cah.menu.MenuViewModel
 import org.koin.core.component.KoinComponent
@@ -24,4 +25,5 @@ fun initKoin() {
 object Injector : KoinComponent {
     val menuViewModel: MenuViewModel by inject()
     val gameViewModel: GameViewModel by inject()
+    val anonymousLogin: AnonymousLoginUseCase by inject()
 }

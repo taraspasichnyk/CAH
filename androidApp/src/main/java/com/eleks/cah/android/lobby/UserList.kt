@@ -1,8 +1,9 @@
-package com.eleks.cah.android
+package com.eleks.cah.android.lobby
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
@@ -23,6 +24,8 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,57 +34,65 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.eleks.cah.android.theme.*
+import com.eleks.cah.android.MyApplicationTheme
+import com.eleks.cah.android.R
+import com.eleks.cah.android.theme.Green
+import com.eleks.cah.android.theme.Yellow
+import com.eleks.cah.android.theme.txtBold24
+import com.eleks.cah.android.theme.txtLight14
+import com.eleks.cah.android.theme.txtMedium12
+import com.eleks.cah.android.theme.txtMedium14
 import com.eleks.cah.android.widgets.CardBackground
 import com.eleks.cah.android.widgets.GameHeader
 import com.eleks.cah.android.widgets.NavigationView
 import com.eleks.cah.android.widgets.bounceClick
+import com.eleks.cah.lobby.LobbyViewModel
 import com.eleks.cah.models.UserInLobby
-import kotlin.random.Random
 
 @Preview
 @Composable
-private fun LobbyScreenPreview() {
+private fun UserListScreenPreview() {
     MyApplicationTheme {
-        LobbyScreen()
+        Box(modifier = Modifier.background(Color.White)) {
+            UserList(LobbyViewModel(true))
+        }
     }
 }
 
 @Composable
-fun LobbyScreen() {
+fun UserList(
+    lobbyViewModel: LobbyViewModel,
+) {
     Column(
-        modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.secondary)
+        modifier = Modifier.fillMaxSize()
     ) {
         GameHeader()
         Column(
             modifier = Modifier.weight(1f).padding(horizontal = 48.dp, vertical = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            val state by lobbyViewModel.state.collectAsState()
             GameCodeView(
-                code = "99212344",
+                code = state.code,
                 onCopyClick = {
-                    //TODO
+                    lobbyViewModel.onCodeCopyClicked()
                 },
                 onShareClick = {
-                    //TODO
+                    lobbyViewModel.onCodeShareClicked()
                 },
             )
 
-            //TODO get users from viewmodel
-            val users: List<UserInLobby> = (1..10).map {
-                UserInLobby("Name $it", it == 1, Random.nextBoolean())
-            }
-            UserListView(users)
+            UserListView(state.users)
 
             NavigationView(
                 modifier = Modifier.fillMaxWidth(),
-                actionButtonEnabled = false,
+                /* actionButtonEnabled = false,*/
                 actionButtonText = R.string.title_ready,
                 onBackButtonClick = {
-                    //TODO
+                    lobbyViewModel.onBackPressed()
                 },
                 onActionButtonClick = {
-                    //TODO
+                    lobbyViewModel.onNextClicked()
                 },
             )
         }
@@ -185,11 +196,9 @@ private fun UserItemView(user: UserInLobby, position: Int) {
         Text(
             modifier = Modifier
                 .defaultMinSize(76.dp)
-                //TODO
                 .background(
-                    color = if (user.isReadyToPlay) Color(0xff689F7E)
-                    else Color(0xffBCA874),
-                    shape = RoundedCornerShape(4.dp)
+                    color = if (user.isReadyToPlay) Green else Yellow,
+                    shape = MaterialTheme.shapes.small
                 ).padding(8.dp),
             text = stringResource(
                 if (user.isReadyToPlay) R.string.title_ready

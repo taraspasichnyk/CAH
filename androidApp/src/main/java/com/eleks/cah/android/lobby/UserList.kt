@@ -51,7 +51,7 @@ import com.eleks.cah.models.UserInLobby
 
 @Preview
 @Composable
-private fun EnterNameScreenPreview() {
+private fun UserListScreenPreview() {
     MyApplicationTheme {
         Box(modifier = Modifier.background(Color.White)) {
             UserList(LobbyViewModel(true))

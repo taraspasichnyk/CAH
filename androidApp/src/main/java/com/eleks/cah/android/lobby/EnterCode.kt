@@ -42,7 +42,7 @@ import com.eleks.cah.lobby.LobbyViewModel
 
 @Preview
 @Composable
-private fun EnterNameScreenPreview() {
+private fun EnterCodeScreenPreview() {
     MyApplicationTheme {
         Box(modifier = Modifier.background(Color.White)) {
             EnterCode(LobbyViewModel(true))

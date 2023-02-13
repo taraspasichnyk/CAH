@@ -7,5 +7,6 @@ enum class Route(val path: String) {
     Round("round"),
     PreRoundScreen("preround/{number}"),
     JoinGame("join-game"),
-    Settings("settings");
+    Settings("settings"),
+    Vote("round/{number}/vote");
 }

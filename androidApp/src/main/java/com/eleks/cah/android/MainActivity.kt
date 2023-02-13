@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(
                         navController = navController,
-                        startDestination = Route.Menu.path,
+                        startDestination = Route.Vote.path,
                     ) {
                         composable(Route.Menu.path) {
                             Menu(
@@ -105,6 +105,19 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                         }
+
+                        composable(
+                            Route.Vote.path,
+                            arguments = listOf(
+                                navArgument("number") {
+                                    type = NavType.IntType
+                                }
+                            )
+                        ) {
+                            it.arguments?.getInt("number")?.let { number ->
+                                VotingScreen(number)
+                            }
+                        }
                     }
                 }
             }
@@ -118,16 +131,4 @@ class MainActivity : ComponentActivity() {
         ).isAppearanceLightStatusBars = light
     }
 
-    @Composable
-    fun GreetingView(text: String) {
-        Text(text = text)
-    }
-
-    @Preview
-    @Composable
-    fun DefaultPreview() {
-        MyApplicationTheme {
-            GreetingView("Hello, Android!")
-        }
-    }
 }

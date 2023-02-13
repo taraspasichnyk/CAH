@@ -71,8 +71,9 @@ fun UserList(
             modifier = Modifier.weight(1f).padding(horizontal = 48.dp, vertical = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            val state by lobbyViewModel.state.collectAsState()
             GameCodeView(
-                code = lobbyViewModel.state.value.code,
+                code = state.code,
                 onCopyClick = {
                     lobbyViewModel.onCodeCopyClicked()
                 },
@@ -81,7 +82,6 @@ fun UserList(
                 },
             )
 
-            val state by lobbyViewModel.state.collectAsState()
             UserListView(state.users)
 
             NavigationView(

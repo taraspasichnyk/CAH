@@ -27,7 +27,6 @@ struct EnterScreenView: View {
             InputField(stage.placeholder, text: $name, isFocused: $isFocused)
                 .frame(width: 286)
             Spacer()
-            Spacer()
             VStack {
                 HStack {
                     BackButton {
@@ -37,10 +36,10 @@ struct EnterScreenView: View {
                     Spacer()
                     PrimaryButton("Далі") {
                         // TODO: Replace with call to viewmodel
-                        if navState.last == .enterCode {
-                            navState.append(.enterName)
+                        if navState.last == .enterName {
+                            navState.append(.lobby)
                         } else {
-                            alert.isPresentingNoFeature = true
+                            navState.append(.enterName)
                         }
                     }
                     .disabled(name.isEmpty)

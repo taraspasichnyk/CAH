@@ -7,19 +7,21 @@ import com.eleks.cah.lobby.LobbyContract.Effect.ShareCode
 import com.eleks.cah.models.UserInLobby
 import kotlin.random.Random
 
-class LobbyViewModel(val gameOwner: Boolean) :
-    BaseViewModel<LobbyContract.State, LobbyContract.Effect>(
-        LobbyContract.State()
-    ) {
-    private var currentScreen: LobbyInnerScreen
+class LobbyViewModel : BaseViewModel<LobbyContract.State, LobbyContract.Effect>(
+    LobbyContract.State()
+) {
+    private lateinit var currentScreen: LobbyInnerScreen
 
-    init {
-        currentScreen = if (gameOwner) {
-            LobbyInnerScreen.EnterName
-        } else {
-            LobbyInnerScreen.EnterCode
+    var gameOwner: Boolean = true
+        set(value) {
+            currentScreen = if (value) {
+                LobbyInnerScreen.EnterName
+            } else {
+                LobbyInnerScreen.EnterCode
+            }
+
+            field = value
         }
-    }
 
     enum class LobbyInnerScreen {
         EnterName, EnterCode, UserList
@@ -29,9 +31,7 @@ class LobbyViewModel(val gameOwner: Boolean) :
         when (currentScreen) {
             LobbyInnerScreen.EnterName -> {
                 if (gameOwner) {
-                    setEffect {
-                        Navigation.MenuScreen
-                    }
+                    setEffect { Navigation.MenuScreen }
                 } else {
                     navigateToScreen(LobbyInnerScreen.EnterCode)
                 }
@@ -69,10 +69,10 @@ class LobbyViewModel(val gameOwner: Boolean) :
                     }
                     copy(users = users)
                 }
-                if(gameOwner){
+                if (gameOwner) {
                     //TODO generate code via UseCase
                     setState {
-                        copy(code="12312413")
+                        copy(code = "12312413")
                     }
                 }
                 navigateToScreen(LobbyInnerScreen.UserList)
@@ -96,15 +96,11 @@ class LobbyViewModel(val gameOwner: Boolean) :
 
     private fun navigateToScreen(screen: LobbyInnerScreen) {
         currentScreen = screen
-        when (screen) {
-            LobbyInnerScreen.EnterName -> {
-                setEffect { Navigation.EnterNameScreen }
-            }
-            LobbyInnerScreen.EnterCode -> {
-                setEffect { Navigation.EnterCodeScreen }
-            }
-            LobbyInnerScreen.UserList -> {
-                setEffect { Navigation.UsersListScreen }
+        setEffect {
+            when (screen) {
+                LobbyInnerScreen.EnterName -> Navigation.EnterNameScreen
+                LobbyInnerScreen.EnterCode -> Navigation.EnterCodeScreen
+                LobbyInnerScreen.UserList -> Navigation.UsersListScreen
             }
         }
     }

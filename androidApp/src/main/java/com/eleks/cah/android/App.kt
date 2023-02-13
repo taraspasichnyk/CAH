@@ -1,6 +1,7 @@
 package com.eleks.cah.android
 
 import android.app.Application
+import com.eleks.cah.di.allModules
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -10,7 +11,7 @@ class App : Application() {
         startKoin {
             androidContext(this@App)
             modules(
-                com.eleks.cah.di.allModules()
+                allModules(this@App)
             )
         }
     }

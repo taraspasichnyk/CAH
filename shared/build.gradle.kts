@@ -2,6 +2,7 @@ import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 
 plugins {
     kotlin("multiplatform")
+    kotlin("plugin.serialization") version "1.8.10"
     id("com.android.library")
     id("com.codingfeline.buildkonfig").version("0.13.3")
 }
@@ -16,6 +17,7 @@ kotlin {
     ).forEach {
         it.binaries.framework {
             baseName = "shared"
+            isStatic = true
         }
     }
 
@@ -25,7 +27,10 @@ kotlin {
                 implementation("io.ktor:ktor-client-core:2.2.3")
                 implementation("io.insert-koin:koin-core:3.3.2")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
                 implementation("io.github.aakira:napier:2.6.1")
+                implementation("dev.gitlive:firebase-auth:1.6.2")
+                implementation("dev.gitlive:firebase-database:1.6.2")
             }
         }
         val commonTest by getting {

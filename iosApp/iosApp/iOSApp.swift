@@ -13,6 +13,14 @@ struct iOSApp: App {
         KoinIosKt.doInitKoin()
 
         vm = Injector.shared.gameViewModel
+
+        // TODO: If possible, move it out into shared
+        // Make sure anonymous login is called before using Firebase
+        Injector.shared.anonymousLogin.invoke { error in
+            guard let error else { return }
+            // TODO: Maybe check for connectivity errors, otherwise do nothing or enter error state
+            print(error)
+        }
     }
 
     // MARK: - Body

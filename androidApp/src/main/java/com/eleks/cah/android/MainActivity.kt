@@ -6,12 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.NavType
@@ -19,11 +16,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.eleks.cah.android.lobby.LobbyScreen
 import com.eleks.cah.android.model.Card
 import com.eleks.cah.android.round.PreRoundScreen
 import com.eleks.cah.android.round.RoundScreen
+import com.eleks.cah.android.router.MainRoute
 import com.eleks.cah.init
 import kotlinx.coroutines.delay
+import org.koin.androidx.compose.getViewModel
+import org.koin.core.parameter.parametersOf
 
 class MainActivity : ComponentActivity() {
 
@@ -42,72 +43,76 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(
                         navController = navController,
-                        startDestination = Route.Vote.path,
+                        startDestination = MainRoute.PostRoundScreen.path,
                     ) {
-                        composable(Route.Menu.path) {
+                        composable(route = MainRoute.Menu()) {
                             Menu(
                                 onNavigationRequired = {
-                                    navController.navigate(it.path)
+                                    navController.navigate(it)
                                 },
                                 onExit = { finish() }
                             )
                         }
 
-                        composable(Route.NewGame.path) {
-                            EnterNameScreen()
-                        }
-
-                        composable(Route.JoinGame.path) {
-                            EnterCodeScreen(onNextClicked = {
-                                navController.navigate(Route.NewGame.path)
-                            })
-                        }
-
-                        composable(Route.Settings.path) {
-                            Text("Settings")
-                        }
-
                         composable(
-                            route = Route.PreRoundScreen.path,
+                            route = MainRoute.Lobby(),
                             arguments = listOf(
-                                navArgument("number") {
+                                navArgument(MainRoute.Lobby.arguments.first()) {
+                                    type = NavType.BoolType
+                                }
+                            )
+                        ) {
+                            val createNewGame =
+                                it.arguments?.getBoolean(MainRoute.Lobby.arguments.first()) ?: false
+                            LobbyScreen(
+                                getViewModel(parameters = { parametersOf(createNewGame) }),
+                                navController
+                            )
+                        }
+
+                        composable(
+                            route = MainRoute.PreRoundScreen(),
+                            arguments = listOf(
+                                navArgument(MainRoute.PreRoundScreen.arguments.first()) {
                                     type = NavType.IntType
                                 }
                             )
                         ) {
-                            it.arguments?.getInt("number")?.let {
-                                PreRoundScreen(roundNumber = it)
+                            it.arguments?.getInt(MainRoute.PreRoundScreen.arguments.first())
+                                ?.let { round ->
+                                    PreRoundScreen(roundNumber = round)
 
-                                LaunchedEffect(Unit) {
-                                    delay(ROUND_TIMEOUT)
-                                    navController.navigate(Route.Round.path + "/$it")
+                                    LaunchedEffect(Unit) {
+                                        delay(ROUND_TIMEOUT)
+                                        navController.navigate(MainRoute.Round.getPath(round))
+                                    }
                                 }
-                            }
                         }
 
                         composable(
-                            Route.Round.path + "/{number}", arguments =
-                            listOf(
-                                navArgument("number") {
+                            route = MainRoute.Round(),
+                            arguments = listOf(
+                                navArgument(MainRoute.Round.arguments.first()) {
                                     type = NavType.IntType
                                 }
                             )
                         ) {
-                            it.arguments?.getInt("number")?.let {
-                                RoundScreen(
-                                    listOf(
-                                        Card(text = stringResource(id = R.string.miy_instrument)),
-                                        Card(text = stringResource(id = R.string.miy_instrument)),
-                                        Card(text = stringResource(id = R.string.miy_instrument)),
-                                        Card(text = stringResource(id = R.string.miy_instrument)),
-                                        Card(text = stringResource(id = R.string.miy_instrument)),
-                                    ), it
-                                )
-                            }
+                            it.arguments?.getInt(MainRoute.Round.arguments.first())
+                                ?.let { round ->
+                                    RoundScreen(
+                                        listOf(
+                                            Card(text = stringResource(id = R.string.miy_instrument)),
+                                            Card(text = stringResource(id = R.string.miy_instrument)),
+                                            Card(text = stringResource(id = R.string.miy_instrument)),
+                                            Card(text = stringResource(id = R.string.miy_instrument)),
+                                            Card(text = stringResource(id = R.string.miy_instrument)),
+                                        ), round
+                                    )
+                                }
                         }
 
                         composable(
-                            Route.Vote.path,
+                            MainRoute.PostRoundScreen.path,
                             arguments = listOf(
                                 navArgument("number") {
                                     type = NavType.IntType
@@ -130,5 +135,4 @@ class MainActivity : ComponentActivity() {
             window.decorView
         ).isAppearanceLightStatusBars = light
     }
-
 }

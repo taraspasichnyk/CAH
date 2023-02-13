@@ -13,7 +13,6 @@ interface MenuContract {
         sealed class Navigation : Effect() {
             object NewGameScreen : Navigation()
             object JoinGameScreen : Navigation()
-            object SettingsScreen : Navigation()
             object Exit: Navigation()
         }
     }

@@ -10,26 +10,26 @@ import SwiftUI
 import shared
 
 struct LobbyRow: View {
-    @Binding var user: UserInLobby
+    @Binding var user: Player
 
     // MARK: - Body
 
     var body: some View {
         VStack(alignment: .center, spacing: 6) {
             HStack(alignment: .center) {
-                Text("1. " + user.name)
+                Text("1. " + user.nickname)
                     .font(.bodySecondary)
-                if user.isGameOwner {
+                if user.gameOwner {
                     Image.host
                         .frame(width: .large, height: .large)
                 }
                 Spacer()
-                Text(user.isReadyToPlay ? "Готовий" : "Очікує")
+                Text(user.state == .ready ? "Готовий" : "Очікує")
                     .font(.bodyTertiary)
                     .foregroundColor(.white)
                     .padding(.vertical, 6)
                     .frame(width: 76)
-                    .background(user.isReadyToPlay ? Color.readyGreen : .pendingYellow)
+                    .background(user.state == .ready ? Color.readyGreen : .pendingYellow)
                     .cornerRadius(4)
             }
             .padding(.horizontal, 4)
@@ -46,9 +46,12 @@ struct LobbyRow_Previews: PreviewProvider {
         LobbyRow(
             user: .constant(
                 .init(
-                    name: "Гриць",
-                    isGameOwner: true,
-                    isReadyToPlay: true
+                    id: "1",
+                    nickname: "Гриць",
+                    gameOwner: true,
+                    cards: [],
+                    score: 0,
+                    state: .ready
                 )
             )
         )

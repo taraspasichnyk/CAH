@@ -10,29 +10,16 @@ import SwiftUI
 import shared
 
 struct LobbyView: View {
-    @Binding var navState: [NavigationState]
     @EnvironmentObject private var alert: AlertState
 
-    @State private var users: [UserInLobby] = [
-        .init(name: "Dmytro", isGameOwner: true, isReadyToPlay: false),
-        .init(name: "Taras", isGameOwner: false, isReadyToPlay: true),
-        .init(name: "Artem", isGameOwner: false, isReadyToPlay: true),
-        .init(name: "Oleksandr", isGameOwner: false, isReadyToPlay: false),
-        .init(name: "Andrii", isGameOwner: false, isReadyToPlay: true),
-        .init(name: "Oleh", isGameOwner: false, isReadyToPlay: false),
-        .init(name: "Patron", isGameOwner: false, isReadyToPlay: false),
-        .init(name: "Jerry", isGameOwner: false, isReadyToPlay: false),
-    ]
+    @State private var users: [UserInLobby] = []
+    @State private var roomCode: String = ""
 
-    private let shareController: PasteboardControlling
-    private let roomCode = "00212314" // TODO: Get actual code from state
+    private let vm: LobbyViewModel
 
-    init(
-        navState: Binding<[NavigationState]>,
-        shareController: PasteboardControlling = PasteboardController.shared
-    ) {
-        self._navState = navState
-        self.shareController = shareController
+    init(vm: LobbyViewModel) {
+        self.vm = vm
+//        self.roomCode = (vm.state.value as? LobbyContractState)?.code ?? ""
     }
 
     // MARK: - Body
@@ -49,7 +36,7 @@ struct LobbyView: View {
                     }
                     Spacer()
                     IconButton(.copy) {
-                        shareController.copyToPasteboard(roomCode)
+                        vm.onCodeCopyClicked()
                     }
                     .square(.larger)
                     Spacer()
@@ -80,13 +67,11 @@ struct LobbyView: View {
             Spacer()
             HStack {
                 BackButton {
-                    // TODO: Replace with call to viewmodel
-                    _ = navState.popLast()
+                    vm.onBackPressed()
                 }
                 Spacer()
                 PrimaryButton("Готовий") {
-                    // TODO: Replace with call to viewmodel
-                    alert.isPresentingNoFeature = true
+                    vm.onNextClicked()
                 }
                 .disabled(
                     !users.allSatisfy(\.isReadyToPlay)
@@ -98,6 +83,24 @@ struct LobbyView: View {
             .padding(.bottom, .extraLarge)
             .ignoresSafeArea(.all)
         }
+        .onAppear {
+            subscribeToState()
+        }
+    }
+}
+
+// MARK: - Private
+
+extension LobbyView {
+    private func subscribeToState() {
+        AnyFlow<LobbyContractState>(source: vm.state).collect { state in
+            guard let state else { return }
+            users = state.users
+            roomCode = state.code
+            // TODO: Add check for ready button text and availability
+        } onCompletion: { _ in
+        }
+
     }
 }
 
@@ -105,7 +108,7 @@ struct LobbyView: View {
 
 struct LobbyView_Previews: PreviewProvider {
     static var previews: some View {
-        LobbyView(navState: .constant([]))
+        LobbyView(vm: .init(gameOwner: false))
             .environmentObject(AlertState())
     }
 }

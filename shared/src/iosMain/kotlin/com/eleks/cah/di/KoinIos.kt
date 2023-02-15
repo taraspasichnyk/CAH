@@ -8,6 +8,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
+import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -15,11 +16,8 @@ actual val viewModelModule: Module
     get() = module {
         single { GameViewModel() }
         single { MenuViewModel() }
-        single(named("lobbyOwner")) {
-            LobbyViewModel(true)
-        }
-        single(named("lobby")) {
-            LobbyViewModel(false)
+        factory {
+            LobbyViewModel(it.get())
         }
     }
 
@@ -35,7 +33,16 @@ object Injector : KoinComponent {
     val gameViewModel: GameViewModel by inject()
     val anonymousLogin: AnonymousLoginUseCase by inject()
 
-    // Temporary solution until we find a better way to do it
-    val lobbyOwnerViewModel: LobbyViewModel by inject(named("lobbyOwner"))
-    val lobbyViewModel: LobbyViewModel by inject(named("lobby"))
+    val lobbyOwnerViewModel: LobbyViewModel
+        get() {
+            val vm: LobbyViewModel by inject { parametersOf(true) }
+            return vm
+        }
+
+
+    val lobbyViewModel: LobbyViewModel
+        get() {
+            val vm: LobbyViewModel by inject { parametersOf(false) }
+            return vm
+        }
 }

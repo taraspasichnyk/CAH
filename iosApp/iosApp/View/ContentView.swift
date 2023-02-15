@@ -37,9 +37,10 @@ extension ContentView {
         }
     }
 
-    private func map(state: GameContractGameState) -> AnyView {
+    @ViewBuilder
+    private func map(state: GameContractGameState) -> some View {
         switch state {
-        case is GameContractGameState.InMenu: return AnyView(
+        case is GameContractGameState.InMenu:
             MainMenuView(vm: menuVm)
                 .navigationDestination(for: NavigationState.self, destination: { path in
                     switch path {
@@ -55,14 +56,14 @@ extension ContentView {
                         EmptyView()
                     }
                 })
-        )
-        case is GameContractGameState.InLobby: return AnyView(VStack{})
-        case is GameContractGameState.InRoomCreation: return AnyView(VStack{
+        case is GameContractGameState.InLobby:
+            VStack {}
+        case is GameContractGameState.InRoomCreation:
             EnterScreenView(navState: $navState, stage: .playerName)
-        })
-        case is GameContractGameState.InSettings: return AnyView(VStack{})
+        case is GameContractGameState.InSettings:
+            VStack{}
         default:
-            return AnyView(VStack{})
+            VStack{}
         }
     }
 

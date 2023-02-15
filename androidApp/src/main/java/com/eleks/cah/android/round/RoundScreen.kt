@@ -1,23 +1,32 @@
 package com.eleks.cah.android.round
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.eleks.cah.android.AppTheme
 import com.eleks.cah.android.R.*
@@ -27,20 +36,16 @@ import com.eleks.cah.android.widgets.ConflictCard
 import com.eleks.cah.android.widgets.GameHeader
 import com.eleks.cah.android.widgets.GameLabelSize
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.rememberPagerState
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun RoundScreen(cards: List<Card>, roundNumber: Int) {
-    val state = rememberPagerState()
     val scope = rememberCoroutineScope()
-    val itemWidth = AppTheme.dimens.cardWidth
-    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
-    val contentPadding = PaddingValues(
-        start = 100.dp, end = 100.dp
-    )
+    var currentCard by remember {
+        mutableStateOf(0)
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -56,9 +61,11 @@ fun RoundScreen(cards: List<Card>, roundNumber: Int) {
                 gameLabelSize = GameLabelSize.SMALL,
                 headerHeight = AppTheme.dimens.headerSize
             )
+
             Spacer(
                 modifier = Modifier.height(AppTheme.dimens.sizeMedium)
             )
+
             Text(
                 text = stringResource(id = string.round, roundNumber),
                 textAlign = TextAlign.Center,
@@ -66,20 +73,19 @@ fun RoundScreen(cards: List<Card>, roundNumber: Int) {
                 style = txtSemibold16,
                 color = Color.Black
             )
-            Spacer(
-                modifier = Modifier.height(AppTheme.dimens.sizeMedium)
-            )
+
+            Spacer(modifier = Modifier.height(AppTheme.dimens.sizeMedium))
+
             ConflictCard(
                 cardText = stringResource(id = string.master_card_placeholder),
                 isMasterCard = true,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
+
             Spacer(
-                modifier = Modifier
-                    .defaultMinSize(
-                        minHeight = AppTheme.dimens.sizeMedium
-                    )
+                modifier = Modifier.defaultMinSize(minHeight = AppTheme.dimens.sizeMedium)
             )
+
             Text(
                 text = stringResource(id = string.choose_answer),
                 textAlign = TextAlign.Center,
@@ -87,69 +93,179 @@ fun RoundScreen(cards: List<Card>, roundNumber: Int) {
                 style = txtRegular11,
                 color = Color.Black
             )
-            Spacer(
-                modifier = Modifier
-                    .height(AppTheme.dimens.sizeMedium)
+
+            UserHand(
+                cards = cards,
+                coroutineScope = scope,
+                onCardChosen = {
+                    currentCard = it
+                }
             )
-            Box {
-                HorizontalPager(
-                    count = cards.size,
-                    state = state,
-                    contentPadding = contentPadding,
-                    itemSpacing = 0.dp,
-                    modifier = Modifier
-                        .wrapContentHeight()
-                        .wrapContentWidth()
-                ) { page ->
-                    if (page != 0) {
-                        ConflictCard(
-                            cardText = stringResource(id = string.miy_instrument),
-                            modifier = Modifier
-                                .rotate(page * 20f)
-                                .clickable {
-                                    scope.launch {
-                                        state.animateScrollToPage(page)
-                                    }
-                                }
-                        )
+        }
+
+        ChooseButton(modifier = Modifier.align(Alignment.BottomCenter))
+    }
+}
+
+
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+fun UserHand(
+    cards: List<Card>,
+    coroutineScope: CoroutineScope,
+    onCardChosen: (Int) -> Unit
+) {
+    val switchCardButtonSize = AppTheme.dimens.actionButtonSize
+
+    Box(modifier = Modifier.wrapContentSize()) {
+        val pagerState = rememberPagerState()
+
+        UserCards(cards = cards, pagerState = pagerState, onScroll = {
+            coroutineScope.launch {
+                pagerState.animateScrollToPage(it)
+                onCardChosen.invoke(it)
+            }
+        })
+
+        Icon(
+            painter = painterResource(id = drawable.ic_back),
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .clickable(
+                    interactionSource = MutableInteractionSource(),
+                    indication = null
+                ) {
+                    coroutineScope.launch {
+                        val previousPage = (pagerState.currentPage - 1)
+                            .coerceAtLeast(0)
+                        pagerState.animateScrollToPage(previousPage)
+                        onCardChosen.invoke(previousPage)
                     }
                 }
-
-                ConflictCard(
-                    cardText = stringResource(id = string.miy_instrument),
-                    modifier = Modifier
-                        .clickable {
-                            scope.launch {
-                                state.animateScrollToPage(0)
-                            }
-                        }
-                        .align(Alignment.Center)
-                )
-            }
-
-            Spacer(modifier = Modifier.height(AppTheme.dimens.headerSize))
-        }
-
-        Button(
-            shape = RectangleShape,
-            onClick = { },
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = MaterialTheme.colors.primary,
-            ),
-            modifier = Modifier
-                .padding(bottom = AppTheme.dimens.sizeMedium)
-                .align(Alignment.BottomCenter)
-        ) {
-            Text(
-                text = stringResource(string.choose),
-                color = MaterialTheme.colors.secondary,
-                modifier = Modifier.padding(
-                    horizontal = AppTheme.dimens.sizeBig,
-                    vertical = AppTheme.dimens.sizeSmall
+                .padding(
+                    horizontal = switchCardButtonSize,
+                    vertical = switchCardButtonSize * 2
                 ),
-                style = labelMedium
-            )
+            contentDescription = null
+        )
+
+        Icon(
+            painter = painterResource(id = drawable.ic_back),
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .rotate(180f)
+                .clickable(
+                    interactionSource = MutableInteractionSource(),
+                    indication = null
+                ) {
+                    coroutineScope.launch {
+                        val nextPage = (pagerState.currentPage + 1)
+                            .coerceAtMost(pagerState.pageCount - 1)
+                        pagerState.animateScrollToPage(nextPage)
+                        onCardChosen.invoke(nextPage)
+                    }
+                }
+                .padding(
+                    horizontal = switchCardButtonSize,
+                    vertical = switchCardButtonSize * 2
+                ),
+            contentDescription = null
+        )
+    }
+}
+
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+fun UserCards(
+    cards: List<Card>,
+    pagerState: PagerState,
+    modifier: Modifier = Modifier,
+    onScroll: (Int) -> Unit,
+    cardHeight: Dp = AppTheme.dimens.cardHeight
+) {
+    BoxWithConstraints(
+        modifier = modifier
+            .fillMaxWidth()
+            .graphicsLayer {
+                translationY = (-cardHeight.value)
+            }
+    ) {
+        val contentPadding = maxWidth / 4f
+        val itemSpacing = -(AppTheme.dimens.cardWidth / 2)
+        val buttonSize = AppTheme.dimens.actionButtonSize
+        val paddingFromParent = buttonSize.value * 1.5f
+        val transY = AppTheme.dimens.cardHeight.value.minus(paddingFromParent)
+
+        HorizontalPager(
+            count = cards.count(),
+            contentPadding = PaddingValues(horizontal = contentPadding),
+            modifier = Modifier.height(cardHeight * 2f),
+            itemSpacing = itemSpacing,
+            state = pagerState,
+            elevationType = PageElevation.FOCUSED_ABOVE
+        ) { page ->
+            Box(
+                modifier = Modifier
+                    .graphicsLayer {
+                        val pageOffset = calculateCurrentOffsetForPage(page)
+                        //val pageOffsetAbsolute = pageOffset.absoluteValue
+                        //val percentFromCenter = 1.0f - (pageOffsetAbsolute / (5f / 2f))
+                        //val itemScale = 0.5f + (percentFromCenter * 0.5f).coerceIn(0f, 1f)
+
+                        scaleY = if (pagerState.currentPage == page) {
+                            1f
+                        } else {
+                            0.75f
+                        }
+                        scaleX = if (pagerState.currentPage == page) {
+                            1f
+                        } else {
+                            0.75f
+                        }
+                        rotationZ = if (pagerState.currentPage == page) {
+                            0f
+                        } else {
+                            pageOffset.coerceIn(-1f, 1f) * -7f
+                        }
+                        translationY = if (pagerState.currentPage == page) {
+                            -paddingFromParent
+                        } else {
+                            transY
+                        }
+                    }
+                    .clickable(
+                        interactionSource = MutableInteractionSource(),
+                        indication = null,
+                        enabled = true,
+                    ) {
+                        onScroll.invoke(page)
+                    }) {
+                ConflictCard(cardText = cards[page].text)
+            }
         }
+    }
+}
+
+@Composable
+fun ChooseButton(modifier: Modifier = Modifier) {
+    Button(
+        shape = RectangleShape,
+        onClick = { },
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = MaterialTheme.colors.primary,
+        ),
+        modifier = modifier
+            .padding(bottom = AppTheme.dimens.sizeMedium)
+    ) {
+        Text(
+            text = stringResource(string.choose),
+            color = MaterialTheme.colors.secondary,
+            modifier = Modifier.padding(
+                horizontal = AppTheme.dimens.sizeBig,
+                vertical = AppTheme.dimens.sizeSmall
+            ),
+            style = labelMedium
+        )
     }
 }
 
@@ -162,3 +278,16 @@ fun cardPaddings(): PaddingValues =
         bottom = AppTheme.dimens.sizeSmall
     )
 
+
+@Preview(showBackground = true)
+@Composable
+fun UserCardPreview() {
+    ConflictCard(cardText = stringResource(id = string.miy_instrument))
+}
+
+@OptIn(ExperimentalPagerApi::class)
+@Preview(showBackground = true)
+@Composable
+fun HorizontalPager() {
+    UserCards(cards = listOf(), pagerState = rememberPagerState(), onScroll = {})
+}

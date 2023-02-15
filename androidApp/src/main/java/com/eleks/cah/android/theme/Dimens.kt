@@ -12,6 +12,7 @@ data class Dimens(
     val sizeBig: Dp = 24.dp,
     val cardShadowYOffset: Dp = 12.dp,
     val headerSize: Dp = 112.dp,
+    val actionButtonSize: Dp = 32.dp,
     val ZERO: Dp = 0.dp
 )
 

@@ -2,18 +2,14 @@ package com.eleks.cah.data.repository
 
 import com.eleks.cah.data.extensions.roomOrException
 import com.eleks.cah.data.extensions.wordsCount
-import com.eleks.cah.data.model.AnswerCardDTO
-import com.eleks.cah.data.model.GameRoomDTO
-import com.eleks.cah.data.model.GameRoundDTO
-import com.eleks.cah.data.model.PlayerDTO
-import com.eleks.cah.data.model.QuestionCardDTO
+import com.eleks.cah.data.model.*
 import com.eleks.cah.domain.Constants.DB_REF_ANSWERS
-import com.eleks.cah.domain.exceptions.FailedToJoinRoomException
-import com.eleks.cah.domain.exceptions.RoomNotFoundException
 import com.eleks.cah.domain.Constants.DB_REF_CURRENT_ROUND
 import com.eleks.cah.domain.Constants.DB_REF_PLAYERS
 import com.eleks.cah.domain.Constants.DB_REF_ROOMS
 import com.eleks.cah.domain.Constants.DEFAULT_PLAYER_CARDS_AMOUNT
+import com.eleks.cah.domain.exceptions.FailedToJoinRoomException
+import com.eleks.cah.domain.exceptions.RoomNotFoundException
 import com.eleks.cah.domain.model.GameRound
 import com.eleks.cah.domain.model.Player
 import com.eleks.cah.domain.model.RoomID
@@ -32,7 +28,7 @@ class RoomsRepositoryImpl(
 
     override suspend fun createNewRoom(hostNickname: String): GameRoomDTO {
         val inviteCode = generateInviteCode()
-        val newRoom = GameRoomDTO(
+        var newRoom = GameRoomDTO(
             id = inviteCode,
             inviteCode = inviteCode,
             players = emptyMap(),
@@ -41,7 +37,8 @@ class RoomsRepositoryImpl(
             currentRound = null
         )
         roomsDbReference.child(inviteCode).setValue(newRoom)
-        addPlayerToRoom(hostNickname, inviteCode)
+        val gameOwner = addPlayerToRoom(hostNickname, inviteCode, true)
+        newRoom = newRoom.copy(players = mapOf(gameOwner.id to gameOwner))
         Napier.d(
             tag = TAG,
             message = "New room created, ID (inviteCode) = $inviteCode, host = $hostNickname"
@@ -230,27 +227,35 @@ class RoomsRepositoryImpl(
             }
     }
 
+    override suspend fun getRoomIfExist(roomID: RoomID): GameRoomDTO? {
+        return kotlin.runCatching {
+            roomsDbReference.roomOrException(roomID) {}
+        }.getOrNull()
+    }
+
     override suspend fun joinRoom(
         inviteCode: String,
         nickname: String
-    ) {
-        roomsDbReference.orderByKey()
+    ): PlayerDTO {
+        return roomsDbReference.orderByKey()
             .equalTo(inviteCode)
             .valueEvents
             .firstOrNull()?.takeIf { it.exists }?.let {
-                addPlayerToRoom(nickname, inviteCode)
+                addPlayerToRoom(nickname, inviteCode, false)
             } ?: throw RoomNotFoundException(inviteCode)
     }
 
     private suspend fun addPlayerToRoom(
         nickname: String,
-        roomId: RoomID
-    ) {
-        roomsDbReference.child(roomId).child(DB_REF_PLAYERS).push().let { dbRef ->
+        roomId: RoomID,
+        gameOwner: Boolean
+    ): PlayerDTO {
+        return roomsDbReference.child(roomId).child(DB_REF_PLAYERS).push().let { dbRef ->
             val uuid = dbRef.key ?: throw FailedToJoinRoomException(nickname, roomId)
             val newPlayer = PlayerDTO(
                 id = uuid,
                 nickname = nickname,
+                gameOwner = gameOwner,
                 cards = emptyList(),
                 score = 0,
                 state = Player.PlayerState.NOT_READY.toString(),
@@ -260,6 +265,7 @@ class RoomsRepositoryImpl(
                 tag = TAG,
                 message = "Player $nickname added to room $roomId"
             )
+            newPlayer
         }
     }
 

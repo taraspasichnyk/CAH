@@ -22,9 +22,9 @@ import com.eleks.cah.android.round.PreRoundScreen
 import com.eleks.cah.android.round.RoundScreen
 import com.eleks.cah.android.router.MainRoute
 import com.eleks.cah.init
+import com.eleks.cah.lobby.LobbyViewModel
 import kotlinx.coroutines.delay
 import org.koin.androidx.compose.getViewModel
-import org.koin.core.parameter.parametersOf
 
 class MainActivity : ComponentActivity() {
 
@@ -65,7 +65,9 @@ class MainActivity : ComponentActivity() {
                             val createNewGame =
                                 it.arguments?.getBoolean(MainRoute.Lobby.arguments.first()) ?: false
                             LobbyScreen(
-                                getViewModel(parameters = { parametersOf(createNewGame) }),
+                                getViewModel<LobbyViewModel>().apply {
+                                    gameOwner = createNewGame
+                                },
                                 navController
                             )
                         }

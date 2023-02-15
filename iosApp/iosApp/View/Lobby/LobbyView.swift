@@ -12,7 +12,7 @@ import shared
 struct LobbyView: View {
     @EnvironmentObject private var alert: AlertState
 
-    @State private var users: [UserInLobby] = []
+    @State private var users: [Player] = []
     @State private var roomCode: String = ""
 
     private let vm: LobbyViewModel
@@ -53,8 +53,7 @@ struct LobbyView: View {
 
                 ScrollView(.vertical) {
                     LazyVStack {
-                        // TODO: use id instead
-                        ForEach(Array(users.enumerated()), id: \.offset) {
+                        ForEach(Array(users.enumerated()), id: \.element.id) {
                             LobbyRow(offset: $0, user: $1)
                         }
                     }
@@ -74,7 +73,9 @@ struct LobbyView: View {
                     vm.onNextClicked()
                 }
                 .disabled(
-                    !users.allSatisfy(\.isReadyToPlay)
+                    !users.allSatisfy {
+                        $0.state == .ready
+                    }
                 )
             }
             .padding(.top, .large)

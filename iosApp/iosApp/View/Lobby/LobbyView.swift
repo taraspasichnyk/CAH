@@ -19,7 +19,6 @@ struct LobbyView: View {
 
     init(vm: LobbyViewModel) {
         self.vm = vm
-//        self.roomCode = (vm.state.value as? LobbyContractState)?.code ?? ""
     }
 
     // MARK: - Body
@@ -54,8 +53,9 @@ struct LobbyView: View {
 
                 ScrollView(.vertical) {
                     LazyVStack {
-                        ForEach($users, id: \.name) {
-                            LobbyRow(user: $0)
+                        // TODO: use id instead
+                        ForEach(Array(users.enumerated()), id: \.offset) {
+                            LobbyRow(offset: $0, user: $1)
                         }
                     }
                 }
@@ -100,7 +100,6 @@ extension LobbyView {
             // TODO: Add check for ready button text and availability
         } onCompletion: { _ in
         }
-
     }
 }
 

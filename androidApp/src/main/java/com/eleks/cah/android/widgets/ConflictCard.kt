@@ -16,14 +16,26 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.eleks.cah.android.AppTheme
 import com.eleks.cah.android.round.cardPaddings
 import com.eleks.cah.android.round.dropShadow
-import com.eleks.cah.android.theme.*
+import com.eleks.cah.android.theme.Gallery
+import com.eleks.cah.android.theme.GalleryGrey
+import com.eleks.cah.android.theme.MineShaft
+import com.eleks.cah.android.theme.MineShaftDark
+import com.eleks.cah.android.theme.ShadowColor
+import com.eleks.cah.android.theme.White50
 
 @Composable
-fun ConflictCard(cardText: String, modifier: Modifier = Modifier, isMasterCard: Boolean = false) {
+fun ConflictCard(
+    cardText: String,
+    modifier: Modifier = Modifier,
+    isMasterCard: Boolean = false,
+    cardWidth: Dp = AppTheme.dimens.cardWidth,
+    cardHeight: Dp = AppTheme.dimens.cardHeight
+) {
     val gradientCard = if (isMasterCard) {
         remember { listOf(MineShaftDark, MineShaft) }
     } else {
@@ -38,16 +50,15 @@ fun ConflictCard(cardText: String, modifier: Modifier = Modifier, isMasterCard: 
             .dropShadow(
                 color = ShadowColor,
                 borderRadius = AppTheme.dimens.sizeSmall,
-                    blur = AppTheme.dimens.sizeMedium,
+                blur = AppTheme.dimens.sizeMedium,
                 offsetX = AppTheme.dimens.ZERO,
                 offsetY = AppTheme.dimens.cardShadowYOffset,
                 spread = AppTheme.dimens.ZERO
-            ),
-        contentAlignment = Alignment.TopCenter
+            ), contentAlignment = Alignment.TopCenter
     ) {
         Box(
             modifier = Modifier
-                .size(AppTheme.dimens.cardWidth, AppTheme.dimens.cardHeight)
+                .size(cardWidth, cardHeight)
                 .clip(MaterialTheme.shapes.medium)
                 .background(brush = Brush.linearGradient(gradientCard))
                 .padding(cardPaddings()),

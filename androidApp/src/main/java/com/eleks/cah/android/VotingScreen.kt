@@ -2,7 +2,6 @@ package com.eleks.cah.android
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.pager.HorizontalPager
@@ -20,11 +19,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.eleks.cah.android.model.Card
-import com.eleks.cah.android.round.ConflictCard
 import com.eleks.cah.android.theme.RoseWhite40
 import com.eleks.cah.android.theme.labelLarge
+import com.eleks.cah.android.widgets.ConflictCard
 import com.eleks.cah.android.widgets.GameHeader
-import kotlinx.coroutines.launch
 
 @Preview
 @Composable

@@ -54,9 +54,8 @@ fun LobbyScreen(lobbyViewModel: LobbyViewModel, navController: NavHostController
                     context.startActivity(shareIntent)
                 }
                 is Navigation.YourCardsScreen -> {
-                    //TODO navigate to needed screen
                     navController.popBackStack(route = MainRoute.Menu(), inclusive = false)
-                    navController.navigate(MainRoute.PreRoundScreen.getPath(1))
+                    navController.navigate(MainRoute.UserCardsScreen())
                 }
                 is Navigation.MenuScreen -> {
                     navController.popBackStack()

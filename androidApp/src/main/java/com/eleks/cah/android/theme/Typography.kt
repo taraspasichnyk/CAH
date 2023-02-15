@@ -76,6 +76,11 @@ val txtMedium16 = getDefaultTextStyle(
     fontWeight = FontWeight.Medium,
 )
 
+val txtSemibold24 = getDefaultTextStyle(
+    fontWeight = FontWeight.SemiBold,
+    fontSize = 24.sp,
+)
+
 val txtSemibold32 = getDefaultTextStyle(
     fontWeight = FontWeight.SemiBold,
     fontSize = 32.sp,

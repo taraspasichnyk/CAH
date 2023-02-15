@@ -42,6 +42,7 @@ import com.eleks.cah.android.R.*
 import com.eleks.cah.android.model.Card
 import com.eleks.cah.android.pxToDp
 import com.eleks.cah.android.theme.*
+import com.eleks.cah.android.widgets.ConflictCard
 import com.eleks.cah.android.widgets.GameHeader
 import com.eleks.cah.android.widgets.GameLabelSize
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -325,46 +326,6 @@ fun ChooseButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
             ),
             style = labelMedium
         )
-    }
-}
-
-@Composable
-fun ConflictCard(cardText: String, modifier: Modifier = Modifier, isMasterCard: Boolean = false) {
-    val gradientCard = if (isMasterCard) {
-        remember { listOf(MineShaftDark, MineShaft) }
-    } else {
-        remember { listOf(Gallery, White50, GalleryGrey) }
-    }
-
-    Box(
-        modifier = modifier
-            .wrapContentSize()
-            .background(Color.Transparent)
-            .shadow(0.dp)
-            .dropShadow(
-                color = ShadowColor,
-                borderRadius = AppTheme.dimens.sizeSmall,
-                blur = AppTheme.dimens.sizeMedium,
-                offsetX = AppTheme.dimens.ZERO,
-                offsetY = AppTheme.dimens.cardShadowYOffset,
-                spread = AppTheme.dimens.ZERO
-            ),
-        contentAlignment = Alignment.TopCenter
-    ) {
-        Box(
-            modifier = Modifier
-                .size(AppTheme.dimens.cardWidth, AppTheme.dimens.cardHeight)
-                .clip(MaterialTheme.shapes.medium)
-                .background(brush = Brush.linearGradient(gradientCard))
-                .padding(cardPaddings()),
-            contentAlignment = Alignment.TopCenter
-        ) {
-            Text(
-                cardText,
-                color = if (isMasterCard) Color.White else Color.Black,
-                textAlign = TextAlign.Center
-            )
-        }
     }
 }
 

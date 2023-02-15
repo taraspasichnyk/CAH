@@ -21,6 +21,7 @@ import com.eleks.cah.android.model.Card
 import com.eleks.cah.android.round.PreRoundScreen
 import com.eleks.cah.android.round.RoundScreen
 import com.eleks.cah.android.router.MainRoute
+import com.eleks.cah.android.user_cards.UserCardsScreen
 import com.eleks.cah.init
 import com.eleks.cah.lobby.LobbyViewModel
 import kotlinx.coroutines.delay
@@ -70,6 +71,12 @@ class MainActivity : ComponentActivity() {
                                 },
                                 navController
                             )
+                        }
+
+                        composable(
+                            route = MainRoute.UserCardsScreen()
+                        ) {
+                            UserCardsScreen()
                         }
 
                         composable(

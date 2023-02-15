@@ -64,6 +64,8 @@ fun EnterCode(lobbyViewModel: LobbyViewModel) {
             Spacer(Modifier.weight(1f))
             EnterCodeView(lobbyViewModel)
             Spacer(Modifier.weight(1f))
+            val state by lobbyViewModel.state.collectAsState()
+            val focusManager = LocalFocusManager.current
             NavigationView(
                 modifier = Modifier.fillMaxWidth().padding(
                     start = dimensionResource(R.dimen.padding_36),
@@ -71,10 +73,15 @@ fun EnterCode(lobbyViewModel: LobbyViewModel) {
                     bottom = dimensionResource(R.dimen.padding_44)
                 ),
                 actionButtonText = R.string.label_next,
+                backButtonEnabled = !state.isLoading,
+                actionButtonEnabled = state.isNextButtonEnabled,
+                isActionButtonLoading = state.isLoading,
                 onBackButtonClick = {
+                    focusManager.clearFocus()
                     lobbyViewModel.onBackPressed()
                 },
                 onActionButtonClick = {
+                    focusManager.clearFocus()
                     lobbyViewModel.onNextClicked()
                 },
             )
@@ -99,7 +106,7 @@ private fun EnterCodeView(lobbyViewModel: LobbyViewModel) {
             end = dimensionResource(R.dimen.padding_big)
         )
     ) {
-        val textState by lobbyViewModel.state.collectAsState()
+        val state by lobbyViewModel.state.collectAsState()
         val focusManager = LocalFocusManager.current
         OutlinedTextField(
             colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -115,10 +122,10 @@ private fun EnterCodeView(lobbyViewModel: LobbyViewModel) {
             keyboardActions = KeyboardActions(
                 onGo = {
                     focusManager.clearFocus()
-                    lobbyViewModel.onNextClicked()
+                    if (state.isNextButtonEnabled) lobbyViewModel.onNextClicked()
                 }
             ),
-            value = textState.code,
+            value = state.code,
             singleLine = true,
             placeholder = {
                 Text(
@@ -130,7 +137,8 @@ private fun EnterCodeView(lobbyViewModel: LobbyViewModel) {
 
             onValueChange = { lobbyViewModel.validateCode(it) },
             shape = inputShape,
-            textStyle = txtMedium16
+            textStyle = txtMedium16,
+            readOnly = state.isLoading
         )
     }
 }

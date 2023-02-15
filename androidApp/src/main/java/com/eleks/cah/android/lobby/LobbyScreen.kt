@@ -5,6 +5,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -18,14 +19,14 @@ import androidx.navigation.compose.rememberNavController
 import com.eleks.cah.android.R
 import com.eleks.cah.android.router.LobbyRoute
 import com.eleks.cah.android.router.MainRoute
-import com.eleks.cah.lobby.LobbyContract.Effect.CopyCode
-import com.eleks.cah.lobby.LobbyContract.Effect.Navigation
-import com.eleks.cah.lobby.LobbyContract.Effect.ShareCode
+import com.eleks.cah.lobby.LobbyContract.Effect.*
 import com.eleks.cah.lobby.LobbyViewModel
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun LobbyScreen(lobbyViewModel: LobbyViewModel, navController: NavHostController) {
+    BackHandler { lobbyViewModel.onBackPressed() }
+
     val context = LocalContext.current
     val innerNavController = rememberNavController()
     LaunchedEffect(key1 = Unit) {
@@ -68,6 +69,13 @@ fun LobbyScreen(lobbyViewModel: LobbyViewModel, navController: NavHostController
                 }
                 Navigation.UsersListScreen -> {
                     innerNavController.navigate(LobbyRoute.UserList.path)
+                }
+                is ShowError -> {
+                    Toast.makeText(
+                        context,
+                        effect.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }

@@ -51,31 +51,41 @@ private fun EnterNameScreenPreview() {
 }
 
 @Composable
-fun EnterName(
-    lobbyViewModel: LobbyViewModel,
-) {
+fun EnterName(lobbyViewModel: LobbyViewModel) {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
         GameHeader()
         Column(
-            modifier = Modifier.fillMaxSize().navigationBarsPadding().imePadding(),
+            modifier = Modifier
+                .fillMaxSize()
+                .navigationBarsPadding()
+                .imePadding(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(Modifier.weight(1f))
             EnterNameView(lobbyViewModel)
             Spacer(Modifier.weight(1f))
+            val state by lobbyViewModel.state.collectAsState()
+            val focusManager = LocalFocusManager.current
             NavigationView(
-                modifier = Modifier.fillMaxWidth().padding(
-                    start = dimensionResource(R.dimen.padding_36),
-                    end = dimensionResource(R.dimen.padding_36),
-                    bottom = dimensionResource(R.dimen.padding_44)
-                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = dimensionResource(R.dimen.padding_36),
+                        end = dimensionResource(R.dimen.padding_36),
+                        bottom = dimensionResource(R.dimen.padding_44)
+                    ),
                 actionButtonText = R.string.label_next,
+                backButtonEnabled = !state.isLoading,
+                actionButtonEnabled = state.isNextButtonEnabled,
+                isActionButtonLoading = state.isLoading,
                 onBackButtonClick = {
+                    focusManager.clearFocus()
                     lobbyViewModel.onBackPressed()
                 },
                 onActionButtonClick = {
+                    focusManager.clearFocus()
                     lobbyViewModel.onNextClicked()
                 },
             )
@@ -101,7 +111,7 @@ private fun EnterNameView(lobbyViewModel: LobbyViewModel) {
         )
     ) {
         val focusManager = LocalFocusManager.current
-        val textState by lobbyViewModel.state.collectAsState()
+        val state by lobbyViewModel.state.collectAsState()
         OutlinedTextField(
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 textColor = MaterialTheme.colors.primary,
@@ -116,9 +126,10 @@ private fun EnterNameView(lobbyViewModel: LobbyViewModel) {
             keyboardActions = KeyboardActions(
                 onGo = {
                     focusManager.clearFocus()
+                    if (state.isNextButtonEnabled) lobbyViewModel.onNextClicked()
                 }
             ),
-            value = textState.name,
+            value = state.name,
             singleLine = true,
             placeholder = {
                 Text(
@@ -130,7 +141,8 @@ private fun EnterNameView(lobbyViewModel: LobbyViewModel) {
 
             onValueChange = { lobbyViewModel.validateName(it) },
             shape = inputShape,
-            textStyle = txtMedium16
+            textStyle = txtMedium16,
+            readOnly = state.isLoading
         )
     }
 }

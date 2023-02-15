@@ -100,13 +100,11 @@ class MainActivity : ComponentActivity() {
                             it.arguments?.getInt(MainRoute.Round.arguments.first())
                                 ?.let { round ->
                                     RoundScreen(
-                                        listOf(
-                                            Card(text = stringResource(id = R.string.miy_instrument)),
-                                            Card(text = stringResource(id = R.string.miy_instrument)),
-                                            Card(text = stringResource(id = R.string.miy_instrument)),
-                                            Card(text = stringResource(id = R.string.miy_instrument)),
-                                            Card(text = stringResource(id = R.string.miy_instrument)),
-                                        ), round
+                                        buildList {
+                                            repeat(6) {
+                                                add(Card(text = stringResource(id = R.string.miy_instrument) + " $it"))
+                                            }
+                                        }, round
                                     )
                                 }
                         }

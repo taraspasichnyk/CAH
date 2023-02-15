@@ -1,3 +1,3 @@
 package com.eleks.cah.android
 
-const val ROUND_TIMEOUT = 500L
+const val ROUND_TIMEOUT = 5000L

@@ -12,32 +12,46 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.eleks.cah.android.game.GameScreen
 import com.eleks.cah.android.lobby.LobbyScreen
 import com.eleks.cah.android.model.Card
 import com.eleks.cah.android.round.PreRoundScreen
 import com.eleks.cah.android.round.RoundScreen
 import com.eleks.cah.android.router.MainRoute
 import com.eleks.cah.android.vote.VotingScreen
+import com.eleks.cah.domain.usecase.login.AnonymousLoginUseCase
 import com.eleks.cah.init
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.inject
 import org.koin.androidx.scope.scope
 import org.koin.core.parameter.parametersOf
 
 class MainActivity : ComponentActivity() {
 
+    private val anonymousLoginUseCase: AnonymousLoginUseCase by inject()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
+        lifecycleScope.launch {
+            anonymousLoginUseCase.invoke()
+        }
         setStatusBarLight()
         init()
         setContent {
             MyApplicationTheme {
+                LaunchedEffect(key1 = "") {
+
+                }
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
@@ -46,7 +60,7 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(
                         navController = navController,
-                        startDestination = MainRoute.PostRoundScreen.path,
+                        startDestination = MainRoute.Menu.path,
                     ) {
                         composable(route = MainRoute.Menu()) {
                             Menu(
@@ -74,67 +88,9 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable(
-                            route = MainRoute.PreRoundScreen(),
-                            arguments = listOf(
-                                navArgument(MainRoute.PreRoundScreen.arguments.first()) {
-                                    type = NavType.IntType
-                                }
-                            )
+                            route = MainRoute.Game.path,
                         ) {
-                            it.arguments?.getInt(MainRoute.PreRoundScreen.arguments.first())
-                                ?.let { round ->
-                                    PreRoundScreen(roundNumber = round)
-
-                                    LaunchedEffect(Unit) {
-                                        delay(ROUND_TIMEOUT)
-                                        navController.navigate(MainRoute.Round.getPath(round))
-                                    }
-                                }
-                        }
-
-                        composable(
-                            route = MainRoute.Round(),
-                            arguments = listOf(
-                                navArgument(MainRoute.Round.arguments.first()) {
-                                    type = NavType.IntType
-                                }
-                            )
-                        ) {
-                            it.arguments?.getInt(MainRoute.Round.arguments.first())
-                                ?.let { round ->
-                                    RoundScreen(
-                                        listOf(
-                                            Card(text = stringResource(id = R.string.miy_instrument)),
-                                            Card(text = stringResource(id = R.string.miy_instrument)),
-                                            Card(text = stringResource(id = R.string.miy_instrument)),
-                                            Card(text = stringResource(id = R.string.miy_instrument)),
-                                            Card(text = stringResource(id = R.string.miy_instrument)),
-                                        ), round
-                                    )
-                                }
-                        }
-
-                        composable(
-                            MainRoute.PostRoundScreen.path,
-                            arguments = listOf(
-                                navArgument("number") {
-                                    type = NavType.IntType
-                                }
-                            )
-                        ) {
-                            it.arguments?.getInt("number")?.let { number ->
-                                VotingScreen(
-                                    number,
-                                    onTimeout = {
-                                        Toast.makeText(this@MainActivity, "onTimeout", Toast.LENGTH_LONG)
-                                            .show()
-                                    },
-                                    onLastVote = {
-                                        Toast.makeText(this@MainActivity, "last item voted", Toast.LENGTH_LONG)
-                                            .show()
-                                    }
-                                )
-                            }
+                            GameScreen()
                         }
                     }
                 }

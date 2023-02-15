@@ -43,6 +43,7 @@ fun LobbyScreen(lobbyViewModel: LobbyViewModel, navController: NavHostController
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+
                 is ShareCode -> {
                     val sendIntent: Intent = Intent().apply {
                         action = Intent.ACTION_SEND
@@ -52,20 +53,25 @@ fun LobbyScreen(lobbyViewModel: LobbyViewModel, navController: NavHostController
                     val shareIntent = Intent.createChooser(sendIntent, null)
                     context.startActivity(shareIntent)
                 }
+
                 is Navigation.YourCardsScreen -> {
                     //TODO navigate to needed screen
                     navController.popBackStack(route = MainRoute.Menu(), inclusive = false)
-                    navController.navigate(MainRoute.PreRoundScreen.getPath(1))
+                    navController.navigate(MainRoute.Game.path)
                 }
+
                 is Navigation.MenuScreen -> {
                     navController.popBackStack()
                 }
+
                 Navigation.EnterCodeScreen -> {
                     innerNavController.navigate(LobbyRoute.EnterCode.path)
                 }
+
                 Navigation.EnterNameScreen -> {
                     innerNavController.navigate(LobbyRoute.EnterName.path)
                 }
+
                 Navigation.UsersListScreen -> {
                     innerNavController.navigate(LobbyRoute.UserList.path)
                 }

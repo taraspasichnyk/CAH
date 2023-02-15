@@ -2,22 +2,19 @@ package com.eleks.cah.game
 
 import com.eleks.cah.base.UiEffect
 import com.eleks.cah.base.UiState
+import com.eleks.cah.domain.model.GameRoom
 
 interface GameContract   {
-    sealed class GameState : UiState {
-        object InMenu : GameState()
-        object InRoomCreation : GameState()
-        object InLobby : GameState()
-        object InSettings: GameState()
+    data class State(
+        val room: GameRoom? = null
+    ) : UiState
 
-        sealed class Game: GameState(){
+    sealed class Effect : UiEffect {
 
-        }
 
-        sealed class Lobby: GameState(){
-
+        sealed class Navigation : Effect() {
+            object Round : Navigation()
+            object Voting : Navigation()
         }
     }
-
-    object GameEffect: UiEffect
 }

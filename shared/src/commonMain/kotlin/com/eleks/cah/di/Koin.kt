@@ -20,6 +20,8 @@ import com.eleks.cah.domain.usecase.player_state.UpdatePlayerStateUseCase
 import com.eleks.cah.domain.usecase.player_state.UpdatePlayerStateUseCaseImpl
 import com.eleks.cah.domain.usecase.room.GetRoomUseCase
 import com.eleks.cah.domain.usecase.room.GetRoomUseCaseImpl
+import com.eleks.cah.domain.usecase.room_exist.RoomExistUseCase
+import com.eleks.cah.domain.usecase.room_exist.RoomExistUseCaseImpl
 import com.eleks.cah.domain.usecase.vote.VoteUseCase
 import com.eleks.cah.domain.usecase.vote.VoteUseCaseImpl
 import dev.gitlive.firebase.Firebase
@@ -70,6 +72,11 @@ private val domainModule by lazy {
 
         single<GetRoomUseCase> {
             GetRoomUseCaseImpl(
+                roomsRepository = get()
+            )
+        }
+        single<RoomExistUseCase> {
+            RoomExistUseCaseImpl(
                 roomsRepository = get()
             )
         }

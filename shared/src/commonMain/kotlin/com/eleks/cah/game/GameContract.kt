@@ -13,7 +13,6 @@ interface GameContract   {
 
 
         sealed class Navigation : Effect() {
-            object Round : Navigation()
             object Voting : Navigation()
         }
     }

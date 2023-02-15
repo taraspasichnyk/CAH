@@ -6,7 +6,7 @@ import com.eleks.cah.domain.model.*
 fun GameRoomDTO.toModel() = GameRoom(
     id = id,
     inviteCode = inviteCode,
-    players = players.values.map { it.toModel() },
+    players = players.values.map { it.toModel() }.sortedBy { !it.gameOwner },
     questions = questions.map { it.toModel() },
     answers = answers.map { it.toModel() },
     currentRound = currentRound?.toModel(),
@@ -15,6 +15,7 @@ fun GameRoomDTO.toModel() = GameRoom(
 fun PlayerDTO.toModel() = Player(
     id = id,
     nickname = nickname,
+    gameOwner = gameOwner,
     cards = cards.map { it.toModel() },
     score = score,
     state = Player.PlayerState.valueOf(state),

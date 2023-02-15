@@ -6,13 +6,16 @@ import com.eleks.cah.domain.usecase.room.GetRoomUseCase
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class GameViewModel(
-    private val getRoom: GetRoomUseCase,
-    private val startRound: StartNextRoundUseCase
-) :
-    BaseViewModel<GameContract.State, GameContract.Effect>(GameContract.State(null)),
+    private val roomId: String
+) : BaseViewModel<GameContract.State, GameContract.Effect>(GameContract.State(null)),
     KoinComponent {
+
+    private val getRoom: GetRoomUseCase by inject()
+    private val startRound: StartNextRoundUseCase by inject()
+
     fun startNewRound() {
         scope.launch {
             state.value.room?.id?.let {
@@ -23,7 +26,7 @@ class GameViewModel(
 
     init {
         scope.launch {
-            getRoom("104462", this).collectLatest {
+            getRoom(roomId, this).collectLatest {
                 setState {
                     state.value.copy(
                         room = it

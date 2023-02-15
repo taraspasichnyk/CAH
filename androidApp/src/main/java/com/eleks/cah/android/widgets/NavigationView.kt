@@ -8,13 +8,16 @@ import androidx.compose.material.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import com.eleks.cah.android.R
 
 @Composable
 fun NavigationView(
     modifier: Modifier = Modifier,
+    backButtonEnabled: Boolean = true,
     actionButtonEnabled: Boolean = true,
+    isActionButtonLoading: Boolean = false,
     @StringRes actionButtonText: Int,
     onBackButtonClick: () -> Unit,
     onActionButtonClick: () -> Unit
@@ -24,16 +27,25 @@ fun NavigationView(
         modifier = modifier
     ) {
         IconButton(
-            modifier = Modifier.bounceClick(),
+            modifier = Modifier.bounceClick(backButtonEnabled),
+            enabled = backButtonEnabled,
             onClick = {
                 onBackButtonClick()
             },
         ) {
-            Icon(painter = painterResource(id = R.drawable.ic_back), contentDescription = "")
+            Icon(
+                painter = painterResource(id = R.drawable.ic_back),
+                tint = Color.Unspecified,
+                contentDescription = ""
+            )
         }
         Spacer(modifier = Modifier.weight(1f))
-        BlackButton(text = actionButtonText, enabled = actionButtonEnabled, onClick = {
-            onActionButtonClick()
-        })
+        LoadingButton(
+            text = actionButtonText,
+            enabled = actionButtonEnabled,
+            isLoading = isActionButtonLoading,
+            onClick = {
+                onActionButtonClick()
+            })
     }
 }

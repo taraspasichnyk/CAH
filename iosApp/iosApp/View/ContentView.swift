@@ -42,20 +42,9 @@ extension ContentView {
         switch state {
         case is GameContractGameState.InMenu:
             MainMenuView(vm: menuVm)
-                .navigationDestination(for: NavigationState.self, destination: { path in
-                    switch path {
-                    case .enterName:
-                        EnterScreenView(navState: $navState, stage: .playerName)
-                            .textContentType(.name)
-                    case .enterCode:
-                        EnterScreenView(navState: $navState, stage: .roomCode)
-                            .textContentType(.oneTimeCode)
-                    case .lobby:
-                        LobbyView(navState: $navState)
-                    default:
-                        EmptyView()
-                    }
-                })
+                .navigationDestination(for: NavigationState.self) {
+                    mapNavigation(path: $0)
+                }
         case is GameContractGameState.InLobby:
             VStack {}
         case is GameContractGameState.InRoomCreation:
@@ -64,6 +53,22 @@ extension ContentView {
             VStack{}
         default:
             VStack{}
+        }
+    }
+
+    @ViewBuilder
+    private func mapNavigation(path: NavigationState) -> some View {
+        switch path {
+        case .enterName:
+            EnterScreenView(navState: $navState, stage: .playerName)
+                .textContentType(.name)
+        case .enterCode:
+            EnterScreenView(navState: $navState, stage: .roomCode)
+                .textContentType(.oneTimeCode)
+        case .lobby:
+            LobbyView(navState: $navState)
+        default:
+            EmptyView()
         }
     }
 

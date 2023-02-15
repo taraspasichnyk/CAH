@@ -6,6 +6,7 @@ import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.DecayAnimationSpec
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.rememberSplineBasedDecay
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.MutatePriority
 import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.gestures.ScrollScope
@@ -130,6 +131,7 @@ fun HorizontalPager(
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @ExperimentalPagerApi
 @Composable
 internal fun Pager(
@@ -225,6 +227,7 @@ internal fun Pager(
                         // See: https://github.com/google/accompanist/issues/347
                         .nestedScroll(connection = consumeFlingNestedScrollConnection)
                         .zIndex(zIndex)
+                        .animateItemPlacement()
                         // Constraint the content height to be <= than the height of the pager.
                         .fillParentMaxHeight()
                         .wrapContentSize()
@@ -265,6 +268,7 @@ internal fun Pager(
                         // See: https://github.com/google/accompanist/issues/347
                         .nestedScroll(connection = consumeFlingNestedScrollConnection)
                         .zIndex(zIndex)
+                        .animateItemPlacement()
                         // Constraint the content width to be <= than the width of the pager.
                         .fillParentMaxWidth()
                         .wrapContentSize()

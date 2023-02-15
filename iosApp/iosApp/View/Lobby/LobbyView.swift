@@ -13,15 +13,15 @@ struct LobbyView: View {
     @Binding var navState: [NavigationState]
     @EnvironmentObject private var alert: AlertState
 
-    @State private var users: [UserInLobby] = [
-        .init(name: "Dmytro", isGameOwner: true, isReadyToPlay: false),
-        .init(name: "Taras", isGameOwner: false, isReadyToPlay: true),
-        .init(name: "Artem", isGameOwner: false, isReadyToPlay: true),
-        .init(name: "Oleksandr", isGameOwner: false, isReadyToPlay: false),
-        .init(name: "Andrii", isGameOwner: false, isReadyToPlay: true),
-        .init(name: "Oleh", isGameOwner: false, isReadyToPlay: false),
-        .init(name: "Patron", isGameOwner: false, isReadyToPlay: false),
-        .init(name: "Jerry", isGameOwner: false, isReadyToPlay: false),
+    @State private var users: [Player] = [
+        .init(id: "a0", nickname: "Dmytro", gameOwner: true, cards: [], score: 0, state: .notReady),
+        .init(id: "b1", nickname: "Taras", gameOwner: false, cards: [], score: 0, state: .ready),
+        .init(id: "c2", nickname: "Artem", gameOwner: false, cards: [], score: 0, state: .ready),
+        .init(id: "d3", nickname: "Oleksandr", gameOwner: false, cards: [], score: 0, state: .notReady),
+        .init(id: "e4", nickname: "Andrii", gameOwner: false, cards: [], score: 0, state: .ready),
+        .init(id: "f5", nickname: "Oleh", gameOwner: false, cards: [], score: 0, state: .notReady),
+        .init(id: "g6", nickname: "Patron", gameOwner: false, cards: [], score: 0, state: .notReady),
+        .init(id: "h7", nickname: "Jerry", gameOwner: false, cards: [], score: 0, state: .notReady),
     ]
 
     private let shareController: PasteboardControlling
@@ -67,7 +67,7 @@ struct LobbyView: View {
 
                 ScrollView(.vertical) {
                     LazyVStack {
-                        ForEach($users, id: \.name) {
+                        ForEach($users, id: \.nickname) {
                             LobbyRow(user: $0)
                         }
                     }
@@ -89,7 +89,9 @@ struct LobbyView: View {
                     alert.isPresentingNoFeature = true
                 }
                 .disabled(
-                    !users.allSatisfy(\.isReadyToPlay)
+                    !users.allSatisfy {
+                        $0.state == .ready
+                    }
                 )
             }
             .padding(.top, .large)

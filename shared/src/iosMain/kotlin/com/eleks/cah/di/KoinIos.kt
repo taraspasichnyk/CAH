@@ -18,6 +18,7 @@ import org.koin.dsl.module
 actual val viewModelModule: Module
     get() = module {
         factoryOf(::GameViewModel)
+
         singleOf(::MenuViewModel)
     }
 

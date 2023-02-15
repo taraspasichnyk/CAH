@@ -45,7 +45,7 @@ class LobbyViewModel : BaseViewModel<LobbyContract.State, LobbyContract.Effect>(
 
     var gameOwner: Boolean = true
         set(value) {
-            currentScreen = if (value) {
+                currentScreen = if (value) {
                 LobbyInnerScreen.EnterName
             } else {
                 LobbyInnerScreen.EnterCode

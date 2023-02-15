@@ -13,6 +13,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -59,7 +60,8 @@ fun LobbyScreen(lobbyViewModel: LobbyViewModel, navController: NavHostController
                 is Navigation.GameScreen -> {
                     //TODO navigate to needed screen
                     navController.popBackStack(route = MainRoute.Menu(), inclusive = false)
-                    navController.navigate(MainRoute.Game.getPath(effect.roomId))
+                    navController.navigate(
+                        MainRoute.Game.getPath(effect.roomId))
                 }
 
                 is Navigation.MenuScreen -> {
@@ -67,11 +69,19 @@ fun LobbyScreen(lobbyViewModel: LobbyViewModel, navController: NavHostController
                 }
 
                 Navigation.EnterCodeScreen -> {
-                    innerNavController.navigate(LobbyRoute.EnterCode.path)
+                    innerNavController.navigate(
+                        LobbyRoute.EnterCode.path,
+                    )
                 }
 
                 Navigation.EnterNameScreen -> {
-                    innerNavController.navigate(LobbyRoute.EnterName.path)
+                    innerNavController.navigate(
+                        LobbyRoute.EnterName.path ,
+                        navOptions = NavOptions.Builder()
+                            .setEnterAnim(org.koin.android.R.anim.abc_slide_in_bottom)
+                            .setExitAnim(org.koin.android.R.anim.abc_slide_out_top)
+                            .build()
+                    )
                 }
 
                 Navigation.UsersListScreen -> {

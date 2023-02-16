@@ -1,4 +1,4 @@
-package com.eleks.cah.android.game
+package com.eleks.cah.android.router
 
 enum class GameRoute(val path: String) {
     PreRound("preround"),

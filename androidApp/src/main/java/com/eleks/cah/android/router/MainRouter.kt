@@ -33,9 +33,9 @@ sealed class MainRoute(val path: String, vararg arguments: String = emptyArray()
         }
     }
 
-    object Game : MainRoute("game", "roomId") {
-        fun getPath(roomId: String): String {
-            return getPathWithArguments(roomId)
+    object Game : MainRoute("game", "roomId", "playerId") {
+        fun getPath(roomId: String, playerId: String): String {
+            return getPathWithArguments(roomId, playerId)
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.eleks.cah.android.vote
+package com.eleks.cah.android.game.vote
 
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -28,35 +28,37 @@ import androidx.compose.ui.unit.dp
 import com.eleks.cah.android.AppTheme
 import com.eleks.cah.android.MyApplicationTheme
 import com.eleks.cah.android.R
-import com.eleks.cah.android.model.Card
-import com.eleks.cah.android.round.cardPaddings
-import com.eleks.cah.android.round.dropShadow
+import com.eleks.cah.android.game.round.cardPaddings
+import com.eleks.cah.android.game.round.dropShadow
 import com.eleks.cah.android.theme.*
 import com.eleks.cah.android.widgets.AnimatedValueVisibility
 import com.eleks.cah.android.widgets.ConflictCard
 import com.eleks.cah.android.widgets.GameHeader
 import com.eleks.cah.android.widgets.GameLabelSize
-import kotlinx.coroutines.channels.ticker
+import com.eleks.cah.domain.model.QuestionCard
+import com.eleks.cah.domain.model.RoundPlayerAnswer
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.consumeAsFlow
-import kotlinx.coroutines.flow.flow
-import java.time.Duration
-import kotlin.concurrent.fixedRateTimer
-import kotlin.time.seconds
 
 
 @Preview
 @Composable
-private fun VotingScreenPreview() {
+private fun ScoreScreenPreview() {
     MyApplicationTheme {
-        VotingScreen(1)
+        ScoreScreen(
+            QuestionCard("1", "test", listOf(0)),
+            emptyList(),
+            1,
+        )
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun VotingScreen(
+fun ScoreScreen(
+    question: QuestionCard,
+    answerCards: List<RoundPlayerAnswer>,
     roundNumber: Int,
+
     onTimeout: () -> Unit = {},
     onLastVote: () -> Unit = {}
 ) {
@@ -64,7 +66,7 @@ fun VotingScreen(
         mutableStateOf(60)
     }
     LaunchedEffect(key1 = "timeout") {
-        while(timeout > 0) {
+        while (timeout > 0) {
             delay(1000L)
             timeout--
         }
@@ -81,7 +83,6 @@ fun VotingScreen(
             headerHeight = AppTheme.dimens.headerSize
         )
 
-
         Timer(timeout)
 
         Column(
@@ -93,16 +94,8 @@ fun VotingScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            val answers = remember {
-                mutableStateListOf(
-                    Card("Poor life choices"),
-                    Card("An extremely horny Granny Smith"),
-                    Card("Free Samples"),
-                    Card("Diarrhea"),
-                    Card("Falling in love"),
-                )
-            }
             val pagerState = rememberPagerState()
+            val cards = answerCards.toMutableStateList()
 
             Text(
                 text = stringResource(
@@ -114,35 +107,35 @@ fun VotingScreen(
                     .align(Alignment.CenterHorizontally)
             )
 
-            VotingTabs(
+            Tabs(
                 modifier = Modifier
                     .padding(top = 16.dp)
                     .padding(horizontal = 24.dp),
-                cardsCount = answers.size,
+                cardsCount = cards.size,
                 pagerState = pagerState,
             )
 
             Spacer(Modifier.weight(1f))
 
-            VotingContent(
+            ScoreCards(
                 pagerState = pagerState,
-                question = Card(" _ ! This is my fetish"),
-                answers = answers,
+                question = question,
+                answers = cards,
             )
 
             Spacer(Modifier.weight(1f))
+
 
             val currentPage = pagerState.currentPage
 
-            VoteOptions(
+            Scores(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .padding(bottom = 40.dp),
-                selectedVote = answers[currentPage].vote,
+                selectedVote = answerCards[currentPage].score,
             ) {
-                answers[currentPage] =
-                    answers[currentPage]
-                        .copy(vote = it)
+                cards[currentPage] =
+                    cards[currentPage].copy(score = it ?: -1)
             }
         }
     }
@@ -182,7 +175,7 @@ private fun Timer(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun VotingTabs(
+private fun Tabs(
     cardsCount: Int,
     pagerState: PagerState,
     modifier: Modifier = Modifier
@@ -223,16 +216,16 @@ private fun LazyItemScope.Tab(
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
 @Composable
-private fun VotingContent(
+private fun ScoreCards(
     pagerState: PagerState,
-    question: Card,
-    answers: List<Card>
+    question: QuestionCard,
+    answers: List<RoundPlayerAnswer>
 ) {
 
     Box(modifier = Modifier, contentAlignment = Alignment.TopCenter) {
         ConflictCard(
             isMasterCard = true,
-            cardText = question.text,
+            cardText = question.question,
         )
 
         AnswerCards(
@@ -247,7 +240,7 @@ private fun VotingContent(
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
 private fun AnswerCards(
-    answers: List<Card>,
+    answers: List<RoundPlayerAnswer>,
     pagerState: PagerState,
     modifier: Modifier = Modifier
 ) {
@@ -256,7 +249,7 @@ private fun AnswerCards(
         state = pagerState,
         modifier = modifier
     ) {
-        val answer = answers[it]
+        val card = answers[it]
 
         Box(
             contentAlignment = Alignment.BottomCenter,
@@ -266,13 +259,13 @@ private fun AnswerCards(
             val angle = if (it % 2 == 0) -15.0f else 15.0f
 
             ConflictCard(
-                cardText = answer.text,
+                cardText = card.playerAnswers[0].answer,
                 modifier = Modifier.rotate(angle),
             )
 
-            AnimatedValueVisibility(answer.vote) { vote ->
+            AnimatedValueVisibility(card) { vote ->
 
-                val painterRes = when (vote) {
+                val painterRes = when (vote.score) {
                     1 -> painterResource(id = R.drawable.scores_0)
                     2 -> painterResource(id = R.drawable.scores_1)
                     3 -> painterResource(id = R.drawable.scores_2)
@@ -294,7 +287,7 @@ private fun AnswerCards(
 }
 
 @Composable
-private fun VoteOptions(
+private fun Scores(
     modifier: Modifier = Modifier,
     selectedVote: Int? = null,
     onSelectedVoteChange: (Int?) -> Unit = {}

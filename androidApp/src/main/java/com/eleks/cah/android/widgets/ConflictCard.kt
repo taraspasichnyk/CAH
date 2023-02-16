@@ -21,8 +21,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.eleks.cah.android.AppTheme
 import com.eleks.cah.android.R
-import com.eleks.cah.android.round.cardPaddings
-import com.eleks.cah.android.round.dropShadow
+import com.eleks.cah.android.game.round.cardPaddings
+import com.eleks.cah.android.game.round.dropShadow
 import com.eleks.cah.android.theme.*
 
 @Composable

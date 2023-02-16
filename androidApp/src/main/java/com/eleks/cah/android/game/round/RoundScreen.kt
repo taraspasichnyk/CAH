@@ -1,4 +1,4 @@
-package com.eleks.cah.android.round
+package com.eleks.cah.android.game.round
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -40,20 +40,30 @@ import com.eleks.cah.android.theme.*
 import com.eleks.cah.android.widgets.ConflictCard
 import com.eleks.cah.android.widgets.GameHeader
 import com.eleks.cah.android.widgets.GameLabelSize
+import com.eleks.cah.domain.model.AnswerCard
+import com.eleks.cah.domain.model.AnswerCardID
+import com.eleks.cah.domain.model.GameRound
+import com.eleks.cah.domain.model.Player
+import com.eleks.cah.domain.model.QuestionCard
 import com.google.accompanist.pager.ExperimentalPagerApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun RoundScreen(cards: List<Card>, roundNumber: Int, onRoundCompleted: () -> Unit) {
+fun RoundScreen(
+    player: Player,
+    round: GameRound,
+    onCardsSubmitted: (List<AnswerCardID>) -> Unit = {}
+) {
     val scope = rememberCoroutineScope()
     val pagerState = rememberPagerState()
+
     val userCards = remember {
-        cards.toMutableStateList()
+        player.cards.toMutableStateList()
     }
     var chosenCard by remember {
-        mutableStateOf<Card?>(null)
+        mutableStateOf<AnswerCard?>(null)
     }
     var selectedCardPosition by remember {
         mutableStateOf(Offset.Zero)
@@ -80,7 +90,7 @@ fun RoundScreen(cards: List<Card>, roundNumber: Int, onRoundCompleted: () -> Uni
             )
 
             Text(
-                text = stringResource(id = string.round, roundNumber),
+                text = stringResource(id = string.round, round.number),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 style = txtSemibold16,
@@ -90,7 +100,7 @@ fun RoundScreen(cards: List<Card>, roundNumber: Int, onRoundCompleted: () -> Uni
             Spacer(modifier = Modifier.height(AppTheme.dimens.sizeMedium))
 
             ConflictCard(
-                cardText = stringResource(id = string.master_card_placeholder),
+                cardText = round.question.question,
                 isMasterCard = true,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
@@ -122,7 +132,8 @@ fun RoundScreen(cards: List<Card>, roundNumber: Int, onRoundCompleted: () -> Uni
                 cards = userCards,
                 coroutineScope = scope,
                 pagerState = pagerState,
-                onCardChosen = {}
+                onCardChosen = {
+                }
             )
         }
 
@@ -130,11 +141,18 @@ fun RoundScreen(cards: List<Card>, roundNumber: Int, onRoundCompleted: () -> Uni
             modifier = Modifier.align(Alignment.BottomCenter),
             onClick = {
                 val previousCard = chosenCard
+                if (userCards.isEmpty()) {
+                    return@ChooseButton
+                }
                 chosenCard = userCards[pagerState.currentPage]
 
                 if (pagerState.pageCount > 1) {
                     userCards.removeAt(pagerState.currentPage)
                     previousCard?.let { userCards.add(pagerState.currentPage, previousCard) }
+                }
+
+                chosenCard?.let {
+                    onCardsSubmitted(listOf(it.id))
                 }
             }
         )
@@ -142,7 +160,7 @@ fun RoundScreen(cards: List<Card>, roundNumber: Int, onRoundCompleted: () -> Uni
         chosenCard?.let {
             if (selectedCardPosition != Offset.Zero) {
                 ConflictCard(
-                    cardText = it.text,
+                    cardText = it.answer,
                     modifier = Modifier
                         .scale(0.75f, 0.75f)
                         .padding(
@@ -164,7 +182,7 @@ fun RoundScreen(cards: List<Card>, roundNumber: Int, onRoundCompleted: () -> Uni
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun UserHand(
-    cards: List<Card>,
+    cards: List<AnswerCard>,
     pagerState: PagerState,
     coroutineScope: CoroutineScope,
     onCardChosen: (Int) -> Unit
@@ -232,7 +250,7 @@ fun UserHand(
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun UserCards(
-    cards: List<Card>,
+    cards: List<AnswerCard>,
     pagerState: PagerState,
     modifier: Modifier = Modifier,
     onScroll: (Int) -> Unit,
@@ -295,7 +313,7 @@ fun UserCards(
                     ) {
                         onScroll.invoke(page)
                     }) {
-                ConflictCard(cardText = cards[page].text)
+                ConflictCard(cardText = cards[page].answer)
             }
         }
     }

@@ -167,7 +167,7 @@ class LobbyViewModel : BaseViewModel<LobbyContract.State, LobbyContract.Effect>(
             if (gameOwner) {
                 startNextRoundUseCase.invoke(state.value.code)
                 //TODO add navigation
-                setEffect { Navigation.GameScreen(state.value.code) }
+                setEffect { Navigation.GameScreen(state.value.code,  player?.id.orEmpty()) }
             } else {
                 setState {
                     copy(isNextButtonEnabled = false)

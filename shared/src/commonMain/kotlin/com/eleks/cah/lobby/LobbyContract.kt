@@ -3,6 +3,8 @@ package com.eleks.cah.lobby
 import com.eleks.cah.base.UiEffect
 import com.eleks.cah.base.UiState
 import com.eleks.cah.domain.model.Player
+import com.eleks.cah.domain.model.PlayerID
+import com.eleks.cah.domain.model.RoomID
 import com.eleks.cah.lobby.LobbyContract.ActionButtonText.Next
 
 interface LobbyContract {
@@ -28,7 +30,7 @@ interface LobbyContract {
             object EnterNameScreen : Navigation()
             object EnterCodeScreen : Navigation()
             object UsersListScreen : Navigation()
-            data class GameScreen(val roomId: String) : Navigation()
+            data class GameScreen(val roomId: RoomID, val playerID: PlayerID) : Navigation()
         }
     }
 }

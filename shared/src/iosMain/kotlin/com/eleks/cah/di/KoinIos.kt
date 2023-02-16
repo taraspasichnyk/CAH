@@ -1,5 +1,6 @@
 package com.eleks.cah.di
 
+import com.eleks.cah.base.BaseViewModel
 import com.eleks.cah.domain.usecase.login.AnonymousLoginUseCase
 import com.eleks.cah.game.GameViewModel
 import com.eleks.cah.menu.MenuViewModel
@@ -14,11 +15,10 @@ import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
+import kotlin.reflect.KClass
 
 actual val viewModelModule: Module
     get() = module {
-        factoryOf(::GameViewModel)
-
         singleOf(::MenuViewModel)
     }
 
@@ -33,7 +33,11 @@ object Injector : KoinComponent {
     val menuViewModel: MenuViewModel by inject()
     val gameViewModel: GameViewModel by inject()
     val anonymousLogin: AnonymousLoginUseCase by inject()
+}
 
-    inline fun <reified T> get(vararg params: Any?): T = get { parametersOf(params) }
+object Fabric : KoinComponent {
+    fun gameViewModel(roomId: String, playerId: String) = get<GameViewModel> {
+        parametersOf(roomId, playerId)
+    }
 }
 

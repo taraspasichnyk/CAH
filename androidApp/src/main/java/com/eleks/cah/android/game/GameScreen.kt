@@ -1,6 +1,5 @@
 package com.eleks.cah.android.game
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -12,13 +11,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.eleks.cah.android.ROUND_TIMEOUT
-import com.eleks.cah.android.round.PreRoundScreen
-import com.eleks.cah.android.round.RoundScreen
-import com.eleks.cah.android.vote.VotingScreen
+import com.eleks.cah.android.game.round.PreRoundScreen
+import com.eleks.cah.android.game.round.RoundScreen
+import com.eleks.cah.android.game.vote.ScoreScreen
+import com.eleks.cah.android.router.GameRoute
 import com.eleks.cah.game.GameContract
 import com.eleks.cah.game.GameViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -26,8 +27,9 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun GameScreen(
     roomId: String,
+    playerId: String,
     gameViewModel: GameViewModel = koinViewModel {
-        parametersOf(roomId)
+        parametersOf(roomId, playerId)
     }
 ) {
 
@@ -35,9 +37,7 @@ fun GameScreen(
 
     val game by gameViewModel.state.collectAsState()
 
-    Log.d("###", "Round # ${game.room?.currentRound?.number}")
-
-    val roundNumber = game.room?.currentRound?.number ?: -1
+    val currentRound = game.room?.currentRound ?: return
 
     LaunchedEffect(Unit) {
         gameViewModel.effect.collectLatest {
@@ -59,17 +59,27 @@ fun GameScreen(
                 delay(ROUND_TIMEOUT)
                 innerNavController.navigate(GameRoute.Round.path)
             }
-            PreRoundScreen(roundNumber = roundNumber)
+            PreRoundScreen(roundNumber = currentRound.number)
         }
 
         composable(route = GameRoute.Round.path) {
-            RoundScreen(cards = emptyList(), roundNumber = roundNumber) {
 
+            val player = game.room?.players?.firstOrNull() ?: return@composable
+
+            RoundScreen(
+                player,
+                currentRound,
+            ) {
+                gameViewModel.answer(it)
             }
         }
 
         composable(route = GameRoute.Voting.path) {
-            VotingScreen(roundNumber = roundNumber)
+            ScoreScreen(
+                currentRound.question,
+                currentRound.answers,
+                roundNumber = currentRound.number
+            )
         }
     }
 }

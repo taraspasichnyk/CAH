@@ -68,12 +68,14 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable(
-                            route = MainRoute.Game(),
-                            ) {
-                            val (roomIdKey) = MainRoute.Game.arguments
+                            route = MainRoute.Game()
+                        ) {
+                            val (roomIdKey, playerIdKey) = MainRoute.Game.arguments
                             val roomId = it.arguments?.getString(roomIdKey)
                                     ?: return@composable
-                            GameScreen(roomId)
+                            val playerId = it.arguments?.getString(playerIdKey)
+                                ?: return@composable
+                            GameScreen(roomId, playerId)
                         }
                     }
                 }

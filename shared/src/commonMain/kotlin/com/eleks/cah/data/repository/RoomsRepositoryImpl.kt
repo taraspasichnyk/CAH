@@ -9,7 +9,6 @@ import com.eleks.cah.domain.Constants.DB_REF_PLAYERS
 import com.eleks.cah.domain.Constants.DB_REF_ROOMS
 import com.eleks.cah.domain.Constants.DEFAULT_PLAYER_CARDS_AMOUNT
 import com.eleks.cah.domain.exceptions.FailedToJoinRoomException
-import com.eleks.cah.domain.exceptions.RoomNotFoundException
 import com.eleks.cah.domain.model.GameRound
 import com.eleks.cah.domain.model.Player
 import com.eleks.cah.domain.model.RoomID
@@ -49,9 +48,9 @@ class RoomsRepositoryImpl(
     private suspend fun generateInviteCode(): String {
         val allRoomsInviteCodes = roomsDbReference.valueEvents
             .firstOrNull()
-            ?.value<HashMap<String, GameRoomDTO>?>()
-            ?.map { it.value.inviteCode }
-            ?.toSet()
+            ?.value<HashMap<String, Unit>?>()
+            ?.keys
+
         var newInviteCode: String = Random.nextInt(100000, 999999).toString()
         while (allRoomsInviteCodes?.contains(newInviteCode) == true) {
             newInviteCode = Random.nextInt(100000, 999999).toString()
@@ -229,7 +228,7 @@ class RoomsRepositoryImpl(
 
     override suspend fun getRoomIfExist(roomID: RoomID): GameRoomDTO? {
         return kotlin.runCatching {
-            roomsDbReference.roomOrException(roomID) {}
+            roomsDbReference.roomOrException(roomID)
         }.getOrNull()
     }
 
@@ -237,12 +236,8 @@ class RoomsRepositoryImpl(
         inviteCode: String,
         nickname: String
     ): PlayerDTO {
-        return roomsDbReference.orderByKey()
-            .equalTo(inviteCode)
-            .valueEvents
-            .firstOrNull()?.takeIf { it.exists }?.let {
-                addPlayerToRoom(nickname, inviteCode, false)
-            } ?: throw RoomNotFoundException(inviteCode)
+        roomsDbReference.roomOrException(inviteCode)
+        return addPlayerToRoom(nickname, inviteCode, false)
     }
 
     private suspend fun addPlayerToRoom(
@@ -347,7 +342,7 @@ class RoomsRepositoryImpl(
     private suspend fun finishRoom(gameRoom: GameRoomDTO) {
         roomsDbReference.child(gameRoom.id)
             .child(DB_REF_CURRENT_ROUND)
-            .setValue<Unit>(null)
+            .setValue<Unit>(null)//TODO probably removeValue() should be here
         Napier.d(
             tag = TAG,
             message = "Room ${gameRoom.id} finished"

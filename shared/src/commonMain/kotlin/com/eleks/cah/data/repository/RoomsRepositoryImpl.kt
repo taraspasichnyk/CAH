@@ -250,7 +250,7 @@ class RoomsRepositoryImpl(
             val newPlayer = PlayerDTO(
                 id = uuid,
                 nickname = nickname,
-                gameOwner = gameOwner,
+                gameOwner = if (gameOwner) 1 else 0,
                 cards = emptyList(),
                 score = 0,
                 state = Player.PlayerState.NOT_READY.toString(),

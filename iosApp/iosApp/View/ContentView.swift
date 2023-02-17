@@ -3,6 +3,7 @@ import shared
 
 struct ContentView: View {
 
+    @EnvironmentObject private var loadingState: LoadingState
     @EnvironmentObject private var alertState: AlertState
     @State private var navState: [NavPath] = []
 
@@ -28,6 +29,14 @@ struct ContentView: View {
                     mapNavigation(path: $0)
                 }
         })
+        .overlay {
+            if loadingState.isLoading {
+                ZStack {
+                    Color.white.blur(radius: 0.5)
+                    ProgressView()
+                }
+            }
+        }
         .alert(isPresented: $alertState.isPresentingAlert) {
             alertState.alert
         }

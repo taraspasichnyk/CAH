@@ -14,7 +14,6 @@
 		8FEC9BD42991E381009EE174 /* iosAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEC9BD32991E381009EE174 /* iosAppUITests.swift */; };
 		8FEC9BD62991E381009EE174 /* iosAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEC9BD52991E381009EE174 /* iosAppUITestsLaunchTests.swift */; };
 		8FECC7F62991FEBE00BF4B95 /* iosAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FECC7F52991FEBE00BF4B95 /* iosAppTests.swift */; };
-		921076642994E42D00390F45 /* NavigationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 921076632994E42D00390F45 /* NavigationState.swift */; };
 		921076662994E46900390F45 /* EnterScreenStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 921076652994E46900390F45 /* EnterScreenStage.swift */; };
 		927295E3298D61F100C5F0DE /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927295E2298D61F100C5F0DE /* PrimaryButton.swift */; };
 		927295E8298D733500C5F0DE /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927295E7298D733500C5F0DE /* BackButton.swift */; };
@@ -42,8 +41,10 @@
 		92CD661B2992B83B0003634C /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CD661A2992B83B0003634C /* HeaderView.swift */; };
 		92CD661D2992BD770003634C /* InputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CD661C2992BD770003634C /* InputField.swift */; };
 		92CD661F2992DEA80003634C /* ContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CD661E2992DEA80003634C /* ContainerView.swift */; };
+		92DE7810299D7C1100B16131 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92DE780E299D7C1100B16131 /* Array+Extensions.swift */; };
 		92E17D91299CEED300A0EEFC /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E17D8F299CEED300A0EEFC /* Fonts.swift */; };
 		92E17D92299CEED300A0EEFC /* Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E17D90299CEED300A0EEFC /* Size.swift */; };
+		92E248D0299F716D00CF5147 /* NavigationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E248CF299F716D00CF5147 /* NavigationState.swift */; };
 		92F57CA4299551C4005D5328 /* LobbyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F57CA3299551C4005D5328 /* LobbyView.swift */; };
 /* End PBXBuildFile section */
 
@@ -89,7 +90,6 @@
 		8FEC9BD52991E381009EE174 /* iosAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iosAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		8FECC7F32991FEBE00BF4B95 /* iosAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iosAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FECC7F52991FEBE00BF4B95 /* iosAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iosAppTests.swift; sourceTree = "<group>"; };
-		921076632994E42D00390F45 /* NavigationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationState.swift; sourceTree = "<group>"; };
 		921076652994E46900390F45 /* EnterScreenStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterScreenStage.swift; sourceTree = "<group>"; };
 		927295E2298D61F100C5F0DE /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		927295E7298D733500C5F0DE /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
@@ -114,8 +114,10 @@
 		92CD661A2992B83B0003634C /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		92CD661C2992BD770003634C /* InputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputField.swift; sourceTree = "<group>"; };
 		92CD661E2992DEA80003634C /* ContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerView.swift; sourceTree = "<group>"; };
+		92DE780E299D7C1100B16131 /* Array+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		92E17D8F299CEED300A0EEFC /* Fonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		92E17D90299CEED300A0EEFC /* Size.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Size.swift; sourceTree = "<group>"; };
+		92E248CF299F716D00CF5147 /* NavigationState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationState.swift; path = iosApp/Utility/NavigationState.swift; sourceTree = SOURCE_ROOT; };
 		92F57CA3299551C4005D5328 /* LobbyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -224,7 +226,6 @@
 				92E9AC07299A358A000367F2 /* Buttons */,
 				92E9AC08299A35C9000367F2 /* Lobby */,
 				7555FF82242A565900829871 /* ContentView.swift */,
-				921076632994E42D00390F45 /* NavigationState.swift */,
 				927F7F61298D1EB800A158A8 /* EnterScreenView.swift */,
 				921076652994E46900390F45 /* EnterScreenStage.swift */,
 				92CD661E2992DEA80003634C /* ContainerView.swift */,
@@ -274,6 +275,8 @@
 			isa = PBXGroup;
 			children = (
 				92CD661829926F220003634C /* Alerts.swift */,
+				92E248CF299F716D00CF5147 /* NavigationState.swift */,
+				92DE780E299D7C1100B16131 /* Array+Extensions.swift */,
 				9291175C2998454C00B23AF3 /* PasteboardController.swift */,
 			);
 			path = Utility;
@@ -486,11 +489,12 @@
 				927F7F62298D1EB800A158A8 /* EnterScreenView.swift in Sources */,
 				92CD661729925B720003634C /* Image+Extensions.swift in Sources */,
 				927F7F60298D075400A158A8 /* MainMenuView.swift in Sources */,
+				92E248D0299F716D00CF5147 /* NavigationState.swift in Sources */,
 				921076662994E46900390F45 /* EnterScreenStage.swift in Sources */,
 				927295EA298D7A6B00C5F0DE /* Assets.swift in Sources */,
-				921076642994E42D00390F45 /* NavigationState.swift in Sources */,
 				92E17D91299CEED300A0EEFC /* Fonts.swift in Sources */,
 				927295E3298D61F100C5F0DE /* PrimaryButton.swift in Sources */,
+				92DE7810299D7C1100B16131 /* Array+Extensions.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				92CD661D2992BD770003634C /* InputField.swift in Sources */,

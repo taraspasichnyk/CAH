@@ -17,7 +17,9 @@ actual val viewModelModule: Module
         single { GameViewModel() }
         single { MenuViewModel() }
         factory {
-            LobbyViewModel(it.get())
+            val vm = LobbyViewModel()
+            vm.gameOwner = it.get()
+            vm
         }
     }
 

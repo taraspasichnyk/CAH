@@ -31,6 +31,13 @@ struct ContentView: View {
         .alert(isPresented: $alert.isPresentingNoFeature) {
             alert.noFeature
         }
+        .sheet(isPresented: $alert.isPresentingError, onDismiss: {
+            alert.errorMessage = nil
+        }, content: {
+            // TODO: Use alerts or improve general error UX
+            Text("Упс")
+            Text(alert.errorMessage ?? "Щось пішло не так")
+        })
         .onAppear {
             subscribeToEffects()
         }
@@ -98,6 +105,8 @@ extension ContentView {
             alert.isPresentingNoFeature = true
         case let copyCodeEffect as LobbyContractEffect.CopyCode:
             shareController.copyToPasteboard(copyCodeEffect.code)
+        case let errorEffect as LobbyContractEffect.ShowError:
+            alert.errorMessage = errorEffect.message
         default:
             alert.isPresentingNoFeature = true
         }

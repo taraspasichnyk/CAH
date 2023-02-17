@@ -16,7 +16,7 @@ struct InputField: View {
     let onEditingChanged: (Bool) -> Void
     let onCommit: () -> Void
 
-    init(_ prompt: String, text: Binding<String>, isFocused: FocusState<Bool>.Binding, onEditingChanged: @escaping (Bool) -> Void, onCommit: @escaping () -> Void = {}) {
+    init(_ prompt: String, text: Binding<String>, isFocused: FocusState<Bool>.Binding, onEditingChanged: @escaping (Bool) -> Void = { _ in }, onCommit: @escaping () -> Void = {}) {
         self.prompt = prompt
         self._text = text
         self.isFocused = isFocused

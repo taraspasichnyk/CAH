@@ -96,9 +96,11 @@ extension LobbyView {
     private func subscribeToState() {
         AnyFlow<LobbyContractState>(source: vm.state).collect { state in
             guard let state else { return }
-            users = state.users
-            roomCode = state.code
-            // TODO: Add check for ready button text and availability
+            DispatchQueue.main.async {
+                users = state.users
+                roomCode = state.code
+                // TODO: Add check for ready button text and availability
+            }
         } onCompletion: { _ in
         }
     }
@@ -108,7 +110,7 @@ extension LobbyView {
 
 struct LobbyView_Previews: PreviewProvider {
     static var previews: some View {
-        LobbyView(vm: .init(gameOwner: false))
+        LobbyView(vm: .init())
             .environmentObject(AlertState())
     }
 }

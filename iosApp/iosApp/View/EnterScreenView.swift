@@ -29,16 +29,22 @@ struct EnterScreenView: View {
     // MARK: - Body
 
     var body: some View {
+        let nameBinding = Binding<String> {
+            self.name
+        } set: {
+            self.name = $0
+
+            switch stage {
+            case .playerName(let lobbyVm):
+                lobbyVm.validateName(name: name)
+            case .roomCode(let lobbyVm):
+                lobbyVm.validateCode(code: name)
+            }
+        }
+
         ContainerView {
             Spacer()
-            InputField(stage.placeholder, text: $name, isFocused: $isFocused) { _ in
-                switch stage {
-                case .playerName(let lobbyVm):
-                    lobbyVm.validateName(name: name)
-                case .roomCode(let lobbyVm):
-                    lobbyVm.validateCode(code: name)
-                }
-            }
+            InputField(stage.placeholder, text: nameBinding, isFocused: $isFocused)
             .textContentType(stage.contentType)
             .frame(width: 286)
             Spacer()
@@ -67,13 +73,7 @@ struct EnterScreenView: View {
     private func subscribeToState() {
         AnyFlow<LobbyContractState>(source: vm.state).collect { state in
             guard let state else { return }
-            switch stage {
-            case .playerName:
-                self.isButtonEnabled = state.isNameValid
-
-            case .roomCode:
-                self.isButtonEnabled = state.isCodeValid
-            }
+            self.isButtonEnabled = state.isNextButtonEnabled
         } onCompletion: { _ in
         }
     }
@@ -84,7 +84,7 @@ struct EnterScreenView: View {
 struct EnterNameView_Previews: PreviewProvider {
     static var previews: some View {
         EnterScreenView(
-            stage: .playerName(.init(gameOwner: true))
+            stage: .playerName(.init())
         )
     }
 }

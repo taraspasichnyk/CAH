@@ -10,6 +10,12 @@ import SwiftUI
 
 final class AlertState: ObservableObject {
     @Published var isPresentingNoFeature = false
+    var errorMessage: String? {
+        didSet {
+            isPresentingError = errorMessage != nil
+        }
+    }
+    @Published var isPresentingError: Bool = false
 
     private static let proverbs = [
         "Не лізь поперед батька в пекло!",
@@ -32,6 +38,16 @@ extension AlertState {
             """),
             dismissButton: .default(
                 Text("Ну ок...")
+            )
+        )
+    }
+
+    var error: Alert {
+        Alert(
+            title: Text("Йой"),
+            message: Text(errorMessage ?? "Щось пішло не так"),
+            dismissButton: .default(
+                Text("Зрозуміло")
             )
         )
     }

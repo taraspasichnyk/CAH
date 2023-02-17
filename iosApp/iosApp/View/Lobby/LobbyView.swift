@@ -14,6 +14,8 @@ struct LobbyView: View {
 
     @State private var users: [Player] = []
     @State private var roomCode: String = ""
+    @State private var isButtonEnabled = false
+    @State private var buttonTitle = "Готовий"
 
     private let vm: LobbyViewModel
 
@@ -69,14 +71,10 @@ struct LobbyView: View {
                     vm.onBackPressed()
                 }
                 Spacer()
-                PrimaryButton("Готовий") {
+                PrimaryButton(buttonTitle) {
                     vm.onNextClicked()
                 }
-                .disabled(
-                    !users.allSatisfy {
-                        $0.state == .ready
-                    }
-                )
+                .disabled(!isButtonEnabled)
             }
             .padding(.top, .large)
             .padding(.leading, 40)
@@ -96,11 +94,10 @@ extension LobbyView {
     private func subscribeToState() {
         AnyFlow<LobbyContractState>(source: vm.state).collect { state in
             guard let state else { return }
-            DispatchQueue.main.async {
-                users = state.users
-                roomCode = state.code
-                // TODO: Add check for ready button text and availability
-            }
+            users = state.users
+            roomCode = state.code
+            isButtonEnabled = state.isNextButtonEnabled
+            buttonTitle = state.buttonText
         } onCompletion: { _ in
         }
     }

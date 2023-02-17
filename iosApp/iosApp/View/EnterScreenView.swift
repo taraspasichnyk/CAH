@@ -14,12 +14,13 @@ struct EnterScreenView: View {
     @EnvironmentObject private var alert: AlertState
     @FocusState private var isFocused: Bool
 
-    @State private var name = ""
+    @State private var inputText = ""
     @State private var isButtonEnabled = false
+    @State private var buttonTitle = ""
 
     let stage: EnterScreenStage
 
-    var vm: LobbyViewModel {
+    private var vm: LobbyViewModel {
         switch stage {
         case .roomCode(let vm), .playerName(let vm):
             return vm
@@ -29,24 +30,18 @@ struct EnterScreenView: View {
     // MARK: - Body
 
     var body: some View {
-        let nameBinding = Binding<String> {
-            self.name
+        let nameBinding = Binding {
+            inputText
         } set: {
-            self.name = $0
-
-            switch stage {
-            case .playerName(let lobbyVm):
-                lobbyVm.validateName(name: name)
-            case .roomCode(let lobbyVm):
-                lobbyVm.validateCode(code: name)
-            }
+            inputText = $0
+            validateInput()
         }
 
         ContainerView {
             Spacer()
             InputField(stage.placeholder, text: nameBinding, isFocused: $isFocused)
-            .textContentType(stage.contentType)
-            .frame(width: 286)
+                .textContentType(stage.contentType)
+                .frame(width: 286)
             Spacer()
             VStack {
                 HStack {
@@ -54,10 +49,10 @@ struct EnterScreenView: View {
                         vm.onBackPressed()
                     }
                     Spacer()
-                    PrimaryButton("Далі") {
+                    PrimaryButton(buttonTitle) {
                         vm.onNextClicked()
                     }
-                    .disabled(name.isEmpty)
+                    .disabled(!isButtonEnabled)
                 }
                 .padding(.leading, 40)
                 .padding(.trailing, 36)
@@ -69,12 +64,26 @@ struct EnterScreenView: View {
             subscribeToState()
         }
     }
+}
 
+// MARK: - Private
+
+extension EnterScreenView {
     private func subscribeToState() {
         AnyFlow<LobbyContractState>(source: vm.state).collect { state in
             guard let state else { return }
-            self.isButtonEnabled = state.isNextButtonEnabled
+            isButtonEnabled = state.isNextButtonEnabled
+            buttonTitle = state.buttonText
         } onCompletion: { _ in
+        }
+    }
+
+    private func validateInput() {
+        switch stage {
+        case .playerName(let lobbyVm):
+            lobbyVm.validateName(name: inputText)
+        case .roomCode(let lobbyVm):
+            lobbyVm.validateCode(code: inputText)
         }
     }
 }

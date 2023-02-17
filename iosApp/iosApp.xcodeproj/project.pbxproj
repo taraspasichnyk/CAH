@@ -13,7 +13,6 @@
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 		8FEC9BD42991E381009EE174 /* iosAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEC9BD32991E381009EE174 /* iosAppUITests.swift */; };
 		8FEC9BD62991E381009EE174 /* iosAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEC9BD52991E381009EE174 /* iosAppUITestsLaunchTests.swift */; };
-		8FECC7F62991FEBE00BF4B95 /* iosAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FECC7F52991FEBE00BF4B95 /* iosAppTests.swift */; };
 		921076662994E46900390F45 /* EnterScreenStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 921076652994E46900390F45 /* EnterScreenStage.swift */; };
 		927295E3298D61F100C5F0DE /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927295E2298D61F100C5F0DE /* PrimaryButton.swift */; };
 		927295E8298D733500C5F0DE /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927295E7298D733500C5F0DE /* BackButton.swift */; };
@@ -29,6 +28,8 @@
 		927F7F60298D075400A158A8 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927F7F5F298D075400A158A8 /* MainMenuView.swift */; };
 		927F7F62298D1EB800A158A8 /* EnterScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927F7F61298D1EB800A158A8 /* EnterScreenView.swift */; };
 		9291175D2998454C00B23AF3 /* PasteboardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9291175C2998454C00B23AF3 /* PasteboardController.swift */; };
+		92A06038299FBB2A00C6CC3E /* LobbyContractState+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A06037299FBB2A00C6CC3E /* LobbyContractState+Extensions.swift */; };
+		92A0603A299FBBBF00C6CC3E /* ArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A06039299FBBBF00C6CC3E /* ArrayTests.swift */; };
 		92B925092995670C0089ED88 /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B925082995670C0089ED88 /* IconButton.swift */; };
 		92B9250B29956A1D0089ED88 /* LobbyRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B9250A29956A1D0089ED88 /* LobbyRow.swift */; };
 		92CAFB1B299A720900E0B1E2 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 92CAFB1A299A720900E0B1E2 /* FirebaseAuth */; };
@@ -89,7 +90,6 @@
 		8FEC9BD32991E381009EE174 /* iosAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iosAppUITests.swift; sourceTree = "<group>"; };
 		8FEC9BD52991E381009EE174 /* iosAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iosAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		8FECC7F32991FEBE00BF4B95 /* iosAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iosAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8FECC7F52991FEBE00BF4B95 /* iosAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iosAppTests.swift; sourceTree = "<group>"; };
 		921076652994E46900390F45 /* EnterScreenStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterScreenStage.swift; sourceTree = "<group>"; };
 		927295E2298D61F100C5F0DE /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		927295E7298D733500C5F0DE /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
@@ -105,6 +105,8 @@
 		927F7F5F298D075400A158A8 /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
 		927F7F61298D1EB800A158A8 /* EnterScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterScreenView.swift; sourceTree = "<group>"; };
 		9291175C2998454C00B23AF3 /* PasteboardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteboardController.swift; sourceTree = "<group>"; };
+		92A06037299FBB2A00C6CC3E /* LobbyContractState+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LobbyContractState+Extensions.swift"; sourceTree = "<group>"; };
+		92A06039299FBBBF00C6CC3E /* ArrayTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayTests.swift; sourceTree = "<group>"; };
 		92B925082995670C0089ED88 /* IconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconButton.swift; sourceTree = "<group>"; };
 		92B9250A29956A1D0089ED88 /* LobbyRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyRow.swift; sourceTree = "<group>"; };
 		92CAFB22299A735600E0B1E2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -215,7 +217,7 @@
 		8FECC7F42991FEBE00BF4B95 /* iosAppTests */ = {
 			isa = PBXGroup;
 			children = (
-				8FECC7F52991FEBE00BF4B95 /* iosAppTests.swift */,
+				92A06039299FBBBF00C6CC3E /* ArrayTests.swift */,
 			);
 			path = iosAppTests;
 			sourceTree = "<group>";
@@ -267,6 +269,7 @@
 			children = (
 				92F57CA3299551C4005D5328 /* LobbyView.swift */,
 				92B9250A29956A1D0089ED88 /* LobbyRow.swift */,
+				92A06037299FBB2A00C6CC3E /* LobbyContractState+Extensions.swift */,
 			);
 			path = Lobby;
 			sourceTree = "<group>";
@@ -486,6 +489,7 @@
 			files = (
 				92E17D92299CEED300A0EEFC /* Size.swift in Sources */,
 				92B925092995670C0089ED88 /* IconButton.swift in Sources */,
+				92A06038299FBB2A00C6CC3E /* LobbyContractState+Extensions.swift in Sources */,
 				927F7F62298D1EB800A158A8 /* EnterScreenView.swift in Sources */,
 				92CD661729925B720003634C /* Image+Extensions.swift in Sources */,
 				927F7F60298D075400A158A8 /* MainMenuView.swift in Sources */,
@@ -521,7 +525,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8FECC7F62991FEBE00BF4B95 /* iosAppTests.swift in Sources */,
+				92A0603A299FBBBF00C6CC3E /* ArrayTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

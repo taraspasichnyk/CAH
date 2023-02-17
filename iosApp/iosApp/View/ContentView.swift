@@ -4,7 +4,7 @@ import shared
 struct ContentView: View {
 
     @EnvironmentObject private var alert: AlertState
-    @State private var navState: [NavigationState] = []
+    @State private var navState: [NavPath] = []
 
     private let injector: Injector
     private let menuVm: MenuViewModel
@@ -24,25 +24,22 @@ struct ContentView: View {
     var body: some View {
         NavigationStack(path: $navState, root: {
             MainMenuView(vm: menuVm)
-                .navigationDestination(for: NavigationState.self) {
+                .navigationDestination(for: NavPath.self) {
                     mapNavigation(path: $0)
                 }
         })
         .alert(isPresented: $alert.isPresentingNoFeature) {
             alert.noFeature
         }
-        .sheet(isPresented: $alert.isPresentingError, onDismiss: {
-            alert.errorMessage = nil
-        }, content: {
-            // TODO: Use alerts or improve general error UX
-            Text("Упс")
-            Text(alert.errorMessage ?? "Щось пішло не так")
+        .alert(alert.errorMessage ?? "", isPresented: $alert.isPresentingError, actions: {
+            Button("Зрозуміло") {
+                alert.errorMessage = nil
+            }
         })
         .onAppear {
             subscribeToEffects()
         }
     }
-
 }
 
 // MARK: - Private
@@ -57,7 +54,7 @@ extension ContentView {
     }
 
     @ViewBuilder
-    private func mapNavigation(path: NavigationState) -> some View {
+    private func mapNavigation(path: NavPath) -> some View {
         switch path {
         case .enterName(let lobbyVm):
             EnterScreenView(stage: .playerName(lobbyVm))
@@ -71,53 +68,27 @@ extension ContentView {
     }
 
     private func process(effect: MenuContractEffect) {
-        switch effect {
-        case is MenuContractEffect.NavigationNewGameScreen:
-            let lobbyVm = injector.lobbyOwnerViewModel
-            subscribeToEffects(lobbyVm)
-            navState.navigate(to: .enterName(lobbyVm))
-        case is MenuContractEffect.NavigationJoinGameScreen:
-            let lobbyVm = injector.lobbyViewModel
-            subscribeToEffects(lobbyVm)
-            navState.append(.enterCode(lobbyVm))
-        default:
-            alert.isPresentingNoFeature = true
+        MenuEffectProcessor(
+            injector: injector,
+            navState: $navState,
+            alert: alert
+        )
+        .process(effect) { lobbyVm in
+            AnyFlow<LobbyContractEffect>(source: lobbyVm.effect).collect { lobbyEffect in
+                guard let lobbyEffect else { return }
+                process(effect: lobbyEffect)
+            } onCompletion: { _ in
+            }
         }
     }
 
     private func process(effect: LobbyContractEffect) {
-        switch effect {
-        case is LobbyContractEffect.NavigationUsersListScreen:
-            if let lobbyVm = navState.compactMap(\.lobbyViewModel).last {
-                navState.append(.lobby(lobbyVm))
-            }
-        case is LobbyContractEffect.NavigationMenuScreen:
-            navState = []
-        case is LobbyContractEffect.NavigationEnterCodeScreen:
-            if let lobbyVm = navState.compactMap(\.lobbyViewModel).last {
-                navState.navigate(to: .enterCode(lobbyVm))
-            }
-        case is LobbyContractEffect.NavigationEnterNameScreen:
-            let lobbyVm = navState.compactMap(\.lobbyViewModel).last ?? injector.lobbyOwnerViewModel
-            navState.navigate(to: .enterName(lobbyVm))
-        case is LobbyContractEffect.NavigationYourCardsScreen:
-            // TODO: navState.navigate(to: .yourCards)
-            alert.isPresentingNoFeature = true
-        case let copyCodeEffect as LobbyContractEffect.CopyCode:
-            shareController.copyToPasteboard(copyCodeEffect.code)
-        case let errorEffect as LobbyContractEffect.ShowError:
-            alert.errorMessage = errorEffect.message
-        default:
-            alert.isPresentingNoFeature = true
-        }
-    }
-
-    private func subscribeToEffects(_ lobbyVm: LobbyViewModel) {
-        AnyFlow<LobbyContractEffect>(source: lobbyVm.effect).collect { effect in
-            guard let effect else { return }
-            process(effect: effect)
-        } onCompletion: { _ in
-        }
+        LobbyEffectProcessor(
+            injector: injector,
+            navState: $navState,
+            shareController: shareController,
+            alert: alert
+        ).process(effect)
     }
 }
 

@@ -1,5 +1,5 @@
 //
-//  NavigationState.swift
+//  NavPath.swift
 //  iosApp
 //
 //  Created by Artem Yelizarov on 09.02.2023.
@@ -9,8 +9,8 @@
 import Foundation
 import shared
 
-/// Local state representing navigation that starts from `Main Menu`
-enum NavigationState: Equatable, Hashable {
+/// Local path representing navigation that starts from `Main Menu`
+enum NavPath: Equatable, Hashable {
     case enterCode(LobbyViewModel)
     case enterName(LobbyViewModel)
     case lobby(LobbyViewModel)
@@ -19,7 +19,7 @@ enum NavigationState: Equatable, Hashable {
 
 // MARK: - ViewModels
 
-extension NavigationState {
+extension NavPath {
     var lobbyViewModel: LobbyViewModel? {
         switch self {
         case .enterCode(let vm),
@@ -34,8 +34,8 @@ extension NavigationState {
 
 // MARK: - Operators
 
-extension NavigationState {
-    static func ~=(_ lhs: NavigationState, rhs: NavigationState) -> Bool {
+extension NavPath {
+    static func ~=(_ lhs: NavPath, rhs: NavPath) -> Bool {
         switch (lhs, rhs) {
         case (.enterCode, .enterCode),
             (.enterName, .enterName),
@@ -50,8 +50,8 @@ extension NavigationState {
 
 // MARK: - Navigation
 
-extension [NavigationState] {
-    mutating func navigate(to path: NavigationState) {
+extension [NavPath] {
+    mutating func navigate(to path: NavPath) {
         if let pathIndex = firstIndex(where: {  $0 ~= path }) {
             removeAll(after: pathIndex)
         } else {

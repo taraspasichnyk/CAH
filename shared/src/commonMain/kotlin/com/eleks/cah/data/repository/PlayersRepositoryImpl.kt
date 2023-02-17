@@ -30,7 +30,9 @@ class PlayersRepositoryImpl(
             .child(DB_REF_PLAYERS)
             .child(playerID)
             .valueEvents
-            .firstOrNull()?.takeIf { it.exists }?.let {
+            .firstOrNull()
+            ?.takeIf { it.exists }
+            ?.let {
                 changePlayerState(roomID, playerID, newState)
             } ?: throw PlayerNotFoundException(playerID)
     }

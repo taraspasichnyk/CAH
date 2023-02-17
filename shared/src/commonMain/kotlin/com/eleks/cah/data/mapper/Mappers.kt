@@ -15,7 +15,7 @@ fun GameRoomDTO.toModel() = GameRoom(
 fun PlayerDTO.toModel() = Player(
     id = id,
     nickname = nickname,
-    gameOwner = gameOwner,
+    gameOwner = gameOwner == 1L,
     cards = cards.map { it.toModel() },
     score = score,
     state = Player.PlayerState.valueOf(state),

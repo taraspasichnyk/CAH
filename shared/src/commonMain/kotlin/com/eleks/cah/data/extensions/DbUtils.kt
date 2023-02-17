@@ -8,10 +8,12 @@ import kotlinx.coroutines.flow.firstOrNull
 
 suspend fun DatabaseReference.roomOrException(
     roomID: RoomID,
-    action: suspend (GameRoomDTO) -> Unit
+    action: suspend (GameRoomDTO) -> Unit = {}
 ): GameRoomDTO = this.child(roomID)
     .valueEvents
-    .firstOrNull()?.takeIf { it.exists }?.let {
+    .firstOrNull()
+    ?.takeIf { it.exists }
+    ?.let {
         val gameRoomDto = it.value<GameRoomDTO>()
         action(gameRoomDto)
         gameRoomDto

@@ -3,7 +3,7 @@ import shared
 
 struct ContentView: View {
 
-    @EnvironmentObject private var alert: AlertState
+    @EnvironmentObject private var alertState: AlertState
     @State private var navState: [NavPath] = []
 
     private let injector: Injector
@@ -28,14 +28,9 @@ struct ContentView: View {
                     mapNavigation(path: $0)
                 }
         })
-        .alert(isPresented: $alert.isPresentingNoFeature) {
-            alert.noFeature
+        .alert(isPresented: $alertState.isPresentingAlert) {
+            alertState.alert
         }
-        .alert(alert.errorMessage ?? "", isPresented: $alert.isPresentingError, actions: {
-            Button("Зрозуміло") {
-                alert.errorMessage = nil
-            }
-        })
         .onAppear {
             subscribeToEffects()
         }
@@ -71,7 +66,7 @@ extension ContentView {
         MenuEffectProcessor(
             injector: injector,
             navState: $navState,
-            alert: alert
+            alertState: alertState
         )
         .process(effect) { lobbyVm in
             AnyFlow<LobbyContractEffect>(source: lobbyVm.effect).collect { lobbyEffect in
@@ -86,8 +81,8 @@ extension ContentView {
         LobbyEffectProcessor(
             injector: injector,
             navState: $navState,
-            shareController: shareController,
-            alert: alert
+            alertState: alertState,
+            shareController: shareController
         ).process(effect)
     }
 }

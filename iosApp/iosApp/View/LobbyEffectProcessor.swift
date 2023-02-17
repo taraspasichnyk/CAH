@@ -13,18 +13,18 @@ final class LobbyEffectProcessor {
     @Binding private var navState: [NavPath]
     private let injector: Injector
     private let shareController: PasteboardControlling
-    private let alert: AlertState
+    private let alertState: AlertState
 
     init(
         injector: Injector = Injector.shared,
         navState: Binding<[NavPath]>,
-        shareController: PasteboardControlling,
-        alert: AlertState
+        alertState: AlertState,
+        shareController: PasteboardControlling
     ) {
         self.injector = injector
         self._navState = navState
+        self.alertState = alertState
         self.shareController = shareController
-        self.alert = alert
     }
 
     func process(_ effect: LobbyContractEffect) {
@@ -44,13 +44,13 @@ final class LobbyEffectProcessor {
             navState.navigate(to: .enterName(lobbyVm))
         case is LobbyContractEffect.NavigationYourCardsScreen:
             // TODO: navState.navigate(to: .yourCards)
-            alert.isPresentingNoFeature = true
+            alertState.presentedAlertType = .noFeature
         case let copyCodeEffect as LobbyContractEffect.CopyCode:
             shareController.copyToPasteboard(copyCodeEffect.code)
         case let errorEffect as LobbyContractEffect.ShowError:
-            alert.errorMessage = errorEffect.message
+            alertState.presentedAlertType = .error(message: errorEffect.message)
         default:
-            alert.isPresentingNoFeature = true
+            alertState.presentedAlertType = .noFeature
         }
     }
 }

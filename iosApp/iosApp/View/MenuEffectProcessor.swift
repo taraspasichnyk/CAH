@@ -12,16 +12,16 @@ import shared
 final class MenuEffectProcessor {
     @Binding private var navState: [NavPath]
     private let injector: Injector
-    private let alert: AlertState
+    private let alertState: AlertState
 
     init(
         injector: Injector = Injector.shared,
         navState: Binding<[NavPath]>,
-        alert: AlertState
+        alertState: AlertState
     ) {
         self.injector = injector
         self._navState = navState
-        self.alert = alert
+        self.alertState = alertState
     }
 
     func process(_ effect: MenuContractEffect, subscribeToLobbyEffects: (LobbyViewModel) -> Void) {
@@ -35,7 +35,7 @@ final class MenuEffectProcessor {
             subscribeToLobbyEffects(lobbyVm)
             navState.append(.enterCode(lobbyVm))
         default:
-            alert.isPresentingNoFeature = true
+            alertState.presentedAlertType = .noFeature
         }
     }
 }

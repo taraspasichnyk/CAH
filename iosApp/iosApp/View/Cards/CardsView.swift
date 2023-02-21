@@ -15,9 +15,14 @@ struct CardsView: View {
                 Text("Ваші карти")
                     .font(.titleRegularSecondary)
                 Spacer()
-                PrimaryButton("Далі") {
-                    // TODO
+                HStack {
+                    Spacer()
+                    PrimaryButton("Далі") {
+                        // TODO
+                    }
                 }
+                .padding(.trailing, 20.0)
+                .padding(.bottom, 52.0)
             }
             Spacer()
         }
@@ -46,11 +51,18 @@ import shared
 
 class CardItemsDataModel: ObservableObject {
 
-    @Published var items: [CardItem] = []
-//    [
-//        .init(text: "Степан Гіга"),
-//        .init(text: "Степан Гіга")
-//    ]
+    @Published var items: [CardItem] = [
+        .init(text: "Степан Гіга"),
+        .init(text: "Знімати персики з дерева біля ЖЕКу"),
+        .init(text: "Місити палкою кропиву"),
+        .init(text: "Неймовірний покемон Сквіртл"),
+        .init(text: "Картонний пакет Кагору"),
+        .init(text: "Футбольний клуб \"Карпати\""),
+        .init(text: "Майнити біткойни на Atari"),
+        .init(text: "Стрілецька Дивізія \"СС Галичина\""),
+        .init(text: "Божеволіти він нестримного програмування"),
+        .init(text: "Тім лід гомосексуаліст")
+    ]
 
     init(gvm: GameViewModel) {
         AnyFlow<GameContractGameState>(source: gvm.state).collect { gameState in

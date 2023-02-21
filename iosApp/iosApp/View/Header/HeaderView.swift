@@ -9,23 +9,24 @@
 import SwiftUI
 
 struct HeaderView: View {
+    let size: HeaderSize
 
     // MARK: - Body
 
     var body: some View {
         ZStack {
             Image.bgTexture
-                .padding(.bottom, 44)
+                .padding(.bottom, size.headerBackgroundBottomPadding)
             VStack {
                 Spacer()
                 Image.logo
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 238)
+                    .frame(width: size.logoWidth)
             }
         }
         .ignoresSafeArea()
-        .frame(height: 210)
+        .frame(height: size.height)
     }
 }
 
@@ -34,7 +35,7 @@ struct HeaderView: View {
 struct HeaderView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            HeaderView()
+            HeaderView(size: .medium)
             Spacer()
         }
     }

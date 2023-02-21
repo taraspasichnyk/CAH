@@ -81,7 +81,6 @@ struct LobbyView: View {
             .padding(.top, .large)
             .padding(.leading, 40)
             .padding(.trailing, 36)
-            .padding(.bottom, .extraLarge)
             .ignoresSafeArea(.all)
         }
         .onAppear {

@@ -58,7 +58,6 @@ struct EnterScreenView: View {
                 }
                 .padding(.leading, 40)
                 .padding(.trailing, 36)
-                .padding(.bottom, .extraLarge)
             }
         }
         .onAppear {

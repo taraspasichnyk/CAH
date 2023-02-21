@@ -19,4 +19,5 @@ extension Font {
     static var titleBoldSecondary: Font { .custom("Unbounded-Bold", size: 24) }
 
     static var cardSmall: Font { .custom("Unbounded-Medium", size: 10) }
+    static var largeTitleSemiBold: Font { .custom("Unbounded-SemiBold", size: 32)
 }

@@ -53,6 +53,7 @@
 		92F23CF929A4EEA50093D043 /* ButtonLoadingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F23CF829A4EEA50093D043 /* ButtonLoadingModifier.swift */; };
 		92F23CFB29A4F45E0093D043 /* CurrentRoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F23CFA29A4F45E0093D043 /* CurrentRoundView.swift */; };
 		92F23CFD29A4F91B0093D043 /* HeaderSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F23CFC29A4F91B0093D043 /* HeaderSize.swift */; };
+		92F23D0029A503570093D043 /* QuestionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F23CFF29A503570093D043 /* QuestionCard.swift */; };
 		92F57CA4299551C4005D5328 /* LobbyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F57CA3299551C4005D5328 /* LobbyView.swift */; };
 /* End PBXBuildFile section */
 
@@ -134,6 +135,7 @@
 		92F23CF829A4EEA50093D043 /* ButtonLoadingModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonLoadingModifier.swift; sourceTree = "<group>"; };
 		92F23CFA29A4F45E0093D043 /* CurrentRoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentRoundView.swift; sourceTree = "<group>"; };
 		92F23CFC29A4F91B0093D043 /* HeaderSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderSize.swift; sourceTree = "<group>"; };
+		92F23CFF29A503570093D043 /* QuestionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionCard.swift; sourceTree = "<group>"; };
 		92F57CA3299551C4005D5328 /* LobbyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -252,6 +254,7 @@
 				92CD661E2992DEA80003634C /* ContainerView.swift */,
 				92CD661C2992BD770003634C /* InputField.swift */,
 				92A0603F29A24FB400C6CC3E /* AnswerCard.swift */,
+				92F23CFF29A503570093D043 /* QuestionCard.swift */,
 				927F7F5F298D075400A158A8 /* MainMenuView.swift */,
 			);
 			path = View;
@@ -525,6 +528,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				92E17D92299CEED300A0EEFC /* Size.swift in Sources */,
+				92F23D0029A503570093D043 /* QuestionCard.swift in Sources */,
 				92A0603C299FCEE900C6CC3E /* LobbyEffectProcessor.swift in Sources */,
 				92B925092995670C0089ED88 /* IconButton.swift in Sources */,
 				92A06038299FBB2A00C6CC3E /* LobbyContractState+Extensions.swift in Sources */,

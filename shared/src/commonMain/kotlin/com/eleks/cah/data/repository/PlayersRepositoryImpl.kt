@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.firstOrNull
 
 class PlayersRepositoryImpl(
     databaseReference: DatabaseReference
-): PlayersRepository {
+) : PlayersRepository {
     private val roomsDbReference = databaseReference.child(DB_REF_ROOMS)
 
     override suspend fun updatePlayerState(
@@ -73,10 +73,14 @@ class PlayersRepositoryImpl(
             playerAnswers
         )
 
-        val currentRound = gameRoomDto.currentRound ?: throw RoomNoCurrentRoundException(gameRoomDto.id)
+        Napier.d(tag = TAG, message = "CREATE ANSWER $playerAnswer")
+
+        val currentRound =
+            gameRoomDto.currentRound ?: throw RoomNoCurrentRoundException(gameRoomDto.id)
         val updatedCurrentRound = currentRound.copy(
             answers = currentRound.answers + listOf(playerAnswer)
         )
+
         roomsDbReference.child(gameRoomDto.id)
             .child(DB_REF_CURRENT_ROUND)
             .setValue(updatedCurrentRound)
@@ -101,8 +105,10 @@ class PlayersRepositoryImpl(
         playerID: PlayerID,
         score: Int
     ) {
-        val currentRound = gameRoomDto.currentRound ?: throw RoomNoCurrentRoundException(gameRoomDto.id)
+        val currentRound =
+            gameRoomDto.currentRound ?: throw RoomNoCurrentRoundException(gameRoomDto.id)
         val updatedCurrentRoundAnswers = currentRound.answers.map {
+
             if (it.playerID == playerID) {
                 it.copy(score = it.score + score)
             } else {

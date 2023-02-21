@@ -61,7 +61,7 @@ fun EnterName(lobbyViewModel: LobbyViewModel) {
                 .fillMaxSize()
                 .navigationBarsPadding()
                 .imePadding(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Spacer(Modifier.weight(1f))
             EnterNameView(lobbyViewModel)

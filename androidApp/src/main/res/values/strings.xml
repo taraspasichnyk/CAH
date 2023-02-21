@@ -23,4 +23,6 @@
     <string name="choose_answer">Оберіть відповідь</string>
     <string name="choose">Обрати</string>
     <string name="message_code_copied">Код скопійовано в буфер обміну</string>
+    <string name="vote_scores_title">Оцініть відповідь</string>
+    <string name="round_n_vote">Раунд %d - голосування</string>
 </resources>

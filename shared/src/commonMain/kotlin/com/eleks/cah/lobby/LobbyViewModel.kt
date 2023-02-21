@@ -45,7 +45,7 @@ class LobbyViewModel : BaseViewModel<LobbyContract.State, LobbyContract.Effect>(
 
     var gameOwner: Boolean = true
         set(value) {
-            currentScreen = if (value) {
+                currentScreen = if (value) {
                 LobbyInnerScreen.EnterName
             } else {
                 LobbyInnerScreen.EnterCode
@@ -69,9 +69,11 @@ class LobbyViewModel : BaseViewModel<LobbyContract.State, LobbyContract.Effect>(
                     navigateToScreen(LobbyInnerScreen.EnterCode)
                 }
             }
+
             LobbyInnerScreen.EnterCode -> {
                 setEffect { Navigation.MenuScreen }
             }
+
             LobbyInnerScreen.UserList -> {
                 setState {
                     copy(actionButtonText = Next)
@@ -101,9 +103,11 @@ class LobbyViewModel : BaseViewModel<LobbyContract.State, LobbyContract.Effect>(
             LobbyInnerScreen.EnterName -> {
                 enterName()
             }
+
             LobbyInnerScreen.EnterCode -> {
                 enterCode()
             }
+
             LobbyInnerScreen.UserList -> {
                 startGame()
             }
@@ -163,7 +167,7 @@ class LobbyViewModel : BaseViewModel<LobbyContract.State, LobbyContract.Effect>(
             if (gameOwner) {
                 startNextRoundUseCase.invoke(state.value.code)
                 //TODO add navigation
-                setEffect { Navigation.YourCardsScreen }
+                setEffect { Navigation.GameScreen(state.value.code,  player?.id.orEmpty()) }
             } else {
                 setState {
                     copy(isNextButtonEnabled = false)

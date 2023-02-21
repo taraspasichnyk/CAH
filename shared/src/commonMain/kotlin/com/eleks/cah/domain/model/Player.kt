@@ -5,14 +5,14 @@ import kotlinx.serialization.Serializable
 data class Player(
     val id: PlayerID,
     val nickname: String,
-    val gameOwner:Boolean,
+    val gameOwner: Boolean,
     val cards: List<AnswerCard>,
     val score: Int,
     val state: PlayerState,
 ) {
     @Serializable
     enum class PlayerState {
-        NOT_READY, READY, PLAYING, VOTING
+        NOT_READY, READY, ANSWERING, ANSWER_SUBMITTED, VOTING, VOTE_SUBMITTED
     }
 }
 

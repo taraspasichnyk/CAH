@@ -17,5 +17,6 @@ class VoteUseCaseImpl(
             playerID,
             score
         )
+        //TODO: when every player voted for every card timeout
     }
 }

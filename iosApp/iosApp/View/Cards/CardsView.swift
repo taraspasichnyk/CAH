@@ -12,34 +12,36 @@ struct CardsView: View {
     @EnvironmentObject var dataModel: CardItemsDataModel
 
     let columns = [
-        GridItem(.flexible()),
-        GridItem(.flexible()),
-        GridItem(.flexible())
+        GridItem(spacing: 8.0),
+        GridItem(spacing: 8.0),
+        GridItem(spacing: 8.0)
     ]
 
     let spacing = 8.0
 
     var body: some View {
-        ContainerView {
+        ContainerView(header: .small) {
             VStack {
                 Text("Ваші карти")
                     .font(.titleRegularSecondary)
                 Spacer()
                 ScrollView(.vertical) {
-                    LazyVGrid(columns: columns, spacing: spacing) {
+                    LazyVGrid(
+                        columns: columns,
+                        alignment: .center,
+                        spacing: spacing
+                    ) {
                         ForEach(dataModel.items, id: \.self) { item in
                             VStack {
                                 Text(item.text)
+                                    .frame(maxWidth: .infinity)
                                     .multilineTextAlignment(.center)
                                     .padding(.top, 16.0)
                                     .padding(.horizontal, 8.0)
                                     .font(.cardSmall)
                                 Spacer()
                             }
-                            .frame(
-                                width: 124,
-                                height: 168
-                            )
+                            .frame(height: 148.0)
                             .background(
                                 LinearGradient(
                                     colors: [
@@ -65,7 +67,6 @@ struct CardsView: View {
                     }
                 }
                 .padding(.trailing, 20.0)
-                .padding(.bottom, 52.0)
             }
             Spacer()
         }

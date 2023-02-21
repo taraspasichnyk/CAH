@@ -9,12 +9,55 @@
 import SwiftUI
 
 struct CardsView: View {
+    @EnvironmentObject var dataModel: CardItemsDataModel
+
+    let columns = [
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ]
+
+    let spacing = 8.0
+
     var body: some View {
         ContainerView {
             VStack {
                 Text("Ваші карти")
                     .font(.titleRegularSecondary)
                 Spacer()
+                ScrollView(.vertical) {
+                    LazyVGrid(columns: columns, spacing: spacing) {
+                        ForEach(dataModel.items, id: \.self) { item in
+                            VStack {
+                                Text(item.text)
+                                    .multilineTextAlignment(.center)
+                                    .padding(.top, 16.0)
+                                    .padding(.horizontal, 8.0)
+                                    .font(.cardSmall)
+                                Spacer()
+                            }
+                            .frame(
+                                width: 124,
+                                height: 168
+                            )
+                            .background(
+                                LinearGradient(
+                                    colors: [
+                                        Color(red: 0.94, green: 0.94, blue: 0.94),
+                                        Color.white,
+                                        Color(red: 0.92, green: 0.92, blue: 0.92),
+                                    ],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                            .compositingGroup()
+                            .cornerRadius(8.0)
+                            .shadow(radius: 8.0, y: 4.0)
+                        }
+                    }
+                    .padding([.leading, .top, .trailing], 20.0)
+                }
                 HStack {
                     Spacer()
                     PrimaryButton("Далі") {
@@ -33,10 +76,11 @@ struct CardsView: View {
 struct CardsView_Previews: PreviewProvider {
     static var previews: some View {
         CardsView()
+            .environmentObject(CardItemsDataModel())
     }
 }
 
-struct CardItem: Identifiable {
+struct CardItem: Identifiable, Hashable {
     let id = UUID()
     let text: String
 }
@@ -51,18 +95,22 @@ import shared
 
 class CardItemsDataModel: ObservableObject {
 
-    @Published var items: [CardItem] = [
-        .init(text: "Степан Гіга"),
-        .init(text: "Знімати персики з дерева біля ЖЕКу"),
-        .init(text: "Місити палкою кропиву"),
-        .init(text: "Неймовірний покемон Сквіртл"),
-        .init(text: "Картонний пакет Кагору"),
-        .init(text: "Футбольний клуб \"Карпати\""),
-        .init(text: "Майнити біткойни на Atari"),
-        .init(text: "Стрілецька Дивізія \"СС Галичина\""),
-        .init(text: "Божеволіти він нестримного програмування"),
-        .init(text: "Тім лід гомосексуаліст")
-    ]
+    @Published var items: [CardItem] = []
+
+    init() {
+        items = [
+            .init(text: "Степан Гіга"),
+            .init(text: "Знімати персики з дерева біля ЖЕКу"),
+            .init(text: "Місити палкою кропиву"),
+            .init(text: "Неймовірний покемон Сквіртл"),
+            .init(text: "Картонний пакет Кагору"),
+            .init(text: "Футбольний клуб \"Карпати\""),
+            .init(text: "Майнити біткойни на Atari"),
+            .init(text: "Стрілецька Дивізія \"СС Галичина\""),
+            .init(text: "Божеволіти він нестримного програмування"),
+            .init(text: "Тім лід гомосексуаліст")
+        ]
+    }
 
     init(gvm: GameViewModel) {
         AnyFlow<GameContractGameState>(source: gvm.state).collect { gameState in
@@ -88,13 +136,14 @@ class CardItemsDataModel: ObservableObject {
 }
 
 struct GridItemView: View {
-    let size: Double
+    let width: Double
+    let height: Double
     let item: CardItem
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
-            Text(item.text)
-                .frame(width: size, height: size)
+            AnswerCard(answer: item.text)
+                .frame(width: width, height: height)
         }
     }
 }

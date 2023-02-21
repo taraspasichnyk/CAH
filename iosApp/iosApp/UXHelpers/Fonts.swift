@@ -16,4 +16,5 @@ extension Font {
     static var bodyTertiary: Font { .custom("Unbounded-Medium", size: 12) }
     static var inputPrimary: Font { .custom("Unbounded-Medium", size: 16) }
     static var titleBoldSecondary: Font { .custom("Unbounded-Bold", size: 24) }
+    static var largeTitleSemiBold: Font { .custom("Unbounded-SemiBold", size: 32) }
 }

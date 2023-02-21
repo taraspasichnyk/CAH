@@ -7,12 +7,14 @@
 //
 
 import Foundation
+import shared
+import UIKit
 
 /// Local `Enter Screen` stage that reflects its variant
 /// Might potentially be replaced with viewmodels from shared module, when they're ready
 enum EnterScreenStage {
-    case playerName
-    case roomCode
+    case playerName(LobbyViewModel)
+    case roomCode(LobbyViewModel)
 }
 
 // MARK: - Convenience
@@ -29,6 +31,13 @@ extension EnterScreenStage {
         switch self {
         case .playerName: return "Ваше імʼя"
         case .roomCode: return "XXXXXXXX"
+        }
+    }
+
+    var contentType: UITextContentType {
+        switch self {
+        case .playerName: return .name
+        case .roomCode: return .oneTimeCode
         }
     }
 }

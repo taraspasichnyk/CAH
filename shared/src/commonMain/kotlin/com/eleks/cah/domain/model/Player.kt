@@ -1,5 +1,7 @@
 package com.eleks.cah.domain.model
 
+import kotlinx.serialization.Serializable
+
 data class Player(
     val id: PlayerID,
     val nickname: String,
@@ -8,6 +10,7 @@ data class Player(
     val score: Int,
     val state: PlayerState,
 ) {
+    @Serializable
     enum class PlayerState {
         NOT_READY, READY, PLAYING, VOTING
     }

@@ -28,6 +28,7 @@
 		927F7F60298D075400A158A8 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927F7F5F298D075400A158A8 /* MainMenuView.swift */; };
 		927F7F62298D1EB800A158A8 /* EnterScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927F7F61298D1EB800A158A8 /* EnterScreenView.swift */; };
 		9291175D2998454C00B23AF3 /* PasteboardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9291175C2998454C00B23AF3 /* PasteboardController.swift */; };
+		929F29CC29A50FE400A1714B /* GridButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929F29CB29A50FE400A1714B /* GridButton.swift */; };
 		92A06038299FBB2A00C6CC3E /* LobbyContractState+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A06037299FBB2A00C6CC3E /* LobbyContractState+Extensions.swift */; };
 		92A0603A299FBBBF00C6CC3E /* ArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A06039299FBBBF00C6CC3E /* ArrayTests.swift */; };
 		92A0603C299FCEE900C6CC3E /* LobbyEffectProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A0603B299FCEE900C6CC3E /* LobbyEffectProcessor.swift */; };
@@ -113,6 +114,7 @@
 		927F7F5F298D075400A158A8 /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
 		927F7F61298D1EB800A158A8 /* EnterScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterScreenView.swift; sourceTree = "<group>"; };
 		9291175C2998454C00B23AF3 /* PasteboardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteboardController.swift; sourceTree = "<group>"; };
+		929F29CB29A50FE400A1714B /* GridButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridButton.swift; sourceTree = "<group>"; };
 		92A06037299FBB2A00C6CC3E /* LobbyContractState+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LobbyContractState+Extensions.swift"; sourceTree = "<group>"; };
 		92A06039299FBBBF00C6CC3E /* ArrayTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayTests.swift; sourceTree = "<group>"; };
 		92A0603B299FCEE900C6CC3E /* LobbyEffectProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyEffectProcessor.swift; sourceTree = "<group>"; };
@@ -281,6 +283,7 @@
 			children = (
 				92B925082995670C0089ED88 /* IconButton.swift */,
 				927295E2298D61F100C5F0DE /* PrimaryButton.swift */,
+				929F29CB29A50FE400A1714B /* GridButton.swift */,
 				927295E7298D733500C5F0DE /* BackButton.swift */,
 			);
 			path = Buttons;
@@ -548,6 +551,7 @@
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				92F23CFD29A4F91B0093D043 /* HeaderSize.swift in Sources */,
 				92CD661D2992BD770003634C /* InputField.swift in Sources */,
+				929F29CC29A50FE400A1714B /* GridButton.swift in Sources */,
 				92CD661B2992B83B0003634C /* HeaderView.swift in Sources */,
 				92F23CF929A4EEA50093D043 /* ButtonLoadingModifier.swift in Sources */,
 				927295E8298D733500C5F0DE /* BackButton.swift in Sources */,

@@ -9,7 +9,14 @@
 import SwiftUI
 
 final class AlertState: ObservableObject {
-    @Published var isPresentingNoFeature = false
+
+    @Published var isPresentingAlert: Bool = false
+
+    var presentedAlertType: AlertType? {
+        didSet {
+            isPresentingAlert = presentedAlertType != nil
+        }
+    }
 
     private static let proverbs = [
         "Не лізь поперед батька в пекло!",
@@ -20,19 +27,41 @@ final class AlertState: ObservableObject {
     ]
 }
 
+// MARK: - AlertType
+
+extension AlertState {
+    enum AlertType {
+        case noFeature
+        case error(message: String)
+    }
+}
+
 // MARK: - Views
 
 extension AlertState {
-    var noFeature: Alert {
+    var alert: Alert {
         Alert(
             title: Text("Йой"),
-            message: Text("""
-            \(Self.proverbs.randomElement() ?? "")
-            (фіча із нот імплементед)"
-            """),
+            message: Text(alertMessage),
             dismissButton: .default(
-                Text("Ну ок...")
-            )
+                Text("Зрозуміло")
+            ) { [weak self] in
+                self?.presentedAlertType = nil
+            }
         )
+    }
+
+    private var alertMessage: String {
+        switch presentedAlertType {
+        case .error(message: let message):
+            return message
+        case .noFeature:
+            return """
+                   \(Self.proverbs.randomElement() ?? "")
+                   (фіча із нот імплементед)"
+                   """
+        case .none:
+            return "Щось пішло не так"
+        }
     }
 }

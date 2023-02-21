@@ -11,38 +11,48 @@ import shared
 
 struct EnterScreenView: View {
 
-    @Binding var navState: [NavigationState]
     @EnvironmentObject private var alert: AlertState
     @FocusState private var isFocused: Bool
 
-    @State private var name = ""
+    @State private var inputText = ""
+    @State private var isButtonEnabled = false
+    @State private var buttonTitle = ""
 
     let stage: EnterScreenStage
 
+    private var vm: LobbyViewModel {
+        switch stage {
+        case .roomCode(let vm), .playerName(let vm):
+            return vm
+        }
+    }
+    
     // MARK: - Body
 
     var body: some View {
+        let nameBinding = Binding {
+            inputText
+        } set: {
+            inputText = $0
+            validateInput()
+        }
+
         ContainerView {
             Spacer()
-            InputField(stage.placeholder, text: $name, isFocused: $isFocused)
+            InputField(stage.placeholder, text: nameBinding, isFocused: $isFocused)
+                .textContentType(stage.contentType)
                 .frame(width: 286)
             Spacer()
             VStack {
                 HStack {
                     BackButton {
-                        // TODO: Replace with call to viewmodel
-                        _ = navState.popLast()
+                        vm.onBackPressed()
                     }
                     Spacer()
-                    PrimaryButton("Далі") {
-                        // TODO: Replace with call to viewmodel
-                        if navState.last == .enterName {
-                            navState.append(.lobby)
-                        } else {
-                            navState.append(.enterName)
-                        }
+                    PrimaryButton(buttonTitle) {
+                        vm.onNextClicked()
                     }
-                    .disabled(name.isEmpty)
+                    .disabled(!isButtonEnabled)
                 }
                 .padding(.leading, 40)
                 .padding(.trailing, 36)
@@ -51,6 +61,29 @@ struct EnterScreenView: View {
         }
         .onAppear {
             isFocused = true
+            subscribeToState()
+        }
+    }
+}
+
+// MARK: - Private
+
+extension EnterScreenView {
+    private func subscribeToState() {
+        AnyFlow<LobbyContractState>(source: vm.state).collect { state in
+            guard let state else { return }
+            isButtonEnabled = state.isNextButtonEnabled
+            buttonTitle = state.buttonText
+        } onCompletion: { _ in
+        }
+    }
+
+    private func validateInput() {
+        switch stage {
+        case .playerName(let lobbyVm):
+            lobbyVm.validateName(name: inputText)
+        case .roomCode(let lobbyVm):
+            lobbyVm.validateCode(code: inputText)
         }
     }
 }
@@ -59,6 +92,8 @@ struct EnterScreenView: View {
 
 struct EnterNameView_Previews: PreviewProvider {
     static var previews: some View {
-        EnterScreenView(navState: .constant([]), stage: .playerName)
+        EnterScreenView(
+            stage: .playerName(.init())
+        )
     }
 }

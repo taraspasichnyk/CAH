@@ -29,6 +29,7 @@
 		927F7F60298D075400A158A8 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927F7F5F298D075400A158A8 /* MainMenuView.swift */; };
 		927F7F62298D1EB800A158A8 /* EnterScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927F7F61298D1EB800A158A8 /* EnterScreenView.swift */; };
 		9291175D2998454C00B23AF3 /* PasteboardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9291175C2998454C00B23AF3 /* PasteboardController.swift */; };
+		929F29CC29A50FE400A1714B /* GridButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 929F29CB29A50FE400A1714B /* GridButton.swift */; };
 		92A06038299FBB2A00C6CC3E /* LobbyContractState+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A06037299FBB2A00C6CC3E /* LobbyContractState+Extensions.swift */; };
 		92A0603A299FBBBF00C6CC3E /* ArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A06039299FBBBF00C6CC3E /* ArrayTests.swift */; };
 		92A0603C299FCEE900C6CC3E /* LobbyEffectProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A0603B299FCEE900C6CC3E /* LobbyEffectProcessor.swift */; };
@@ -54,6 +55,7 @@
 		92F23CF929A4EEA50093D043 /* ButtonLoadingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F23CF829A4EEA50093D043 /* ButtonLoadingModifier.swift */; };
 		92F23CFB29A4F45E0093D043 /* CurrentRoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F23CFA29A4F45E0093D043 /* CurrentRoundView.swift */; };
 		92F23CFD29A4F91B0093D043 /* HeaderSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F23CFC29A4F91B0093D043 /* HeaderSize.swift */; };
+		92F23D0029A503570093D043 /* QuestionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F23CFF29A503570093D043 /* QuestionCard.swift */; };
 		92F57CA4299551C4005D5328 /* LobbyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F57CA3299551C4005D5328 /* LobbyView.swift */; };
 /* End PBXBuildFile section */
 
@@ -114,6 +116,7 @@
 		927F7F5F298D075400A158A8 /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
 		927F7F61298D1EB800A158A8 /* EnterScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterScreenView.swift; sourceTree = "<group>"; };
 		9291175C2998454C00B23AF3 /* PasteboardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteboardController.swift; sourceTree = "<group>"; };
+		929F29CB29A50FE400A1714B /* GridButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridButton.swift; sourceTree = "<group>"; };
 		92A06037299FBB2A00C6CC3E /* LobbyContractState+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LobbyContractState+Extensions.swift"; sourceTree = "<group>"; };
 		92A06039299FBBBF00C6CC3E /* ArrayTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayTests.swift; sourceTree = "<group>"; };
 		92A0603B299FCEE900C6CC3E /* LobbyEffectProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyEffectProcessor.swift; sourceTree = "<group>"; };
@@ -136,6 +139,7 @@
 		92F23CF829A4EEA50093D043 /* ButtonLoadingModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonLoadingModifier.swift; sourceTree = "<group>"; };
 		92F23CFA29A4F45E0093D043 /* CurrentRoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentRoundView.swift; sourceTree = "<group>"; };
 		92F23CFC29A4F91B0093D043 /* HeaderSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderSize.swift; sourceTree = "<group>"; };
+		92F23CFF29A503570093D043 /* QuestionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionCard.swift; sourceTree = "<group>"; };
 		92F57CA3299551C4005D5328 /* LobbyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -263,6 +267,7 @@
 				92CD661E2992DEA80003634C /* ContainerView.swift */,
 				92CD661C2992BD770003634C /* InputField.swift */,
 				92A0603F29A24FB400C6CC3E /* AnswerCard.swift */,
+				92F23CFF29A503570093D043 /* QuestionCard.swift */,
 				927F7F5F298D075400A158A8 /* MainMenuView.swift */,
 			);
 			path = View;
@@ -289,6 +294,7 @@
 			children = (
 				92B925082995670C0089ED88 /* IconButton.swift */,
 				927295E2298D61F100C5F0DE /* PrimaryButton.swift */,
+				929F29CB29A50FE400A1714B /* GridButton.swift */,
 				927295E7298D733500C5F0DE /* BackButton.swift */,
 			);
 			path = Buttons;
@@ -536,6 +542,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				92E17D92299CEED300A0EEFC /* Size.swift in Sources */,
+				92F23D0029A503570093D043 /* QuestionCard.swift in Sources */,
 				92A0603C299FCEE900C6CC3E /* LobbyEffectProcessor.swift in Sources */,
 				92B925092995670C0089ED88 /* IconButton.swift in Sources */,
 				92A06038299FBB2A00C6CC3E /* LobbyContractState+Extensions.swift in Sources */,
@@ -556,6 +563,7 @@
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				92F23CFD29A4F91B0093D043 /* HeaderSize.swift in Sources */,
 				92CD661D2992BD770003634C /* InputField.swift in Sources */,
+				929F29CC29A50FE400A1714B /* GridButton.swift in Sources */,
 				92CD661B2992B83B0003634C /* HeaderView.swift in Sources */,
 				92F23CF929A4EEA50093D043 /* ButtonLoadingModifier.swift in Sources */,
 				927295E8298D733500C5F0DE /* BackButton.swift in Sources */,

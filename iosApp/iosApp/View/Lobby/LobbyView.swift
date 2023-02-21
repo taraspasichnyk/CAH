@@ -10,29 +10,18 @@ import SwiftUI
 import shared
 
 struct LobbyView: View {
-    @Binding var navState: [NavigationState]
     @EnvironmentObject private var alert: AlertState
+    @EnvironmentObject private var loadingState: LoadingState
 
-    @State private var users: [Player] = [
-        .init(id: "a0", nickname: "Dmytro", gameOwner: true, cards: [], score: 0, state: .notReady),
-        .init(id: "b1", nickname: "Taras", gameOwner: false, cards: [], score: 0, state: .ready),
-        .init(id: "c2", nickname: "Artem", gameOwner: false, cards: [], score: 0, state: .ready),
-        .init(id: "d3", nickname: "Oleksandr", gameOwner: false, cards: [], score: 0, state: .notReady),
-        .init(id: "e4", nickname: "Andrii", gameOwner: false, cards: [], score: 0, state: .ready),
-        .init(id: "f5", nickname: "Oleh", gameOwner: false, cards: [], score: 0, state: .notReady),
-        .init(id: "g6", nickname: "Patron", gameOwner: false, cards: [], score: 0, state: .notReady),
-        .init(id: "h7", nickname: "Jerry", gameOwner: false, cards: [], score: 0, state: .notReady),
-    ]
+    @State private var users: [Player] = []
+    @State private var roomCode: String = ""
+    @State private var isButtonEnabled = false
+    @State private var buttonTitle = "Готовий"
 
-    private let shareController: PasteboardControlling
-    private let roomCode = "00212314" // TODO: Get actual code from state
+    private let vm: LobbyViewModel
 
-    init(
-        navState: Binding<[NavigationState]>,
-        shareController: PasteboardControlling = PasteboardController.shared
-    ) {
-        self._navState = navState
-        self.shareController = shareController
+    init(vm: LobbyViewModel) {
+        self.vm = vm
     }
 
     // MARK: - Body
@@ -49,7 +38,7 @@ struct LobbyView: View {
                     }
                     Spacer()
                     IconButton(.copy) {
-                        shareController.copyToPasteboard(roomCode)
+                        vm.onCodeCopyClicked()
                     }
                     .square(.larger)
                     Spacer()
@@ -67,8 +56,8 @@ struct LobbyView: View {
 
                 ScrollView(.vertical) {
                     LazyVStack {
-                        ForEach($users, id: \.nickname) {
-                            LobbyRow(user: $0)
+                        ForEach(Array(users.enumerated()), id: \.element.id) {
+                            LobbyRow(offset: $0, user: $1)
                         }
                     }
                 }
@@ -80,25 +69,39 @@ struct LobbyView: View {
             Spacer()
             HStack {
                 BackButton {
-                    // TODO: Replace with call to viewmodel
-                    _ = navState.popLast()
+                    vm.onBackPressed()
                 }
                 Spacer()
-                PrimaryButton("Готовий") {
-                    // TODO: Replace with call to viewmodel
-                    alert.isPresentingNoFeature = true
+                PrimaryButton(buttonTitle) {
+                    vm.onNextClicked()
                 }
-                .disabled(
-                    !users.allSatisfy {
-                        $0.state == .ready
-                    }
-                )
+                .disabled(!isButtonEnabled)
+                .buttonLoading(loadingState.isLoading)
             }
             .padding(.top, .large)
             .padding(.leading, 40)
             .padding(.trailing, 36)
             .padding(.bottom, .extraLarge)
             .ignoresSafeArea(.all)
+        }
+        .onAppear {
+            subscribeToState()
+        }
+    }
+}
+
+// MARK: - Private
+
+extension LobbyView {
+    private func subscribeToState() {
+        AnyFlow<LobbyContractState>(source: vm.state).collect { state in
+            guard let state else { return }
+            users = state.users
+            roomCode = state.code
+            isButtonEnabled = state.isNextButtonEnabled
+            buttonTitle = state.buttonText
+            loadingState.isLoading = state.isLoading
+        } onCompletion: { _ in
         }
     }
 }
@@ -107,7 +110,7 @@ struct LobbyView: View {
 
 struct LobbyView_Previews: PreviewProvider {
     static var previews: some View {
-        LobbyView(navState: .constant([]))
+        LobbyView(vm: .init())
             .environmentObject(AlertState())
     }
 }

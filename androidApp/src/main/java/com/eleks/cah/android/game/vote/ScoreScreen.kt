@@ -1,7 +1,7 @@
 package com.eleks.cah.android.game.vote
 
+import android.util.Log
 import androidx.annotation.DrawableRes
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -59,17 +59,21 @@ fun ScoreScreen(
     answerCards: List<RoundPlayerAnswer>,
     roundNumber: Int,
 
-    onTimeout: () -> Unit = {},
-    onLastVote: () -> Unit = {}
+    onTimeout: (List<RoundPlayerAnswer>) -> Unit = {},
+    onVote: (List<RoundPlayerAnswer>) -> Unit = {}
 ) {
+    val answersState = remember { answerCards.toMutableStateList() }
+
     var timeout by remember {
         mutableStateOf(60)
     }
+
     LaunchedEffect(key1 = "timeout") {
         while (timeout > 0) {
             delay(1000L)
             timeout--
         }
+        onTimeout(answersState)
     }
 
     Column(
@@ -95,7 +99,6 @@ fun ScoreScreen(
         ) {
 
             val pagerState = rememberPagerState()
-            val cards = answerCards.toMutableStateList()
 
             Text(
                 text = stringResource(
@@ -111,7 +114,7 @@ fun ScoreScreen(
                 modifier = Modifier
                     .padding(top = 16.dp)
                     .padding(horizontal = 24.dp),
-                cardsCount = cards.size,
+                cardsCount = answersState.size,
                 pagerState = pagerState,
             )
 
@@ -120,11 +123,10 @@ fun ScoreScreen(
             ScoreCards(
                 pagerState = pagerState,
                 question = question,
-                answers = cards,
+                answers = answersState,
             )
 
             Spacer(Modifier.weight(1f))
-
 
             val currentPage = pagerState.currentPage
 
@@ -132,10 +134,13 @@ fun ScoreScreen(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .padding(bottom = 40.dp),
-                selectedVote = answerCards[currentPage].score,
+                selectedVote = answersState[currentPage].score,
             ) {
-                cards[currentPage] =
-                    cards[currentPage].copy(score = it ?: -1)
+                Log.d("###", "selected vote = $it")
+                answersState[currentPage] =
+                    answersState[currentPage].copy(score = it ?: -1)
+
+                onVote(answersState)
             }
         }
     }
@@ -147,7 +152,7 @@ private fun Timer(
     modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .background(Color.Transparent)
             .wrapContentSize()
     ) {
@@ -214,7 +219,7 @@ private fun LazyItemScope.Tab(
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ScoreCards(
     pagerState: PagerState,
@@ -259,7 +264,7 @@ private fun AnswerCards(
             val angle = if (it % 2 == 0) -15.0f else 15.0f
 
             ConflictCard(
-                cardText = card.playerAnswers[0].answer,
+                cardText = card.playerAnswers[0],
                 modifier = Modifier.rotate(angle),
             )
 

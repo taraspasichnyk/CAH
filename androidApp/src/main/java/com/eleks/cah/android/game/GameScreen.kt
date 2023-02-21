@@ -15,11 +15,11 @@ import com.eleks.cah.android.game.round.PreRoundScreen
 import com.eleks.cah.android.game.round.RoundScreen
 import com.eleks.cah.android.game.vote.ScoreScreen
 import com.eleks.cah.android.router.GameRoute
+import com.eleks.cah.domain.model.RoundPlayerAnswer
 import com.eleks.cah.game.GameContract
 import com.eleks.cah.game.GameViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.map
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -70,7 +70,7 @@ fun GameScreen(
                 player,
                 currentRound,
             ) {
-                gameViewModel.answer(it)
+                gameViewModel.saveAnswers(it)
             }
         }
 
@@ -79,7 +79,9 @@ fun GameScreen(
                 currentRound.question,
                 currentRound.answers,
                 roundNumber = currentRound.number
-            )
+            ){
+                gameViewModel.saveScores(it)
+            }
         }
     }
 }

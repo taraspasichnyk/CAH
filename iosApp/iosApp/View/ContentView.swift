@@ -2,28 +2,40 @@ import SwiftUI
 import shared
 
 struct ContentView: View {
-    @Binding var state: GameContractGameState
-    let vm: GameViewModel
-    let menuVm: MenuViewModel = Injector.shared.menuViewModel
-    
-    @EnvironmentObject
-    private var alert: AlertState
-    @State private var navState: [NavigationState] = []
+
+    @EnvironmentObject private var loadingState: LoadingState
+    @EnvironmentObject private var alertState: AlertState
+    @State private var navState: [NavPath] = []
+
+    private let injector: Injector
+    private let menuVm: MenuViewModel
+    private var shareController: PasteboardControlling
+
+    init(
+        injector: Injector = Injector.shared,
+        shareController: PasteboardControlling = PasteboardController.shared
+    ) {
+        self.injector = injector
+        self.menuVm = injector.menuViewModel
+        self.shareController = shareController
+    }
 
     // MARK: - Body
 
     var body: some View {
         NavigationStack(path: $navState, root: {
-            map(state: state)
+            MainMenuView(vm: menuVm)
+                .navigationDestination(for: NavPath.self) {
+                    mapNavigation(path: $0)
+                }
         })
-        .alert(isPresented: $alert.isPresentingNoFeature) {
-            alert.noFeature
+        .alert(isPresented: $alertState.isPresentingAlert) {
+            alertState.alert
         }
         .onAppear {
             subscribeToEffects()
         }
     }
-
 }
 
 // MARK: - Private
@@ -37,45 +49,42 @@ extension ContentView {
         }
     }
 
-    private func map(state: GameContractGameState) -> AnyView {
-        switch state {
-        case is GameContractGameState.InMenu: return AnyView(
-            MainMenuView(vm: menuVm)
-                .navigationDestination(for: NavigationState.self, destination: { path in
-                    switch path {
-                    case .enterName:
-                        EnterScreenView(navState: $navState, stage: .playerName)
-                            .textContentType(.name)
-                    case .enterCode:
-                        EnterScreenView(navState: $navState, stage: .roomCode)
-                            .textContentType(.oneTimeCode)
-                    case .lobby:
-                        LobbyView(navState: $navState)
-                    default:
-                        EmptyView()
-                    }
-                })
-        )
-        case is GameContractGameState.InLobby: return AnyView(VStack{})
-        case is GameContractGameState.InRoomCreation: return AnyView(VStack{
-            EnterScreenView(navState: $navState, stage: .playerName)
-        })
-        case is GameContractGameState.InSettings: return AnyView(VStack{})
+    @ViewBuilder
+    private func mapNavigation(path: NavPath) -> some View {
+        switch path {
+        case .enterName(let lobbyVm):
+            EnterScreenView(stage: .playerName(lobbyVm))
+        case .enterCode(let lobbyVm):
+            EnterScreenView(stage: .roomCode(lobbyVm))
+        case .lobby(let lobbyVm):
+            LobbyView(vm: lobbyVm)
         default:
-            return AnyView(VStack{})
+            EmptyView()
         }
     }
 
     private func process(effect: MenuContractEffect) {
-        // TODO: Process effects properly
-        switch effect {
-        case is MenuContractEffect.NavigationNewGameScreen:
-            navState.append(.enterName)
-        case is MenuContractEffect.NavigationJoinGameScreen:
-            navState.append(.enterCode)
-        default:
-            break
+        MenuEffectProcessor(
+            injector: injector,
+            navState: $navState,
+            alertState: alertState
+        )
+        .process(effect) { lobbyVm in
+            AnyFlow<LobbyContractEffect>(source: lobbyVm.effect).collect { lobbyEffect in
+                guard let lobbyEffect else { return }
+                process(effect: lobbyEffect)
+            } onCompletion: { _ in
+            }
         }
+    }
+
+    private func process(effect: LobbyContractEffect) {
+        LobbyEffectProcessor(
+            injector: injector,
+            navState: $navState,
+            alertState: alertState,
+            shareController: shareController
+        ).process(effect)
     }
 }
 
@@ -83,9 +92,6 @@ extension ContentView {
 
 struct ContentView_Previews: PreviewProvider {
 	static var previews: some View {
-        ContentView(
-            state: .constant(.InMenu()),
-            vm: .init()
-        )
+        ContentView()
 	}
 }

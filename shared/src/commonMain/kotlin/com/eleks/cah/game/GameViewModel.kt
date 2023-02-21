@@ -2,9 +2,11 @@ package com.eleks.cah.game
 
 import com.eleks.cah.base.BaseViewModel
 import com.eleks.cah.domain.model.AnswerCardID
+import com.eleks.cah.domain.model.RoundPlayerAnswer
 import com.eleks.cah.domain.usecase.answer.AnswerUseCase
 import com.eleks.cah.domain.usecase.next_round.StartNextRoundUseCase
 import com.eleks.cah.domain.usecase.room.GetRoomUseCase
+import com.eleks.cah.domain.usecase.vote.VoteUseCase
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
@@ -19,8 +21,8 @@ class GameViewModel(
     KoinComponent {
 
     private val getRoom: GetRoomUseCase by inject()
-    private val startRound: StartNextRoundUseCase by inject()
     private val answerWith: AnswerUseCase by inject()
+    private val voteWith: VoteUseCase by inject()
 
     val me = state.map { it.room?.players?.firstOrNull { it.id == playerId } }
 
@@ -36,19 +38,20 @@ class GameViewModel(
         }
     }
 
-    fun startNewRound() {
+    fun saveAnswers(answerCardIds: List<AnswerCardID>) {
         scope.launch {
-            state.value.room?.id?.let {
-                startRound(it)
-            }
+            Napier.d("PHASE 1: roomId = $roomId, playerId = $playerId, $answerCardIds")
+            answerWith(roomId, playerId, answerCardIds)
+            setEffect { GameContract.Effect.Navigation.Voting }
         }
     }
 
-    fun answer(answerCardIds: List<AnswerCardID>) {
+    fun saveScores(answerCardWithVotes: List<RoundPlayerAnswer>) {
         scope.launch {
-            Napier.d("roomId = $roomId, playerId = $playerId, $answerCardIds")
-            answerWith(roomId, playerId, answerCardIds)
-            setEffect { GameContract.Effect.Navigation.Voting }
+            answerCardWithVotes.forEach {
+                Napier.d("PHASE 2: roomId = $roomId, playerId = $playerId, $answerCardWithVotes")
+                voteWith(roomId, it.playerID, it.score)
+            }
         }
     }
 }

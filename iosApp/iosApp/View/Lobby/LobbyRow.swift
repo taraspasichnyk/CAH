@@ -10,14 +10,15 @@ import SwiftUI
 import shared
 
 struct LobbyRow: View {
-    @Binding var user: Player
+    let offset: Int
+    let user: Player
 
     // MARK: - Body
 
     var body: some View {
         VStack(alignment: .center, spacing: 6) {
             HStack(alignment: .center) {
-                Text("1. " + user.nickname)
+                Text("\(offset + 1). " + user.nickname)
                     .font(.bodySecondary)
                 if user.gameOwner {
                     Image.host
@@ -44,15 +45,14 @@ struct LobbyRow: View {
 struct LobbyRow_Previews: PreviewProvider {
     static var previews: some View {
         LobbyRow(
-            user: .constant(
-                .init(
-                    id: "1",
-                    nickname: "Гриць",
-                    gameOwner: true,
-                    cards: [],
-                    score: 0,
-                    state: .ready
-                )
+            offset: 1,
+            user: .init(
+                id: "1",
+                nickname: "Гриць",
+                gameOwner: true,
+                cards: [],
+                score: 0,
+                state: .ready
             )
         )
     }

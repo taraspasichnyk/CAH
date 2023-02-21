@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct AnswerCard: View {
-    let text = "Гарний розмальований килим"
+    let answer: String
 
     // MARK: - Body
 
@@ -28,7 +28,7 @@ struct AnswerCard: View {
         .shadow(color: .black.opacity(0.25), radius: 16, x: 0, y: 12)
         .overlay(
             VStack {
-                Text(text)
+                Text(answer)
                     .multilineTextAlignment(.center)
                     .padding(.top, 20)
                     .padding(.horizontal, .medium)
@@ -43,6 +43,6 @@ struct AnswerCard: View {
 
 struct AnswerCard_Previews: PreviewProvider {
     static var previews: some View {
-        AnswerCard()
+        AnswerCard(answer: "Гарний розмальований килим")
     }
 }

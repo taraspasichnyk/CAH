@@ -9,9 +9,14 @@
 import SwiftUI
 
 struct ContainerView<Content: View>: View {
-    let content: Content
+    private let headerSize: HeaderSize
+    private let content: Content
 
-    init(@ViewBuilder _ content: () -> Content) {
+    init(
+        header: HeaderSize = .medium,
+        @ViewBuilder _ content: () -> Content
+    ) {
+        self.headerSize = header
         self.content = content()
     }
 
@@ -26,10 +31,12 @@ struct ContainerView<Content: View>: View {
             }
             .ignoresSafeArea(.all)
             VStack {
-                HeaderView()
+                HeaderView(size: headerSize)
                     .fixedSize(horizontal: false, vertical: true)
                     .ignoresSafeArea(.all)
                 content
+                Spacer()
+                    .frame(height: .extraLarge)
             }
             .ignoresSafeArea(.all, edges: .top)
         }
@@ -41,8 +48,13 @@ struct ContainerView<Content: View>: View {
 
 struct ContainerView_Previews: PreviewProvider {
     static var previews: some View {
-        ContainerView {
-            Spacer()
+        Group {
+            ContainerView(header: .small) {
+                Spacer()
+            }
+            ContainerView(header: .medium) {
+                Spacer()
+            }
         }
     }
 }

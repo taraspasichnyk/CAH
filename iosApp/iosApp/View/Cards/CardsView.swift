@@ -11,6 +11,8 @@ import SwiftUI
 struct CardsView: View {
     @EnvironmentObject var dataModel: CardItemsDataModel
 
+    @State var animate: Bool = false
+
     let columns = [
         GridItem(spacing: 8.0),
         GridItem(spacing: 8.0),
@@ -21,11 +23,10 @@ struct CardsView: View {
 
     var body: some View {
         ContainerView(header: .small) {
-            VStack {
-                Text("Ваші карти")
-                    .font(.titleRegularSecondary)
-                Spacer()
+            ZStack {
                 ScrollView(.vertical) {
+                    Text("Ваші карти")
+                        .font(.titleRegularSecondary)
                     LazyVGrid(
                         columns: columns,
                         alignment: .center,
@@ -41,7 +42,8 @@ struct CardsView: View {
                                     .font(.cardSmall)
                                 Spacer()
                             }
-                            .frame(height: 148.0)
+                            .scaleEffect(animate ? 1.3 : 1.0)
+                            .aspectRatio(124 / 168, contentMode: .fill)
                             .background(
                                 LinearGradient(
                                     colors: [
@@ -58,26 +60,37 @@ struct CardsView: View {
                             .shadow(radius: 8.0, y: 4.0)
                         }
                     }
-                    .padding([.leading, .top, .trailing], 20.0)
+                    .padding([.leading, .trailing], 20.0)
                 }
-                HStack {
+                VStack {
                     Spacer()
-                    PrimaryButton("Далі") {
-                        // TODO
+                    HStack {
+                        Spacer()
+                        PrimaryButton("Далі") {
+                            withAnimation(.easeOut) {
+                                animate.toggle()
+                            }
+                        }
                     }
+                    .padding(.trailing, 20.0)
                 }
-                .padding(.trailing, 20.0)
             }
             Spacer()
         }
         .ignoresSafeArea()
+        .onAppear()
     }
 }
 
 struct CardsView_Previews: PreviewProvider {
     static var previews: some View {
-        CardsView()
-            .environmentObject(CardItemsDataModel())
+        Group {
+            CardsView()
+                .environmentObject(CardItemsDataModel())
+            CardsView()
+                .environmentObject(CardItemsDataModel())
+                .previewDevice(.init(rawValue: "iPhone SE (3rd generation)"))
+        }
     }
 }
 

@@ -10,6 +10,7 @@ import SwiftUI
 import shared
 
 struct MainMenuView: View {
+    @EnvironmentObject private var loadingState: LoadingState
     @State private var isLoaded = false
     @State private var isShowingButtons = false
     @State private var isShowingVersion = true
@@ -35,6 +36,7 @@ struct MainMenuView: View {
             }
             .ignoresSafeArea()
         }
+        .loading(loadingState.isLoading)
         .onAppear {
             animateLocalState()
         }

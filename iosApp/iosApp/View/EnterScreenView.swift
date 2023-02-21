@@ -54,6 +54,7 @@ struct EnterScreenView: View {
                         vm.onNextClicked()
                     }
                     .disabled(!isButtonEnabled)
+                    .buttonLoading(loadingState.isLoading)
                 }
                 .padding(.leading, 40)
                 .padding(.trailing, 36)

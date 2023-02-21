@@ -76,6 +76,7 @@ struct LobbyView: View {
                     vm.onNextClicked()
                 }
                 .disabled(!isButtonEnabled)
+                .buttonLoading(loadingState.isLoading)
             }
             .padding(.top, .large)
             .padding(.leading, 40)

@@ -49,6 +49,8 @@
 		92E17D91299CEED300A0EEFC /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E17D8F299CEED300A0EEFC /* Fonts.swift */; };
 		92E17D92299CEED300A0EEFC /* Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E17D90299CEED300A0EEFC /* Size.swift */; };
 		92E248D0299F716D00CF5147 /* NavPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E248CF299F716D00CF5147 /* NavPath.swift */; };
+		92F23CF229A4E34E0093D043 /* ButtonLoadingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F23CF129A4E34E0093D043 /* ButtonLoadingModifier.swift */; };
+		92F23CF429A4E3BC0093D043 /* LoadingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F23CF329A4E3BC0093D043 /* LoadingModifier.swift */; };
 		92F57CA4299551C4005D5328 /* LobbyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F57CA3299551C4005D5328 /* LobbyView.swift */; };
 /* End PBXBuildFile section */
 
@@ -126,6 +128,8 @@
 		92E17D8F299CEED300A0EEFC /* Fonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		92E17D90299CEED300A0EEFC /* Size.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Size.swift; sourceTree = "<group>"; };
 		92E248CF299F716D00CF5147 /* NavPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavPath.swift; path = iosApp/Utility/NavPath.swift; sourceTree = SOURCE_ROOT; };
+		92F23CF129A4E34E0093D043 /* ButtonLoadingModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ButtonLoadingModifier.swift; path = /Users/artem.yelizarov/Documents/kmm/CAH/iosApp/iosApp/View/ButtonLoadingModifier.swift; sourceTree = "<absolute>"; };
+		92F23CF329A4E3BC0093D043 /* LoadingModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingModifier.swift; sourceTree = "<group>"; };
 		92F57CA3299551C4005D5328 /* LobbyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -232,6 +236,7 @@
 			isa = PBXGroup;
 			children = (
 				92E9AC07299A358A000367F2 /* Buttons */,
+				92F23CF529A4E5800093D043 /* Loading */,
 				92E9AC08299A35C9000367F2 /* Lobby */,
 				7555FF82242A565900829871 /* ContentView.swift */,
 				92A0603D299FD18800C6CC3E /* MenuEffectProcessor.swift */,
@@ -302,6 +307,15 @@
 				92E17D90299CEED300A0EEFC /* Size.swift */,
 			);
 			path = UXHelpers;
+			sourceTree = "<group>";
+		};
+		92F23CF529A4E5800093D043 /* Loading */ = {
+			isa = PBXGroup;
+			children = (
+				92F23CF329A4E3BC0093D043 /* LoadingModifier.swift */,
+				92F23CF129A4E34E0093D043 /* ButtonLoadingModifier.swift */,
+			);
+			path = Loading;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -506,7 +520,9 @@
 				92E248D0299F716D00CF5147 /* NavPath.swift in Sources */,
 				921076662994E46900390F45 /* EnterScreenStage.swift in Sources */,
 				927295EA298D7A6B00C5F0DE /* Assets.swift in Sources */,
+				92F23CF429A4E3BC0093D043 /* LoadingModifier.swift in Sources */,
 				92E17D91299CEED300A0EEFC /* Fonts.swift in Sources */,
+				92F23CF229A4E34E0093D043 /* ButtonLoadingModifier.swift in Sources */,
 				927295E3298D61F100C5F0DE /* PrimaryButton.swift in Sources */,
 				92DE7810299D7C1100B16131 /* Array+Extensions.swift in Sources */,
 				92A0603E299FD18800C6CC3E /* MenuEffectProcessor.swift in Sources */,

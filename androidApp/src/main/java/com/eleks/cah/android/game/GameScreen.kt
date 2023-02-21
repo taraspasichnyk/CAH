@@ -2,6 +2,7 @@ package com.eleks.cah.android.game
 
 import androidx.compose.foundation.background
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -42,6 +43,9 @@ fun GameScreen(
     LaunchedEffect(Unit) {
         gameViewModel.effect.collectLatest {
             when (it) {
+                is GameContract.Effect.Navigation.PreRound -> innerNavController.navigate(GameRoute.PreRound.path)
+                is GameContract.Effect.Navigation.YourCards -> innerNavController.navigate(GameRoute.YourCards.path)
+                is GameContract.Effect.Navigation.Round -> innerNavController.navigate(GameRoute.Round.path)
                 is GameContract.Effect.Navigation.Voting -> innerNavController.navigate(GameRoute.Voting.path)
                 else -> {}
             }
@@ -53,12 +57,11 @@ fun GameScreen(
         modifier = Modifier.background(MaterialTheme.colors.secondary)
     ) {
 
+        composable(route = GameRoute.YourCards.path) {
+            Text("My Cards here")
+        }
 
         composable(route = GameRoute.PreRound.path) {
-            LaunchedEffect(Unit) {
-                delay(ROUND_TIMEOUT)
-                innerNavController.navigate(GameRoute.Round.path)
-            }
             PreRoundScreen(roundNumber = currentRound.number)
         }
 
@@ -79,7 +82,7 @@ fun GameScreen(
                 currentRound.question,
                 currentRound.answers,
                 roundNumber = currentRound.number
-            ){
+            ) {
                 gameViewModel.saveScores(it)
             }
         }

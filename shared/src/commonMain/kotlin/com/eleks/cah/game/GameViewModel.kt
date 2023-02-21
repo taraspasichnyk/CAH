@@ -8,6 +8,7 @@ import com.eleks.cah.domain.usecase.next_round.StartNextRoundUseCase
 import com.eleks.cah.domain.usecase.room.GetRoomUseCase
 import com.eleks.cah.domain.usecase.vote.VoteUseCase
 import io.github.aakira.napier.Napier
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -24,9 +25,14 @@ class GameViewModel(
     private val answerWith: AnswerUseCase by inject()
     private val voteWith: VoteUseCase by inject()
 
-    val me = state.map { it.room?.players?.firstOrNull { it.id == playerId } }
-
     init {
+        scope.launch {
+            setEffect { GameContract.Effect.Navigation.PreRound }
+            delay(5000L)
+            setEffect { GameContract.Effect.Navigation.YourCards }
+            delay(5000L)
+            setEffect { GameContract.Effect.Navigation.Round }
+        }
         scope.launch {
             getRoom(roomId, this).collectLatest {
                 setState {

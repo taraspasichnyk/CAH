@@ -13,6 +13,9 @@ interface GameContract   {
 
 
         sealed class Navigation : Effect() {
+            object YourCards : Navigation()
+            object PreRound : Navigation()
+            object Round : Navigation()
             object Voting : Navigation()
         }
     }

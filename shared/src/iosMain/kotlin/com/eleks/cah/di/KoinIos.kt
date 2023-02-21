@@ -14,7 +14,6 @@ import com.eleks.cah.lobby.LobbyViewModel
 
 actual val viewModelModule: Module
     get() = module {
-        single { GameViewModel() }
         single { MenuViewModel() }
         factory {
             val vm = LobbyViewModel()
@@ -32,7 +31,6 @@ fun initKoin() {
 //service locator
 object Injector : KoinComponent {
     val menuViewModel: MenuViewModel by inject()
-    val gameViewModel: GameViewModel by inject()
     val anonymousLogin: AnonymousLoginUseCase by inject()
 
     val lobbyOwnerViewModel: LobbyViewModel

@@ -137,8 +137,6 @@ fun ScoreScreen(
                 selectedVote = answersState[currentPage].score,
             ) {
                 Log.d("###", "selected vote = $it")
-                answersState[currentPage] =
-                    answersState[currentPage].copy(score = it ?: -1)
 
                 onVote(answersState)
             }

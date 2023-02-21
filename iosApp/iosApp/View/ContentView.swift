@@ -3,6 +3,7 @@ import shared
 
 struct ContentView: View {
 
+    @EnvironmentObject private var loadingState: LoadingState
     @EnvironmentObject private var alertState: AlertState
     @State private var navState: [NavPath] = []
 

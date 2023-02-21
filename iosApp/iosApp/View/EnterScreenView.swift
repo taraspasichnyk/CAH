@@ -11,6 +11,7 @@ import shared
 
 struct EnterScreenView: View {
 
+    @EnvironmentObject private var loadingState: LoadingState
     @EnvironmentObject private var alert: AlertState
     @FocusState private var isFocused: Bool
 
@@ -53,6 +54,7 @@ struct EnterScreenView: View {
                         vm.onNextClicked()
                     }
                     .disabled(!isButtonEnabled)
+                    .buttonLoading(loadingState.isLoading)
                 }
                 .padding(.leading, 40)
                 .padding(.trailing, 36)
@@ -74,6 +76,7 @@ extension EnterScreenView {
             guard let state else { return }
             isButtonEnabled = state.isNextButtonEnabled
             buttonTitle = state.buttonText
+            loadingState.isLoading = state.isLoading
         } onCompletion: { _ in
         }
     }

@@ -14,7 +14,7 @@ struct CurrentRoundView: View {
     // MARK: - Body
 
     var body: some View {
-        ContainerView(.small) {
+        ContainerView(header: .small) {
             VStack {
                 Spacer()
                 Text("Раунд \(round)")

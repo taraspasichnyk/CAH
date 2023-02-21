@@ -13,10 +13,10 @@ struct ContainerView<Content: View>: View {
     private let content: Content
 
     init(
-        _ headerSize: HeaderSize = .medium,
+        header: HeaderSize = .medium,
         @ViewBuilder _ content: () -> Content
     ) {
-        self.headerSize = headerSize
+        self.headerSize = header
         self.content = content()
     }
 
@@ -35,6 +35,8 @@ struct ContainerView<Content: View>: View {
                     .fixedSize(horizontal: false, vertical: true)
                     .ignoresSafeArea(.all)
                 content
+                Spacer()
+                    .frame(height: .extraLarge)
             }
             .ignoresSafeArea(.all, edges: .top)
         }
@@ -47,10 +49,10 @@ struct ContainerView<Content: View>: View {
 struct ContainerView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ContainerView(.small) {
+            ContainerView(header: .small) {
                 Spacer()
             }
-            ContainerView(.medium) {
+            ContainerView(header: .medium) {
                 Spacer()
             }
         }

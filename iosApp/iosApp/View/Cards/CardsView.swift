@@ -86,3 +86,15 @@ class CardItemsDataModel: ObservableObject {
         }
     }
 }
+
+struct GridItemView: View {
+    let size: Double
+    let item: CardItem
+
+    var body: some View {
+        ZStack(alignment: .topTrailing) {
+            Text(item.text)
+                .frame(width: size, height: size)
+        }
+    }
+}

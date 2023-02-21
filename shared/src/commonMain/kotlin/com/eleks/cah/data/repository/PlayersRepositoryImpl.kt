@@ -108,6 +108,7 @@ class PlayersRepositoryImpl(
         val currentRound =
             gameRoomDto.currentRound ?: throw RoomNoCurrentRoundException(gameRoomDto.id)
         val updatedCurrentRoundAnswers = currentRound.answers.map {
+
             if (it.playerID == playerID) {
                 it.copy(score = it.score + score)
             } else {

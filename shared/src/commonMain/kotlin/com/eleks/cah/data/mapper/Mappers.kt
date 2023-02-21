@@ -41,8 +41,8 @@ fun GameRoundDTO.toModel(
 ) = GameRound(
     id = id,
     number = number,
-    question = allQuestions.first { it.id == question },
-    answers = answers.map { it.toModel() },
+    masterCard = allQuestions.first { it.id == question },
+    playerCards = answers.map { it.toModel() },
     timer = timer,
     state = GameRound.GameRoundState.valueOf(state),
 )

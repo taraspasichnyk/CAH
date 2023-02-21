@@ -56,13 +56,12 @@ private fun ScoreScreenPreview() {
 @Composable
 fun ScoreScreen(
     question: QuestionCard,
-    answerCards: List<RoundPlayerAnswer>,
+    answers: List<RoundPlayerAnswer>,
     roundNumber: Int,
 
     onTimeout: (List<RoundPlayerAnswer>) -> Unit = {},
     onVote: (List<RoundPlayerAnswer>) -> Unit = {}
 ) {
-    val answersState = remember { answerCards.toMutableStateList() }
 
     var timeout by remember {
         mutableStateOf(60)
@@ -73,7 +72,7 @@ fun ScoreScreen(
             delay(1000L)
             timeout--
         }
-        onTimeout(answersState)
+        onTimeout(answers)
     }
 
     Column(
@@ -114,16 +113,18 @@ fun ScoreScreen(
                 modifier = Modifier
                     .padding(top = 16.dp)
                     .padding(horizontal = 24.dp),
-                cardsCount = answersState.size,
+                cardsCount = answers.size,
                 pagerState = pagerState,
             )
 
             Spacer(Modifier.weight(1f))
 
+            val mutableAnswers = remember { answers.toMutableStateList() }
+
             ScoreCards(
                 pagerState = pagerState,
-                question = question,
-                answers = answersState,
+                masterCard = question,
+                answers = mutableAnswers,
             )
 
             Spacer(Modifier.weight(1f))
@@ -134,11 +135,11 @@ fun ScoreScreen(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .padding(bottom = 40.dp),
-                selectedVote = answersState[currentPage].score,
+                selectedVote = mutableAnswers[currentPage].score,
             ) {
                 Log.d("###", "selected vote = $it")
-
-                onVote(answersState)
+                mutableAnswers[currentPage] = mutableAnswers[currentPage].copy(score = it ?: 0)
+                onVote(mutableAnswers)
             }
         }
     }
@@ -221,14 +222,14 @@ private fun LazyItemScope.Tab(
 @Composable
 private fun ScoreCards(
     pagerState: PagerState,
-    question: QuestionCard,
+    masterCard: QuestionCard,
     answers: List<RoundPlayerAnswer>
 ) {
 
     Box(modifier = Modifier, contentAlignment = Alignment.TopCenter) {
         ConflictCard(
             isMasterCard = true,
-            cardText = question.question,
+            cardText = masterCard.text,
         )
 
         AnswerCards(

@@ -11,15 +11,12 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.eleks.cah.android.ROUND_TIMEOUT
 import com.eleks.cah.android.game.round.PreRoundScreen
 import com.eleks.cah.android.game.round.RoundScreen
 import com.eleks.cah.android.game.vote.ScoreScreen
 import com.eleks.cah.android.router.GameRoute
-import com.eleks.cah.domain.model.RoundPlayerAnswer
 import com.eleks.cah.game.GameContract
 import com.eleks.cah.game.GameViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -79,8 +76,8 @@ fun GameScreen(
 
         composable(route = GameRoute.Voting.path) {
             ScoreScreen(
-                currentRound.question,
-                currentRound.answers,
+                currentRound.masterCard,
+                currentRound.playerCards,
                 roundNumber = currentRound.number
             ) {
                 gameViewModel.saveScores(it)

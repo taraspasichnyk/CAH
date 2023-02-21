@@ -34,7 +34,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import com.eleks.cah.android.AppTheme
 import com.eleks.cah.android.R.*
-import com.eleks.cah.android.model.Card
 import com.eleks.cah.android.pxToDp
 import com.eleks.cah.android.theme.*
 import com.eleks.cah.android.widgets.ConflictCard
@@ -44,7 +43,6 @@ import com.eleks.cah.domain.model.AnswerCard
 import com.eleks.cah.domain.model.AnswerCardID
 import com.eleks.cah.domain.model.GameRound
 import com.eleks.cah.domain.model.Player
-import com.eleks.cah.domain.model.QuestionCard
 import com.google.accompanist.pager.ExperimentalPagerApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -100,7 +98,7 @@ fun RoundScreen(
             Spacer(modifier = Modifier.height(AppTheme.dimens.sizeMedium))
 
             ConflictCard(
-                cardText = round.question.question,
+                cardText = round.masterCard.text,
                 isMasterCard = true,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)

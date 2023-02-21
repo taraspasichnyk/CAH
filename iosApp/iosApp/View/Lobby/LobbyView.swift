@@ -11,6 +11,7 @@ import shared
 
 struct LobbyView: View {
     @EnvironmentObject private var alert: AlertState
+    @EnvironmentObject private var loadingState: LoadingState
 
     @State private var users: [Player] = []
     @State private var roomCode: String = "000000"
@@ -75,6 +76,7 @@ struct LobbyView: View {
                     vm.onNextClicked()
                 }
                 .disabled(!isButtonEnabled)
+                .buttonLoading(loadingState.isLoading)
             }
             .padding(.top, .large)
             .padding(.leading, 40)
@@ -98,6 +100,7 @@ extension LobbyView {
             roomCode = state.code
             isButtonEnabled = state.isNextButtonEnabled
             buttonTitle = state.buttonText
+            loadingState.isLoading = state.isLoading
         } onCompletion: { _ in
         }
     }

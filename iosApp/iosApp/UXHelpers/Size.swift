@@ -20,10 +20,6 @@ enum Size: CGFloat {
 struct SquareSize: ViewModifier {
     let size: Size
 
-    init(_ size: Size) {
-        self.size = size
-    }
-
     func body(content: Content) -> some View {
         content.frame(width: size, height: size)
     }
@@ -51,7 +47,7 @@ extension View {
     }
 
     func square(_ size: Size) -> some View {
-        modifier(SquareSize(size))
+        modifier(SquareSize(size: size))
     }
 }
 

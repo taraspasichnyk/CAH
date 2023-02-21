@@ -33,6 +33,7 @@
 		92A0603A299FBBBF00C6CC3E /* ArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A06039299FBBBF00C6CC3E /* ArrayTests.swift */; };
 		92A0603C299FCEE900C6CC3E /* LobbyEffectProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A0603B299FCEE900C6CC3E /* LobbyEffectProcessor.swift */; };
 		92A0603E299FD18800C6CC3E /* MenuEffectProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A0603D299FD18800C6CC3E /* MenuEffectProcessor.swift */; };
+		92A0604029A24FB400C6CC3E /* AnswerCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A0603F29A24FB400C6CC3E /* AnswerCard.swift */; };
 		92B925092995670C0089ED88 /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B925082995670C0089ED88 /* IconButton.swift */; };
 		92B9250B29956A1D0089ED88 /* LobbyRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B9250A29956A1D0089ED88 /* LobbyRow.swift */; };
 		92CAFB1B299A720900E0B1E2 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 92CAFB1A299A720900E0B1E2 /* FirebaseAuth */; };
@@ -49,6 +50,8 @@
 		92E17D91299CEED300A0EEFC /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E17D8F299CEED300A0EEFC /* Fonts.swift */; };
 		92E17D92299CEED300A0EEFC /* Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E17D90299CEED300A0EEFC /* Size.swift */; };
 		92E248D0299F716D00CF5147 /* NavPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E248CF299F716D00CF5147 /* NavPath.swift */; };
+		92F23CF729A4EE5F0093D043 /* LoadingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F23CF629A4EE5F0093D043 /* LoadingModifier.swift */; };
+		92F23CF929A4EEA50093D043 /* ButtonLoadingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F23CF829A4EEA50093D043 /* ButtonLoadingModifier.swift */; };
 		92F57CA4299551C4005D5328 /* LobbyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F57CA3299551C4005D5328 /* LobbyView.swift */; };
 /* End PBXBuildFile section */
 
@@ -113,6 +116,7 @@
 		92A06039299FBBBF00C6CC3E /* ArrayTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayTests.swift; sourceTree = "<group>"; };
 		92A0603B299FCEE900C6CC3E /* LobbyEffectProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyEffectProcessor.swift; sourceTree = "<group>"; };
 		92A0603D299FD18800C6CC3E /* MenuEffectProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuEffectProcessor.swift; sourceTree = "<group>"; };
+		92A0603F29A24FB400C6CC3E /* AnswerCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerCard.swift; sourceTree = "<group>"; };
 		92B925082995670C0089ED88 /* IconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconButton.swift; sourceTree = "<group>"; };
 		92B9250A29956A1D0089ED88 /* LobbyRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyRow.swift; sourceTree = "<group>"; };
 		92CAFB22299A735600E0B1E2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -126,6 +130,8 @@
 		92E17D8F299CEED300A0EEFC /* Fonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		92E17D90299CEED300A0EEFC /* Size.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Size.swift; sourceTree = "<group>"; };
 		92E248CF299F716D00CF5147 /* NavPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavPath.swift; path = iosApp/Utility/NavPath.swift; sourceTree = SOURCE_ROOT; };
+		92F23CF629A4EE5F0093D043 /* LoadingModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingModifier.swift; sourceTree = "<group>"; };
+		92F23CF829A4EEA50093D043 /* ButtonLoadingModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonLoadingModifier.swift; sourceTree = "<group>"; };
 		92F57CA3299551C4005D5328 /* LobbyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -240,6 +246,7 @@
 			isa = PBXGroup;
 			children = (
 				92E9AC07299A358A000367F2 /* Buttons */,
+				92F23CF529A4E5800093D043 /* Loading */,
 				92E9AC08299A35C9000367F2 /* Lobby */,
 				7100A98829A4E52B00B5B0AB /* Cards */,
 				7555FF82242A565900829871 /* ContentView.swift */,
@@ -250,6 +257,7 @@
 				92CD661E2992DEA80003634C /* ContainerView.swift */,
 				92CD661C2992BD770003634C /* InputField.swift */,
 				92CD661A2992B83B0003634C /* HeaderView.swift */,
+				92A0603F29A24FB400C6CC3E /* AnswerCard.swift */,
 				927F7F5F298D075400A158A8 /* MainMenuView.swift */,
 			);
 			path = View;
@@ -310,6 +318,15 @@
 				92E17D90299CEED300A0EEFC /* Size.swift */,
 			);
 			path = UXHelpers;
+			sourceTree = "<group>";
+		};
+		92F23CF529A4E5800093D043 /* Loading */ = {
+			isa = PBXGroup;
+			children = (
+				92F23CF629A4EE5F0093D043 /* LoadingModifier.swift */,
+				92F23CF829A4EEA50093D043 /* ButtonLoadingModifier.swift */,
+			);
+			path = Loading;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -514,6 +531,7 @@
 				92E248D0299F716D00CF5147 /* NavPath.swift in Sources */,
 				921076662994E46900390F45 /* EnterScreenStage.swift in Sources */,
 				927295EA298D7A6B00C5F0DE /* Assets.swift in Sources */,
+				92F23CF729A4EE5F0093D043 /* LoadingModifier.swift in Sources */,
 				92E17D91299CEED300A0EEFC /* Fonts.swift in Sources */,
 				7100A98A29A4E54600B5B0AB /* CardsView.swift in Sources */,
 				927295E3298D61F100C5F0DE /* PrimaryButton.swift in Sources */,
@@ -523,7 +541,9 @@
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				92CD661D2992BD770003634C /* InputField.swift in Sources */,
 				92CD661B2992B83B0003634C /* HeaderView.swift in Sources */,
+				92F23CF929A4EEA50093D043 /* ButtonLoadingModifier.swift in Sources */,
 				927295E8298D733500C5F0DE /* BackButton.swift in Sources */,
+				92A0604029A24FB400C6CC3E /* AnswerCard.swift in Sources */,
 				92F57CA4299551C4005D5328 /* LobbyView.swift in Sources */,
 				92B9250B29956A1D0089ED88 /* LobbyRow.swift in Sources */,
 				92CD661929926F220003634C /* Alerts.swift in Sources */,

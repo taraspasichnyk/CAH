@@ -44,6 +44,9 @@ final class LobbyEffectProcessor {
             navState.navigate(to: .enterName(lobbyVm))
         case is LobbyContractEffect.NavigationYourCardsScreen:
             navState.navigate(to: .yourCards)
+        case is LobbyContractEffect.NavigationGameScreen:
+            // navigate to game screen with some param
+            alertState.presentedAlertType = .noFeature
         case let copyCodeEffect as LobbyContractEffect.CopyCode:
             shareController.copyToPasteboard(copyCodeEffect.code)
         case let errorEffect as LobbyContractEffect.ShowError:

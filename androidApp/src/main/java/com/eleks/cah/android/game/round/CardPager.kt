@@ -1,4 +1,4 @@
-package com.eleks.cah.android.round
+package com.eleks.cah.android.game.round
 
 import androidx.annotation.FloatRange
 import androidx.annotation.IntRange

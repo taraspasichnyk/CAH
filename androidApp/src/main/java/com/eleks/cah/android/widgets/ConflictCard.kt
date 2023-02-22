@@ -15,15 +15,22 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.eleks.cah.android.AppTheme
-import com.eleks.cah.android.round.cardPaddings
-import com.eleks.cah.android.round.dropShadow
+import com.eleks.cah.android.R
+import com.eleks.cah.android.game.round.cardPaddings
+import com.eleks.cah.android.game.round.dropShadow
 import com.eleks.cah.android.theme.*
 
 @Composable
-fun ConflictCard(cardText: String, modifier: Modifier = Modifier, isMasterCard: Boolean = false) {
+fun ConflictCard(
+    cardText: String,
+    modifier: Modifier = Modifier,
+    isMasterCard: Boolean = false,
+) {
     val gradientCard = if (isMasterCard) {
         remember { listOf(MineShaftDark, MineShaft) }
     } else {
@@ -38,10 +45,10 @@ fun ConflictCard(cardText: String, modifier: Modifier = Modifier, isMasterCard: 
             .dropShadow(
                 color = ShadowColor,
                 borderRadius = AppTheme.dimens.sizeSmall,
-                    blur = AppTheme.dimens.sizeMedium,
+                blur = AppTheme.dimens.sizeMedium,
                 offsetX = AppTheme.dimens.ZERO,
                 offsetY = AppTheme.dimens.cardShadowYOffset,
-                spread = AppTheme.dimens.ZERO
+                spread = AppTheme.dimens.ZERO,
             ),
         contentAlignment = Alignment.TopCenter
     ) {
@@ -60,4 +67,10 @@ fun ConflictCard(cardText: String, modifier: Modifier = Modifier, isMasterCard: 
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun UserCardPreview() {
+    ConflictCard(cardText = stringResource(id = R.string.miy_instrument))
 }

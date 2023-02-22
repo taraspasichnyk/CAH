@@ -127,13 +127,13 @@ class CardItemsDataModel: ObservableObject {
     }
 
     init(gvm: GameViewModel) {
-        AnyFlow<GameContractGameState>(source: gvm.state).collect { gameState in
-            // TODO
-//            self.items = gameState.items
-        } onCompletion: { error in
-            // TODO
-            print(error)
-        }
+//        AnyFlow<GameContractGameState>(source: gvm.state).collect { gameState in
+//            // TODO
+////            self.items = gameState.items
+//        } onCompletion: { error in
+//            // TODO
+//            print(error)
+//        }
     }
 
     /// Adds an item to the data collection.

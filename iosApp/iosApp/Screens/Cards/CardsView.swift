@@ -65,7 +65,7 @@ struct CardsView: View {
                     HStack {
                         Spacer()
                         PrimaryButton("Далі") {
-                            // TODO
+                            vm.showRound()
                         }
                     }
                     .padding(.trailing, 20.0)
@@ -85,7 +85,8 @@ struct CardsView: View {
         AnyFlow<GameContractState>(source: vm.state).collect { state in
             guard let state else { return }
             guard let room = state.room else { return }
-            items = room.answers.compactMap({ CardItem(text: $0.answer) })
+            guard let player = vm.getSelfFromState(gameState: state) else { return }
+            items = player.cards.compactMap({ CardItem(text: $0.answer) })
         } onCompletion: { _ in
         }
     }

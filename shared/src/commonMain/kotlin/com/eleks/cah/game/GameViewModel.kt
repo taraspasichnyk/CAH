@@ -75,6 +75,7 @@ class GameViewModel(
     fun showPreRound() {
         setEffect { GameContract.Effect.Navigation.PreRound }
     }
+
     /**
      * Show voting screen with available scores
      */
@@ -100,5 +101,9 @@ class GameViewModel(
 
     companion object {
         private const val PRE_ROUND_DELAY = 3000L
+    }
+
+    fun getSelfFromState(gameState: GameContract.State): Player? {
+        return gameState.room?.players?.firstOrNull { it.id == playerId }
     }
 }

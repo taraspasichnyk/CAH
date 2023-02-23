@@ -28,7 +28,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.eleks.cah.android.AppTheme
 import com.eleks.cah.android.MyApplicationTheme
 import com.eleks.cah.android.R
-import com.eleks.cah.android.model.Card
 import com.eleks.cah.android.theme.txtSemibold24
 import com.eleks.cah.android.widgets.BlackButton
 import com.eleks.cah.android.widgets.CardBackground
@@ -36,22 +35,22 @@ import com.eleks.cah.android.widgets.ConflictCard
 import com.eleks.cah.android.widgets.GameHeader
 import com.eleks.cah.android.widgets.GameLabelSize
 import com.eleks.cah.domain.model.AnswerCard
-import com.eleks.cah.domain.model.AnswerCardID
 
 @Composable
 fun UserCardsScreen(
     cards: List<AnswerCard> = listOf(
-        AnswerCard("0","Божеволіти від нестримного програмування"),
-        AnswerCard("1","Божеволіти від нестримного програмування"),
-        AnswerCard("2","Божеволіти від нестримного програмування"),
-        AnswerCard("3","Божеволіти від нестримного програмування"),
-        AnswerCard("4","Божеволіти від нестримного програмування"),
-        AnswerCard("5","Божеволіти від нестримного програмування"),
-        AnswerCard("6","Божеволіти від нестримного програмування"),
-        AnswerCard("7","Божеволіти від нестримного програмування"),
-        AnswerCard("8","Божеволіти від нестримного програмування"),
-        AnswerCard("9","Божеволіти від нестримного програмування"),
-    )
+        AnswerCard("0", "Божеволіти від нестримного програмування"),
+        AnswerCard("1", "Божеволіти від нестримного програмування"),
+        AnswerCard("2", "Божеволіти від нестримного програмування"),
+        AnswerCard("3", "Божеволіти від нестримного програмування"),
+        AnswerCard("4", "Божеволіти від нестримного програмування"),
+        AnswerCard("5", "Божеволіти від нестримного програмування"),
+        AnswerCard("6", "Божеволіти від нестримного програмування"),
+        AnswerCard("7", "Божеволіти від нестримного програмування"),
+        AnswerCard("8", "Божеволіти від нестримного програмування"),
+        AnswerCard("9", "Божеволіти від нестримного програмування"),
+    ),
+    onActionPressed: () -> Unit = {}
 ) {
 
     val userCards = remember {
@@ -122,7 +121,7 @@ fun UserCardsScreen(
                 .align(Alignment.BottomEnd)
         ) {
             BlackButton(onClick = {
-                // click function next
+                onActionPressed()
             }, text = R.string.label_next)
         }
     }

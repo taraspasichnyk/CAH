@@ -4,9 +4,11 @@ sealed class MainRoute(val path: String, vararg arguments: String = emptyArray()
     operator fun invoke() = pathWithArgumentsMask
 
     val arguments: List<String>
+
     init {
         this.arguments = arguments.toList()
     }
+
     private val pathWithArgumentsMask: String
         get() {
             if (arguments.isEmpty()) {

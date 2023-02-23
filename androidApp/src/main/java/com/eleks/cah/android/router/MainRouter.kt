@@ -40,6 +40,4 @@ sealed class MainRoute(val path: String, vararg arguments: String = emptyArray()
             return getPathWithArguments(roomId, playerId)
         }
     }
-
-    object UserCardsScreen : MainRoute("user_cads")
 }

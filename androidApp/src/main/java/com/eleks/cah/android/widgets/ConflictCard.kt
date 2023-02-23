@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.eleks.cah.android.AppTheme
 import com.eleks.cah.android.R
@@ -30,6 +31,8 @@ fun ConflictCard(
     cardText: String,
     modifier: Modifier = Modifier,
     isMasterCard: Boolean = false,
+    cardWidth: Dp = AppTheme.dimens.userCardWidth,
+    cardHeight: Dp = AppTheme.dimens.userCardHeight
 ) {
     val gradientCard = if (isMasterCard) {
         remember { listOf(MineShaftDark, MineShaft) }
@@ -45,7 +48,7 @@ fun ConflictCard(
             .dropShadow(
                 color = ShadowColor,
                 borderRadius = AppTheme.dimens.sizeSmall,
-                    blur = AppTheme.dimens.sizeMedium,
+                blur = AppTheme.dimens.sizeMedium,
                 offsetX = AppTheme.dimens.ZERO,
                 offsetY = AppTheme.dimens.cardShadowYOffset,
                 spread = AppTheme.dimens.ZERO,
@@ -54,7 +57,7 @@ fun ConflictCard(
     ) {
         Box(
             modifier = Modifier
-                .size(AppTheme.dimens.cardWidth, AppTheme.dimens.cardHeight)
+                .size(cardWidth, cardHeight)
                 .clip(MaterialTheme.shapes.medium)
                 .background(brush = Brush.linearGradient(gradientCard))
                 .padding(cardPaddings()),

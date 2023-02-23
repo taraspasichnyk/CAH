@@ -58,8 +58,8 @@ extension ContentView {
             EnterScreenView(stage: .roomCode(lobbyVm))
         case .lobby(let lobbyVm):
             LobbyView(vm: lobbyVm)
-        default:
-            EmptyView()
+        case .yourCards(let gameVm):
+            CardsView()
         }
     }
 

@@ -9,33 +9,35 @@
 import SwiftUI
 
 struct AnswerCard: View {
+
     let answer: String
 
     // MARK: - Body
 
     var body: some View {
-        LinearGradient(
-            colors: [
-                Color(red: 0.94, green: 0.94, blue: 0.94),
-                Color.white,
-                Color(red: 0.92, green: 0.92, blue: 0.92),
-            ],
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
+        VStack {
+            Text(answer)
+                .frame(maxWidth: .infinity)
+                .multilineTextAlignment(.center)
+                .padding(.top, .medium)
+                .padding(.horizontal, 8.0)
+            Spacer()
+        }
+        .aspectRatio(124 / 168, contentMode: .fit)
+        .background(
+            LinearGradient(
+                colors: [
+                    Color(red: 0.94, green: 0.94, blue: 0.94),
+                    Color.white,
+                    Color(red: 0.92, green: 0.92, blue: 0.92),
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
         )
-        .frame(width: 180, height: 240, alignment: .center)
-        .cornerRadius(8)
-        .shadow(color: .black.opacity(0.25), radius: 16, x: 0, y: 12)
-        .overlay(
-            VStack {
-                Text(answer)
-                    .multilineTextAlignment(.center)
-                    .padding(.top, 20)
-                    .padding(.horizontal, .medium)
-                Spacer()
-            }
-                .font(.inputPrimary)
-        )
+        .compositingGroup()
+        .cornerRadius(8.0)
+        .shadow(radius: 8.0, y: 4.0)
     }
 }
 
@@ -43,6 +45,13 @@ struct AnswerCard: View {
 
 struct AnswerCard_Previews: PreviewProvider {
     static var previews: some View {
-        AnswerCard(answer: "Гарний розмальований килим")
+        VStack(spacing: 8.0) {
+            AnswerCard(answer: "Гарний розмальований килим")
+                .frame(width: 180)
+                .font(.inputPrimary)
+            AnswerCard(answer: "Гарний розмальований килим")
+                .frame(width: 124)
+                .font(.cardSmall)
+        }
     }
 }

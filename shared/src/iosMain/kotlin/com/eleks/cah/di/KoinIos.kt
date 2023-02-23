@@ -1,6 +1,8 @@
 package com.eleks.cah.di
 
 import com.eleks.cah.base.BaseViewModel
+import com.eleks.cah.domain.model.PlayerID
+import com.eleks.cah.domain.model.RoomID
 import com.eleks.cah.domain.usecase.login.AnonymousLoginUseCase
 import com.eleks.cah.game.GameViewModel
 import com.eleks.cah.menu.MenuViewModel
@@ -18,6 +20,10 @@ actual val viewModelModule: Module
         factory {
             val vm = LobbyViewModel()
             vm.gameOwner = it.get()
+            vm
+        }
+        factory {
+            val vm = GameViewModel(it.get(), it.get())
             vm
         }
     }
@@ -45,4 +51,9 @@ object Injector : KoinComponent {
             val vm: LobbyViewModel by inject { parametersOf(false) }
             return vm
         }
+
+    fun makeGameViewModel(roomID: RoomID, playerID: PlayerID): GameViewModel {
+        val vm: GameViewModel by inject { parametersOf(roomID, playerID) }
+        return vm
+    }
 }

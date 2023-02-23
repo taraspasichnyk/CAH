@@ -17,14 +17,6 @@ enum Size: CGFloat {
     case extraLarge = 48
 }
 
-struct SquareSize: ViewModifier {
-    let size: Size
-
-    func body(content: Content) -> some View {
-        content.frame(width: size, height: size)
-    }
-}
-
 extension View {
     func padding(_ size: Size) -> some View {
         padding(size.rawValue)
@@ -44,10 +36,6 @@ extension View {
             height: height?.rawValue,
             alignment: alignment
         )
-    }
-
-    func square(_ size: Size) -> some View {
-        modifier(SquareSize(size: size))
     }
 }
 

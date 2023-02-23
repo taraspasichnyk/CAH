@@ -110,6 +110,7 @@ extension LobbyView {
 struct LobbyView_Previews: PreviewProvider {
     static var previews: some View {
         LobbyView(vm: .init())
+            .environmentObject(LoadingState())
             .environmentObject(AlertState())
     }
 }

@@ -271,7 +271,6 @@ class RoomsRepositoryImpl(
 
     override suspend fun startNextRound(roomID: RoomID) {
         roomsDbReference.roomOrException(roomID) {
-
             val preUpdatedPlayers = savePlayersScores(it)
             refreshPlayersCards(it, preUpdatedPlayers)
             startNextRoundInRoom(it)
@@ -287,7 +286,7 @@ class RoomsRepositoryImpl(
         val updatedPlayers = gameRoomPlayersList.map { player ->
             val playerRoundScore = currentRound.answers.firstOrNull {
                 it.playerID == player.id
-            }?.score ?: return@map player
+            }?.totalScore ?: return@map player
             player.copy(score = player.score + playerRoundScore)
         }
         Napier.d(

@@ -4,13 +4,11 @@ import com.eleks.cah.base.BaseViewModel
 import com.eleks.cah.domain.model.AnswerCardID
 import com.eleks.cah.domain.model.RoundPlayerAnswer
 import com.eleks.cah.domain.usecase.answer.AnswerUseCase
-import com.eleks.cah.domain.usecase.next_round.StartNextRoundUseCase
 import com.eleks.cah.domain.usecase.room.GetRoomUseCase
 import com.eleks.cah.domain.usecase.vote.VoteUseCase
 import io.github.aakira.napier.Napier
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -56,7 +54,7 @@ class GameViewModel(
         scope.launch {
             answerCardWithVotes.forEach {
                 Napier.d("PHASE 2: roomId = $roomId, playerId = $playerId, $answerCardWithVotes")
-                voteWith(roomId, it.playerID, it.score)
+                voteWith(roomId, playerId, it.playerID, it.score)
             }
         }
     }

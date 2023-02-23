@@ -51,6 +51,6 @@ fun RoundPlayerAnswerDTO.toModel(): RoundPlayerAnswer {
     return RoundPlayerAnswer(
         playerID = playerID,
         playerAnswers = playerAnswers,
-        score = score,
+        score = totalScore
     )
 }

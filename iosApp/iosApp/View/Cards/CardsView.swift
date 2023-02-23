@@ -11,8 +11,6 @@ import SwiftUI
 struct CardsView: View {
     @EnvironmentObject var dataModel: CardItemsDataModel
 
-    @State var animate: Bool = false
-
     let columns = [
         GridItem(spacing: 8.0),
         GridItem(spacing: 8.0),
@@ -33,31 +31,7 @@ struct CardsView: View {
                         spacing: spacing
                     ) {
                         ForEach(dataModel.items, id: \.self) { item in
-                            VStack {
-                                Text(item.text)
-                                    .frame(maxWidth: .infinity)
-                                    .multilineTextAlignment(.center)
-                                    .padding(.top, 16.0)
-                                    .padding(.horizontal, 8.0)
-                                    .font(.cardSmall)
-                                Spacer()
-                            }
-                            .scaleEffect(animate ? 1.3 : 1.0)
-                            .aspectRatio(124 / 168, contentMode: .fill)
-                            .background(
-                                LinearGradient(
-                                    colors: [
-                                        Color(red: 0.94, green: 0.94, blue: 0.94),
-                                        Color.white,
-                                        Color(red: 0.92, green: 0.92, blue: 0.92),
-                                    ],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                )
-                            )
-                            .compositingGroup()
-                            .cornerRadius(8.0)
-                            .shadow(radius: 8.0, y: 4.0)
+                            AnswerCard(answer: item.text, font: .cardSmall)
                         }
                     }
                     .padding([.leading, .trailing], 20.0)
@@ -67,9 +41,7 @@ struct CardsView: View {
                     HStack {
                         Spacer()
                         PrimaryButton("Далі") {
-                            withAnimation(.easeOut) {
-                                animate.toggle()
-                            }
+                            // TODO
                         }
                     }
                     .padding(.trailing, 20.0)
@@ -145,19 +117,6 @@ class CardItemsDataModel: ObservableObject {
     func removeItem(_ item: CardItem) {
         if let index = items.firstIndex(of: item) {
             items.remove(at: index)
-        }
-    }
-}
-
-struct GridItemView: View {
-    let width: Double
-    let height: Double
-    let item: CardItem
-
-    var body: some View {
-        ZStack(alignment: .topTrailing) {
-            AnswerCard(answer: item.text)
-                .frame(width: width, height: height)
         }
     }
 }

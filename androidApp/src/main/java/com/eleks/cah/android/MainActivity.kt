@@ -6,9 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.NavType
@@ -16,15 +14,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.eleks.cah.android.game.GameScreen
 import com.eleks.cah.android.lobby.LobbyScreen
-import com.eleks.cah.android.model.Card
-import com.eleks.cah.android.round.PreRoundScreen
-import com.eleks.cah.android.round.RoundScreen
 import com.eleks.cah.android.router.MainRoute
-import com.eleks.cah.android.user_cards.UserCardsScreen
 import com.eleks.cah.init
 import com.eleks.cah.lobby.LobbyViewModel
-import kotlinx.coroutines.delay
 import org.koin.androidx.compose.getViewModel
 
 class MainActivity : ComponentActivity() {
@@ -44,7 +38,7 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(
                         navController = navController,
-                        startDestination = MainRoute.Menu(),
+                        startDestination = MainRoute.Menu.path,
                     ) {
                         composable(route = MainRoute.Menu()) {
                             Menu(
@@ -74,48 +68,14 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable(
-                            route = MainRoute.UserCardsScreen()
+                            route = MainRoute.Game()
                         ) {
-                            UserCardsScreen()
-                        }
-
-                        composable(
-                            route = MainRoute.PreRoundScreen(),
-                            arguments = listOf(
-                                navArgument(MainRoute.PreRoundScreen.arguments.first()) {
-                                    type = NavType.IntType
-                                }
-                            )
-                        ) {
-                            it.arguments?.getInt(MainRoute.PreRoundScreen.arguments.first())
-                                ?.let { round ->
-                                    PreRoundScreen(roundNumber = round)
-
-                                    LaunchedEffect(Unit) {
-                                        delay(ROUND_TIMEOUT)
-                                        navController.navigate(MainRoute.Round.getPath(round))
-                                    }
-                                }
-                        }
-
-                        composable(
-                            route = MainRoute.Round(),
-                            arguments = listOf(
-                                navArgument(MainRoute.Round.arguments.first()) {
-                                    type = NavType.IntType
-                                }
-                            )
-                        ) {
-                            it.arguments?.getInt(MainRoute.Round.arguments.first())
-                                ?.let { round ->
-                                    RoundScreen(
-                                        buildList {
-                                            repeat(6) {
-                                                add(Card(text = stringResource(id = R.string.miy_instrument) + " $it"))
-                                            }
-                                        }, round
-                                    )
-                                }
+                            val (roomIdKey, playerIdKey) = MainRoute.Game.arguments
+                            val roomId = it.arguments?.getString(roomIdKey)
+                                    ?: return@composable
+                            val playerId = it.arguments?.getString(playerIdKey)
+                                ?: return@composable
+                            GameScreen(roomId, playerId)
                         }
                     }
                 }

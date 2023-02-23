@@ -23,6 +23,7 @@ import kotlin.random.Random
 class RoomsRepositoryImpl(
     databaseReference: DatabaseReference
 ) : RoomsRepository {
+
     private val roomsDbReference = databaseReference.child(DB_REF_ROOMS)
 
     override suspend fun createNewRoom(hostNickname: String): GameRoomDTO {
@@ -34,6 +35,10 @@ class RoomsRepositoryImpl(
             questions = generateQuestionCards(),
             answers = generateAnswerCards(),
             currentRound = null
+        )
+        Napier.d(
+            tag = TAG,
+            message = "newRoom = $newRoom"
         )
         roomsDbReference.child(inviteCode).setValue(newRoom)
         val gameOwner = addPlayerToRoom(hostNickname, inviteCode, true)
@@ -82,7 +87,7 @@ class RoomsRepositoryImpl(
     }
 
     private fun generateAnswerCards(): List<AnswerCardDTO> {
-        // TODO: Generate question cards
+        // TODO: Generate answer cards
         return listOf(
             "на кораблі Морфея",
             "історичні міфи",
@@ -266,9 +271,13 @@ class RoomsRepositoryImpl(
 
     override suspend fun startNextRound(roomID: RoomID) {
         roomsDbReference.roomOrException(roomID) {
+
             val preUpdatedPlayers = savePlayersScores(it)
             refreshPlayersCards(it, preUpdatedPlayers)
             startNextRoundInRoom(it)
+            roomsDbReference.roomOrException(roomID) {
+                Napier.d("answers = ${it.currentRound?.answers}")
+            }
         }
     }
 
@@ -293,6 +302,8 @@ class RoomsRepositoryImpl(
         preUpdatedPlayers: List<PlayerDTO>
     ) {
         val updatedAnswers = gameRoom.answers.toMutableList()
+        Napier.d("upd anwers = ${updatedAnswers.map { it.id }}")
+
         val updatedPlayers = preUpdatedPlayers.map { player ->
             val updatedPlayerCards = player.cards.toMutableList()
             val newCardsRequired = DEFAULT_PLAYER_CARDS_AMOUNT - updatedPlayerCards.size
@@ -303,6 +314,9 @@ class RoomsRepositoryImpl(
             }
             player.copy(cards = updatedPlayerCards)
         }.associateBy { it.id }
+
+        Napier.d("upd players = ${updatedPlayers}")
+
         roomsDbReference.child(gameRoom.id).updateChildren(
             mapOf(
                 DB_REF_PLAYERS to updatedPlayers,

@@ -1,4 +1,4 @@
-package com.eleks.cah.android.round
+package com.eleks.cah.android.game.round
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

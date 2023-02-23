@@ -6,7 +6,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.StateFlow
 
 interface GetRoomUseCase {
-    suspend fun invoke(
+    suspend operator fun invoke(
         roomID: RoomID,
         scope: CoroutineScope
     ): StateFlow<GameRoom?>

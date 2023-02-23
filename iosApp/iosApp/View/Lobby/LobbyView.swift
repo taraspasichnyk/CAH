@@ -14,7 +14,7 @@ struct LobbyView: View {
     @EnvironmentObject private var loadingState: LoadingState
 
     @State private var users: [Player] = []
-    @State private var roomCode: String = ""
+    @State private var roomCode: String = "000000"
     @State private var isButtonEnabled = false
     @State private var buttonTitle = "Готовий"
 

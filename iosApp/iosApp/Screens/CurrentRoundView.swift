@@ -44,32 +44,12 @@ struct CurrentRoundView: View {
                                 "Біла гарячка",
                             ]
                         )
-                    }
+//                    }
                 }
             }
-            if hasLoaded {
-                VStack {
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        PrimaryButton("Обрати") {
-                            print("SELECT CARD")
-                        }
-                        Spacer()
-                    }
-                    .padding(.bottom, 35)
-                    .overlay(
-                        HStack {
-                            Spacer()
-                            GridButton {
-                                print("TOGGLE CARD VIEW")
-                            }
-                            .padding([.bottom, .trailing], 35)
-                        }
-                    )
-                }
-                .ignoresSafeArea()
-            }
+//            if hasLoaded {
+                bottomButtonStack
+//            }
         }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
@@ -83,6 +63,36 @@ struct CurrentRoundView: View {
         }
     }
 }
+
+// MARK: - Subviews
+
+extension CurrentRoundView {
+    private var bottomButtonStack: some View {
+        return VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                PrimaryButton("Обрати") {
+                    print("SELECT CARD")
+                }
+                Spacer()
+            }
+            .padding(.bottom, 35)
+            .overlay(
+                HStack {
+                    Spacer()
+                    GridButton {
+                        print("TOGGLE CARD VIEW")
+                    }
+                    .padding([.bottom, .trailing], 35)
+                }
+            )
+        }
+        .ignoresSafeArea()
+    }
+}
+
+// MARK: - Hand
 
 struct HandPickerView: View {
     @State private var selectedIndex: Int = 0

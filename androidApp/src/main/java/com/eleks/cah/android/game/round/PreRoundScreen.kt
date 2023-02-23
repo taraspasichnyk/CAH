@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import com.eleks.cah.android.AppTheme
 import com.eleks.cah.android.MyApplicationTheme
 import com.eleks.cah.android.R
@@ -38,5 +39,13 @@ fun PreRoundScreen(roundNumber: Int) {
                 style = txtSemibold32
             )
         }
+    }
+}
+
+@Preview(showSystemUi = true, showBackground = true)
+@Composable
+fun PreRoundScreenPreview() {
+    MyApplicationTheme {
+        PreRoundScreen(1)
     }
 }

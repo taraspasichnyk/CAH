@@ -35,30 +35,24 @@ import com.eleks.cah.android.widgets.CardBackground
 import com.eleks.cah.android.widgets.ConflictCard
 import com.eleks.cah.android.widgets.GameHeader
 import com.eleks.cah.android.widgets.GameLabelSize
+import com.eleks.cah.domain.model.AnswerCard
+import com.eleks.cah.domain.model.AnswerCardID
 
 @Composable
-fun UserCardsScreen() {
-    // TODO remove hardcode data
-    val cards: List<Card> = listOf(
-        Card("Божеволіти від нестримного програмування"),
-        Card("Божеволіти від нестримного програмування"),
-        Card("Божеволіти від нестримного програмування"),
-        Card("Божеволіти від нестримного програмування"),
-        Card("Божеволіти від нестримного програмування"),
-        Card("Божеволіти від нестримного програмування"),
-        Card("Божеволіти від нестримного програмування"),
-        Card("Божеволіти від нестримного програмування"),
-        Card("Божеволіти від нестримного програмування"),
-        Card("Божеволіти від нестримного програмування"),
-        Card("Божеволіти від нестримного програмування"),
-        Card("Божеволіти від нестримного програмування"),
-        Card("Божеволіти від нестримного програмування"),
-        Card("Божеволіти від нестримного програмування"),
-        Card("Божеволіти від нестримного програмування"),
-        Card("Божеволіти від нестримного програмування"),
-        Card("Божеволіти від нестримного програмування"),
-        Card("Божеволіти від нестримного програмування")
+fun UserCardsScreen(
+    cards: List<AnswerCard> = listOf(
+        AnswerCard("0","Божеволіти від нестримного програмування"),
+        AnswerCard("1","Божеволіти від нестримного програмування"),
+        AnswerCard("2","Божеволіти від нестримного програмування"),
+        AnswerCard("3","Божеволіти від нестримного програмування"),
+        AnswerCard("4","Божеволіти від нестримного програмування"),
+        AnswerCard("5","Божеволіти від нестримного програмування"),
+        AnswerCard("6","Божеволіти від нестримного програмування"),
+        AnswerCard("7","Божеволіти від нестримного програмування"),
+        AnswerCard("8","Божеволіти від нестримного програмування"),
+        AnswerCard("9","Божеволіти від нестримного програмування"),
     )
+) {
 
     val userCards = remember {
         cards.toMutableStateList()
@@ -135,9 +129,9 @@ fun UserCardsScreen() {
 }
 
 @Composable
-fun UserCardItemView(card: Card) {
+fun UserCardItemView(card: AnswerCard) {
     ConflictCard(
-        cardText = card.text,
+        cardText = card.answer,
         cardWidth = AppTheme.dimens.userCardWidth,
         cardHeight = AppTheme.dimens.userCardHeight
     )

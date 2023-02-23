@@ -9,15 +9,26 @@
 import SwiftUI
 
 struct CardsView: View {
+
+    // MARK: - Properties
+
     @EnvironmentObject var dataModel: CardItemsDataModel
 
-    let columns = [
+//    private let vm: GameViewModel
+
+    private let columns = [
         GridItem(spacing: 8.0),
         GridItem(spacing: 8.0),
         GridItem(spacing: 8.0)
     ]
 
-    let spacing = 8.0
+    private let spacing = 8.0
+
+    // MARK: - Lifecycle
+
+//    init(vm: GameViewModel) {
+//        self.vm = vm
+//    }
 
     var body: some View {
         ContainerView(header: .small) {
@@ -31,7 +42,8 @@ struct CardsView: View {
                         spacing: spacing
                     ) {
                         ForEach(dataModel.items, id: \.self) { item in
-                            AnswerCard(answer: item.text, font: .cardSmall)
+                            AnswerCard(answer: item.text)
+                                .font(.cardSmall)
                         }
                     }
                     .padding([.leading, .trailing], 20.0)
@@ -62,6 +74,11 @@ struct CardsView_Previews: PreviewProvider {
             CardsView()
                 .environmentObject(CardItemsDataModel())
                 .previewDevice(.init(rawValue: "iPhone SE (3rd generation)"))
+//            CardsView(vm: .init(roomId: "", playerId: ""))
+//                .environmentObject(CardItemsDataModel())
+//            CardsView(vm: .init(roomId: "", playerId: ""))
+//                .environmentObject(CardItemsDataModel())
+//                .previewDevice(.init(rawValue: "iPhone SE (3rd generation)"))
         }
     }
 }

@@ -11,7 +11,6 @@ import SwiftUI
 struct AnswerCard: View {
 
     let answer: String
-    let font: Font
 
     // MARK: - Body
 
@@ -20,9 +19,8 @@ struct AnswerCard: View {
             Text(answer)
                 .frame(maxWidth: .infinity)
                 .multilineTextAlignment(.center)
-                .padding(.top, 16.0)
+                .padding(.top, .medium)
                 .padding(.horizontal, 8.0)
-                .font(font)
             Spacer()
         }
         .aspectRatio(124 / 168, contentMode: .fit)
@@ -48,16 +46,12 @@ struct AnswerCard: View {
 struct AnswerCard_Previews: PreviewProvider {
     static var previews: some View {
         VStack(spacing: 8.0) {
-            AnswerCard(
-                answer: "Гарний розмальований килим",
-                font: .inputPrimary
-            )
-            .frame(width: 180)
-            AnswerCard(
-                answer: "Гарний розмальований килим",
-                font: .cardSmall
-            )
-            .frame(width: 124)
+            AnswerCard(answer: "Гарний розмальований килим")
+                .frame(width: 180)
+                .font(.inputPrimary)
+            AnswerCard(answer: "Гарний розмальований килим")
+                .frame(width: 124)
+                .font(.cardSmall)
         }
     }
 }

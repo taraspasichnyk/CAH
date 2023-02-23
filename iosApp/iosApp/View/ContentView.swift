@@ -58,8 +58,8 @@ extension ContentView {
             EnterScreenView(stage: .roomCode(lobbyVm))
         case .lobby(let lobbyVm):
             LobbyView(vm: lobbyVm)
-        case .yourCards:
-            CardsView()
+        case .yourCards(let gameVm):
+            CardsView(vm: gameVm)
         }
     }
 

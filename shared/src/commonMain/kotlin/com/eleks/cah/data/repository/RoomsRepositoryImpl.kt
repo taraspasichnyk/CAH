@@ -8,6 +8,7 @@ import com.eleks.cah.domain.Constants.DB_REF_CURRENT_ROUND
 import com.eleks.cah.domain.Constants.DB_REF_PLAYERS
 import com.eleks.cah.domain.Constants.DB_REF_ROOMS
 import com.eleks.cah.domain.Constants.DEFAULT_PLAYER_CARDS_AMOUNT
+import com.eleks.cah.domain.Constants.DEFAULT_ROOM_QUESTION_CARDS
 import com.eleks.cah.domain.exceptions.FailedToJoinRoomException
 import com.eleks.cah.domain.model.GameRound
 import com.eleks.cah.domain.model.Player
@@ -83,7 +84,7 @@ class RoomsRepositoryImpl(
                 question = sentence,
                 gaps = listOf(Random.nextInt(0, sentence.wordsCount - 1))
             )
-        }.sortedBy { Random.nextInt() }.take(3)
+        }.sortedBy { Random.nextInt() }.take(DEFAULT_ROOM_QUESTION_CARDS)
     }
 
     private fun generateAnswerCards(): List<AnswerCardDTO> {

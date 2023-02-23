@@ -35,9 +35,11 @@ fun GameScreen(
 ) {
 
     val innerNavController = rememberNavController()
+
     var showBackConfirmationDialog by remember {
         mutableStateOf(false)
     }
+
     BackHandler(true) {
         showBackConfirmationDialog = true
     }
@@ -71,8 +73,7 @@ fun GameScreen(
         )
     }
 
-    val player by gameViewModel.me.collectAsState()
-    val currentRound by gameViewModel.round.collectAsState()
+    val state by gameViewModel.state.collectAsState()
 
     LaunchedEffect(Unit) {
         gameViewModel.effect.collectLatest {
@@ -100,25 +101,23 @@ fun GameScreen(
 
     NavHost(
         navController = innerNavController,
-        startDestination = GameRoute.PreRound.path,
+        startDestination = GameRoute.YourCards.path,
         modifier = Modifier.background(MaterialTheme.colors.secondary)
     ) {
 
         composable(route = GameRoute.PreRound.path) {
-            val round = currentRound ?: return@composable
+            val round = state.round ?: return@composable
             PreRoundScreen(roundNumber = round.number)
         }
 
         composable(route = GameRoute.YourCards.path) {
-            val me = player ?: return@composable
+            val me = state.me ?: return@composable
             UserCardsScreen(me.cards) {
                 gameViewModel.showRound()
             }
         }
 
         composable(route = GameRoute.Round.path) {
-            val me = player ?: return@composable
-            val round = currentRound ?: return@composable
             Scaffold(
                 floatingActionButton = {
                     FloatingActionButton(
@@ -134,6 +133,8 @@ fun GameScreen(
                 }
             ) {
                 Box(modifier = Modifier.padding(it)) {
+                    val me = state.me ?: return@Scaffold
+                    val round = state.round ?: return@Scaffold
                     RoundScreen(
                         me,
                         round,
@@ -145,7 +146,7 @@ fun GameScreen(
         }
 
         composable(route = GameRoute.Voting.path) {
-            val round = currentRound ?: return@composable
+            val round = state.round ?: return@composable
             ScoreScreen(
                 round.masterCard,
                 round.playerCards,

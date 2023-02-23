@@ -1,16 +1,25 @@
-package com.eleks.cah.android.round
+package com.eleks.cah.android.game.round
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.width
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.min
+import kotlin.math.pow
+import kotlin.math.sin
+import kotlin.math.sqrt
 
 fun Modifier.dropShadow(
     color: Color,
@@ -20,6 +29,7 @@ fun Modifier.dropShadow(
     offsetX: Dp = 5.dp,
     spread: Dp = 0.dp,
     blendMode: BlendMode = BlendMode.SrcOver,
+    angle: Float = 0f,
 ) = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
     val shadowColor = color.toArgb()
     val transparent = color.copy(alpha = 0f).toArgb()
@@ -28,26 +38,30 @@ fun Modifier.dropShadow(
         this.drawIntoCanvas {
             val paint = Paint()
             val frameworkPaint = paint.asFrameworkPaint()
-            frameworkPaint.color = transparent
 
+            frameworkPaint.color = transparent
             frameworkPaint.setShadowLayer(
                 blur.toPx(),
                 offsetX.toPx(),
                 offsetY.toPx(),
                 shadowColor,
             )
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 frameworkPaint.blendMode = mapBlendModes(blendMode)
             }
-            it.drawRoundRect(
-                0f - spread.value,
-                0f - spread.value,
-                this.size.width + spread.value,
-                this.size.height + spread.value,
-                borderRadius.toPx(),
-                borderRadius.toPx(),
-                paint,
-            )
+
+            rotate(angle) {
+                it.drawRoundRect(
+                    0f - spread.value,
+                    0f - spread.value,
+                    this.size.width + spread.value,
+                    this.size.height + spread.value,
+                    borderRadius.toPx(),
+                    borderRadius.toPx(),
+                    paint,
+                )
+            }
         }
     }
 } else {

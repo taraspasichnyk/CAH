@@ -13,9 +13,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.eleks.cah.android.R
 import com.eleks.cah.android.router.LobbyRoute
 import com.eleks.cah.android.router.MainRoute
@@ -44,6 +46,7 @@ fun LobbyScreen(lobbyViewModel: LobbyViewModel, navController: NavHostController
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+
                 is ShareCode -> {
                     val sendIntent: Intent = Intent().apply {
                         action = Intent.ACTION_SEND
@@ -53,23 +56,38 @@ fun LobbyScreen(lobbyViewModel: LobbyViewModel, navController: NavHostController
                     val shareIntent = Intent.createChooser(sendIntent, null)
                     context.startActivity(shareIntent)
                 }
-                is Navigation.YourCardsScreen -> {
+
+                is Navigation.GameScreen -> {
                     //TODO navigate to needed screen
                     navController.popBackStack(route = MainRoute.Menu(), inclusive = false)
-                    navController.navigate(MainRoute.PreRoundScreen.getPath(1))
+                    navController.navigate(
+                        MainRoute.Game.getPath(effect.roomId, effect.playerID))
                 }
+
                 is Navigation.MenuScreen -> {
                     navController.popBackStack()
                 }
+
                 Navigation.EnterCodeScreen -> {
-                    innerNavController.navigate(LobbyRoute.EnterCode.path)
+                    innerNavController.navigate(
+                        LobbyRoute.EnterCode.path,
+                    )
                 }
+
                 Navigation.EnterNameScreen -> {
-                    innerNavController.navigate(LobbyRoute.EnterName.path)
+                    innerNavController.navigate(
+                        LobbyRoute.EnterName.path ,
+                        navOptions = NavOptions.Builder()
+                            .setEnterAnim(org.koin.android.R.anim.abc_slide_in_bottom)
+                            .setExitAnim(org.koin.android.R.anim.abc_slide_out_top)
+                            .build()
+                    )
                 }
+
                 Navigation.UsersListScreen -> {
                     innerNavController.navigate(LobbyRoute.UserList.path)
                 }
+
                 is ShowError -> {
                     Toast.makeText(
                         context,

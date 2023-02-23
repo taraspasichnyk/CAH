@@ -33,15 +33,9 @@ sealed class MainRoute(val path: String, vararg arguments: String = emptyArray()
         }
     }
 
-    object Round : MainRoute("round", "number") {
-        fun getPath(number: Int): String {
-            return getPathWithArguments(number)
-        }
-    }
-
-    object PreRoundScreen : MainRoute("preround", "number") {
-        fun getPath(number: Int): String {
-            return getPathWithArguments(number)
+    object Game : MainRoute("game", "roomId", "playerId") {
+        fun getPath(roomId: String, playerId: String): String {
+            return getPathWithArguments(roomId, playerId)
         }
     }
 }

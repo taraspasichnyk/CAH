@@ -1,6 +1,5 @@
-package com.eleks.cah.android.round
+package com.eleks.cah.android.game.round
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -20,12 +19,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
@@ -36,28 +32,36 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import com.eleks.cah.android.AppTheme
 import com.eleks.cah.android.R.*
-import com.eleks.cah.android.model.Card
 import com.eleks.cah.android.pxToDp
 import com.eleks.cah.android.theme.*
+import com.eleks.cah.android.widgets.ConflictCard
 import com.eleks.cah.android.widgets.GameHeader
 import com.eleks.cah.android.widgets.GameLabelSize
+import com.eleks.cah.domain.model.AnswerCard
+import com.eleks.cah.domain.model.AnswerCardID
+import com.eleks.cah.domain.model.GameRound
+import com.eleks.cah.domain.model.Player
 import com.google.accompanist.pager.ExperimentalPagerApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun RoundScreen(cards: List<Card>, roundNumber: Int) {
+fun RoundScreen(
+    player: Player,
+    round: GameRound,
+    onCardsSubmitted: (List<AnswerCardID>) -> Unit = {}
+) {
     val scope = rememberCoroutineScope()
     val pagerState = rememberPagerState()
+
     val userCards = remember {
-        cards.toMutableStateList()
+        player.cards.toMutableStateList()
     }
     var chosenCard by remember {
-        mutableStateOf<Card?>(null)
+        mutableStateOf<AnswerCard?>(null)
     }
     var selectedCardPosition by remember {
         mutableStateOf(Offset.Zero)
@@ -84,7 +88,7 @@ fun RoundScreen(cards: List<Card>, roundNumber: Int) {
             )
 
             Text(
-                text = stringResource(id = string.round, roundNumber),
+                text = stringResource(id = string.round, round.number),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 style = txtSemibold16,
@@ -94,7 +98,7 @@ fun RoundScreen(cards: List<Card>, roundNumber: Int) {
             Spacer(modifier = Modifier.height(AppTheme.dimens.sizeMedium))
 
             ConflictCard(
-                cardText = stringResource(id = string.master_card_placeholder),
+                cardText = round.masterCard.text,
                 isMasterCard = true,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
@@ -126,7 +130,8 @@ fun RoundScreen(cards: List<Card>, roundNumber: Int) {
                 cards = userCards,
                 coroutineScope = scope,
                 pagerState = pagerState,
-                onCardChosen = {}
+                onCardChosen = {
+                }
             )
         }
 
@@ -134,11 +139,18 @@ fun RoundScreen(cards: List<Card>, roundNumber: Int) {
             modifier = Modifier.align(Alignment.BottomCenter),
             onClick = {
                 val previousCard = chosenCard
+                if (userCards.isEmpty()) {
+                    return@ChooseButton
+                }
                 chosenCard = userCards[pagerState.currentPage]
 
                 if (pagerState.pageCount > 1) {
                     userCards.removeAt(pagerState.currentPage)
                     previousCard?.let { userCards.add(pagerState.currentPage, previousCard) }
+                }
+
+                chosenCard?.let {
+                    onCardsSubmitted(listOf(it.id))
                 }
             }
         )
@@ -146,7 +158,7 @@ fun RoundScreen(cards: List<Card>, roundNumber: Int) {
         chosenCard?.let {
             if (selectedCardPosition != Offset.Zero) {
                 ConflictCard(
-                    cardText = it.text,
+                    cardText = it.answer,
                     modifier = Modifier
                         .scale(0.75f, 0.75f)
                         .padding(
@@ -168,7 +180,7 @@ fun RoundScreen(cards: List<Card>, roundNumber: Int) {
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun UserHand(
-    cards: List<Card>,
+    cards: List<AnswerCard>,
     pagerState: PagerState,
     coroutineScope: CoroutineScope,
     onCardChosen: (Int) -> Unit
@@ -236,7 +248,7 @@ fun UserHand(
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun UserCards(
-    cards: List<Card>,
+    cards: List<AnswerCard>,
     pagerState: PagerState,
     modifier: Modifier = Modifier,
     onScroll: (Int) -> Unit,
@@ -299,7 +311,7 @@ fun UserCards(
                     ) {
                         onScroll.invoke(page)
                     }) {
-                ConflictCard(cardText = cards[page].text)
+                ConflictCard(cardText = cards[page].answer)
             }
         }
     }
@@ -329,46 +341,6 @@ fun ChooseButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
 }
 
 @Composable
-fun ConflictCard(cardText: String, modifier: Modifier = Modifier, isMasterCard: Boolean = false) {
-    val gradientCard = if (isMasterCard) {
-        remember { listOf(MineShaftDark, MineShaft) }
-    } else {
-        remember { listOf(Gallery, White50, GalleryGrey) }
-    }
-
-    Box(
-        modifier = modifier
-            .wrapContentSize()
-            .background(Color.Transparent)
-            .shadow(0.dp)
-            .dropShadow(
-                color = ShadowColor,
-                borderRadius = AppTheme.dimens.sizeSmall,
-                blur = AppTheme.dimens.sizeMedium,
-                offsetX = AppTheme.dimens.ZERO,
-                offsetY = AppTheme.dimens.cardShadowYOffset,
-                spread = AppTheme.dimens.ZERO
-            ),
-        contentAlignment = Alignment.TopCenter
-    ) {
-        Box(
-            modifier = Modifier
-                .size(AppTheme.dimens.cardWidth, AppTheme.dimens.cardHeight)
-                .clip(MaterialTheme.shapes.medium)
-                .background(brush = Brush.linearGradient(gradientCard))
-                .padding(cardPaddings()),
-            contentAlignment = Alignment.TopCenter
-        ) {
-            Text(
-                cardText,
-                color = if (isMasterCard) Color.White else Color.Black,
-                textAlign = TextAlign.Center
-            )
-        }
-    }
-}
-
-@Composable
 fun cardPaddings(): PaddingValues =
     PaddingValues(
         start = AppTheme.dimens.sizeSmall,
@@ -376,6 +348,7 @@ fun cardPaddings(): PaddingValues =
         top = AppTheme.dimens.sizeMedium,
         bottom = AppTheme.dimens.sizeSmall
     )
+
 
 @Preview(showBackground = true)
 @Composable

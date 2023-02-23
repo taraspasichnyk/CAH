@@ -42,9 +42,10 @@ final class LobbyEffectProcessor {
         case is LobbyContractEffect.NavigationEnterNameScreen:
             let lobbyVm = navState.compactMap(\.lobbyViewModel).last ?? injector.lobbyOwnerViewModel
             navState.navigate(to: .enterName(lobbyVm))
-        case is LobbyContractEffect.NavigationYourCardsScreen:
-            // TODO: navState.navigate(to: .yourCards)
-            alertState.presentedAlertType = .noFeature
+        case is LobbyContractEffect.NavigationGameScreen:
+            if let gameViewModel = navState.compactMap(\.gameViewModel).last {
+                navState.navigate(to: .yourCards(gameViewModel))
+            }
         case let copyCodeEffect as LobbyContractEffect.CopyCode:
             shareController.copyToPasteboard(copyCodeEffect.code)
         case let errorEffect as LobbyContractEffect.ShowError:

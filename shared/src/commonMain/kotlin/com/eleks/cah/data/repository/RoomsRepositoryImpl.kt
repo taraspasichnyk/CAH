@@ -10,7 +10,6 @@ import com.eleks.cah.domain.Constants.DB_REF_ROOMS
 import com.eleks.cah.domain.Constants.DEFAULT_PLAYER_CARDS_AMOUNT
 import com.eleks.cah.domain.Constants.DEFAULT_ROOM_QUESTION_CARDS
 import com.eleks.cah.domain.exceptions.FailedToJoinRoomException
-import com.eleks.cah.domain.model.GameRound
 import com.eleks.cah.domain.model.Player
 import com.eleks.cah.domain.model.RoomID
 import com.eleks.cah.domain.repository.RoomsRepository
@@ -340,9 +339,7 @@ class RoomsRepositoryImpl(
             id = nextRoundNumber.toString(),
             number = nextRoundNumber,
             question = nextQuestion,
-            answers = emptyList(),
-            timer = 0,
-            state = GameRound.GameRoundState.ACTIVE.toString(),
+            answers = emptyList()
         )
         roomsDbReference.child(gameRoom.id)
             .child(DB_REF_CURRENT_ROUND)

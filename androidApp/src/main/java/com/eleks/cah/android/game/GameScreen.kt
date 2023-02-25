@@ -9,14 +9,24 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.eleks.cah.android.MyApplicationTheme
+import com.eleks.cah.android.R
 import com.eleks.cah.android.game.round.PreRoundScreen
 import com.eleks.cah.android.game.round.RoundScreen
 import com.eleks.cah.android.game.vote.ScoreScreen
+import com.eleks.cah.android.mockedPlayer
+import com.eleks.cah.android.mockedRound
 import com.eleks.cah.android.router.GameRoute
 import com.eleks.cah.android.user_cards.UserCardsScreen
+import com.eleks.cah.domain.model.AnswerCardID
+import com.eleks.cah.domain.model.GameRound
+import com.eleks.cah.domain.model.Player
+import com.eleks.cah.domain.model.RoundPlayerAnswer
 import com.eleks.cah.game.GameContract
 import com.eleks.cah.game.GameViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -99,6 +109,35 @@ fun GameScreen(
         }
     }
 
+    GameContainer(
+        innerNavController,
+        state.round,
+        state.me,
+        onFabClicked = {
+            gameViewModel.showYourCards()
+        },
+        onUserCardsDismissed = {
+            gameViewModel.showRound()
+        },
+        onAnswerSubmitted = {
+            gameViewModel.saveAnswers(it)
+        },
+        onScoreSubmitted = {
+            gameViewModel.saveScores(it)
+        }
+    )
+}
+
+@Composable
+private fun GameContainer(
+    innerNavController: NavHostController,
+    currentRound: GameRound?,
+    player: Player?,
+    onFabClicked: () -> Unit = {},
+    onUserCardsDismissed: () -> Unit = {},
+    onAnswerSubmitted: (List<AnswerCardID>) -> Unit = {},
+    onScoreSubmitted: (List<RoundPlayerAnswer>) -> Unit = { _ -> }
+) {
     NavHost(
         navController = innerNavController,
         startDestination = GameRoute.YourCards.path,
@@ -106,54 +145,62 @@ fun GameScreen(
     ) {
 
         composable(route = GameRoute.PreRound.path) {
-            val round = state.round ?: return@composable
+            val round = currentRound ?: return@composable
             PreRoundScreen(roundNumber = round.number)
         }
 
         composable(route = GameRoute.YourCards.path) {
-            val me = state.me ?: return@composable
-            UserCardsScreen(me.cards) {
-                gameViewModel.showRound()
-            }
+            val me = player ?: return@composable
+            UserCardsScreen(me.cards, onUserCardsDismissed)
         }
 
         composable(route = GameRoute.Round.path) {
+            val me = player ?: return@composable
+            val round = currentRound ?: return@composable
+
             Scaffold(
                 floatingActionButton = {
                     FloatingActionButton(
-                        onClick = {
-                            gameViewModel.showYourCards()
-                        }
+                        onClick = { onFabClicked() }
                     ) {
                         Image(
-                            painterResource(id = com.eleks.cah.android.R.drawable.ic_card_fab),
+                            painterResource(id = R.drawable.ic_card_fab),
                             contentDescription = ""
                         )
                     }
                 }
             ) {
                 Box(modifier = Modifier.padding(it)) {
-                    val me = state.me ?: return@Scaffold
-                    val round = state.round ?: return@Scaffold
                     RoundScreen(
                         me,
                         round,
-                    ) {
-                        gameViewModel.saveAnswers(it)
-                    }
+                        onAnswerSubmitted
+                    )
                 }
             }
         }
 
         composable(route = GameRoute.Voting.path) {
-            val round = state.round ?: return@composable
+            val round = currentRound ?: return@composable
             ScoreScreen(
                 round.masterCard,
                 round.playerCards,
                 round.number,
-                onTimeout = { },
-                onVote = { gameViewModel.saveScores(emptyList()) }
+                onTimeout = onScoreSubmitted,
+                onVote = onScoreSubmitted
             )
         }
+    }
+}
+
+@Composable
+@Preview(showBackground = true, showSystemUi = true)
+private fun GamePreview() {
+    MyApplicationTheme {
+        GameContainer(
+            innerNavController = rememberNavController(),
+            currentRound = mockedRound(),
+            player = mockedPlayer()
+        )
     }
 }

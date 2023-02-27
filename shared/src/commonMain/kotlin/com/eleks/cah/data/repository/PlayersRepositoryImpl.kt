@@ -2,6 +2,7 @@ package com.eleks.cah.data.repository
 
 import com.eleks.cah.data.extensions.roomOrException
 import com.eleks.cah.data.model.GameRoomDTO
+import com.eleks.cah.data.model.PlayerDTO
 import com.eleks.cah.data.model.RoundPlayerAnswerDTO
 import com.eleks.cah.domain.Constants.DB_REF_ANSWERS
 import com.eleks.cah.domain.Constants.DB_REF_CURRENT_ROUND
@@ -10,7 +11,9 @@ import com.eleks.cah.domain.Constants.DB_REF_ROOMS
 import com.eleks.cah.domain.Constants.DB_REF_STATE
 import com.eleks.cah.domain.exceptions.PlayerNotFoundException
 import com.eleks.cah.domain.exceptions.RoomNoCurrentRoundException
-import com.eleks.cah.domain.model.*
+import com.eleks.cah.domain.model.Player
+import com.eleks.cah.domain.model.PlayerID
+import com.eleks.cah.domain.model.RoomID
 import com.eleks.cah.domain.repository.PlayersRepository
 import dev.gitlive.firebase.database.DatabaseReference
 import io.github.aakira.napier.Napier
@@ -123,6 +126,29 @@ class PlayersRepositoryImpl(
             tag = TAG,
             message = "Answer of player $playerID in round ${currentRound.number} scored with $score points"
         )
+    }
+
+    override suspend fun deleteNotReadyUsers(roomID: RoomID) {
+        val notReadyPlayerIds = roomsDbReference.child(roomID)
+            .child(DB_REF_PLAYERS)
+            .valueEvents
+            .firstOrNull()
+            ?.value<HashMap<String, PlayerDTO>?>()
+            ?.values.orEmpty()
+            .filter { it.state != Player.PlayerState.READY.name }
+            .map { it.id }
+        Napier.d(
+            tag = TAG,
+            message = "Deleted users $notReadyPlayerIds"
+        )
+        if (notReadyPlayerIds.isNotEmpty()) {
+            val players = roomsDbReference.child(roomID)
+                .child(DB_REF_PLAYERS)
+            notReadyPlayerIds.forEach {
+                players.child(it)
+                    .removeValue()
+            }
+        }
     }
 
     companion object {

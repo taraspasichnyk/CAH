@@ -1,4 +1,4 @@
-package com.eleks.cah.android.user_cards
+package com.eleks.cah.android.game.user_cards
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

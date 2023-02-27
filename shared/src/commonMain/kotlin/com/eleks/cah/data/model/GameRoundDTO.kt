@@ -5,6 +5,7 @@ data class GameRoundDTO(
     val id: String = "",
     val number: Int = -1,
     val question: String = "",
-    val answers: List<RoundPlayerAnswerDTO> = emptyList()
+    val answers: List<RoundPlayerAnswerDTO> = emptyList(),
+    val state: String = ""
 )
 

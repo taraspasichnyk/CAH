@@ -22,9 +22,8 @@ actual val viewModelModule: Module
             vm.gameOwner = it.get()
             vm
         }
-        factory {
-            val vm = GameViewModel(it.get(), it.get())
-            vm
+        factory { params ->
+            GameViewModel(params[0], params[1])
         }
     }
 

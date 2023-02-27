@@ -1,5 +1,5 @@
 //
-//  PlayerDTO.swift
+//  PlayerEntity.swift
 //  iosApp
 //
 //  Created by Taras Pasichnyk on 27.02.2023.
@@ -19,4 +19,21 @@ struct PlayerEntity {
     let isOwner: Bool
     let cards: [AnswerCardEntity]
     let state: State
+
+    static let mock: [PlayerEntity] = [
+        .init(
+            id: "1",
+            nickname: "@rt3m",
+            isOwner: false,
+            cards: AnswerCardEntity.mock,
+            state: .ANSWERING
+        ),
+        .init(
+            id: "2",
+            nickname: "Taras P",
+            isOwner: true,
+            cards: AnswerCardEntity.mock,
+            state: .ANSWERING
+        )
+    ]
 }

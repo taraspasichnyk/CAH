@@ -19,4 +19,12 @@ struct GameRoundEntity {
     let questionCard: QuestionCardEntity
     let playerCards: [RoundPlayerAnswerEntity]
     let state: State
+
+    static let mock: GameRoundEntity = GameRoundEntity(
+        id: "123",
+        number: 1,
+        questionCard: QuestionCardEntity(id: "1", text: "What?", question: "What?", gaps: [0, 1, 2]),
+        playerCards: RoundPlayerAnswerEntity.mock,
+        state: .VOTING
+    )
 }

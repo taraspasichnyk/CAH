@@ -8,38 +8,45 @@
 
 import SwiftUI
 
-struct LeaderboardView<GameModelType>: View where GameModelType: GameModelProtocol {
+struct LeaderboardView<ViewModel>: View where ViewModel: GameModelProtocol {
 
     // MARK: - Properties
 
-    @ObservedObject var gameModel: GameModelType
+    @ObservedObject var gameModel: ViewModel
 
     // MARK: - Lifecycle
 
     var body: some View {
         ContainerView(header: .small) {
-//            ZStack {
-//                ScrollView(.vertical) {
-//                    Text("Ваші карти")
-//                        .font(.titleRegularSecondary)
-//                    LazyVStack {
-//                        ForEach(Array(users.enumerated()), id: \.element.id) {
-//                            LobbyRow(offset: $0, user: $1)
-//                        }
-//                    }
-//                }
-//                VStack {
-//                    Spacer()
-//                    HStack {
-//                        Spacer()
-//                        PrimaryButton("Далі") {
-//                            // TODO
-//                        }
-//                    }
-//                    .padding(.trailing, 20.0)
-//                }
-//            }
-//            Spacer()
+            ZStack {
+                ScrollView(.vertical) {
+                    Text("Результати")
+                        .font(.titleRegularSecondary)
+                    if let round = gameModel.round {
+                        LazyVStack {
+                            ForEach(round.playerCards) { item in
+                                LeaderboardRow(
+                                    index: round.playerCards.firstIndex(
+                                        where: { $0.player.id == item.player.id }
+                                    ) ?? 0,
+                                    playerRound: item
+                                )
+                            }
+                        }
+                    }
+                }
+                VStack {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        PrimaryButton("Далі") {
+                            // TODO
+                        }
+                    }
+                    .padding(.trailing, 20.0)
+                }
+            }
+            Spacer()
         }
         .ignoresSafeArea()
     }

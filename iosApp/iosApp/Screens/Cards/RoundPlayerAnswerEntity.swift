@@ -8,8 +8,13 @@
 
 import Foundation
 
-struct RoundPlayerAnswerEntity {
-    let playerId: String
+struct RoundPlayerAnswerEntity: Identifiable {
+    var id: UUID = UUID()
+    let player: PlayerEntity
     let playerAnswers: [String]
     let score: Int
+
+    static let mock: [RoundPlayerAnswerEntity] = {
+        return PlayerEntity.mock.map { .init(player: $0, playerAnswers: [], score: 42) }
+    }()
 }

@@ -10,9 +10,9 @@ import Foundation
 import shared
 
 protocol GameModelProtocol: ObservableObject {
-    var items: [CardItem] { get }
-    var round: GameRound? { get }
-    var player: Player? { get }
+    var round: GameRoundEntity? { get }
+    var player: PlayerEntity? { get }
+    var players: [PlayerEntity] { get }
 
     func showRound()
 }
@@ -23,9 +23,9 @@ class GameModel: GameModelProtocol {
 
     private let vm: GameViewModel
 
-    @Published private(set) var items: [CardItem] = []
-    @Published private(set) var round: GameRound? = nil
-    @Published private(set) var player: Player? = nil
+    @Published private(set) var round: GameRoundEntity? = nil
+    @Published private(set) var player: PlayerEntity? = nil
+    @Published private(set) var players: [PlayerEntity] = []
 
     // MARK: - Lifecycle
 
@@ -46,7 +46,38 @@ class GameModel: GameModelProtocol {
         AnyFlow<GameContractState>(source: vm.state).collect { [weak self] state in
             guard let state else { return }
             guard let player = state.me else { return }
-            self?.items = player.cards.compactMap({ CardItem(text: $0.answer) })
+            guard let players = state.players else { return }
+            guard let round = state.round else { return }
+            self?.round = GameRoundEntity(
+                id: round.id,
+                number: Int(round.number),
+                questionCard: QuestionCardEntity(
+                    id: round.masterCard.id,
+                    text: round.masterCard.text,
+                    question: round.masterCard.question,
+                    gaps: round.masterCard.gaps.compactMap { NSNumber(nonretainedObject: $0) }
+                ),
+                playerCards: round.playerCards.compactMap {
+                    RoundPlayerAnswerEntity(playerId: $0.playerID, playerAnswers: $0.playerAnswers, score: Int($0.score))
+                },
+                state: GameRoundEntity.State(rawValue: round.state.name) ?? .FINISHED
+            )
+            self?.player = PlayerEntity(
+                id: player.id,
+                nickname: player.nickname,
+                isOwner: player.gameOwner,
+                cards: player.cards.compactMap { AnswerCardEntity(id: $0.id, text: $0.answer) },
+                state: PlayerEntity.State(rawValue: player.state.name) ?? .NOT_READY
+            )
+            self?.players = players.compactMap {
+                PlayerEntity(
+                    id: $0.id,
+                    nickname: $0.nickname,
+                    isOwner: $0.gameOwner,
+                    cards: $0.cards.compactMap { AnswerCardEntity(id: $0.id, text: $0.answer) },
+                    state: PlayerEntity.State(rawValue: $0.state.name) ?? .NOT_READY
+                )
+            }
         } onCompletion: { _ in
         }
     }
@@ -58,20 +89,26 @@ class MockGameModel: GameModelProtocol {
 
     // MARK: - Properties
 
-    @Published private(set) var items: [CardItem] = [
-        .init(text: "Степан Гіга"),
-        .init(text: "Знімати персики з дерева біля ЖЕКу"),
-        .init(text: "Місити палкою кропиву"),
-        .init(text: "Неймовірний покемон Сквіртл"),
-        .init(text: "Картонний пакет Кагору"),
-        .init(text: "Футбольний клуб \"Карпати\""),
-        .init(text: "Майнити біткойни на Atari"),
-        .init(text: "Стрілецька Дивізія \"СС Галичина\""),
-        .init(text: "Божеволіти він нестримного програмування"),
-        .init(text: "Тім лід гомосексуаліст")
-    ]
-    @Published private(set) var round: GameRound? = nil
-    @Published private(set) var player: Player? = nil
+    @Published private(set) var round: GameRoundEntity? = nil
+    @Published private(set) var player: PlayerEntity? = PlayerEntity(
+        id: "123",
+        nickname: "Artem&Taras",
+        isOwner: true,
+        cards: [
+            .init(id: "123", text: "Степан Гіга"),
+            .init(id: "123", text: "Знімати персики з дерева біля ЖЕКу"),
+            .init(id: "123", text: "Місити палкою кропиву"),
+            .init(id: "123", text: "Неймовірний покемон Сквіртл"),
+            .init(id: "123", text: "Картонний пакет Кагору"),
+            .init(id: "123", text: "Футбольний клуб \"Карпати\""),
+            .init(id: "123", text: "Майнити біткойни на Atari"),
+            .init(id: "123", text: "Стрілецька Дивізія \"СС Галичина\""),
+            .init(id: "123", text: "Божеволіти він нестримного програмування"),
+            .init(id: "123", text: "Тім лід гомосексуаліст")
+        ],
+        state: .READY
+    )
+    @Published private(set) var players: [PlayerEntity] = []
 
     // MARK: - Public
 

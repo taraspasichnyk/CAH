@@ -1,5 +1,5 @@
 //
-//  Player.swift
+//  AnswerCardDTO.swift
 //  iosApp
 //
 //  Created by Taras Pasichnyk on 27.02.2023.
@@ -8,6 +8,7 @@
 
 import Foundation
 
-//struct Player {
-//
-//}
+struct AnswerCardEntity: Identifiable, Hashable {
+    let id: String
+    let text: String
+}

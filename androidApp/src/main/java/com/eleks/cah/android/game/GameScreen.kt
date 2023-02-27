@@ -45,9 +45,11 @@ fun GameScreen(
 ) {
 
     val innerNavController = rememberNavController()
+
     var showBackConfirmationDialog by remember {
         mutableStateOf(false)
     }
+
     BackHandler(true) {
         showBackConfirmationDialog = true
     }
@@ -81,8 +83,7 @@ fun GameScreen(
         )
     }
 
-    val player by gameViewModel.me.collectAsState()
-    val currentRound by gameViewModel.round.collectAsState()
+    val state by gameViewModel.state.collectAsState()
 
     LaunchedEffect(Unit) {
         gameViewModel.effect.collectLatest {
@@ -110,8 +111,8 @@ fun GameScreen(
 
     GameContainer(
         innerNavController,
-        currentRound,
-        player,
+        state.round,
+        state.me,
         onFabClicked = {
             gameViewModel.showYourCards()
         },
@@ -139,7 +140,7 @@ private fun GameContainer(
 ) {
     NavHost(
         navController = innerNavController,
-        startDestination = GameRoute.PreRound.path,
+        startDestination = GameRoute.YourCards.path,
         modifier = Modifier.background(MaterialTheme.colors.secondary)
     ) {
 
@@ -156,6 +157,7 @@ private fun GameContainer(
         composable(route = GameRoute.Round.path) {
             val me = player ?: return@composable
             val round = currentRound ?: return@composable
+
             Scaffold(
                 floatingActionButton = {
                     FloatingActionButton(

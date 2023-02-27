@@ -17,29 +17,31 @@ class GameViewModel(
 ) : BaseViewModel<GameContract.State, GameContract.Effect>(GameContract.State(null)),
     KoinComponent {
 
-    private val getRoom: GetRoomUseCase by inject()
+    private val subscribeToRoomChanges: GetRoomUseCase by inject()
+
     private val answerWith: AnswerUseCase by inject()
     private val voteWith: VoteUseCase by inject()
 
-    val me: StateFlow<Player?> = state.mapNotNull { it.room?.getSelf() }
-        .stateIn(scope, SharingStarted.Eagerly, null)
-    val round: StateFlow<GameRound?> = state.mapNotNull { it.room?.currentRound }
-        .stateIn(scope, SharingStarted.Eagerly, null)
+    private var isNewRound: Boolean = true
 
     /**
      * Pushing navigation effects (PreRound -> wait -> Your Cards )
      */
     init {
         scope.launch {
-            showPreRound()
-            delay(PRE_ROUND_DELAY)
-            showYourCards()
-        }
-        scope.launch {
-            getRoom(roomId, this).collectLatest {
+            subscribeToRoomChanges(roomId, this).collectLatest { newRoom ->
+                val oldGameState = state.value
+
+                if (oldGameState.round != null && oldGameState.round.number != newRoom?.currentRound?.number) {
+                    isNewRound = true
+                    showRound()
+                }
+
                 setState {
-                    state.value.copy(
-                        room = it
+                    oldGameState.copy(
+                        room = newRoom,
+                        me = newRoom?.getSelf(),
+                        round = newRoom?.currentRound
                     )
                 }
             }
@@ -75,6 +77,7 @@ class GameViewModel(
     fun showPreRound() {
         setEffect { GameContract.Effect.Navigation.PreRound }
     }
+
     /**
      * Show voting screen with available scores
      */
@@ -86,7 +89,14 @@ class GameViewModel(
      * Shows current round screen
      */
     fun showRound() {
-        setEffect { GameContract.Effect.Navigation.Round }
+        scope.launch {
+            if (isNewRound) {
+                setEffect { GameContract.Effect.Navigation.PreRound }
+                delay(PRE_ROUND_DELAY)
+                isNewRound = false
+            }
+            setEffect { GameContract.Effect.Navigation.Round }
+        }
     }
 
     /**

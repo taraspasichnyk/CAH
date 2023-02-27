@@ -59,7 +59,7 @@ extension ContentView {
         case .lobby(let lobbyVm):
             LobbyView(vm: lobbyVm)
         case .yourCards(let gameVm):
-            CardsView(vm: gameVm)
+            CardsView(gameModel: GameModel(vm: gameVm))
         }
     }
 
@@ -80,6 +80,21 @@ extension ContentView {
 
     private func process(effect: LobbyContractEffect) {
         LobbyEffectProcessor(
+            injector: injector,
+            navState: $navState,
+            alertState: alertState,
+            shareController: shareController
+        ).process(effect) { gameVm in
+            AnyFlow<GameContractEffect>(source: gameVm.effect).collect { gameEffect in
+                guard let gameEffect else { return }
+                process(effect: gameEffect)
+            } onCompletion: { _ in
+            }
+        }
+    }
+
+    private func process(effect: GameContractEffect) {
+        GameEffectProcessor(
             injector: injector,
             navState: $navState,
             alertState: alertState,

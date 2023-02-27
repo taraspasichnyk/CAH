@@ -7,26 +7,12 @@
 //
 
 import SwiftUI
-import shared
 
-struct CardsView: View {
+struct CardsView<GameModelType>: View where GameModelType: GameModelProtocol {
 
     // MARK: - Properties
 
-    @State private var items: [CardItem] = [
-        .init(text: "Степан Гіга"),
-        .init(text: "Знімати персики з дерева біля ЖЕКу"),
-        .init(text: "Місити палкою кропиву"),
-        .init(text: "Неймовірний покемон Сквіртл"),
-        .init(text: "Картонний пакет Кагору"),
-        .init(text: "Футбольний клуб \"Карпати\""),
-        .init(text: "Майнити біткойни на Atari"),
-        .init(text: "Стрілецька Дивізія \"СС Галичина\""),
-        .init(text: "Божеволіти він нестримного програмування"),
-        .init(text: "Тім лід гомосексуаліст")
-    ]
-
-    private let vm: GameViewModel
+    @ObservedObject var gameModel: GameModelType
 
     private let columns = [
         GridItem(spacing: 8.0),
@@ -37,10 +23,6 @@ struct CardsView: View {
     private let spacing = 8.0
 
     // MARK: - Lifecycle
-
-    init(vm: GameViewModel) {
-        self.vm = vm
-    }
 
     var body: some View {
         ContainerView(header: .small) {
@@ -53,8 +35,8 @@ struct CardsView: View {
                         alignment: .center,
                         spacing: spacing
                     ) {
-                        ForEach(items, id: \.self) { item in
-                            AnswerCardView(answer: item.text)
+                        ForEach(gameModel.items, id: \.self) { item in
+                            AnswerCard(answer: item.text)
                                 .font(.cardSmall)
                         }
                     }
@@ -65,7 +47,7 @@ struct CardsView: View {
                     HStack {
                         Spacer()
                         PrimaryButton("Далі") {
-                            // TODO
+                            gameModel.showRound()
                         }
                     }
                     .padding(.trailing, 20.0)
@@ -74,20 +56,6 @@ struct CardsView: View {
             Spacer()
         }
         .ignoresSafeArea()
-        .onAppear {
-            subscribeToState()
-        }
-    }
-
-    // MARK: - Private
-
-    private func subscribeToState() {
-        AnyFlow<GameContractState>(source: vm.state).collect { state in
-            guard let state else { return }
-            guard let room = state.room else { return }
-            items = room.answers.compactMap({ CardItem(text: $0.answer) })
-        } onCompletion: { _ in
-        }
     }
 }
 
@@ -96,15 +64,7 @@ struct CardsView: View {
 struct CardsView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            CardsView(vm: .init(roomId: "484172", playerId: "-NOxn4NgUTxDzyRpcA0J"))
-//            CardsView(vm: .init(roomId: "484172", playerId: "-NOxn4NgUTxDzyRpcA0J"))
-//                .previewDevice(.init(rawValue: "iPhone SE (3rd generation)"))
+            CardsView(gameModel: MockGameModel())
         }
     }
 }
-
-struct CardItem: Identifiable, Hashable {
-    let id = UUID()
-    let text: String
-}
-

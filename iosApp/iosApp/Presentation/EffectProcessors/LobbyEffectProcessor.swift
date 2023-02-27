@@ -27,7 +27,7 @@ final class LobbyEffectProcessor {
         self.shareController = shareController
     }
 
-    func process(_ effect: LobbyContractEffect) {
+    func process(_ effect: LobbyContractEffect, subscribeToGameEffects: (GameViewModel) -> Void) {
         switch effect {
         case is LobbyContractEffect.NavigationUsersListScreen:
             if let lobbyVm = navState.compactMap(\.lobbyViewModel).last {
@@ -45,6 +45,7 @@ final class LobbyEffectProcessor {
         case let gameEffect as LobbyContractEffect.NavigationGameScreen:
             let gameVm = navState.compactMap(\.gameViewModel).last
                 ?? injector.makeGameViewModel(roomID: gameEffect.roomId, playerID: gameEffect.playerID)
+            subscribeToGameEffects(gameVm)
             navState.navigate(to: .yourCards(gameVm))
         case let copyCodeEffect as LobbyContractEffect.CopyCode:
             shareController.copyToPasteboard(copyCodeEffect.code)

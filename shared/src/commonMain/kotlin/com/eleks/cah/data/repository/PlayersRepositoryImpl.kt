@@ -11,6 +11,7 @@ import com.eleks.cah.domain.Constants.DB_REF_ROOMS
 import com.eleks.cah.domain.Constants.DB_REF_STATE
 import com.eleks.cah.domain.exceptions.PlayerNotFoundException
 import com.eleks.cah.domain.exceptions.RoomNoCurrentRoundException
+import com.eleks.cah.domain.model.GameRound
 import com.eleks.cah.domain.model.Player
 import com.eleks.cah.domain.model.PlayerID
 import com.eleks.cah.domain.model.RoomID
@@ -80,8 +81,19 @@ class PlayersRepositoryImpl(
 
         val currentRound =
             gameRoomDto.currentRound ?: throw RoomNoCurrentRoundException(gameRoomDto.id)
+        val prevAnswers = currentRound.answers.toMutableList()
+        //delete prev player answer if exists
+        prevAnswers.removeAll { it.playerID == playerID }
+
+        val answers = prevAnswers + playerAnswer
+        val isLastAnswer = gameRoomDto.players.keys.size == answers.size
         val updatedCurrentRound = currentRound.copy(
-            answers = currentRound.answers + listOf(playerAnswer)
+            answers = answers,
+            state = if (isLastAnswer) {
+                GameRound.GameRoundState.VOTING.name
+            } else {
+                currentRound.state
+            }
         )
 
         roomsDbReference.child(gameRoomDto.id)
@@ -95,25 +107,29 @@ class PlayersRepositoryImpl(
 
     override suspend fun voteForAnswer(
         roomID: RoomID,
+        voterID: PlayerID,
         playerID: PlayerID,
         score: Int
     ) {
         roomsDbReference.roomOrException(roomID) {
-            updateAnswerScore(it, playerID, score)
+            updateAnswerScore(it, voterID, playerID, score)
         }
     }
 
     private suspend fun updateAnswerScore(
         gameRoomDto: GameRoomDTO,
+        voterID: PlayerID,
         playerID: PlayerID,
         score: Int
     ) {
         val currentRound =
             gameRoomDto.currentRound ?: throw RoomNoCurrentRoundException(gameRoomDto.id)
         val updatedCurrentRoundAnswers = currentRound.answers.map {
-
             if (it.playerID == playerID) {
-                it.copy(score = it.score + score)
+                val updatedPlayerScores = HashMap(it.scores).apply {
+                    this[voterID] = score
+                }
+                it.copy(scores = updatedPlayerScores)
             } else {
                 it
             }

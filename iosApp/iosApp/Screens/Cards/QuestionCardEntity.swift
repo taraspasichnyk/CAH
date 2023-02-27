@@ -1,5 +1,5 @@
 //
-//  CardItem.swift
+//  QuestionCardEntity.swift
 //  iosApp
 //
 //  Created by Taras Pasichnyk on 27.02.2023.
@@ -8,7 +8,9 @@
 
 import Foundation
 
-struct CardItem: Identifiable, Hashable {
-    let id = UUID()
+struct QuestionCardEntity: Identifiable, Hashable {
+    let id: String
     let text: String
+    let question: String
+    let gaps: [NSNumber]
 }

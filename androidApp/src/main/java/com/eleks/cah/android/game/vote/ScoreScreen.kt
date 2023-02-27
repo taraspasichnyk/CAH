@@ -1,5 +1,6 @@
 package com.eleks.cah.android.game.vote
 
+import android.app.GameState
 import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.core.animateFloatAsState
@@ -249,7 +250,7 @@ private fun AnswerCards(
             val angle = if (it % 2 == 0) -15.0f else 15.0f
 
             ConflictCard(
-                cardText = card.playerAnswers[0],
+                cardText = card.playerAnswers[0].answer,
                 modifier = Modifier.rotate(angle),
             )
 

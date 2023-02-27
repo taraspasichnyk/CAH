@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
@@ -58,7 +59,8 @@ class MainActivity : ComponentActivity() {
                             )
                         ) {
                             val createNewGame =
-                                it.arguments?.getBoolean(MainRoute.Lobby.arguments.first()) ?: false
+                                it.arguments?.getBoolean(MainRoute.Lobby.arguments.first())
+                                    ?: false
                             LobbyScreen(
                                 getViewModel<LobbyViewModel>().apply {
                                     gameOwner = createNewGame
@@ -72,10 +74,12 @@ class MainActivity : ComponentActivity() {
                         ) {
                             val (roomIdKey, playerIdKey) = MainRoute.Game.arguments
                             val roomId = it.arguments?.getString(roomIdKey)
-                                    ?: return@composable
+                                ?: return@composable
                             val playerId = it.arguments?.getString(playerIdKey)
                                 ?: return@composable
-                            GameScreen(roomId, playerId)
+                            GameScreen(roomId, playerId, onExit = {
+                                navController.popBackStack()
+                            })
                         }
                     }
                 }

@@ -10,6 +10,8 @@ import com.eleks.cah.domain.usecase.answer.AnswerUseCase
 import com.eleks.cah.domain.usecase.answer.AnswerUseCaseImpl
 import com.eleks.cah.domain.usecase.create_room.CreateRoomUseCase
 import com.eleks.cah.domain.usecase.create_room.CreateRoomUseCaseImpl
+import com.eleks.cah.domain.usecase.delete_not_ready_users.DeleteNotReadyUsersUseCase
+import com.eleks.cah.domain.usecase.delete_not_ready_users.DeleteNotReadyUsersUseCaseImpl
 import com.eleks.cah.domain.usecase.join_room.JoinRoomUseCase
 import com.eleks.cah.domain.usecase.join_room.JoinRoomUseCaseImpl
 import com.eleks.cah.domain.usecase.login.AnonymousLoginUseCase
@@ -107,6 +109,11 @@ private val domainModule by lazy {
 
         single<VoteUseCase> {
             VoteUseCaseImpl(
+                playersRepository = get()
+            )
+        }
+        single<DeleteNotReadyUsersUseCase> {
+            DeleteNotReadyUsersUseCaseImpl(
                 playersRepository = get()
             )
         }

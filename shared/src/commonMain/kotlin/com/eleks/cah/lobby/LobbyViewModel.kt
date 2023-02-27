@@ -1,8 +1,10 @@
 package com.eleks.cah.lobby
 
 import com.eleks.cah.base.BaseViewModel
+import com.eleks.cah.domain.model.GameRound
 import com.eleks.cah.domain.model.Player
 import com.eleks.cah.domain.usecase.create_room.CreateRoomUseCase
+import com.eleks.cah.domain.usecase.delete_not_ready_users.DeleteNotReadyUsersUseCase
 import com.eleks.cah.domain.usecase.join_room.JoinRoomUseCase
 import com.eleks.cah.domain.usecase.login.AnonymousLoginUseCase
 import com.eleks.cah.domain.usecase.next_round.StartNextRoundUseCase
@@ -24,6 +26,7 @@ class LobbyViewModel : BaseViewModel<LobbyContract.State, LobbyContract.Effect>(
     private val joinRoomUseCase: JoinRoomUseCase by inject()
     private val getRoomUseCase: GetRoomUseCase by inject()
     private val updatePlayerStateUseCase: UpdatePlayerStateUseCase by inject()
+    private val deleteNotReadyUsersUseCase: DeleteNotReadyUsersUseCase by inject()
 
     private lateinit var currentScreen: LobbyInnerScreen
 
@@ -45,7 +48,7 @@ class LobbyViewModel : BaseViewModel<LobbyContract.State, LobbyContract.Effect>(
 
     var gameOwner: Boolean = true
         set(value) {
-                currentScreen = if (value) {
+            currentScreen = if (value) {
                 LobbyInnerScreen.EnterName
             } else {
                 LobbyInnerScreen.EnterCode
@@ -165,9 +168,8 @@ class LobbyViewModel : BaseViewModel<LobbyContract.State, LobbyContract.Effect>(
                 newState = Player.PlayerState.READY
             )
             if (gameOwner) {
+                deleteNotReadyUsersUseCase(state.value.code)
                 startNextRoundUseCase.invoke(state.value.code)
-                //TODO add navigation
-                setEffect { Navigation.GameScreen(state.value.code,  player?.id.orEmpty()) }
             } else {
                 setState {
                     copy(isNextButtonEnabled = false)
@@ -181,7 +183,19 @@ class LobbyViewModel : BaseViewModel<LobbyContract.State, LobbyContract.Effect>(
         scope.launch {
             getRoomUseCase.invoke(state.value.code, scope).filterNotNull().collect {
                 setState {
-                    copy(users = it.players)
+                    if (gameOwner) {
+                        val hasAtLeastOnePlayerWithReadyState =
+                            it.players.find { player -> player.state == Player.PlayerState.READY } != null
+                        copy(
+                            users = it.players,
+                            isNextButtonEnabled = hasAtLeastOnePlayerWithReadyState
+                        )
+                    } else {
+                        copy(users = it.players)
+                    }
+                }
+                if (it.currentRound?.state == GameRound.GameRoundState.ACTIVE) {
+                    setEffect { Navigation.GameScreen(state.value.code, player?.id.orEmpty()) }
                 }
             }
         }

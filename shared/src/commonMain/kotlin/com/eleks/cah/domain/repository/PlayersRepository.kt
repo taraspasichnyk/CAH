@@ -23,4 +23,6 @@ interface PlayersRepository {
         playerID: PlayerID,
         score: Int
     )
+
+    suspend fun deleteNotReadyUsers(roomID: RoomID)
 }

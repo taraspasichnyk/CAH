@@ -5,7 +5,7 @@ TEMPLATE=$(cat "tools/.assetsFileTemplate")
 IMAGE_ASSETS=""
 COLOR_ASSETS=""
 
-for ASSET in $(ls "iosApp/Assets.xcassets" | grep -v "AccentColor"); do
+for ASSET in $(ls "iosApp/Assets/Assets.xcassets" | grep -v "AccentColor"); do
 
     if [[ $ASSET = *.imageset ]]; then
         ASSET="${ASSET%.*}"
@@ -20,8 +20,4 @@ done
 IMAGE_ASSETS="${IMAGE_ASSETS%\\n}"
 COLOR_ASSETS="${COLOR_ASSETS%\\n}"
 
-echo "REPLACE OUTPUT:"
-
-echo "${TEMPLATE}" | sed "s/_image_asset_list_/${IMAGE_ASSETS}/" | sed "s/_color_asset_list_/${COLOR_ASSETS}/" > "iosApp/Assets.swift"
-
-
+echo "${TEMPLATE}" | sed "s/_image_asset_list_/${IMAGE_ASSETS}/" | sed "s/_color_asset_list_/${COLOR_ASSETS}/" > "iosApp/Assets/Assets.swift"

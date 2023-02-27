@@ -11,6 +11,7 @@ import com.eleks.cah.domain.Constants.DB_REF_ROOMS
 import com.eleks.cah.domain.Constants.DB_REF_STATE
 import com.eleks.cah.domain.exceptions.PlayerNotFoundException
 import com.eleks.cah.domain.exceptions.RoomNoCurrentRoundException
+import com.eleks.cah.domain.model.GameRound
 import com.eleks.cah.domain.model.Player
 import com.eleks.cah.domain.model.PlayerID
 import com.eleks.cah.domain.model.RoomID
@@ -80,8 +81,19 @@ class PlayersRepositoryImpl(
 
         val currentRound =
             gameRoomDto.currentRound ?: throw RoomNoCurrentRoundException(gameRoomDto.id)
+        val prevAnswers = currentRound.answers.toMutableList()
+        //delete prev player answer if exists
+        prevAnswers.removeAll { it.playerID == playerID }
+
+        val answers = prevAnswers + playerAnswer
+        val isLastAnswer = gameRoomDto.players.keys.size == answers.size
         val updatedCurrentRound = currentRound.copy(
-            answers = currentRound.answers + listOf(playerAnswer)
+            answers = answers,
+            state = if (isLastAnswer) {
+                GameRound.GameRoundState.VOTING.name
+            } else {
+                currentRound.state
+            }
         )
 
         roomsDbReference.child(gameRoomDto.id)

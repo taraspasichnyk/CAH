@@ -13,6 +13,7 @@ interface GameContract {
         private val room: GameRoom? = null,
         val round: GameRound? = null,
         val me: Player? = null,
+        val players: List<Player>? = emptyList()
     ) : UiState
 
     sealed class Effect : UiEffect {

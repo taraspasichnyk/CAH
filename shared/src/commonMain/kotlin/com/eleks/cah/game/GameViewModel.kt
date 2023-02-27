@@ -51,7 +51,8 @@ class GameViewModel(
                             playerCards = newRoom.currentRound.playerCards.filter {
                                 it.playerID != me?.id
                             }
-                        )
+                        ),
+                        players = newRoom?.players
                     )
                 }
                 if (oldGameState.round?.state != GameRound.GameRoundState.VOTING

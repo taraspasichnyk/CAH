@@ -23,7 +23,7 @@ struct AnswerCard: View {
                 .padding(.horizontal, 8.0)
             Spacer()
         }
-        .aspectRatio(124 / 168, contentMode: .fit)
+        .aspectRatio(124 / 168, contentMode: .fill)
         .background(
             LinearGradient(
                 colors: [

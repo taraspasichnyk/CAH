@@ -7,10 +7,12 @@
 //
 
 import SwiftUI
+import shared
 
 struct CurrentRoundView: View {
     @State private var hasLoaded = false
     @State private var hasShiftedTitle = false
+    @State private var selectedIndex = 0
     let round: Int
 
     // MARK: - Body
@@ -33,7 +35,8 @@ struct CurrentRoundView: View {
                         Spacer()
                         Text("Оберіть 2 відповіді:")
                             .font(.bodyTertiaryThin)
-                        HandPickerView(
+                        CardHandPicker(
+                            selectedIndex: $selectedIndex,
                             answers: [
                                 "Гарний розмальований килим",
                                 "Кинути важкі наркотики",
@@ -44,12 +47,13 @@ struct CurrentRoundView: View {
                                 "Біла гарячка",
                             ]
                         )
-//                    }
+                        .padding(.bottom, .large)
+                    }
                 }
             }
-//            if hasLoaded {
+            if hasLoaded {
                 bottomButtonStack
-//            }
+            }
         }
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
@@ -74,6 +78,11 @@ extension CurrentRoundView {
                 Spacer()
                 PrimaryButton("Обрати") {
                     print("SELECT CARD")
+                    /*
+                    vm.saveAnswers(answerCardIds: [
+                        // TODO: use cards
+                    ])
+                     */
                 }
                 Spacer()
             }
@@ -89,92 +98,6 @@ extension CurrentRoundView {
             )
         }
         .ignoresSafeArea()
-    }
-}
-
-// MARK: - Hand
-
-struct HandPickerView: View {
-    @State private var selectedIndex: Int = 0
-
-    var answers: [String]
-
-    init(answers: [String]) {
-        self.answers = answers
-    }
-
-    var body: some View {
-        VStack {
-            HStack {
-                BackButton {
-                    guard selectedIndex > 0 else { return }
-                    withAnimation {
-                        selectedIndex -= 1
-                    }
-                }
-                Spacer()
-                BackButton {
-                    guard selectedIndex < answers.count else { return }
-                    withAnimation {
-                        selectedIndex += 1
-                    }
-                }
-                .scaleEffect(x: -1, y: 1, anchor: .center)
-            }
-            .padding(.horizontal, 46)
-            ScrollView(.horizontal) {
-                ZStack {
-                    ForEach(Array(answers.enumerated()), id: \.offset) { (offset, answer) in
-                        card(offset: offset, answer: answer)
-                    }
-                }
-            }
-        }
-        .onAppear {
-            selectedIndex = 0
-        }
-    }
-
-    private func card(offset: Int, answer: String) -> some View {
-        let isSelected = offset == selectedIndex
-        var stackPosition = offset
-
-        if offset < selectedIndex {
-            stackPosition = -offset
-        }
-
-        return AnswerCard(answer: answer)
-            .scaleEffect(
-                x: isSelected ? 1 : 0.7,
-                y: isSelected ? 1 : 0.7
-            )
-            .rotationEffect(
-                .degrees(
-                    rotation(
-                        offset: offset,
-                        selectedIndex: selectedIndex
-                    )
-                )
-            )
-            .shadow(
-                color: .black.opacity(0.25),
-                radius: 16,
-                x: 0,
-                y: 12
-            )
-            .padding(16)
-            .zIndex(CGFloat(isSelected ? answers.count - 1 : offset))
-            .offset(x: CGFloat(answers.count - stackPosition) * 58, y: 0)
-    }
-
-    private func rotation(offset: Int, selectedIndex: Int) -> CGFloat {
-        if offset < selectedIndex {
-            return 5
-        } else if offset > selectedIndex {
-            return -5
-        } else {
-            return 0
-        }
     }
 }
 

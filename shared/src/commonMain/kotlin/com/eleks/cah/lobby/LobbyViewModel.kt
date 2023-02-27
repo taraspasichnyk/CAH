@@ -186,9 +186,13 @@ class LobbyViewModel : BaseViewModel<LobbyContract.State, LobbyContract.Effect>(
                     if (gameOwner) {
                         val hasAtLeastOnePlayerWithReadyState =
                             it.players.find { player -> player.state == Player.PlayerState.READY } != null
+
+                        //test
+                        val onlyHost = it.players.size == 1 && it.players.first().gameOwner
+
                         copy(
                             users = it.players,
-                            isNextButtonEnabled = hasAtLeastOnePlayerWithReadyState
+                            isNextButtonEnabled = hasAtLeastOnePlayerWithReadyState || onlyHost
                         )
                     } else {
                         copy(users = it.players)

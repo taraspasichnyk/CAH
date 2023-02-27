@@ -14,7 +14,7 @@ import org.koin.core.component.inject
 class GameViewModel(
     private val roomId: String,
     private val playerId: String,
-) : BaseViewModel<GameContract.State, GameContract.Effect>(GameContract.State(null)),
+) : BaseViewModel<GameContract.State, GameContract.Effect>(GameContract.State()),
     KoinComponent {
 
     private val subscribeToRoomChanges: GetRoomUseCase by inject()

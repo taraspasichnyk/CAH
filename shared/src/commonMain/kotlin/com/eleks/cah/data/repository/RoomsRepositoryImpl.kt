@@ -302,7 +302,6 @@ class RoomsRepositoryImpl(
         preUpdatedPlayers: List<PlayerDTO>
     ) {
         val updatedAnswers = gameRoom.answers.toMutableList()
-        Napier.d("upd anwers = ${updatedAnswers.map { it.id }}")
 
         val updatedPlayers = preUpdatedPlayers.map { player ->
             val updatedPlayerCards = player.cards.toMutableList()
@@ -310,12 +309,11 @@ class RoomsRepositoryImpl(
             repeat(newCardsRequired) {
                 val newCard = updatedAnswers.random()
                 updatedPlayerCards.add(newCard)
-                updatedAnswers.remove(newCard)
+                val index = updatedAnswers.indexOfFirst { it.id == newCard.id }
+                updatedAnswers[index] = updatedAnswers[index].copy(used = true)
             }
             player.copy(cards = updatedPlayerCards)
         }.associateBy { it.id }
-
-        Napier.d("upd players = ${updatedPlayers}")
 
         roomsDbReference.child(gameRoom.id).updateChildren(
             mapOf(

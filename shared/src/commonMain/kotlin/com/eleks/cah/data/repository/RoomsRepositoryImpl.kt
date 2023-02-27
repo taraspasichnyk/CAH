@@ -223,7 +223,7 @@ class RoomsRepositoryImpl(
         }
     }
 
-    override suspend fun getRoomByIdFlow(roomID: RoomID): Flow<GameRoomDTO> {
+    override fun getRoomByIdFlow(roomID: RoomID): Flow<GameRoomDTO> {
         return roomsDbReference.child(roomID)
             .valueEvents
             .map {
@@ -351,7 +351,7 @@ class RoomsRepositoryImpl(
     private suspend fun finishRoom(gameRoom: GameRoomDTO) {
         roomsDbReference.child(gameRoom.id)
             .child(DB_REF_CURRENT_ROUND)
-            .setValue<Unit>(null)//TODO probably removeValue() should be here
+            .removeValue()
         Napier.d(
             tag = TAG,
             message = "Room ${gameRoom.id} finished"

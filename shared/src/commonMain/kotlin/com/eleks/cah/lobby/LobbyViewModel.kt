@@ -20,13 +20,13 @@ import org.koin.core.component.inject
 class LobbyViewModel : BaseViewModel<LobbyContract.State, LobbyContract.Effect>(
     LobbyContract.State()
 ) {
-    private val authUseCase: AnonymousLoginUseCase by inject()
-    private val createRoomUseCase: CreateRoomUseCase by inject()
-    private val roomExistUseCase: RoomExistUseCase by inject()
-    private val joinRoomUseCase: JoinRoomUseCase by inject()
-    private val getRoomUseCase: GetRoomUseCase by inject()
-    private val updatePlayerStateUseCase: UpdatePlayerStateUseCase by inject()
-    private val deleteNotReadyUsersUseCase: DeleteNotReadyUsersUseCase by inject()
+    private val auth: AnonymousLoginUseCase by inject()
+    private val createRoom: CreateRoomUseCase by inject()
+    private val roomExist: RoomExistUseCase by inject()
+    private val joinRoom: JoinRoomUseCase by inject()
+    private val subscribeToRoomChanges: GetRoomUseCase by inject()
+    private val updatePlayerState: UpdatePlayerStateUseCase by inject()
+    private val deleteNotReadyUsers: DeleteNotReadyUsersUseCase by inject()
 
     private lateinit var currentScreen: LobbyInnerScreen
 
@@ -36,7 +36,7 @@ class LobbyViewModel : BaseViewModel<LobbyContract.State, LobbyContract.Effect>(
     init {
         scope.launch {
             val success = kotlin.runCatching {
-                authUseCase.invoke()
+                auth()
             }.isSuccess
             if (!success) {
                 setEffect {
@@ -121,7 +121,7 @@ class LobbyViewModel : BaseViewModel<LobbyContract.State, LobbyContract.Effect>(
         scope.launch {
             setState { copy(isLoading = true) }
             if (gameOwner) {
-                val createdRoom = createRoomUseCase.invoke(state.value.name)
+                val createdRoom = createRoom(state.value.name)
                 player = createdRoom.players.first()
 
                 setState {
@@ -134,7 +134,7 @@ class LobbyViewModel : BaseViewModel<LobbyContract.State, LobbyContract.Effect>(
                 }
 
             } else {
-                player = joinRoomUseCase.invoke(state.value.code, state.value.name)
+                player = joinRoom(state.value.code, state.value.name)
                 setState {
                     copy(actionButtonText = Ready, isLoading = false)
                 }
@@ -148,7 +148,7 @@ class LobbyViewModel : BaseViewModel<LobbyContract.State, LobbyContract.Effect>(
     private fun enterCode() {
         scope.launch {
             setState { copy(isLoading = true) }
-            val roomExist = roomExistUseCase.invoke(state.value.code)
+            val roomExist = roomExist(state.value.code)
             setState { copy(isLoading = false) }
             if (roomExist) {
                 validateName(state.value.name)
@@ -162,14 +162,14 @@ class LobbyViewModel : BaseViewModel<LobbyContract.State, LobbyContract.Effect>(
     private fun startGame() {
         scope.launch {
             setState { copy(isLoading = true) }
-            updatePlayerStateUseCase.invoke(
+            updatePlayerState(
                 roomID = state.value.code,
                 playerID = player?.id.orEmpty(),
                 newState = Player.PlayerState.READY
             )
             if (gameOwner) {
-                deleteNotReadyUsersUseCase(state.value.code)
-                startNextRoundUseCase.invoke(state.value.code)
+                deleteNotReadyUsers(state.value.code)
+                startNextRoundUseCase(state.value.code)
             } else {
                 setState {
                     copy(isNextButtonEnabled = false)
@@ -181,7 +181,7 @@ class LobbyViewModel : BaseViewModel<LobbyContract.State, LobbyContract.Effect>(
 
     private fun subscribeOnUsers() {
         scope.launch {
-            getRoomUseCase.invoke(state.value.code, scope).filterNotNull().collect {
+            subscribeToRoomChanges(state.value.code).filterNotNull().collect {
                 setState {
                     if (gameOwner) {
                         val hasAtLeastOnePlayerWithReadyState =

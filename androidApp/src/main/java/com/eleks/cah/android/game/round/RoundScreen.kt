@@ -32,17 +32,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
-import com.eleks.cah.android.AppTheme
+import com.eleks.cah.android.*
 import com.eleks.cah.android.R.*
-import com.eleks.cah.android.pxToDp
 import com.eleks.cah.android.theme.*
 import com.eleks.cah.android.widgets.ConflictCard
 import com.eleks.cah.android.widgets.GameHeader
 import com.eleks.cah.android.widgets.GameLabelSize
-import com.eleks.cah.domain.model.AnswerCard
-import com.eleks.cah.domain.model.AnswerCardID
-import com.eleks.cah.domain.model.GameRound
-import com.eleks.cah.domain.model.Player
+import com.eleks.cah.domain.model.*
 import com.google.accompanist.pager.ExperimentalPagerApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -73,10 +69,7 @@ fun RoundScreen(
             .navigationBarsPadding()
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .navigationBarsPadding()
-                .verticalScroll(rememberScrollState())
+            modifier = Modifier.verticalScroll(rememberScrollState())
         ) {
             GameHeader(
                 gameLabelSize = GameLabelSize.SMALL,
@@ -350,15 +343,13 @@ fun cardPaddings(): PaddingValues =
     )
 
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun UserCardPreview() {
-    ConflictCard(cardText = stringResource(id = string.miy_instrument))
-}
+private fun RoundScreenPreview() {
+    MyApplicationTheme {
 
-@OptIn(ExperimentalPagerApi::class)
-@Preview(showBackground = true)
-@Composable
-fun HorizontalPager() {
-    UserCards(cards = listOf(), pagerState = rememberPagerState(), onScroll = {})
+        val player = mockedPlayer()
+        val gameRound = mockedRound()
+        RoundScreen(player = player, round = gameRound)
+    }
 }

@@ -25,8 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.eleks.cah.android.AppTheme
-import com.eleks.cah.android.MyApplicationTheme
+import com.eleks.cah.android.*
 import com.eleks.cah.android.R
 import com.eleks.cah.android.game.round.cardPaddings
 import com.eleks.cah.android.game.round.dropShadow
@@ -38,19 +37,6 @@ import com.eleks.cah.android.widgets.GameLabelSize
 import com.eleks.cah.domain.model.QuestionCard
 import com.eleks.cah.domain.model.RoundPlayerAnswer
 import kotlinx.coroutines.delay
-
-
-@Preview
-@Composable
-private fun ScoreScreenPreview() {
-    MyApplicationTheme {
-        ScoreScreen(
-            QuestionCard("1", "test", listOf(0)),
-            emptyList(),
-            1,
-        )
-    }
-}
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -387,4 +373,17 @@ private fun VoteButton(
             .scale(scale)
             .alpha(alpha)
     )
+}
+
+
+@Composable
+@Preview(showSystemUi = true, showBackground = true)
+private fun ScoreScreenPreview() {
+    MyApplicationTheme {
+        ScoreScreen(
+            question = mockedQuestionCard(),
+            answers = mockedRoundPlayerAnswers(),
+            roundNumber = 1
+        )
+    }
 }

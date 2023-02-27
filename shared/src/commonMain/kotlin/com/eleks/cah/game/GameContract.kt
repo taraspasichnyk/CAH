@@ -2,11 +2,16 @@ package com.eleks.cah.game
 
 import com.eleks.cah.base.UiEffect
 import com.eleks.cah.base.UiState
+import com.eleks.cah.domain.model.AnswerCard
 import com.eleks.cah.domain.model.GameRoom
+import com.eleks.cah.domain.model.GameRound
+import com.eleks.cah.domain.model.Player
 
-interface GameContract   {
+interface GameContract {
     data class State(
-        val room: GameRoom? = null
+        private val room: GameRoom? = null,
+        val round: GameRound? = null,
+        val me: Player? = null
     ) : UiState
 
     sealed class Effect : UiEffect {

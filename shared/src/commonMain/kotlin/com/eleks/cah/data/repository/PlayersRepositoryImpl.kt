@@ -4,7 +4,6 @@ import com.eleks.cah.data.extensions.roomOrException
 import com.eleks.cah.data.model.GameRoomDTO
 import com.eleks.cah.data.model.PlayerDTO
 import com.eleks.cah.data.model.RoundPlayerAnswerDTO
-import com.eleks.cah.domain.Constants.DB_REF_ANSWERS
 import com.eleks.cah.domain.Constants.DB_REF_CURRENT_ROUND
 import com.eleks.cah.domain.Constants.DB_REF_PLAYERS
 import com.eleks.cah.domain.Constants.DB_REF_ROOMS
@@ -96,9 +95,23 @@ class PlayersRepositoryImpl(
             }
         )
 
+
+        val updatedPlayers = gameRoomDto.players.toMutableMap()
+        val updatedCards = updatedPlayers[playerID]?.cards
+            ?.filterNot { it.id in playerAnswers }
+            .orEmpty()
+
+        updatedPlayers[playerID] = updatedPlayers[playerID]?.copy(
+            cards = updatedCards
+        )!!
+
         roomsDbReference.child(gameRoomDto.id)
             .child(DB_REF_CURRENT_ROUND)
             .setValue(updatedCurrentRound)
+
+        roomsDbReference.child(gameRoomDto.id)
+            .child(DB_REF_PLAYERS)
+            .setValue(updatedPlayers)
         Napier.d(
             tag = TAG,
             message = "Player ${playerAnswer.playerID}'s answer in round ${currentRound.number} saved"
@@ -124,6 +137,8 @@ class PlayersRepositoryImpl(
     ) {
         val currentRound =
             gameRoomDto.currentRound ?: throw RoomNoCurrentRoundException(gameRoomDto.id)
+
+
         val updatedCurrentRoundAnswers = currentRound.answers.map {
             if (it.playerID == playerID) {
                 val updatedPlayerScores = HashMap(it.scores).apply {
@@ -134,10 +149,22 @@ class PlayersRepositoryImpl(
                 it
             }
         }
+
+        val isLastScore =
+            updatedCurrentRoundAnswers.all { it.scores.keys.count() == gameRoomDto.players.count() - 1 }
+
+        val updatedCurrentRound = currentRound.copy(
+            answers = updatedCurrentRoundAnswers,
+            state = if (isLastScore) {
+                GameRound.GameRoundState.FINISHED.name
+            } else {
+                currentRound.state
+            }
+        )
+
         roomsDbReference.child(gameRoomDto.id)
             .child(DB_REF_CURRENT_ROUND)
-            .child(DB_REF_ANSWERS)
-            .setValue(updatedCurrentRoundAnswers)
+            .setValue(updatedCurrentRound)
         Napier.d(
             tag = TAG,
             message = "Answer of player $playerID in round ${currentRound.number} scored with $score points"

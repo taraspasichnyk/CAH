@@ -300,16 +300,16 @@ class RoomsRepositoryImpl(
         gameRoom: GameRoomDTO,
         preUpdatedPlayers: List<PlayerDTO>
     ) {
-        val updatedAnswers = gameRoom.answers.toMutableList()
+        val deckAnswers = gameRoom.answers.toMutableList()
 
         val updatedPlayers = preUpdatedPlayers.map { player ->
             val updatedPlayerCards = player.cards.toMutableList()
             val newCardsRequired = DEFAULT_PLAYER_CARDS_AMOUNT - updatedPlayerCards.size
             repeat(newCardsRequired) {
-                val newCard = updatedAnswers.random()
+                val newCard = deckAnswers.filter { !it.used }.random()
                 updatedPlayerCards.add(newCard)
-                val index = updatedAnswers.indexOfFirst { it.id == newCard.id }
-                updatedAnswers[index] = updatedAnswers[index].copy(used = true)
+                val index = deckAnswers.indexOfFirst { it.id == newCard.id }
+                deckAnswers[index] = deckAnswers[index].copy(used = true)
             }
             player.copy(cards = updatedPlayerCards)
         }.associateBy { it.id }
@@ -317,7 +317,7 @@ class RoomsRepositoryImpl(
         roomsDbReference.child(gameRoom.id).updateChildren(
             mapOf(
                 DB_REF_PLAYERS to updatedPlayers,
-                DB_REF_ANSWERS to updatedAnswers
+                DB_REF_ANSWERS to deckAnswers
             )
         )
         Napier.d(
@@ -337,7 +337,8 @@ class RoomsRepositoryImpl(
             id = nextRoundNumber.toString(),
             number = nextRoundNumber,
             question = nextQuestion,
-            answers = emptyList()
+            answers = emptyList(),
+            state = "ACTIVE"
         )
         roomsDbReference.child(gameRoom.id)
             .child(DB_REF_CURRENT_ROUND)

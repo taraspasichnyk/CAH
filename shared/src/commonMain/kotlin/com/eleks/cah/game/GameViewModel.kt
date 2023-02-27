@@ -6,6 +6,7 @@ import com.eleks.cah.domain.model.GameRoom
 import com.eleks.cah.domain.model.GameRound
 import com.eleks.cah.domain.model.RoundPlayerAnswer
 import com.eleks.cah.domain.usecase.answer.AnswerUseCase
+import com.eleks.cah.domain.usecase.next_round.StartNextRoundUseCase
 import com.eleks.cah.domain.usecase.room.GetRoomUseCase
 import com.eleks.cah.domain.usecase.vote.VoteUseCase
 import com.eleks.cah.game.GameContract.Effect.Navigation
@@ -25,6 +26,7 @@ class GameViewModel(
 
     private val answerWith: AnswerUseCase by inject()
     private val voteWith: VoteUseCase by inject()
+    private val startNextRound: StartNextRoundUseCase by inject()
 
     private var isNewRound: Boolean = true
 
@@ -45,13 +47,22 @@ class GameViewModel(
                     oldGameState.copy(
                         room = newRoom,
                         me = newRoom?.getSelf(),
-                        round = newRoom?.currentRound
+                        round = newRoom?.currentRound?.copy(
+                            playerCards = newRoom.currentRound.playerCards.filter {
+                                it.playerID != me?.id
+                            }
+                        )
                     )
                 }
                 if (oldGameState.round?.state != GameRound.GameRoundState.VOTING
                     && newRoom?.currentRound?.state == GameRound.GameRoundState.VOTING
                 ) {
                     setEffect { Navigation.Voting }
+                }
+                else if(oldGameState.round?.state != GameRound.GameRoundState.FINISHED
+                    && newRoom?.currentRound?.state == GameRound.GameRoundState.FINISHED) {
+
+                    setEffect { Navigation.RoundLeaderBoard }
                 }
             }
         }
@@ -112,6 +123,12 @@ class GameViewModel(
      */
     fun showYourCards() {
         setEffect { Navigation.YourCards }
+    }
+
+    fun startNewRound() {
+        scope.launch {
+            startNextRound(roomId)
+        }
     }
 
     private fun GameRoom.getSelf() = players.firstOrNull { it.id == playerId }

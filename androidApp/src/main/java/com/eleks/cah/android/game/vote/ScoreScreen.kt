@@ -1,6 +1,5 @@
 package com.eleks.cah.android.game.vote
 
-import android.app.GameState
 import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.core.animateFloatAsState
@@ -21,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.*
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,7 +35,6 @@ import com.eleks.cah.android.widgets.GameHeader
 import com.eleks.cah.android.widgets.GameLabelSize
 import com.eleks.cah.domain.model.QuestionCard
 import com.eleks.cah.domain.model.RoundPlayerAnswer
-import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -46,21 +43,8 @@ fun ScoreScreen(
     answers: List<RoundPlayerAnswer>,
     roundNumber: Int,
 
-    onTimeout: (List<RoundPlayerAnswer>) -> Unit = {},
     onVote: (List<RoundPlayerAnswer>) -> Unit = {}
 ) {
-
-    var timeout by remember {
-        mutableStateOf(60)
-    }
-
-    LaunchedEffect(key1 = "timeout") {
-        while (timeout > 0) {
-            delay(1000L)
-            timeout--
-        }
-        onTimeout(answers)
-    }
 
     Column(
         modifier = Modifier
@@ -72,8 +56,6 @@ fun ScoreScreen(
             gameLabelSize = GameLabelSize.SMALL,
             headerHeight = AppTheme.dimens.headerSize
         )
-
-        Timer(timeout)
 
         Column(
             modifier = Modifier
@@ -129,38 +111,6 @@ fun ScoreScreen(
                 onVote(mutableAnswers)
             }
         }
-    }
-}
-
-@Composable
-private fun Timer(
-    timeoutInSecs: Int = 60,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = modifier
-            .background(Color.Transparent)
-            .wrapContentSize()
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_timer),
-            contentDescription = "",
-            colorFilter = ColorFilter.tint(color = MainBlack)
-        )
-
-        val mins = timeoutInSecs / 60
-        val minsStr = if (mins <= 9) {
-            "0$mins"
-        } else {
-            "$mins"
-        }
-        var seconds = timeoutInSecs % 60
-        val secondsStr = if (seconds <= 9) {
-            "0$seconds"
-        } else {
-            "$seconds"
-        }
-        Text(text = "$minsStr:$secondsStr", Modifier.padding(start = 6.dp))
     }
 }
 

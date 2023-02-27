@@ -12,7 +12,7 @@ interface GameContract {
     data class State(
         private val room: GameRoom? = null,
         val round: GameRound? = null,
-        val me: Player? = null
+        val me: Player? = null,
     ) : UiState
 
     sealed class Effect : UiEffect {
@@ -23,6 +23,7 @@ interface GameContract {
             object PreRound : Navigation()
             object Round : Navigation()
             object Voting : Navigation()
+            object RoundLeaderBoard : Navigation()
         }
     }
 }

@@ -5,7 +5,6 @@ data class GameRound(
     val number: Int,
     val masterCard: QuestionCard,
     val playerCards: List<RoundPlayerAnswer>,
-    val timer: Int,
     val state: GameRoundState
 ) {
     enum class GameRoundState {

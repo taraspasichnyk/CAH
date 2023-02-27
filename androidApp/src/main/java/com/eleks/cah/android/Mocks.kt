@@ -17,7 +17,6 @@ fun mockedRound() = GameRound(
     1,
     mockedQuestionCard(),
     playerCards = emptyList(),
-    0,
     GameRound.GameRoundState.ACTIVE
 )
 

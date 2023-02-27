@@ -66,7 +66,7 @@ class GameViewModel(
     fun saveScores(answerCardWithVotes: List<RoundPlayerAnswer>) {
         scope.launch {
             answerCardWithVotes.forEach {
-                voteWith(roomId, it.playerID, it.score)
+                voteWith(roomId, playerId, it.playerID, it.score)
             }
         }
     }

@@ -9,11 +9,13 @@ class VoteUseCaseImpl(
 ): VoteUseCase {
     override suspend fun invoke(
         roomID: RoomID,
+        voterID: PlayerID,
         playerID: PlayerID,
         score: Int
     ) {
         playersRepository.voteForAnswer(
             roomID,
+            voterID,
             playerID,
             score
         )

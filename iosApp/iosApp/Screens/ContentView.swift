@@ -59,7 +59,7 @@ extension ContentView {
         case .lobby(let lobbyVm):
             LobbyView(vm: lobbyVm)
         case .yourCards(let gameVm):
-            CardsView(vm: gameVm)
+            CardsView(gameModel: GameModel(vm: gameVm))
         }
     }
 

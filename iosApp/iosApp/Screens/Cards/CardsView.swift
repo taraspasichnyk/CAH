@@ -54,7 +54,7 @@ struct CardsView: View {
                         spacing: spacing
                     ) {
                         ForEach(items, id: \.self) { item in
-                            AnswerCard(answer: item.text)
+                            AnswerCardView(answer: item.text)
                                 .font(.cardSmall)
                         }
                     }

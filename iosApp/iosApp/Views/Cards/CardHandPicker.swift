@@ -7,11 +7,12 @@
 //
 
 import SwiftUI
+import shared
 
 struct CardHandPicker: View {
     @Binding var selectedIndex: Int
 
-    var answers: [String]
+    let answers: [AnswerCard]
 
     // MARK: - Body
 
@@ -19,8 +20,8 @@ struct CardHandPicker: View {
         ZStack {
             ScrollView(.horizontal) {
                 ZStack {
-                    ForEach(Array(answers.enumerated()), id: \.offset) { (offset, answer) in
-                        AnswerCard(answer: answer)
+                    ForEach(Array(answers.enumerated()), id: \.offset) { (offset, answerItem) in
+                        AnswerCardView(answer: answerItem.answer)
                             .font(.inputPrimary)
                             .aspectRatio(124 / 168, contentMode: .fit)
                             .scaleEffect(getScale(offset), anchor: .bottom)
@@ -81,7 +82,7 @@ extension CardHandPicker {
 
 struct CardHandPicker_Previews: PreviewProvider {
     @State private static var selectedIndex = 0
-    private static let answers = [
+    private static let answers: [AnswerCard] = [
         "Гарний розмальований килим",
         "Кинути важкі наркотики",
         "Мій інструмент",
@@ -90,6 +91,9 @@ struct CardHandPicker_Previews: PreviewProvider {
         "Заіржавілий жовтенький Богдан",
         "Біла гарячка",
     ]
+        .map {
+            AnswerCard(id: UUID().uuidString, answer: $0)
+        }
 
     static var previews: some View {
         CardHandPicker(

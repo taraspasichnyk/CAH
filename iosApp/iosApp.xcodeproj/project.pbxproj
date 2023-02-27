@@ -37,7 +37,7 @@
 		92A0603A299FBBBF00C6CC3E /* ArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A06039299FBBBF00C6CC3E /* ArrayTests.swift */; };
 		92A0603C299FCEE900C6CC3E /* LobbyEffectProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A0603B299FCEE900C6CC3E /* LobbyEffectProcessor.swift */; };
 		92A0603E299FD18800C6CC3E /* MenuEffectProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A0603D299FD18800C6CC3E /* MenuEffectProcessor.swift */; };
-		92A0604029A24FB400C6CC3E /* AnswerCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A0603F29A24FB400C6CC3E /* AnswerCard.swift */; };
+		92A0604029A24FB400C6CC3E /* AnswerCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A0603F29A24FB400C6CC3E /* AnswerCardView.swift */; };
 		92B925092995670C0089ED88 /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B925082995670C0089ED88 /* IconButton.swift */; };
 		92B9250B29956A1D0089ED88 /* LobbyRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B9250A29956A1D0089ED88 /* LobbyRow.swift */; };
 		92CAFB1B299A720900E0B1E2 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 92CAFB1A299A720900E0B1E2 /* FirebaseAuth */; };
@@ -58,7 +58,7 @@
 		92F23CF929A4EEA50093D043 /* ButtonLoadingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F23CF829A4EEA50093D043 /* ButtonLoadingModifier.swift */; };
 		92F23CFB29A4F45E0093D043 /* CurrentRoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F23CFA29A4F45E0093D043 /* CurrentRoundView.swift */; };
 		92F23CFD29A4F91B0093D043 /* HeaderSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F23CFC29A4F91B0093D043 /* HeaderSize.swift */; };
-		92F23D0029A503570093D043 /* QuestionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F23CFF29A503570093D043 /* QuestionCard.swift */; };
+		92F23D0029A503570093D043 /* QuestionCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F23CFF29A503570093D043 /* QuestionCardView.swift */; };
 		92F57CA4299551C4005D5328 /* LobbyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F57CA3299551C4005D5328 /* LobbyView.swift */; };
 /* End PBXBuildFile section */
 
@@ -127,7 +127,7 @@
 		92A06039299FBBBF00C6CC3E /* ArrayTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayTests.swift; sourceTree = "<group>"; };
 		92A0603B299FCEE900C6CC3E /* LobbyEffectProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyEffectProcessor.swift; sourceTree = "<group>"; };
 		92A0603D299FD18800C6CC3E /* MenuEffectProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuEffectProcessor.swift; sourceTree = "<group>"; };
-		92A0603F29A24FB400C6CC3E /* AnswerCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerCard.swift; sourceTree = "<group>"; };
+		92A0603F29A24FB400C6CC3E /* AnswerCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerCardView.swift; sourceTree = "<group>"; };
 		92B925082995670C0089ED88 /* IconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconButton.swift; sourceTree = "<group>"; };
 		92B9250A29956A1D0089ED88 /* LobbyRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyRow.swift; sourceTree = "<group>"; };
 		92CAFB22299A735600E0B1E2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -144,7 +144,7 @@
 		92F23CF829A4EEA50093D043 /* ButtonLoadingModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonLoadingModifier.swift; sourceTree = "<group>"; };
 		92F23CFA29A4F45E0093D043 /* CurrentRoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentRoundView.swift; sourceTree = "<group>"; };
 		92F23CFC29A4F91B0093D043 /* HeaderSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderSize.swift; sourceTree = "<group>"; };
-		92F23CFF29A503570093D043 /* QuestionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionCard.swift; sourceTree = "<group>"; };
+		92F23CFF29A503570093D043 /* QuestionCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionCardView.swift; sourceTree = "<group>"; };
 		92F57CA3299551C4005D5328 /* LobbyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -234,8 +234,8 @@
 		712A959C29A78CE00068A14C /* Cards */ = {
 			isa = PBXGroup;
 			children = (
-				92A0603F29A24FB400C6CC3E /* AnswerCard.swift */,
-				92F23CFF29A503570093D043 /* QuestionCard.swift */,
+				92A0603F29A24FB400C6CC3E /* AnswerCardView.swift */,
+				92F23CFF29A503570093D043 /* QuestionCardView.swift */,
 				92D5215129ABAC820053AE67 /* CardHandPicker.swift */,
 			);
 			path = Cards;
@@ -622,7 +622,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				92E17D92299CEED300A0EEFC /* Size.swift in Sources */,
-				92F23D0029A503570093D043 /* QuestionCard.swift in Sources */,
+				92F23D0029A503570093D043 /* QuestionCardView.swift in Sources */,
 				92A0603C299FCEE900C6CC3E /* LobbyEffectProcessor.swift in Sources */,
 				92B925092995670C0089ED88 /* IconButton.swift in Sources */,
 				92D5215229ABAC820053AE67 /* CardHandPicker.swift in Sources */,
@@ -647,7 +647,7 @@
 				92CD661B2992B83B0003634C /* HeaderView.swift in Sources */,
 				92F23CF929A4EEA50093D043 /* ButtonLoadingModifier.swift in Sources */,
 				927295E8298D733500C5F0DE /* BackButton.swift in Sources */,
-				92A0604029A24FB400C6CC3E /* AnswerCard.swift in Sources */,
+				92A0604029A24FB400C6CC3E /* AnswerCardView.swift in Sources */,
 				712A95AC29A78EAD0068A14C /* Assets.swift in Sources */,
 				712A95B829A78FCB0068A14C /* NavPath.swift in Sources */,
 				92F57CA4299551C4005D5328 /* LobbyView.swift in Sources */,

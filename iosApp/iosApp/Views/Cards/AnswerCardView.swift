@@ -1,5 +1,5 @@
 //
-//  AnswerCard.swift
+//  AnswerCardView.swift
 //  iosApp
 //
 //  Created by Artem Yelizarov on 19.02.2023.
@@ -7,8 +7,9 @@
 //
 
 import SwiftUI
+import shared
 
-struct AnswerCard: View {
+struct AnswerCardView: View {
 
     let answer: String
 
@@ -20,7 +21,7 @@ struct AnswerCard: View {
                 .frame(maxWidth: .infinity)
                 .multilineTextAlignment(.center)
                 .padding(.top, .medium)
-                .padding(.horizontal, 8.0)
+                .padding(.horizontal, .small)
             Spacer()
         }
         .aspectRatio(124 / 168, contentMode: .fill)
@@ -46,10 +47,10 @@ struct AnswerCard: View {
 struct AnswerCard_Previews: PreviewProvider {
     static var previews: some View {
         VStack(spacing: 8.0) {
-            AnswerCard(answer: "Гарний розмальований килим")
+            AnswerCardView(answer: "Гарний розмальований килим")
                 .frame(width: 180)
                 .font(.inputPrimary)
-            AnswerCard(answer: "Гарний розмальований килим")
+            AnswerCardView(answer: "Гарний розмальований килим")
                 .frame(width: 124)
                 .font(.cardSmall)
         }

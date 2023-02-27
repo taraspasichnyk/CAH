@@ -13,7 +13,13 @@ struct CurrentRoundView: View {
     @State private var hasLoaded = false
     @State private var hasShiftedTitle = false
     @State private var selectedIndex = 0
-    let round: Int
+
+    @State private var currentRound: GameRound?
+    @State private var question: String = ""
+    @State private var answers: [AnswerCard] = []
+    @State private var selectedAnswers: [AnswerCard] = []
+
+    let vm: GameViewModel
 
     // MARK: - Body
 
@@ -22,12 +28,12 @@ struct CurrentRoundView: View {
             ContainerView(header: .small) {
                 VStack {
                     Spacer()
-                    Text("Раунд \(round)")
+                    Text("Раунд \(currentRound?.number ?? 0)")
                         .font(hasLoaded ? .titleSemiBold : .largeTitleSemiBold)
                     Spacer()
                     if hasLoaded {
                         if hasShiftedTitle {
-                            QuestionCard(question: "Під час візиту до лікаря мені дають ___ та ___, щоб я почувався більш комфортно")
+                            QuestionCardView(question: question)
                         } else {
                             Spacer()
                         }
@@ -37,15 +43,7 @@ struct CurrentRoundView: View {
                             .font(.bodyTertiaryThin)
                         CardHandPicker(
                             selectedIndex: $selectedIndex,
-                            answers: [
-                                "Гарний розмальований килим",
-                                "Кинути важкі наркотики",
-                                "Мій інструмент",
-                                "Квашені огірочки",
-                                "Светер з оленями",
-                                "Заіржавілий жовтенький Богдан",
-                                "Біла гарячка",
-                            ]
+                            answers: answers
                         )
                         .padding(.bottom, .large)
                     }
@@ -77,12 +75,7 @@ extension CurrentRoundView {
             HStack {
                 Spacer()
                 PrimaryButton("Обрати") {
-                    print("SELECT CARD")
-                    /*
-                    vm.saveAnswers(answerCardIds: [
-                        // TODO: use cards
-                    ])
-                     */
+                    vm.saveAnswers(answerCardIds: selectedAnswers.map(\.id))
                 }
                 Spacer()
             }
@@ -91,6 +84,7 @@ extension CurrentRoundView {
                 HStack {
                     Spacer()
                     GridButton {
+
                         print("TOGGLE CARD VIEW")
                     }
                     .padding([.bottom, .trailing], 35)
@@ -98,6 +92,29 @@ extension CurrentRoundView {
             )
         }
         .ignoresSafeArea()
+        .transition(.opacity)
+    }
+}
+
+// MARK: - Private
+
+extension CurrentRoundView {
+    private func subscribeToState() {
+// TODO: Explore using substates
+//        AnyFlow<Player>(source: vm.me).collect { player in
+//            guard let player else { return }
+//        }
+
+        AnyFlow<GameContractState>(source: vm.state).collect { state in
+            guard let state else { return }
+            guard let room = state.room else { return }
+            answers = room.answers
+            currentRound = room.currentRound
+            question = room.masterCard.text
+        } onCompletion: { error in
+            guard let error else { return }
+            print(error)
+        }
     }
 }
 
@@ -105,6 +122,8 @@ extension CurrentRoundView {
 
 struct CurrentRoundView_Previews: PreviewProvider {
     static var previews: some View {
-        CurrentRoundView(round: 1)
+        CurrentRoundView(
+            vm: .init(roomId: "484172", playerId: "-NOxn4NgUTxDzyRpcA0J")
+        )
     }
 }

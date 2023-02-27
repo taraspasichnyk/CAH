@@ -84,8 +84,7 @@ struct CardsView: View {
     private func subscribeToState() {
         AnyFlow<GameContractState>(source: vm.state).collect { state in
             guard let state else { return }
-            guard let room = state.room else { return }
-            guard let player = vm.getSelfFromState(gameState: state) else { return }
+            guard let player = state.me else { return }
             items = player.cards.compactMap({ CardItem(text: $0.answer) })
         } onCompletion: { _ in
         }

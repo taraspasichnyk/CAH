@@ -107,25 +107,29 @@ class PlayersRepositoryImpl(
 
     override suspend fun voteForAnswer(
         roomID: RoomID,
+        voterID: PlayerID,
         playerID: PlayerID,
         score: Int
     ) {
         roomsDbReference.roomOrException(roomID) {
-            updateAnswerScore(it, playerID, score)
+            updateAnswerScore(it, voterID, playerID, score)
         }
     }
 
     private suspend fun updateAnswerScore(
         gameRoomDto: GameRoomDTO,
+        voterID: PlayerID,
         playerID: PlayerID,
         score: Int
     ) {
         val currentRound =
             gameRoomDto.currentRound ?: throw RoomNoCurrentRoundException(gameRoomDto.id)
         val updatedCurrentRoundAnswers = currentRound.answers.map {
-
             if (it.playerID == playerID) {
-                it.copy(score = it.score + score)
+                val updatedPlayerScores = HashMap(it.scores).apply {
+                    this[voterID] = score
+                }
+                it.copy(scores = updatedPlayerScores)
             } else {
                 it
             }

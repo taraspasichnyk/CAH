@@ -8,11 +8,11 @@
 
 import SwiftUI
 
-struct CardsView<GameModelType>: View where GameModelType: GameModelProtocol {
+struct CardsView<ViewModel>: View where ViewModel: GameModelProtocol {
 
     // MARK: - Properties
 
-    @ObservedObject var gameModel: GameModelType
+    @ObservedObject var gameModel: ViewModel
 
     private let columns = [
         GridItem(spacing: 8.0),
@@ -35,9 +35,11 @@ struct CardsView<GameModelType>: View where GameModelType: GameModelProtocol {
                         alignment: .center,
                         spacing: spacing
                     ) {
-                        ForEach(gameModel.items, id: \.self) { item in
-                            AnswerCard(answer: item.text)
-                                .font(.cardSmall)
+                        if let player = gameModel.player {
+                            ForEach(player.cards, id: \.self) { item in
+                                AnswerCard(answer: item.text)
+                                    .font(.cardSmall)
+                            }
                         }
                     }
                     .padding([.leading, .trailing], 20.0)

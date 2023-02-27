@@ -45,7 +45,8 @@ class GameViewModel(
                     oldGameState.copy(
                         room = newRoom,
                         me = newRoom?.getSelf(),
-                        round = newRoom?.currentRound
+                        round = newRoom?.currentRound,
+                        players = newRoom?.players
                     )
                 }
                 if (oldGameState.round?.state != GameRound.GameRoundState.VOTING

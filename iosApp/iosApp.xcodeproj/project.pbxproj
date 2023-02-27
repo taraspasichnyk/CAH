@@ -25,9 +25,13 @@
 		712A95BC29A790F30068A14C /* SquareSizeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712A95BB29A790F30068A14C /* SquareSizeModifier.swift */; };
 		7151AA3029A7C2B7002A2AF2 /* GameEffectProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7151AA2F29A7C2B7002A2AF2 /* GameEffectProcessor.swift */; };
 		71C9957A29AC9E1100FC5A8E /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C9957929AC9E1100FC5A8E /* GameModel.swift */; };
-		71C9957C29AC9E7D00FC5A8E /* CardItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C9957B29AC9E7D00FC5A8E /* CardItem.swift */; };
-		71C9957E29AC9EAE00FC5A8E /* GameRound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C9957D29AC9EAE00FC5A8E /* GameRound.swift */; };
-		71C9958029AC9ECB00FC5A8E /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C9957F29AC9ECB00FC5A8E /* Player.swift */; };
+		71C9957E29AC9EAE00FC5A8E /* GameRoundEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C9957D29AC9EAE00FC5A8E /* GameRoundEntity.swift */; };
+		71C9958029AC9ECB00FC5A8E /* PlayerEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C9957F29AC9ECB00FC5A8E /* PlayerEntity.swift */; };
+		71C9958329ACE92700FC5A8E /* LeaderboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C9958229ACE92700FC5A8E /* LeaderboardView.swift */; };
+		71C9958529ACEEA400FC5A8E /* AnswerCardEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C9958429ACEEA400FC5A8E /* AnswerCardEntity.swift */; };
+		71C9958729ACF62C00FC5A8E /* QuestionCardEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C9958629ACF62C00FC5A8E /* QuestionCardEntity.swift */; };
+		71C9958929ACF70000FC5A8E /* RoundPlayerAnswerEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C9958829ACF70000FC5A8E /* RoundPlayerAnswerEntity.swift */; };
+		71C9958B29ACFCFF00FC5A8E /* LeaderboardRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C9958A29ACFCFF00FC5A8E /* LeaderboardRow.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 		8FEC9BD42991E381009EE174 /* iosAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEC9BD32991E381009EE174 /* iosAppUITests.swift */; };
 		8FEC9BD62991E381009EE174 /* iosAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEC9BD52991E381009EE174 /* iosAppUITestsLaunchTests.swift */; };
@@ -115,9 +119,13 @@
 		712A95BB29A790F30068A14C /* SquareSizeModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquareSizeModifier.swift; sourceTree = "<group>"; };
 		7151AA2F29A7C2B7002A2AF2 /* GameEffectProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameEffectProcessor.swift; sourceTree = "<group>"; };
 		71C9957929AC9E1100FC5A8E /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
-		71C9957B29AC9E7D00FC5A8E /* CardItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardItem.swift; sourceTree = "<group>"; };
-		71C9957D29AC9EAE00FC5A8E /* GameRound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameRound.swift; sourceTree = "<group>"; };
-		71C9957F29AC9ECB00FC5A8E /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		71C9957D29AC9EAE00FC5A8E /* GameRoundEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameRoundEntity.swift; sourceTree = "<group>"; };
+		71C9957F29AC9ECB00FC5A8E /* PlayerEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerEntity.swift; sourceTree = "<group>"; };
+		71C9958229ACE92700FC5A8E /* LeaderboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardView.swift; sourceTree = "<group>"; };
+		71C9958429ACEEA400FC5A8E /* AnswerCardEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerCardEntity.swift; sourceTree = "<group>"; };
+		71C9958629ACF62C00FC5A8E /* QuestionCardEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionCardEntity.swift; sourceTree = "<group>"; };
+		71C9958829ACF70000FC5A8E /* RoundPlayerAnswerEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundPlayerAnswerEntity.swift; sourceTree = "<group>"; };
+		71C9958A29ACFCFF00FC5A8E /* LeaderboardRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardRow.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -198,9 +206,11 @@
 			children = (
 				7100A98929A4E54600B5B0AB /* CardsView.swift */,
 				71C9957929AC9E1100FC5A8E /* GameModel.swift */,
-				71C9957B29AC9E7D00FC5A8E /* CardItem.swift */,
-				71C9957D29AC9EAE00FC5A8E /* GameRound.swift */,
-				71C9957F29AC9ECB00FC5A8E /* Player.swift */,
+				71C9957F29AC9ECB00FC5A8E /* PlayerEntity.swift */,
+				71C9958629ACF62C00FC5A8E /* QuestionCardEntity.swift */,
+				71C9958429ACEEA400FC5A8E /* AnswerCardEntity.swift */,
+				71C9957D29AC9EAE00FC5A8E /* GameRoundEntity.swift */,
+				71C9958829ACF70000FC5A8E /* RoundPlayerAnswerEntity.swift */,
 			);
 			path = Cards;
 			sourceTree = "<group>";
@@ -307,6 +317,15 @@
 			path = Modifiers;
 			sourceTree = "<group>";
 		};
+		71C9958129ACE90900FC5A8E /* Leaderboard */ = {
+			isa = PBXGroup;
+			children = (
+				71C9958229ACE92700FC5A8E /* LeaderboardView.swift */,
+				71C9958A29ACFCFF00FC5A8E /* LeaderboardRow.swift */,
+			);
+			path = Leaderboard;
+			sourceTree = "<group>";
+		};
 		7555FF72242A565900829871 = {
 			isa = PBXGroup;
 			children = (
@@ -378,6 +397,7 @@
 				712A959B29A78C8F0068A14C /* Enter */,
 				92E9AC08299A35C9000367F2 /* Lobby */,
 				7100A98829A4E52B00B5B0AB /* Cards */,
+				71C9958129ACE90900FC5A8E /* Leaderboard */,
 				92F23CFA29A4F45E0093D043 /* CurrentRoundView.swift */,
 			);
 			path = Screens;
@@ -638,19 +658,22 @@
 				92A0603C299FCEE900C6CC3E /* LobbyEffectProcessor.swift in Sources */,
 				92B925092995670C0089ED88 /* IconButton.swift in Sources */,
 				92A06038299FBB2A00C6CC3E /* LobbyContractState+Extensions.swift in Sources */,
-				71C9957E29AC9EAE00FC5A8E /* GameRound.swift in Sources */,
+				71C9957E29AC9EAE00FC5A8E /* GameRoundEntity.swift in Sources */,
 				71C9957A29AC9E1100FC5A8E /* GameModel.swift in Sources */,
+				71C9958529ACEEA400FC5A8E /* AnswerCardEntity.swift in Sources */,
 				927F7F62298D1EB800A158A8 /* EnterScreenView.swift in Sources */,
 				92CD661729925B720003634C /* Image+Extensions.swift in Sources */,
 				927F7F60298D075400A158A8 /* MainMenuView.swift in Sources */,
 				712A95BC29A790F30068A14C /* SquareSizeModifier.swift in Sources */,
 				921076662994E46900390F45 /* EnterScreenStage.swift in Sources */,
 				92F23CF729A4EE5F0093D043 /* LoadingModifier.swift in Sources */,
+				71C9958B29ACFCFF00FC5A8E /* LeaderboardRow.swift in Sources */,
 				92F23CFB29A4F45E0093D043 /* CurrentRoundView.swift in Sources */,
 				92E17D91299CEED300A0EEFC /* Fonts.swift in Sources */,
-				71C9957C29AC9E7D00FC5A8E /* CardItem.swift in Sources */,
-				71C9958029AC9ECB00FC5A8E /* Player.swift in Sources */,
+				71C9958929ACF70000FC5A8E /* RoundPlayerAnswerEntity.swift in Sources */,
+				71C9958029AC9ECB00FC5A8E /* PlayerEntity.swift in Sources */,
 				7100A98A29A4E54600B5B0AB /* CardsView.swift in Sources */,
+				71C9958729ACF62C00FC5A8E /* QuestionCardEntity.swift in Sources */,
 				927295E3298D61F100C5F0DE /* PrimaryButton.swift in Sources */,
 				92DE7810299D7C1100B16131 /* Array+Extensions.swift in Sources */,
 				92A0603E299FD18800C6CC3E /* MenuEffectProcessor.swift in Sources */,
@@ -658,6 +681,7 @@
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				92F23CFD29A4F91B0093D043 /* HeaderSize.swift in Sources */,
 				92CD661D2992BD770003634C /* InputField.swift in Sources */,
+				71C9958329ACE92700FC5A8E /* LeaderboardView.swift in Sources */,
 				929F29CC29A50FE400A1714B /* GridButton.swift in Sources */,
 				92CD661B2992B83B0003634C /* HeaderView.swift in Sources */,
 				92F23CF929A4EEA50093D043 /* ButtonLoadingModifier.swift in Sources */,

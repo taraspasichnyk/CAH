@@ -339,7 +339,8 @@ class RoomsRepositoryImpl(
             id = nextRoundNumber.toString(),
             number = nextRoundNumber,
             question = nextQuestion,
-            answers = emptyList()
+            answers = emptyList(),
+            state = "ACTIVE"
         )
         roomsDbReference.child(gameRoom.id)
             .child(DB_REF_CURRENT_ROUND)

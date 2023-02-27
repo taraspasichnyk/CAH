@@ -9,6 +9,10 @@
 import Foundation
 
 struct CardItem: Identifiable, Hashable {
-    let id = UUID()
+    let id: String
     let text: String
+}
+
+extension CardItem {
+    static let placeholder: Self = .init(id: "", text: "")
 }

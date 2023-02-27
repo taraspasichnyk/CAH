@@ -12,12 +12,11 @@ import shared
 struct CurrentRoundView: View {
     @State private var hasLoaded = false
     @State private var hasShiftedTitle = false
-    @State private var selectedIndex = 0
 
-    @State private var currentRound: GameRound?
+    @State private var currentRound: shared.GameRound?
     @State private var question: String = ""
-    @State private var answers: [AnswerCard] = []
-    @State private var selectedAnswers: [AnswerCard] = []
+    @State private var selectedCard: CardItem = .placeholder
+    @State private var answers: [CardItem] = [.placeholder]
 
     let vm: GameViewModel
 
@@ -36,16 +35,17 @@ struct CurrentRoundView: View {
                             QuestionCardView(question: question)
                         } else {
                             Spacer()
+                            Spacer()
                         }
                         Spacer()
                         Spacer()
-                        Text("Оберіть 2 відповіді:")
+                        Text("Оберіть 1 відповідь:")
                             .font(.bodyTertiaryThin)
-                        CardHandPicker(
-                            selectedIndex: $selectedIndex,
-                            answers: answers
-                        )
-                        .padding(.bottom, .large)
+                            CardHandPicker(
+                                selectedCard: $selectedCard,
+                                answers: answers
+                            )
+                            .padding(.bottom, .large)
                     }
                 }
             }
@@ -54,13 +54,16 @@ struct CurrentRoundView: View {
             }
         }
         .onAppear {
+            subscribeToState()
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
                 withAnimation(.easeInOut(duration: 0.5)) {
                     hasLoaded = true
                 }
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1500)) {
-                hasShiftedTitle = true
+                withAnimation {
+                    hasShiftedTitle = true
+                }
             }
         }
     }
@@ -75,7 +78,7 @@ extension CurrentRoundView {
             HStack {
                 Spacer()
                 PrimaryButton("Обрати") {
-                    vm.saveAnswers(answerCardIds: selectedAnswers.map(\.id))
+                    saveAnswers()
                 }
                 Spacer()
             }
@@ -92,6 +95,7 @@ extension CurrentRoundView {
             )
         }
         .ignoresSafeArea()
+        .contentTransition(.opacity)
         .transition(.opacity)
     }
 }
@@ -100,21 +104,21 @@ extension CurrentRoundView {
 
 extension CurrentRoundView {
     private func subscribeToState() {
-// TODO: Explore using substates
-//        AnyFlow<Player>(source: vm.me).collect { player in
-//            guard let player else { return }
-//        }
-
         AnyFlow<GameContractState>(source: vm.state).collect { state in
             guard let state else { return }
-            guard let room = state.room else { return }
-            answers = room.answers
-            currentRound = room.currentRound
-            question = room.masterCard.text
-        } onCompletion: { error in
-            guard let error else { return }
-            print(error)
+            guard let player = state.me else { return }
+            guard let round = state.round else { return }
+            currentRound = round
+            question = round.masterCard.question
+            answers = player.cards.map {
+                CardItem(id: $0.id, text: $0.answer)
+            }
+        } onCompletion: { _ in
         }
+    }
+
+    private func saveAnswers() {
+        vm.saveAnswers(answerCardIds: [selectedCard.id])
     }
 }
 

@@ -30,7 +30,14 @@ final class GameEffectProcessor {
     func process(_ effect: GameContractEffect) {
         switch effect {
         case is GameContractEffect.NavigationPreRound:
-            // Navigation happens in LobbyEffectProcessor as we don't have roomID and playerID
+            if let gameVm = navState.compactMap(\.gameViewModel).last {
+                navState.navigate(to: .preround(gameVm))
+            }
+        case is GameContractEffect.NavigationRound:
+            // TODO: connect round effect
+//            if let gameVm = navState.compactMap(\.gameViewModel).last {
+//                navState.navigate(to: .round(gameVm))
+//            }
             break
         case is GameContractEffect.NavigationYourCards:
             break

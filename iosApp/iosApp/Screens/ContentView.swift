@@ -60,6 +60,10 @@ extension ContentView {
             LobbyView(vm: lobbyVm)
         case .yourCards(let gameVm):
             CardsView(gameModel: GameModel(vm: gameVm))
+        case .preround(let gameVm):
+            CurrentRoundView(vm: gameVm)
+        case .round(let gameVm):
+            CurrentRoundView(vm: gameVm)
         }
     }
 

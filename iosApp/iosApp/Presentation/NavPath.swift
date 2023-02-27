@@ -15,6 +15,8 @@ enum NavPath: Equatable, Hashable {
     case enterName(LobbyViewModel)
     case lobby(LobbyViewModel)
     case yourCards(GameViewModel)
+    case preround(GameViewModel)
+    case round(GameViewModel)
 }
 
 // MARK: - ViewModels

@@ -7,12 +7,15 @@
 //
 
 import SwiftUI
-import shared
 
 struct CardHandPicker: View {
-    @Binding var selectedIndex: Int
+    @Binding var selectedCard: CardItem
 
-    let answers: [AnswerCard]
+    var selectedIndex: Int {
+        answers.firstIndex(of: selectedCard) ?? 0
+    }
+
+    let answers: [CardItem]
 
     // MARK: - Body
 
@@ -21,9 +24,9 @@ struct CardHandPicker: View {
             ScrollView(.horizontal) {
                 ZStack {
                     ForEach(Array(answers.enumerated()), id: \.offset) { (offset, answerItem) in
-                        AnswerCardView(answer: answerItem.answer)
+                        AnswerCardView(answer: answerItem.text)
                             .font(.inputPrimary)
-                            .aspectRatio(124 / 168, contentMode: .fit)
+                            .frame(width: 180, height: 240)
                             .scaleEffect(getScale(offset), anchor: .bottom)
                             .rotationEffect(.degrees(getRotation(offset)))
                             .offset(x: CGFloat(offset) * 90)
@@ -37,14 +40,16 @@ struct CardHandPicker: View {
                     BackButton {
                         guard selectedIndex > 0 else { return }
                         withAnimation {
-                            selectedIndex -= 1
+                            let index = selectedIndex - 1
+                            selectedCard = answers[index]
                         }
                     }
                     Spacer()
                     BackButton {
                         guard selectedIndex < answers.count - 1 else { return }
                         withAnimation {
-                            selectedIndex += 1
+                            let index = selectedIndex + 1
+                            selectedCard = answers[index]
                         }
                     }
                     .scaleEffect(x: -1, y: 1, anchor: .center)
@@ -81,9 +86,11 @@ extension CardHandPicker {
 // MARK: - Previews
 
 struct CardHandPicker_Previews: PreviewProvider {
-    @State private static var selectedIndex = 0
-    private static let answers: [AnswerCard] = [
-        "Гарний розмальований килим",
+    @State private static var selectedCard = CardItem(
+        id: UUID().uuidString,
+        text: "Гарний розмальований килим"
+    )
+    private static let answers: [CardItem] = [selectedCard] + [
         "Кинути важкі наркотики",
         "Мій інструмент",
         "Квашені огірочки",
@@ -92,12 +99,12 @@ struct CardHandPicker_Previews: PreviewProvider {
         "Біла гарячка",
     ]
         .map {
-            AnswerCard(id: UUID().uuidString, answer: $0)
+            CardItem(id: UUID().uuidString, text: $0)
         }
 
     static var previews: some View {
         CardHandPicker(
-            selectedIndex: $selectedIndex,
+            selectedCard: $selectedCard,
             answers: answers
         )
         .frame(height: 268)

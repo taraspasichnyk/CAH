@@ -10,9 +10,9 @@ import Foundation
 import shared
 
 protocol GameModelProtocol: ObservableObject {
-    var items: [CardItem] { get }
-    var round: GameRound? { get }
-    var player: Player? { get }
+    var round: GameRoundEntity? { get }
+    var player: PlayerEntity? { get }
+    var players: [PlayerEntity] { get }
 
     func showRound()
 }
@@ -23,9 +23,9 @@ class GameModel: GameModelProtocol {
 
     private let vm: GameViewModel
 
-    @Published private(set) var items: [CardItem] = []
-    @Published private(set) var round: GameRound? = nil
-    @Published private(set) var player: Player? = nil
+    @Published private(set) var round: GameRoundEntity? = nil
+    @Published private(set) var player: PlayerEntity? = nil
+    @Published private(set) var players: [PlayerEntity] = []
 
     // MARK: - Lifecycle
 
@@ -46,7 +46,43 @@ class GameModel: GameModelProtocol {
         AnyFlow<GameContractState>(source: vm.state).collect { [weak self] state in
             guard let state else { return }
             guard let player = state.me else { return }
-            self?.items = player.cards.compactMap({ CardItem(id: $0.id, text: $0.answer) })
+            guard let players = state.players else { return }
+            guard let round = state.round else { return }
+            self?.player = PlayerEntity(
+                id: player.id,
+                nickname: player.nickname,
+                isOwner: player.gameOwner,
+                cards: player.cards.compactMap { AnswerCardEntity(id: $0.id, text: $0.answer) },
+                state: PlayerEntity.State(rawValue: player.state.name) ?? .NOT_READY
+            )
+            let playerEntities = players.compactMap {
+                PlayerEntity(
+                    id: $0.id,
+                    nickname: $0.nickname,
+                    isOwner: $0.gameOwner,
+                    cards: $0.cards.compactMap { AnswerCardEntity(id: $0.id, text: $0.answer) },
+                    state: PlayerEntity.State(rawValue: $0.state.name) ?? .NOT_READY
+                )
+            }
+            self?.players = playerEntities
+            self?.round = GameRoundEntity(
+                id: round.id,
+                number: Int(round.number),
+                questionCard: QuestionCardEntity(
+                    id: round.masterCard.id,
+                    text: round.masterCard.text,
+                    question: round.masterCard.question,
+                    gaps: round.masterCard.gaps.compactMap { NSNumber(nonretainedObject: $0) }
+                ),
+                playerCards: round.playerCards.compactMap { playerCards in
+                    RoundPlayerAnswerEntity(
+                        player: playerEntities.first(where: { $0.id == playerCards.playerID }) ?? PlayerEntity.mock[0],
+                        playerAnswers: playerCards.playerAnswers,
+                        score: Int(playerCards.score)
+                    )
+                },
+                state: GameRoundEntity.State(rawValue: round.state.name) ?? .FINISHED
+            )
         } onCompletion: { _ in
         }
     }
@@ -58,23 +94,9 @@ class MockGameModel: GameModelProtocol {
 
     // MARK: - Properties
 
-    @Published private(set) var items: [CardItem] = [
-        "Степан Гіга",
-        "Знімати персики з дерева біля ЖЕКу",
-        "Місити палкою кропиву",
-        "Неймовірний покемон Сквіртл",
-        "Картонний пакет Кагору",
-        "Футбольний клуб \"Карпати\"",
-        "Майнити біткойни на Atari",
-        "Стрілецька Дивізія \"СС Галичина\"",
-        "Божеволіти він нестримного програмування",
-        "Тім лід гомосексуаліст",
-    ]
-        .map {
-            CardItem(id: UUID().uuidString, text: $0)
-        }
-    @Published private(set) var round: GameRound? = nil
-    @Published private(set) var player: Player? = nil
+    @Published private(set) var round: GameRoundEntity? = GameRoundEntity.mock
+    @Published private(set) var player: PlayerEntity? = PlayerEntity.mock.first
+    @Published private(set) var players: [PlayerEntity] = PlayerEntity.mock
 
     // MARK: - Public
 

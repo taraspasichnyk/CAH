@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 interface RoomsRepository {
     suspend fun createNewRoom(hostNickname: String): GameRoomDTO
 
-    suspend fun getRoomByIdFlow(roomID: RoomID): Flow<GameRoomDTO>
+    fun getRoomByIdFlow(roomID: RoomID): Flow<GameRoomDTO>
 
     suspend fun getRoomIfExist(roomID: RoomID): GameRoomDTO?
 

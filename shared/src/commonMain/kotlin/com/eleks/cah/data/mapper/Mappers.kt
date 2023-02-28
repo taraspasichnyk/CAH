@@ -43,7 +43,6 @@ fun GameRoundDTO.toModel(
     number = number,
     masterCard = allQuestions.first { it.id == question },
     playerCards = answers.map { it.toModel() },
-    timer = timer,
     state = GameRound.GameRoundState.valueOf(state),
 )
 
@@ -51,6 +50,6 @@ fun RoundPlayerAnswerDTO.toModel(): RoundPlayerAnswer {
     return RoundPlayerAnswer(
         playerID = playerID,
         playerAnswers = playerAnswers,
-        score = score,
+        score = totalScore
     )
 }

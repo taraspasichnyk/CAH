@@ -19,7 +19,10 @@ interface PlayersRepository {
 
     suspend fun voteForAnswer(
         roomID: RoomID,
+        voterID: PlayerID,
         playerID: PlayerID,
         score: Int
     )
+
+    suspend fun deleteNotReadyUsers(roomID: RoomID)
 }

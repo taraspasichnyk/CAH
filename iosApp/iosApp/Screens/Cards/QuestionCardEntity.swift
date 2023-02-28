@@ -14,7 +14,3 @@ struct QuestionCardEntity: Identifiable, Hashable {
     let question: String
     let gaps: [NSNumber]
 }
-
-extension CardItem {
-    static let placeholder: Self = .init(id: "", text: "")
-}

@@ -9,8 +9,8 @@
 import SwiftUI
 
 struct CardHandPicker: View {
-    @Binding var selectedCard: CardItem
-    @Binding var answers: [CardItem]
+    @Binding var selectedCard: AnswerCardEntity
+    @Binding var answers: [AnswerCardEntity]
 
     private var selectedIndex: Int {
         answers.firstIndex(of: selectedCard) ?? 0
@@ -85,11 +85,11 @@ extension CardHandPicker {
 // MARK: - Previews
 
 struct CardHandPicker_Previews: PreviewProvider {
-    @State private static var selectedCard = CardItem(
+    @State private static var selectedCard = AnswerCardEntity(
         id: UUID().uuidString,
         text: "Гарний розмальований килим"
     )
-    private static let answers: [CardItem] = [selectedCard] + [
+    private static let answers: [AnswerCardEntity] = [selectedCard] + [
         "Кинути важкі наркотики",
         "Мій інструмент",
         "Квашені огірочки",
@@ -98,7 +98,7 @@ struct CardHandPicker_Previews: PreviewProvider {
         "Біла гарячка",
     ]
         .map {
-            CardItem(id: UUID().uuidString, text: $0)
+            AnswerCardEntity(id: UUID().uuidString, text: $0)
         }
 
     static var previews: some View {

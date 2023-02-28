@@ -15,15 +15,15 @@ struct CurrentRoundView: View {
 
     @State private var currentRound: shared.GameRound?
     @State private var question: String = ""
-    @State private var answers: [CardItem] = [.placeholder]
+    @State private var answers: [AnswerCardEntity] = [.placeholder]
 
     /// This card is the current selected card in the hand
-    @State private var selectedCard: CardItem = .placeholder
+    @State private var selectedCard: AnswerCardEntity = .placeholder
 
     /// This card is chosen as the answer to the question
-    @State private var confirmedCard: CardItem?
+    @State private var confirmedCard: AnswerCardEntity?
 
-    private var cardsInHand: Binding<[CardItem]> {
+    private var cardsInHand: Binding<[AnswerCardEntity]> {
         Binding {
             answers.compactMap {
                 $0 == confirmedCard ? nil : $0
@@ -140,7 +140,7 @@ extension CurrentRoundView {
             currentRound = round
             question = round.masterCard.question
             answers = player.cards.map {
-                CardItem(id: $0.id, text: $0.answer)
+                AnswerCardEntity(id: $0.id, text: $0.answer)
             }
             if selectedCard == .placeholder {
                 selectedCard = answers[0]

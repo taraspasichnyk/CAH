@@ -36,7 +36,7 @@ struct CardsView<ViewModel>: View where ViewModel: GameModelProtocol {
                         spacing: spacing
                     ) {
                         if let player = gameModel.player {
-                            ForEach(gameModel.items, id: \.self) { item in
+                            ForEach(player.cards, id: \.self) { item in
                                 AnswerCardView(answer: item.text)
                                     .font(.cardSmall)
                             }

@@ -61,9 +61,9 @@ extension ContentView {
         case .yourCards(let gameVm):
             CardsView(gameModel: GameModel(vm: gameVm))
         case .preround(let gameVm):
-            CurrentRoundView(vm: gameVm)
+            CurrentRoundView(gameModel: GameModel(vm: gameVm))
         case .round(let gameVm):
-            CurrentRoundView(vm: gameVm)
+            CurrentRoundView(gameModel: GameModel(vm: gameVm))
         }
     }
 

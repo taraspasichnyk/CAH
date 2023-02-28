@@ -15,6 +15,7 @@ protocol GameModelProtocol: ObservableObject {
     var players: [PlayerEntity] { get }
 
     func showRound()
+    func saveAnswers(answerCardIds: [String])
 }
 
 class GameModel: GameModelProtocol {
@@ -38,6 +39,11 @@ class GameModel: GameModelProtocol {
 
     func showRound() {
         vm.showRound()
+    }
+
+    // TODO: Move more logic inside
+    func saveAnswers(answerCardIds: [String]) {
+        vm.saveAnswers(answerCardIds: answerCardIds)
     }
 
     // MARK: - Private
@@ -101,6 +107,10 @@ class MockGameModel: GameModelProtocol {
     // MARK: - Public
 
     func showRound() {
+        // TODO
+    }
+
+    func saveAnswers(answerCardIds: [String]) {
         // TODO
     }
 }

@@ -10,12 +10,11 @@ import SwiftUI
 
 struct CardHandPicker: View {
     @Binding var selectedCard: CardItem
+    @Binding var answers: [CardItem]
 
-    var selectedIndex: Int {
+    private var selectedIndex: Int {
         answers.firstIndex(of: selectedCard) ?? 0
     }
-
-    let answers: [CardItem]
 
     // MARK: - Body
 
@@ -105,7 +104,7 @@ struct CardHandPicker_Previews: PreviewProvider {
     static var previews: some View {
         CardHandPicker(
             selectedCard: $selectedCard,
-            answers: answers
+            answers: .constant(answers)
         )
         .frame(height: 268)
         .previewLayout(.sizeThatFits)

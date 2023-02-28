@@ -15,8 +15,23 @@ struct CurrentRoundView: View {
 
     @State private var currentRound: shared.GameRound?
     @State private var question: String = ""
-    @State private var selectedCard: CardItem = .placeholder
     @State private var answers: [CardItem] = [.placeholder]
+
+    /// This card is the current selected card in the hand
+    @State private var selectedCard: CardItem = .placeholder
+
+    /// This card is chosen as the answer to the question
+    @State private var confirmedCard: CardItem?
+
+    private var cardsInHand: Binding<[CardItem]> {
+        Binding {
+            answers.compactMap {
+                $0 == confirmedCard ? nil : $0
+            }
+        } set: { value, _ in
+            answers = value
+        }
+    }
 
     let vm: GameViewModel
 
@@ -32,10 +47,24 @@ struct CurrentRoundView: View {
                     Spacer()
                     if hasLoaded {
                         if hasShiftedTitle {
-                            QuestionCardView(question: question)
+                            ZStack(alignment: .bottom) {
+                                VStack {
+                                    QuestionCardView(question: question)
+                                    Spacer()
+                                }
+                                if let confirmedCard {
+                                    VStack {
+                                        Spacer()
+                                        AnswerCardView(answer: confirmedCard.text)
+                                            .font(.cardSmall)
+                                            .frame(width: 124, height: 168)
+                                            .rotationEffect(.degrees(-5))
+                                            .offset(x: -62)
+                                    }
+                                }
+                            }
                         } else {
-                            Spacer()
-                            Spacer()
+                            Spacer(minLength: 200)
                         }
                         Spacer()
                         Spacer()
@@ -43,7 +72,7 @@ struct CurrentRoundView: View {
                             .font(.bodyTertiaryThin)
                             CardHandPicker(
                                 selectedCard: $selectedCard,
-                                answers: answers
+                                answers: cardsInHand
                             )
                             .padding(.bottom, .large)
                     }
@@ -113,11 +142,21 @@ extension CurrentRoundView {
             answers = player.cards.map {
                 CardItem(id: $0.id, text: $0.answer)
             }
+            if selectedCard == .placeholder {
+                selectedCard = answers[0]
+            }
         } onCompletion: { _ in
         }
     }
 
     private func saveAnswers() {
+        var selectedIndex = answers.firstIndex(of: selectedCard) ?? 0
+        if selectedIndex > 0 {
+            selectedIndex -= 1
+        }
+
+        confirmedCard = selectedCard
+        selectedCard = answers[selectedIndex]
         vm.saveAnswers(answerCardIds: [selectedCard.id])
     }
 }

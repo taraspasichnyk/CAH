@@ -26,11 +26,14 @@ struct CurrentRoundView<ViewModel: GameModelProtocol>: View {
             guard let player = gameModel.player else {
                 return []
             }
+            // FIXME: Mutating from here is not cool, move logic out
+            if selectedCard == .placeholder {
+                selectedCard = player.cards[0]
+            }
             return player.cards.compactMap {
                 $0 == confirmedCard ? nil : $0
             }
         } set: { value, _ in
-//            gameModel.player?.cards = value
         }
     }
 
@@ -135,23 +138,6 @@ extension CurrentRoundView {
 // MARK: - Private
 
 extension CurrentRoundView {
-//    private func subscribeToState() {
-//        AnyFlow<GameContractState>(source: vm.state).collect { state in
-//            guard let state else { return }
-//            guard let player = state.me else { return }
-//            guard let round = state.round else { return }
-//            currentRound = round
-//            question = round.masterCard.question
-//            answers = player.cards.map {
-//                AnswerCardEntity(id: $0.id, text: $0.answer)
-//            }
-//            if selectedCard == .placeholder {
-//                selectedCard = answers[0]
-//            }
-//        } onCompletion: { _ in
-//        }
-//    }
-
     private func saveAnswers() {
         guard let answers = gameModel.player?.cards else { return }
         var selectedIndex = answers.firstIndex(of: selectedCard) ?? 0

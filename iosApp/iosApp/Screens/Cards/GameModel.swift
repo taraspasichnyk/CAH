@@ -77,7 +77,7 @@ class GameModel: GameModelProtocol {
                 playerCards: round.playerCards.compactMap { playerCards in
                     RoundPlayerAnswerEntity(
                         player: playerEntities.first(where: { $0.id == playerCards.playerID }) ?? PlayerEntity.mock[0],
-                        playerAnswers: playerCards.playerAnswers,
+                        playerAnswers: playerCards.playerAnswers.map(\.answer), // TODO: Map into entities if needed
                         score: Int(playerCards.score)
                     )
                 },

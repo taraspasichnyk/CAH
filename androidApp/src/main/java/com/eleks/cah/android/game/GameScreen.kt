@@ -4,9 +4,12 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -92,18 +95,27 @@ fun GameScreen(
                     innerNavController.popBackStack()
                     innerNavController.navigate(GameRoute.PreRound.path)
                 }
+
                 is GameContract.Effect.Navigation.YourCards -> {
                     innerNavController.popBackStack()
                     innerNavController.navigate(GameRoute.YourCards.path)
                 }
+
                 is GameContract.Effect.Navigation.Round -> {
                     innerNavController.popBackStack()
                     innerNavController.navigate(GameRoute.Round.path)
                 }
+
                 is GameContract.Effect.Navigation.Voting -> {
                     innerNavController.popBackStack()
                     innerNavController.navigate(GameRoute.Voting.path)
                 }
+
+                is GameContract.Effect.Navigation.RoundLeaderBoard -> {
+                    innerNavController.popBackStack()
+                    innerNavController.navigate(GameRoute.PostRound.path)
+                }
+
                 else -> {}
             }
         }
@@ -124,6 +136,9 @@ fun GameScreen(
         },
         onScoreSubmitted = {
             gameViewModel.saveScores(it)
+        },
+        onNewRoundStart = {
+            gameViewModel.startNewRound()
         }
     )
 }
@@ -136,7 +151,8 @@ private fun GameContainer(
     onFabClicked: () -> Unit = {},
     onUserCardsDismissed: () -> Unit = {},
     onAnswerSubmitted: (List<AnswerCardID>) -> Unit = {},
-    onScoreSubmitted: (List<RoundPlayerAnswer>) -> Unit = { _ -> }
+    onScoreSubmitted: (List<RoundPlayerAnswer>) -> Unit = { _ -> },
+    onNewRoundStart: () -> Unit = {}
 ) {
     NavHost(
         navController = innerNavController,
@@ -186,9 +202,24 @@ private fun GameContainer(
                 round.masterCard,
                 round.playerCards,
                 round.number,
-                onTimeout = onScoreSubmitted,
                 onVote = onScoreSubmitted
             )
+        }
+
+        composable(route = GameRoute.PostRound.path) {
+            val me = player ?: return@composable
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Column {
+                    Text("LEADERBOARD")
+                    if (me.gameOwner) {
+                        Button(onClick = {
+                            onNewRoundStart()
+                        }) {
+                            Text("Далі")
+                        }
+                    }
+                }
+            }
         }
     }
 }

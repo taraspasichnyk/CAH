@@ -9,11 +9,29 @@
 import SwiftUI
 
 struct RateView: View {
+
+    private let action: (Int) -> Void
+
+    init(action: @escaping (Int) -> Void) {
+        self.action = action
+    }
+
     var body: some View {
-        VStack {
-            Spacer()
+        VStack(spacing: 16) {
+            Text("Оцініть відповідь")
+                .padding(.small)
+                .cornerRadius(2)
+                .background(Color.mainBlack)
+                .foregroundColor(.white)
+                .font(.titleRegularPrimary)
+            HStack(spacing: .large) {
+                IconButton(.one) { action(1) }
+                IconButton(.two) { action(2) }
+                IconButton(.three) { action(3) }
+                IconButton(.four) { action(4) }
+            }
         }
-        .aspectRatio(124 / 168, contentMode: .fit)
+        .padding(16.0)
         .background(
             LinearGradient(
                 colors: [
@@ -33,7 +51,9 @@ struct RateView: View {
 
 struct RateView_Previews: PreviewProvider {
     static var previews: some View {
-        RateView()
-            .frame(width: 328.0, height: 137.0)
+        RateView { value in
+            print(value)
+        }
+        .padding([.leading, .trailing], 50)
     }
 }

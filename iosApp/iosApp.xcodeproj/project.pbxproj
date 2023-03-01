@@ -10,6 +10,7 @@
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
 		7100A98A29A4E54600B5B0AB /* CardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7100A98929A4E54600B5B0AB /* CardsView.swift */; };
+		7118341429AF91BD00EE2674 /* SelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7118341329AF91BD00EE2674 /* SelectorView.swift */; };
 		712A95AC29A78EAD0068A14C /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712A95A029A78EAD0068A14C /* Assets.swift */; };
 		712A95AD29A78EAD0068A14C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 712A95A129A78EAD0068A14C /* Assets.xcassets */; };
 		712A95AE29A78EAD0068A14C /* Unbounded-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 712A95A329A78EAD0068A14C /* Unbounded-Black.ttf */; };
@@ -109,6 +110,7 @@
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
 		7100A98929A4E54600B5B0AB /* CardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsView.swift; sourceTree = "<group>"; };
+		7118341329AF91BD00EE2674 /* SelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorView.swift; sourceTree = "<group>"; };
 		712A95A029A78EAD0068A14C /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		712A95A129A78EAD0068A14C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		712A95A329A78EAD0068A14C /* Unbounded-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Unbounded-Black.ttf"; sourceTree = "<group>"; };
@@ -343,6 +345,7 @@
 			children = (
 				71C9958F29AF8A1000FC5A8E /* VoteView.swift */,
 				71C9958C29AF540A00FC5A8E /* RateView.swift */,
+				7118341329AF91BD00EE2674 /* SelectorView.swift */,
 			);
 			path = Vote;
 			sourceTree = "<group>";
@@ -705,6 +708,7 @@
 				92DE7810299D7C1100B16131 /* Array+Extensions.swift in Sources */,
 				92A0603E299FD18800C6CC3E /* MenuEffectProcessor.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
+				7118341429AF91BD00EE2674 /* SelectorView.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				92F23CFD29A4F91B0093D043 /* HeaderSize.swift in Sources */,
 				92CD661D2992BD770003634C /* InputField.swift in Sources */,

@@ -12,17 +12,18 @@ struct LeaderboardView<ViewModel: GameModelProtocol>: View {
 
     // MARK: - Properties
 
-    @ObservedObject var gameModel: ViewModel
+    @ObservedObject var viewModel: ViewModel
 
     // MARK: - Lifecycle
 
     var body: some View {
         ContainerView(header: .small) {
-            ZStack {
+            VStack {
                 ScrollView(.vertical) {
                     Text("Результати")
-                        .font(.titleRegularSecondary)
-                    if let round = gameModel.round {
+                        .padding(.top, .larger)
+                        .font(.titleSemiBold)
+                    if let round = viewModel.round {
                         LazyVStack {
                             ForEach(round.playerCards) { item in
                                 LeaderboardRow(
@@ -33,17 +34,15 @@ struct LeaderboardView<ViewModel: GameModelProtocol>: View {
                                 )
                             }
                         }
+                        .padding(.top, .extraLarge)
+                        .padding([.leading, .trailing], 50.0)
                     }
                 }
-                VStack {
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        PrimaryButton("Далі") {
-                            // TODO
-                        }
+                if viewModel.player?.isOwner == true {
+                    PrimaryButton("Далі") {
+                        viewModel.startNewRound()
                     }
-                    .padding(.trailing, 20.0)
+                    .padding(.bottom, 78.0)
                 }
             }
             Spacer()
@@ -54,6 +53,6 @@ struct LeaderboardView<ViewModel: GameModelProtocol>: View {
 
 struct LeaderboardView_Previews: PreviewProvider {
     static var previews: some View {
-        LeaderboardView(gameModel: MockGameModel())
+        LeaderboardView(viewModel: MockGameModel(player: .mock[0]))
     }
 }

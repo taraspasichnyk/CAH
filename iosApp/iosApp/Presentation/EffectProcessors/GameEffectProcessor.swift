@@ -34,6 +34,10 @@ final class GameEffectProcessor {
             break
         case is GameContractEffect.NavigationYourCards:
             break
+        case is GameContractEffect.NavigationRoundLeaderBoard:
+            if let gameVm = navState.compactMap(\.gameViewModel).last {
+                navState.navigate(to: .leaderboard(gameVm))
+            }
         default:
             alertState.presentedAlertType = .noFeature
         }

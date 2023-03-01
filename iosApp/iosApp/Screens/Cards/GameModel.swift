@@ -15,6 +15,7 @@ protocol GameModelProtocol: ObservableObject {
     var players: [PlayerEntity] { get }
 
     func showRound()
+    func startNewRound()
 }
 
 class GameModel: GameModelProtocol {
@@ -38,6 +39,10 @@ class GameModel: GameModelProtocol {
 
     func showRound() {
         vm.showRound()
+    }
+
+    func startNewRound() {
+        vm.startNewRound()
     }
 
     // MARK: - Private
@@ -94,13 +99,28 @@ class MockGameModel: GameModelProtocol {
 
     // MARK: - Properties
 
-    @Published private(set) var round: GameRoundEntity? = GameRoundEntity.mock
-    @Published private(set) var player: PlayerEntity? = PlayerEntity.mock.first
-    @Published private(set) var players: [PlayerEntity] = PlayerEntity.mock
+    @Published private(set) var round: GameRoundEntity?
+    @Published private(set) var player: PlayerEntity?
+    @Published private(set) var players: [PlayerEntity]
+
+    // MARK: - Ligecycle
+    init(
+        round: GameRoundEntity? = GameRoundEntity.mock,
+        player: PlayerEntity? = PlayerEntity.mock.first,
+        players: [PlayerEntity] = PlayerEntity.mock
+    ) {
+        self.round = round
+        self.player = player
+        self.players = players
+    }
 
     // MARK: - Public
 
     func showRound() {
+        // TODO
+    }
+
+    func startNewRound() {
         // TODO
     }
 }

@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct CurrentRoundView<ViewModel: GameModelProtocol>: View {
-    @ObservedObject private(set) var gameModel: ViewModel
+    @ObservedObject private(set) var viewModel: ViewModel
 
     @State private var hasLoaded = false
     @State private var hasShiftedTitle = false
@@ -20,7 +20,7 @@ struct CurrentRoundView<ViewModel: GameModelProtocol>: View {
     // TODO: Move more logic inside new model, check if binding needed here
     private var cardsInHand: Binding<[AnswerCardEntity]> {
         Binding {
-            guard let player = gameModel.player else {
+            guard let player = viewModel.player else {
                 return []
             }
             return player.cards.compactMap {
@@ -34,7 +34,7 @@ struct CurrentRoundView<ViewModel: GameModelProtocol>: View {
 
     var body: some View {
         // FIXME: Not cool, this check probably should be at least one level up
-        if case let .some(round) = gameModel.round {
+        if case let .some(round) = viewModel.round {
             ZStack {
                 ContainerView(header: .small) {
                     VStack {
@@ -68,7 +68,7 @@ struct CurrentRoundView<ViewModel: GameModelProtocol>: View {
                             Text("Оберіть відповідь:")
                                 .font(.bodyTertiaryThin)
                             CardHandPicker(
-                                selectedCard: $gameModel.selectedCard,
+                                selectedCard: $viewModel.selectedCard,
                                 answers: cardsInHand
                             )
                             .padding(.bottom, .large)
@@ -132,15 +132,15 @@ extension CurrentRoundView {
 
 extension CurrentRoundView {
     private func saveAnswers() {
-        guard let answers = gameModel.player?.cards else { return }
-        var selectedIndex = answers.firstIndex(of: gameModel.selectedCard) ?? 0
+        guard let answers = viewModel.player?.cards else { return }
+        var selectedIndex = answers.firstIndex(of: viewModel.selectedCard) ?? 0
         if selectedIndex > 0 {
             selectedIndex -= 1
         }
 
-        confirmedCard = gameModel.selectedCard
-        gameModel.saveAnswers(answerCardIds: [gameModel.selectedCard.id])
-        gameModel.selectedCard = answers[selectedIndex]
+        confirmedCard = viewModel.selectedCard
+        viewModel.saveAnswers(answerCardIds: [viewModel.selectedCard.id])
+        viewModel.selectedCard = answers[selectedIndex]
     }
 }
 
@@ -148,6 +148,6 @@ extension CurrentRoundView {
 
 struct CurrentRoundView_Previews: PreviewProvider {
     static var previews: some View {
-        CurrentRoundView(gameModel: MockGameModel())
+        CurrentRoundView(viewModel: MockGameModel())
     }
 }

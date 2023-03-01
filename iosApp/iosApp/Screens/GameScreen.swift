@@ -10,7 +10,7 @@ import SwiftUI
 
 struct GameScreen<ViewModel: GameModelProtocol>: View {
 
-    let gameModel: ViewModel
+    let viewModel: ViewModel
     @Binding private(set) var gameNavState: GameNavState
 
     // MARK: - Body
@@ -19,11 +19,13 @@ struct GameScreen<ViewModel: GameModelProtocol>: View {
         Group {
             switch gameNavState {
             case .yourCards:
-                CardsView(gameModel: gameModel)
+                CardsView(viewModel: viewModel)
             case .preround:
-                CurrentRoundView(gameModel: gameModel)
+                CurrentRoundView(viewModel: viewModel)
             case .voting:
                 EmptyView()
+            case .leaderBoard:
+                LeaderboardView(viewModel: viewModel)
             }
         }
     }
@@ -33,6 +35,6 @@ struct GameScreen<ViewModel: GameModelProtocol>: View {
 
 struct GameScreen_Previews: PreviewProvider {
     static var previews: some View {
-        GameScreen(gameModel: MockGameModel(), gameNavState: .constant(.yourCards))
+        GameScreen(viewModel: MockGameModel(), gameNavState: .constant(.yourCards))
     }
 }

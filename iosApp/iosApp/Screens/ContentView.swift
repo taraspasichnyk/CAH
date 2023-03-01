@@ -61,7 +61,7 @@ extension ContentView {
             LobbyView(vm: lobbyVm)
         case .game(let gameVm):
             let gameModel = GameModel(vm: gameVm)
-            GameScreen(gameModel: gameModel, gameNavState: $gameNavState)
+            GameScreen(viewModel: gameModel, gameNavState: $gameNavState)
         }
     }
 

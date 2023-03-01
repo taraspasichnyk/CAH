@@ -17,6 +17,7 @@ protocol GameModelProtocol: ObservableObject {
 
     func showRound()
     func saveAnswers(answerCardIds: [String])
+    func startNewRound()
 }
 
 class GameModel: GameModelProtocol {
@@ -46,6 +47,10 @@ class GameModel: GameModelProtocol {
     // TODO: Move more logic inside
     func saveAnswers(answerCardIds: [String]) {
         vm.saveAnswers(answerCardIds: answerCardIds)
+    }
+
+    func startNewRound() {
+        vm.startNewRound()
     }
 
     // MARK: - Private
@@ -108,10 +113,21 @@ class MockGameModel: GameModelProtocol {
 
     // MARK: - Properties
 
-    @Published private(set) var round: GameRoundEntity? = GameRoundEntity.mock
-    @Published private(set) var player: PlayerEntity? = PlayerEntity.mock.first
-    @Published private(set) var players: [PlayerEntity] = PlayerEntity.mock
+    @Published private(set) var round: GameRoundEntity?
+    @Published private(set) var player: PlayerEntity?
+    @Published private(set) var players: [PlayerEntity]
     @Published var selectedCard: AnswerCardEntity = .placeholder
+
+    // MARK: - Ligecycle
+    init(
+        round: GameRoundEntity? = GameRoundEntity.mock,
+        player: PlayerEntity? = PlayerEntity.mock.first,
+        players: [PlayerEntity] = PlayerEntity.mock
+    ) {
+        self.round = round
+        self.player = player
+        self.players = players
+    }
 
     // MARK: - Public
 
@@ -120,6 +136,10 @@ class MockGameModel: GameModelProtocol {
     }
 
     func saveAnswers(answerCardIds: [String]) {
+        // TODO
+    }
+
+    func startNewRound() {
         // TODO
     }
 }

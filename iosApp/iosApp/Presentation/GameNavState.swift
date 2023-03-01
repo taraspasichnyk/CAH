@@ -10,4 +10,5 @@ enum GameNavState {
     case yourCards
     case preround
     case voting
+    case leaderBoard
 }

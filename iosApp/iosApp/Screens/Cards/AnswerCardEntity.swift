@@ -1,5 +1,5 @@
 //
-//  AnswerCardDTO.swift
+//  AnswerCardEntity.swift
 //  iosApp
 //
 //  Created by Taras Pasichnyk on 27.02.2023.

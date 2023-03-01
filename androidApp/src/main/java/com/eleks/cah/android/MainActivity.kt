@@ -3,25 +3,25 @@ package com.eleks.cah.android
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.*
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
+import androidx.navigation.*
 import com.eleks.cah.android.game.GameScreen
 import com.eleks.cah.android.lobby.LobbyScreen
 import com.eleks.cah.android.router.MainRoute
+import com.eleks.cah.android.widgets.animatedComposable
 import com.eleks.cah.init
 import com.eleks.cah.lobby.LobbyViewModel
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import org.koin.androidx.compose.getViewModel
 
+@OptIn(ExperimentalAnimationApi::class)
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,13 +35,13 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    val navController = rememberNavController()
+                    val navController = rememberAnimatedNavController()
 
-                    NavHost(
+                    AnimatedNavHost(
                         navController = navController,
                         startDestination = MainRoute.Menu.path,
                     ) {
-                        composable(route = MainRoute.Menu()) {
+                        animatedComposable(route = MainRoute.Menu()) {
                             Menu(
                                 onNavigationRequired = {
                                     navController.navigate(it)
@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
 
-                        composable(
+                        animatedComposable(
                             route = MainRoute.Lobby(),
                             arguments = listOf(
                                 navArgument(MainRoute.Lobby.arguments.first()) {
@@ -69,14 +69,12 @@ class MainActivity : ComponentActivity() {
                             )
                         }
 
-                        composable(
-                            route = MainRoute.Game()
-                        ) {
+                        animatedComposable(route = MainRoute.Game()) {
                             val (roomIdKey, playerIdKey) = MainRoute.Game.arguments
                             val roomId = it.arguments?.getString(roomIdKey)
-                                ?: return@composable
+                                ?: return@animatedComposable
                             val playerId = it.arguments?.getString(playerIdKey)
-                                ?: return@composable
+                                ?: return@animatedComposable
                             GameScreen(roomId, playerId, onExit = {
                                 navController.popBackStack()
                             })

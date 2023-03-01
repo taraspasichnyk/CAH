@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -13,24 +14,23 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
-import androidx.navigation.NavOptions
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.eleks.cah.android.R
 import com.eleks.cah.android.router.LobbyRoute
 import com.eleks.cah.android.router.MainRoute
+import com.eleks.cah.android.widgets.animatedComposable
 import com.eleks.cah.lobby.LobbyContract.Effect.*
 import com.eleks.cah.lobby.LobbyViewModel
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import kotlinx.coroutines.flow.collectLatest
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun LobbyScreen(lobbyViewModel: LobbyViewModel, navController: NavHostController) {
     BackHandler { lobbyViewModel.onBackPressed() }
 
     val context = LocalContext.current
-    val innerNavController = rememberNavController()
+    val innerNavController = rememberAnimatedNavController()
     LaunchedEffect(key1 = Unit) {
         lobbyViewModel.effect.collectLatest { effect ->
             when (effect) {
@@ -61,7 +61,8 @@ fun LobbyScreen(lobbyViewModel: LobbyViewModel, navController: NavHostController
                     //TODO navigate to needed screen
                     navController.popBackStack(route = MainRoute.Menu(), inclusive = false)
                     navController.navigate(
-                        MainRoute.Game.getPath(effect.roomId, effect.playerID))
+                        MainRoute.Game.getPath(effect.roomId, effect.playerID)
+                    )
                 }
 
                 is Navigation.MenuScreen -> {
@@ -69,19 +70,23 @@ fun LobbyScreen(lobbyViewModel: LobbyViewModel, navController: NavHostController
                 }
 
                 Navigation.EnterCodeScreen -> {
-                    innerNavController.navigate(
-                        LobbyRoute.EnterCode.path,
-                    )
+                    if (!innerNavController.popBackStack(
+                            route = LobbyRoute.EnterCode.path,
+                            inclusive = false
+                        )
+                    ) {
+                        innerNavController.navigate(LobbyRoute.EnterCode.path)
+                    }
                 }
 
                 Navigation.EnterNameScreen -> {
-                    innerNavController.navigate(
-                        LobbyRoute.EnterName.path ,
-                        navOptions = NavOptions.Builder()
-                            .setEnterAnim(org.koin.android.R.anim.abc_slide_in_bottom)
-                            .setExitAnim(org.koin.android.R.anim.abc_slide_out_top)
-                            .build()
-                    )
+                    if (!innerNavController.popBackStack(
+                            route = LobbyRoute.EnterName.path,
+                            inclusive = false
+                        )
+                    ) {
+                        innerNavController.navigate(LobbyRoute.EnterName.path)
+                    }
                 }
 
                 Navigation.UsersListScreen -> {
@@ -99,20 +104,20 @@ fun LobbyScreen(lobbyViewModel: LobbyViewModel, navController: NavHostController
         }
     }
 
-    NavHost(
+    AnimatedNavHost(
         navController = innerNavController,
         startDestination =
         if (lobbyViewModel.gameOwner) LobbyRoute.EnterName.path
         else LobbyRoute.EnterCode.path,
         modifier = Modifier.background(MaterialTheme.colors.secondary)
     ) {
-        composable(route = LobbyRoute.EnterCode.path) {
+        animatedComposable(route = LobbyRoute.EnterCode.path) {
             EnterCode(lobbyViewModel)
         }
-        composable(route = LobbyRoute.EnterName.path) {
+        animatedComposable(route = LobbyRoute.EnterName.path) {
             EnterName(lobbyViewModel)
         }
-        composable(route = LobbyRoute.UserList.path) {
+        animatedComposable(route = LobbyRoute.UserList.path) {
             UserList(lobbyViewModel)
         }
     }

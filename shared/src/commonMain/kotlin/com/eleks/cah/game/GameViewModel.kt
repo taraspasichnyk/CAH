@@ -1,14 +1,14 @@
 package com.eleks.cah.game
 
 import com.eleks.cah.base.BaseViewModel
-import com.eleks.cah.domain.model.AnswerCardID
-import com.eleks.cah.domain.model.GameRoom
-import com.eleks.cah.domain.model.GameRound
-import com.eleks.cah.domain.model.RoundPlayerAnswer
+import com.eleks.cah.domain.model.*
 import com.eleks.cah.domain.usecase.answer.AnswerUseCase
+import com.eleks.cah.domain.usecase.next_round.StartNextRoundUseCase
+import com.eleks.cah.domain.usecase.player_state.UpdatePlayerStateUseCase
 import com.eleks.cah.domain.usecase.room.GetRoomUseCase
 import com.eleks.cah.domain.usecase.vote.VoteUseCase
 import com.eleks.cah.game.GameContract.Effect.Navigation
+import io.github.aakira.napier.Napier
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -25,6 +25,8 @@ class GameViewModel(
 
     private val answerWith: AnswerUseCase by inject()
     private val voteWith: VoteUseCase by inject()
+    private val updatePlayerState: UpdatePlayerStateUseCase by inject()
+    private val startNextRound: StartNextRoundUseCase by inject()
 
     private var isNewRound: Boolean = true
 
@@ -36,9 +38,16 @@ class GameViewModel(
             subscribeToRoomChanges(roomId).collectLatest { newRoom ->
                 val oldGameState = state.value
 
-                if (oldGameState.round != null && oldGameState.round.number != newRoom?.currentRound?.number) {
-                    isNewRound = true
-                    showRound()
+                newRoom?.let { tryGoNextRound(it) }
+
+                val isNewRoundStarted = oldGameState.round != null
+                        && oldGameState.round.number != newRoom?.currentRound?.number
+                val isGameFinished = oldGameState.round != null && newRoom != null
+                        && newRoom.currentRound == null
+                if (isNewRoundStarted || isGameFinished) {
+                    Napier.d(tag = "TestTag", message = "isNewRound = $isNewRoundStarted, showResults")
+                    isNewRound = isNewRoundStarted
+                    setEffect { Navigation.Results }
                 }
 
                 setState {
@@ -58,6 +67,26 @@ class GameViewModel(
         }
     }
 
+    private fun tryGoNextRound(
+        newRoom: GameRoom
+    ) {
+        scope.launch {
+            Napier.d(tag = "TestTag", message = "tryGoNextRound: areAllPlayersVoted = ${newRoom.areAllPlayersVoted()}")
+            if (newRoom.areAllPlayersVoted()) {
+                val gameOwner = newRoom.gameOwner ?: return@launch
+                val playerOwnsGame = gameOwner.id == playerId
+                if (playerOwnsGame) {
+                    Napier.d(tag = "TestTag", message = "tryGoNextRound: startNextRound")
+                    startNextRound.invoke(roomId)
+                }
+            }
+        }
+    }
+
+    private fun GameRoom.areAllPlayersVoted(): Boolean {
+        return players.all { it.state == Player.PlayerState.VOTE_SUBMITTED }
+    }
+
     /**
      * Save answers by their ids and navigate to voting state if successful
      * @param answerCardIds list of strings to answer for current round
@@ -65,6 +94,7 @@ class GameViewModel(
     fun saveAnswers(answerCardIds: List<AnswerCardID>) {
         scope.launch {
             answerWith(roomId, playerId, answerCardIds)
+            updatePlayerState.invoke(roomId, playerId, Player.PlayerState.VOTING)
         }
     }
 
@@ -73,9 +103,16 @@ class GameViewModel(
      * @param answerCardWithVotes list of Answers which include id of voting player list of answers and score
      */
     fun saveScores(answerCardWithVotes: List<RoundPlayerAnswer>) {
+        Napier.d(tag = "TestTag", message = "saveScores: answerCardWithVotes = ${answerCardWithVotes.joinToString()}")
         scope.launch {
             answerCardWithVotes.forEach {
                 voteWith(roomId, playerId, it.playerID, it.score)
+            }
+            val votedForAllAnswers = answerCardWithVotes
+                .filter { it.playerID != playerId }
+                .all { it.score != 0 }
+            if (votedForAllAnswers) {
+                updatePlayerState.invoke(roomId, playerId, Player.PlayerState.VOTE_SUBMITTED)
             }
         }
     }

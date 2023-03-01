@@ -7,6 +7,8 @@
     <string name="card_label">Карти</string>
     <string name="conflict_label">Конфлікту</string>
     <string name="label_next">Далі</string>
+    <string name="label_next_small">далі</string>
+    <string name="label_finish_small">завершити</string>
     <string name="title_enter_name">Введіть ім\'я</string>
     <string name="title_your_name">Ваше ім\'я</string>
     <string name="title_enter_game_code">Введіть код гри</string>
@@ -20,6 +22,7 @@
     <string name="miy_instrument">Мій інструмент</string>
     <string name="round">Раунд %s</string>
     <string name="round_results">Раунд %s - Результати</string>
+    <string name="results">Результати</string>
     <string name="master_card_placeholder">Під час візиту до писхотерпевта мені дають _____ щоб я почувавася більш комфортно</string>
     <string name="choose_answer">Оберіть відповідь</string>
     <string name="choose">Обрати</string>

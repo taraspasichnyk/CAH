@@ -14,14 +14,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.eleks.cah.android.MyApplicationTheme
+import com.eleks.cah.android.*
 import com.eleks.cah.android.R
+import com.eleks.cah.android.game.results.RoundResultsScreen
 import com.eleks.cah.android.game.round.PreRoundScreen
 import com.eleks.cah.android.game.round.RoundScreen
 import com.eleks.cah.android.game.user_cards.UserCardsScreen
 import com.eleks.cah.android.game.vote.ScoreScreen
-import com.eleks.cah.android.mockedPlayer
-import com.eleks.cah.android.mockedRound
 import com.eleks.cah.android.router.GameRoute
 import com.eleks.cah.domain.model.AnswerCardID
 import com.eleks.cah.domain.model.GameRound
@@ -104,6 +103,10 @@ fun GameScreen(
                     innerNavController.popBackStack()
                     innerNavController.navigate(GameRoute.Voting.path)
                 }
+                is GameContract.Effect.Navigation.Results -> {
+                    innerNavController.popBackStack()
+                    innerNavController.navigate(GameRoute.Results.path)
+                }
                 else -> {}
             }
         }
@@ -113,6 +116,7 @@ fun GameScreen(
         innerNavController,
         state.round,
         state.me,
+        state.players,
         onFabClicked = {
             gameViewModel.showYourCards()
         },
@@ -124,6 +128,13 @@ fun GameScreen(
         },
         onScoreSubmitted = {
             gameViewModel.saveScores(it)
+        },
+        onLeaderboardViewed = {
+            if (state.round != null) {
+                gameViewModel.showYourCards()
+            } else {
+                onExit()
+            }
         }
     )
 }
@@ -133,10 +144,12 @@ private fun GameContainer(
     innerNavController: NavHostController,
     currentRound: GameRound?,
     player: Player?,
+    allPlayers: List<Player>?,
     onFabClicked: () -> Unit = {},
     onUserCardsDismissed: () -> Unit = {},
     onAnswerSubmitted: (List<AnswerCardID>) -> Unit = {},
-    onScoreSubmitted: (List<RoundPlayerAnswer>) -> Unit = { _ -> }
+    onScoreSubmitted: (List<RoundPlayerAnswer>) -> Unit = { _ -> },
+    onLeaderboardViewed: () -> Unit = {},
 ) {
     NavHost(
         navController = innerNavController,
@@ -184,10 +197,19 @@ private fun GameContainer(
             val round = currentRound ?: return@composable
             ScoreScreen(
                 round.masterCard,
-                round.playerCards,
+                round.answers.filter { it.playerID != player?.id },
                 round.number,
                 onTimeout = onScoreSubmitted,
                 onVote = onScoreSubmitted
+            )
+        }
+
+        composable(route = GameRoute.Results.path) {
+            val players = allPlayers ?: return@composable
+            RoundResultsScreen(
+                currentRound,
+                players,
+                onNextPressed = onLeaderboardViewed
             )
         }
     }
@@ -200,7 +222,8 @@ private fun GamePreview() {
         GameContainer(
             innerNavController = rememberNavController(),
             currentRound = mockedRound(),
-            player = mockedPlayer()
+            player = mockedPlayer(),
+            allPlayers = mockedGameRoom().players,
         )
     }
 }

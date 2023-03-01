@@ -5,4 +5,5 @@ enum class GameRoute(val path: String) {
     YourCards("yourcards"),
     Round("game"),
     Voting("voting"),
+    Results("results"),
 }

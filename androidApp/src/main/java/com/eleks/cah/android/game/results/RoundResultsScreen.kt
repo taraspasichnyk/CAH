@@ -28,15 +28,17 @@ import com.eleks.cah.android.widgets.BlackButton
 import com.eleks.cah.android.widgets.CardBackground
 import com.eleks.cah.android.widgets.GameHeader
 import com.eleks.cah.android.widgets.GameLabelSize
-import com.eleks.cah.domain.model.GameRoom
+import com.eleks.cah.domain.model.GameRound
 import com.eleks.cah.domain.model.Player
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun RoundResultsScreenPreview() {
     MyApplicationTheme {
+        val mockedGameRoom = mockedGameRoom()
         RoundResultsScreen(
-            gameRoom = mockedGameRoom(),
+            currentRound = mockedGameRoom.currentRound!!,
+            allPlayers = mockedGameRoom.players,
             onNextPressed = {}
         )
     }
@@ -44,7 +46,8 @@ private fun RoundResultsScreenPreview() {
 
 @Composable
 fun RoundResultsScreen(
-    gameRoom: GameRoom,
+    currentRound: GameRound?,
+    allPlayers: List<Player>,
     onNextPressed: () -> Unit
 ) {
     Column(
@@ -59,9 +62,11 @@ fun RoundResultsScreen(
             modifier = Modifier.height(AppTheme.dimens.sizeMedium)
         )
 
-        val previousRoundNumber = gameRoom.currentRound?.number?.let { it - 1 } ?: return
+        val titleText = currentRound?.number?.let {
+            stringResource(id = string.round_results, it - 1)
+        } ?: stringResource(id = string.results)
         Text(
-            text = stringResource(id = string.round_results, previousRoundNumber),
+            text = titleText,
             textAlign = TextAlign.Center,
             modifier = Modifier.align(Alignment.CenterHorizontally),
             style = txtSemibold16,
@@ -75,12 +80,15 @@ fun RoundResultsScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             LeaderboardView(
-                players = gameRoom.players.sortedByDescending { it.score }
+                players = allPlayers.sortedByDescending { it.score }
             )
 
+            val btnText = currentRound?.let {
+                string.label_next_small
+            } ?: string.label_finish_small
             BlackButton(
                 onClick = onNextPressed,
-                text = string.label_next,
+                text = btnText,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(top = defaultDimens.sizeMedium)

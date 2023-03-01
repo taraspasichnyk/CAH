@@ -9,11 +9,17 @@
 import SwiftUI
 
 enum Size: CGFloat {
+    /// Defaults to 1.0
     case smallest = 1
+    /// Defaults to 8.0
     case small = 8
+    /// Defaults to 16.0
     case medium = 16
+    /// Defaults to 24.0
     case large = 24
+    /// Defaults to 32.0
     case larger = 32
+    /// Defaults to 48.0
     case extraLarge = 48
 }
 

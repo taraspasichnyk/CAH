@@ -24,14 +24,54 @@ struct PlayerEntity {
         .init(
             id: "1",
             nickname: "@rt3m",
-            isOwner: false,
+            isOwner: true,
             cards: AnswerCardEntity.mock,
             state: .ANSWERING
         ),
         .init(
             id: "2",
             nickname: "Taras P",
-            isOwner: true,
+            isOwner: false,
+            cards: AnswerCardEntity.mock,
+            state: .ANSWERING
+        )
+        ,
+        .init(
+            id: "3",
+            nickname: "Andriy P",
+            isOwner: false,
+            cards: AnswerCardEntity.mock,
+            state: .ANSWERING
+        )
+        ,
+        .init(
+            id: "4",
+            nickname: "Taras Y",
+            isOwner: false,
+            cards: AnswerCardEntity.mock,
+            state: .ANSWERING
+        )
+        ,
+        .init(
+            id: "5",
+            nickname: "Dmytro S",
+            isOwner: false,
+            cards: AnswerCardEntity.mock,
+            state: .ANSWERING
+        )
+        ,
+        .init(
+            id: "6",
+            nickname: "Andriy K",
+            isOwner: false,
+            cards: AnswerCardEntity.mock,
+            state: .ANSWERING
+        )
+        ,
+        .init(
+            id: "7",
+            nickname: "Oleh S",
+            isOwner: false,
             cards: AnswerCardEntity.mock,
             state: .ANSWERING
         )

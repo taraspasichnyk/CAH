@@ -15,6 +15,6 @@ struct RoundPlayerAnswerEntity: Identifiable {
     let score: Int
 
     static let mock: [RoundPlayerAnswerEntity] = {
-        return PlayerEntity.mock.map { .init(player: $0, playerAnswers: [], score: 42) }
+        return PlayerEntity.mock.map { .init(player: $0, playerAnswers: ["Answer 0.", "Very really unjustifiably long answer for this question that was much longer in my head then I initially suspected."], score: 42) }
     }()
 }

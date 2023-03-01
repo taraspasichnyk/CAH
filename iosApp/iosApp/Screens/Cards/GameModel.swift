@@ -13,8 +13,11 @@ protocol GameModelProtocol: ObservableObject {
     var round: GameRoundEntity? { get }
     var player: PlayerEntity? { get }
     var players: [PlayerEntity] { get }
+    var selectedCard: AnswerCardEntity { get set }
 
     func showRound()
+    func saveAnswers(answerCardIds: [String])
+    func startNewRound()
 }
 
 class GameModel: GameModelProtocol {
@@ -26,6 +29,7 @@ class GameModel: GameModelProtocol {
     @Published private(set) var round: GameRoundEntity? = nil
     @Published private(set) var player: PlayerEntity? = nil
     @Published private(set) var players: [PlayerEntity] = []
+    @Published var selectedCard: AnswerCardEntity = .placeholder
 
     // MARK: - Lifecycle
 
@@ -40,6 +44,15 @@ class GameModel: GameModelProtocol {
         vm.showRound()
     }
 
+    // TODO: Move more logic inside
+    func saveAnswers(answerCardIds: [String]) {
+        vm.saveAnswers(answerCardIds: answerCardIds)
+    }
+
+    func startNewRound() {
+        vm.startNewRound()
+    }
+
     // MARK: - Private
 
     private func subscribeToState() {
@@ -48,11 +61,14 @@ class GameModel: GameModelProtocol {
             guard let player = state.me else { return }
             guard let players = state.players else { return }
             guard let round = state.round else { return }
+            let answerCards = player.cards.compactMap {
+                AnswerCardEntity(id: $0.id, text: $0.answer)
+            }
             self?.player = PlayerEntity(
                 id: player.id,
                 nickname: player.nickname,
                 isOwner: player.gameOwner,
-                cards: player.cards.compactMap { AnswerCardEntity(id: $0.id, text: $0.answer) },
+                cards: answerCards,
                 state: PlayerEntity.State(rawValue: player.state.name) ?? .NOT_READY
             )
             let playerEntities = players.compactMap {
@@ -77,12 +93,15 @@ class GameModel: GameModelProtocol {
                 playerCards: round.playerCards.compactMap { playerCards in
                     RoundPlayerAnswerEntity(
                         player: playerEntities.first(where: { $0.id == playerCards.playerID }) ?? PlayerEntity.mock[0],
-                        playerAnswers: playerCards.playerAnswers,
+                        playerAnswers: playerCards.playerAnswers.map(\.answer), // TODO: Map into entities if needed
                         score: Int(playerCards.score)
                     )
                 },
                 state: GameRoundEntity.State(rawValue: round.state.name) ?? .FINISHED
             )
+            if self?.selectedCard == .placeholder {
+                self?.selectedCard = answerCards[0]
+            }
         } onCompletion: { _ in
         }
     }
@@ -94,13 +113,33 @@ class MockGameModel: GameModelProtocol {
 
     // MARK: - Properties
 
-    @Published private(set) var round: GameRoundEntity? = GameRoundEntity.mock
-    @Published private(set) var player: PlayerEntity? = PlayerEntity.mock.first
-    @Published private(set) var players: [PlayerEntity] = PlayerEntity.mock
+    @Published private(set) var round: GameRoundEntity?
+    @Published private(set) var player: PlayerEntity?
+    @Published private(set) var players: [PlayerEntity]
+    @Published var selectedCard: AnswerCardEntity = .placeholder
+
+    // MARK: - Ligecycle
+    init(
+        round: GameRoundEntity? = GameRoundEntity.mock,
+        player: PlayerEntity? = PlayerEntity.mock.first,
+        players: [PlayerEntity] = PlayerEntity.mock
+    ) {
+        self.round = round
+        self.player = player
+        self.players = players
+    }
 
     // MARK: - Public
 
     func showRound() {
+        // TODO
+    }
+
+    func saveAnswers(answerCardIds: [String]) {
+        // TODO
+    }
+
+    func startNewRound() {
         // TODO
     }
 }

@@ -6,6 +6,7 @@ struct ContentView: View {
     @EnvironmentObject private var loadingState: LoadingState
     @EnvironmentObject private var alertState: AlertState
     @State private var navState: [NavPath] = []
+    @State private var gameNavState: GameNavState = .yourCards
 
     private let injector: Injector
     private let menuVm: MenuViewModel
@@ -58,8 +59,9 @@ extension ContentView {
             EnterScreenView(stage: .roomCode(lobbyVm))
         case .lobby(let lobbyVm):
             LobbyView(vm: lobbyVm)
-        case .yourCards(let gameVm):
-            CardsView(gameModel: GameModel(vm: gameVm))
+        case .game(let gameVm):
+            let gameModel = GameModel(vm: gameVm)
+            GameScreen(viewModel: gameModel, gameNavState: $gameNavState)
         }
     }
 
@@ -95,10 +97,8 @@ extension ContentView {
 
     private func process(effect: GameContractEffect) {
         GameEffectProcessor(
-            injector: injector,
-            navState: $navState,
-            alertState: alertState,
-            shareController: shareController
+            gameNavState: $gameNavState,
+            alertState: alertState
         ).process(effect)
     }
 }

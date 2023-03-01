@@ -18,7 +18,7 @@ import org.koin.core.component.inject
 class GameViewModel(
     private val roomId: String,
     private val playerId: String,
-) : BaseViewModel<GameContract.State, GameContract.Effect>(GameContract.State(null)),
+) : BaseViewModel<GameContract.State, GameContract.Effect>(GameContract.State()),
     KoinComponent {
 
     private val subscribeToRoomChanges: GetRoomUseCase by inject()
@@ -54,7 +54,11 @@ class GameViewModel(
                     oldGameState.copy(
                         room = newRoom,
                         me = newRoom?.getSelf(),
-                        round = newRoom?.currentRound,
+                        round = newRoom?.currentRound?.copy(
+                            playerCards = newRoom.currentRound.playerCards.filter {
+                                it.playerID != me?.id
+                            }
+                        ),
                         players = newRoom?.players
                     )
                 }
@@ -62,6 +66,11 @@ class GameViewModel(
                     && newRoom?.currentRound?.state == GameRound.GameRoundState.VOTING
                 ) {
                     setEffect { Navigation.Voting }
+                }
+                else if(oldGameState.round?.state != GameRound.GameRoundState.FINISHED
+                    && newRoom?.currentRound?.state == GameRound.GameRoundState.FINISHED) {
+
+                    setEffect { Navigation.RoundLeaderBoard }
                 }
             }
         }
@@ -150,6 +159,12 @@ class GameViewModel(
      */
     fun showYourCards() {
         setEffect { Navigation.YourCards }
+    }
+
+    fun startNewRound() {
+        scope.launch {
+            startNextRound(roomId)
+        }
     }
 
     private fun GameRoom.getSelf() = players.firstOrNull { it.id == playerId }

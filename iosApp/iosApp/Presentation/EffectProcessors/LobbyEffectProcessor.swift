@@ -43,10 +43,16 @@ final class LobbyEffectProcessor {
             let lobbyVm = navState.compactMap(\.lobbyViewModel).last ?? injector.lobbyOwnerViewModel
             navState.navigate(to: .enterName(lobbyVm))
         case let gameEffect as LobbyContractEffect.NavigationGameScreen:
-            let gameVm = navState.compactMap(\.gameViewModel).last
-                ?? injector.makeGameViewModel(roomID: gameEffect.roomId, playerID: gameEffect.playerID)
+            let gameVm = injector.makeGameViewModel(
+                roomID: gameEffect.roomId,
+                playerID: gameEffect.playerID
+            )
             subscribeToGameEffects(gameVm)
-            navState.navigate(to: .yourCards(gameVm))
+
+            if navState.compactMap(\.gameViewModel).last != nil {
+                navState.removeLast()
+            }
+            navState.append(.game(gameVm))
         case let copyCodeEffect as LobbyContractEffect.CopyCode:
             shareController.copyToPasteboard(copyCodeEffect.code)
         case let errorEffect as LobbyContractEffect.ShowError:

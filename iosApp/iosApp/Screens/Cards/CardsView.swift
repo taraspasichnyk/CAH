@@ -8,11 +8,11 @@
 
 import SwiftUI
 
-struct CardsView<ViewModel>: View where ViewModel: GameModelProtocol {
+struct CardsView<ViewModel: GameModelProtocol>: View {
 
     // MARK: - Properties
 
-    @ObservedObject var gameModel: ViewModel
+    @ObservedObject var viewModel: ViewModel
 
     private let columns = [
         GridItem(spacing: 8.0),
@@ -35,9 +35,9 @@ struct CardsView<ViewModel>: View where ViewModel: GameModelProtocol {
                         alignment: .center,
                         spacing: spacing
                     ) {
-                        if let player = gameModel.player {
+                        if let player = viewModel.player {
                             ForEach(player.cards, id: \.self) { item in
-                                AnswerCard(answer: item.text)
+                                AnswerCardView(answer: item.text)
                                     .font(.cardSmall)
                             }
                         }
@@ -49,7 +49,7 @@ struct CardsView<ViewModel>: View where ViewModel: GameModelProtocol {
                     HStack {
                         Spacer()
                         PrimaryButton("Далі") {
-                            gameModel.showRound()
+                            viewModel.showRound()
                         }
                     }
                     .padding(.trailing, 20.0)
@@ -66,7 +66,7 @@ struct CardsView<ViewModel>: View where ViewModel: GameModelProtocol {
 struct CardsView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            CardsView(gameModel: MockGameModel())
+            CardsView(viewModel: MockGameModel())
         }
     }
 }

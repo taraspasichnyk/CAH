@@ -15,5 +15,6 @@ class GetRoomUseCaseImpl(
     ): Flow<GameRoom?> {
         return roomsRepository.getRoomByIdFlow(roomID)
             .map { it.toModel() }
+
     }
 }

@@ -21,6 +21,7 @@ extension Image {
 // MARK: - Colors
 
 extension Color {
+    static var accentGrey: Color { .init("accentGrey") }
     static var mainBlack: Color { .init("mainBlack") }
     static var pendingYellow: Color { .init("pendingYellow") }
     static var readyGreen: Color { .init("readyGreen") }

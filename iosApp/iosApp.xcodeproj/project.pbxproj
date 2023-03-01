@@ -10,6 +10,7 @@
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
 		7100A98A29A4E54600B5B0AB /* CardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7100A98929A4E54600B5B0AB /* CardsView.swift */; };
+		7118341429AF91BD00EE2674 /* SelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7118341329AF91BD00EE2674 /* SelectorView.swift */; };
 		712A95AC29A78EAD0068A14C /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712A95A029A78EAD0068A14C /* Assets.swift */; };
 		712A95AD29A78EAD0068A14C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 712A95A129A78EAD0068A14C /* Assets.xcassets */; };
 		712A95AE29A78EAD0068A14C /* Unbounded-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 712A95A329A78EAD0068A14C /* Unbounded-Black.ttf */; };
@@ -32,6 +33,7 @@
 		71C9958929ACF70000FC5A8E /* RoundPlayerAnswerEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C9958829ACF70000FC5A8E /* RoundPlayerAnswerEntity.swift */; };
 		71C9958B29ACFCFF00FC5A8E /* LeaderboardRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C9958A29ACFCFF00FC5A8E /* LeaderboardRow.swift */; };
 		71C9958D29AF540A00FC5A8E /* RateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C9958C29AF540A00FC5A8E /* RateView.swift */; };
+		71C9959029AF8A1000FC5A8E /* VoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C9958F29AF8A1000FC5A8E /* VoteView.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 		8FEC9BD42991E381009EE174 /* iosAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEC9BD32991E381009EE174 /* iosAppUITests.swift */; };
 		8FEC9BD62991E381009EE174 /* iosAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEC9BD52991E381009EE174 /* iosAppUITestsLaunchTests.swift */; };
@@ -109,6 +111,7 @@
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
 		7100A98929A4E54600B5B0AB /* CardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsView.swift; sourceTree = "<group>"; };
+		7118341329AF91BD00EE2674 /* SelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorView.swift; sourceTree = "<group>"; };
 		712A95A029A78EAD0068A14C /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		712A95A129A78EAD0068A14C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		712A95A329A78EAD0068A14C /* Unbounded-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Unbounded-Black.ttf"; sourceTree = "<group>"; };
@@ -131,6 +134,7 @@
 		71C9958829ACF70000FC5A8E /* RoundPlayerAnswerEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundPlayerAnswerEntity.swift; sourceTree = "<group>"; };
 		71C9958A29ACFCFF00FC5A8E /* LeaderboardRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardRow.swift; sourceTree = "<group>"; };
 		71C9958C29AF540A00FC5A8E /* RateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateView.swift; sourceTree = "<group>"; };
+		71C9958F29AF8A1000FC5A8E /* VoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteView.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -243,7 +247,6 @@
 				92E9AC07299A358A000367F2 /* Buttons */,
 				712A959C29A78CE00068A14C /* Cards */,
 				92CD661C2992BD770003634C /* InputField.swift */,
-				71C9958C29AF540A00FC5A8E /* RateView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -339,6 +342,16 @@
 			path = Leaderboard;
 			sourceTree = "<group>";
 		};
+		71C9958E29AF89E000FC5A8E /* Vote */ = {
+			isa = PBXGroup;
+			children = (
+				71C9958F29AF8A1000FC5A8E /* VoteView.swift */,
+				71C9958C29AF540A00FC5A8E /* RateView.swift */,
+				7118341329AF91BD00EE2674 /* SelectorView.swift */,
+			);
+			path = Vote;
+			sourceTree = "<group>";
+		};
 		7555FF72242A565900829871 = {
 			isa = PBXGroup;
 			children = (
@@ -414,6 +427,7 @@
 				71C9958129ACE90900FC5A8E /* Leaderboard */,
 				92F23CFA29A4F45E0093D043 /* CurrentRoundView.swift */,
 				92E36C8229AFAFBA0047D49E /* FullScreenHandView.swift */,
+				71C9958E29AF89E000FC5A8E /* Vote */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -698,6 +712,7 @@
 				92DE7810299D7C1100B16131 /* Array+Extensions.swift in Sources */,
 				92A0603E299FD18800C6CC3E /* MenuEffectProcessor.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
+				7118341429AF91BD00EE2674 /* SelectorView.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				92F23CFD29A4F91B0093D043 /* HeaderSize.swift in Sources */,
 				92CD661D2992BD770003634C /* InputField.swift in Sources */,
@@ -715,6 +730,7 @@
 				92CD661929926F220003634C /* Alerts.swift in Sources */,
 				92CD661F2992DEA80003634C /* ContainerView.swift in Sources */,
 				9291175D2998454C00B23AF3 /* PasteboardController.swift in Sources */,
+				71C9959029AF8A1000FC5A8E /* VoteView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

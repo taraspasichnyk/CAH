@@ -10,34 +10,30 @@ import SwiftUI
 import shared
 
 final class GameEffectProcessor {
-    @Binding private var navState: [NavPath]
-    private let injector: Injector
-    private let shareController: PasteboardControlling
+    @Binding private var gameNavState: GameNavState
     private let alertState: AlertState
 
     init(
-        injector: Injector = Injector.shared,
-        navState: Binding<[NavPath]>,
-        alertState: AlertState,
-        shareController: PasteboardControlling
+        gameNavState: Binding<GameNavState>,
+        alertState: AlertState
     ) {
-        self.injector = injector
-        self._navState = navState
+        self._gameNavState = gameNavState
         self.alertState = alertState
-        self.shareController = shareController
     }
 
     func process(_ effect: GameContractEffect) {
         switch effect {
-        case is GameContractEffect.NavigationPreRound:
-            // Navigation happens in LobbyEffectProcessor as we don't have roomID and playerID
-            break
         case is GameContractEffect.NavigationYourCards:
+            gameNavState = .yourCards
+        case is GameContractEffect.NavigationPreRound:
+            gameNavState = .preround
+        case is GameContractEffect.NavigationRound:
+            // TODO: Support if there is a good-looking solution
             break
+        case is GameContractEffect.NavigationVoting:
+            alertState.presentedAlertType = .noFeature
         case is GameContractEffect.NavigationRoundLeaderBoard:
-            if let gameVm = navState.compactMap(\.gameViewModel).last {
-                navState.navigate(to: .leaderboard(gameVm))
-            }
+            gameNavState = .leaderBoard
         default:
             alertState.presentedAlertType = .noFeature
         }

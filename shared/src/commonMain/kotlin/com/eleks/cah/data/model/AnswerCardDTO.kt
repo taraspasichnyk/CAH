@@ -4,6 +4,6 @@ package com.eleks.cah.data.model
 data class AnswerCardDTO(
     val id: String = "",
     val answer: String = "",
-    val used: Boolean = false
+    val used: Long = 0L
 )
 

@@ -24,6 +24,7 @@ struct LeaderboardRow: View {
                 }
                 Spacer()
                 Text(String(playerRound.score))
+                    .font(.bodySecondary)
             }
             .padding(.horizontal, 4)
             Color.mainBlack

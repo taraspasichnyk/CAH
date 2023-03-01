@@ -33,8 +33,10 @@ struct FullScreenHandView: View {
                     }
                 }
                 .padding([.leading, .trailing], 20.0)
+                .padding(.top, HeaderSize.small.headerBackgroundBottomPadding + 12)
             }
-            .content.offset(y: HeaderSize.small.height + 12)
+            .offset(y: HeaderSize.small.height - HeaderSize.small.headerBackgroundBottomPadding)
+
             .ignoresSafeArea(.all)
             Spacer()
         }

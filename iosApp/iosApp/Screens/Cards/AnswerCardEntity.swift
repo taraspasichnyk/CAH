@@ -11,7 +11,13 @@ import Foundation
 struct AnswerCardEntity: Identifiable, Hashable {
     let id: String
     let text: String
+}
 
+extension AnswerCardEntity {
+    static let placeholder: Self = .init(id: "", text: "")
+}
+
+extension AnswerCardEntity {
     static let mock: [AnswerCardEntity] = [
         .init(id: "123", text: "Степан Гіга"),
         .init(id: "123", text: "Знімати персики з дерева біля ЖЕКу"),

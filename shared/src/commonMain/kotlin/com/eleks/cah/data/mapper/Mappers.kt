@@ -36,6 +36,7 @@ fun QuestionCardDTO.toModel() = QuestionCard(
 fun AnswerCardDTO.toModel() = AnswerCard(
     id = id,
     answer = answer,
+    isUsed = used == 1L
 )
 
 fun GameRoundDTO.toModel(

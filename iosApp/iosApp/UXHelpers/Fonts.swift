@@ -17,8 +17,8 @@ extension Font {
     static var inputPrimary: Font { .custom("Unbounded-Medium", size: 16) }
     static var titleRegularSecondary: Font { .custom("Unbounded-Regular", size: 24) }
     static var titleBoldSecondary: Font { .custom("Unbounded-Bold", size: 24) }
-
     static var titleSemiBold: Font { .custom("Unbounded-SemiBold", size: 16) }
     static var cardSmall: Font { .custom("Unbounded-Medium", size: 10) }
     static var largeTitleSemiBold: Font { .custom("Unbounded-SemiBold", size: 32) }
+    static var bodyTertiaryThin: Font { .custom("Unbounded-Regular", size: 11) }
 }

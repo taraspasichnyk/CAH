@@ -14,8 +14,7 @@ enum NavPath: Equatable, Hashable {
     case enterCode(LobbyViewModel)
     case enterName(LobbyViewModel)
     case lobby(LobbyViewModel)
-    case yourCards(GameViewModel)
-    case leaderboard(GameViewModel)
+    case game(GameViewModel)
 }
 
 // MARK: - ViewModels
@@ -34,7 +33,7 @@ extension NavPath {
 
     var gameViewModel: GameViewModel? {
         switch self {
-        case .yourCards(let vm), .leaderboard(let vm):
+        case .game(let vm):
             return vm
         default:
             return nil
@@ -50,7 +49,7 @@ extension NavPath {
         case (.enterCode, .enterCode),
             (.enterName, .enterName),
             (.lobby, .lobby),
-            (.yourCards, .yourCards):
+            (.game, .game):
             return true
         default:
             return false

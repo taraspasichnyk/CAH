@@ -1,5 +1,5 @@
 //
-//  QuestionCard.swift
+//  QuestionCardView.swift
 //  iosApp
 //
 //  Created by Artem Yelizarov on 21.02.2023.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct QuestionCard: View {
+struct QuestionCardView: View {
     let question: String
 
     // MARK: - Body
@@ -37,7 +37,7 @@ struct QuestionCard: View {
 
 struct QuestionCard_Previews: PreviewProvider {
     static var previews: some View {
-        QuestionCard(
+        QuestionCardView(
             question: """
                 Під час візиту до лікаря мені дають \
                 ___ та ___, щоб я почувався більш комфортно

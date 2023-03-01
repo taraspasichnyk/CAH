@@ -14,9 +14,6 @@ struct CurrentRoundView<ViewModel: GameModelProtocol>: View {
     @State private var hasLoaded = false
     @State private var hasShiftedTitle = false
 
-    /// This card is the current selected card in the hand
-    @State private var selectedCard: AnswerCardEntity = .placeholder
-
     /// This card is chosen as the answer to the question
     @State private var confirmedCard: AnswerCardEntity?
 
@@ -25,10 +22,6 @@ struct CurrentRoundView<ViewModel: GameModelProtocol>: View {
         Binding {
             guard let player = gameModel.player else {
                 return []
-            }
-            // FIXME: Mutating from here is not cool, move logic out
-            if selectedCard == .placeholder {
-                selectedCard = player.cards[0]
             }
             return player.cards.compactMap {
                 $0 == confirmedCard ? nil : $0
@@ -75,7 +68,7 @@ struct CurrentRoundView<ViewModel: GameModelProtocol>: View {
                             Text("Оберіть відповідь:")
                                 .font(.bodyTertiaryThin)
                             CardHandPicker(
-                                selectedCard: $selectedCard,
+                                selectedCard: $gameModel.selectedCard,
                                 answers: cardsInHand
                             )
                             .padding(.bottom, .large)
@@ -140,14 +133,14 @@ extension CurrentRoundView {
 extension CurrentRoundView {
     private func saveAnswers() {
         guard let answers = gameModel.player?.cards else { return }
-        var selectedIndex = answers.firstIndex(of: selectedCard) ?? 0
+        var selectedIndex = answers.firstIndex(of: gameModel.selectedCard) ?? 0
         if selectedIndex > 0 {
             selectedIndex -= 1
         }
 
-        confirmedCard = selectedCard
-        selectedCard = answers[selectedIndex]
-        gameModel.saveAnswers(answerCardIds: [selectedCard.id])
+        confirmedCard = gameModel.selectedCard
+        gameModel.saveAnswers(answerCardIds: [gameModel.selectedCard.id])
+        gameModel.selectedCard = answers[selectedIndex]
     }
 }
 

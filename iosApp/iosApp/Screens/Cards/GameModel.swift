@@ -13,6 +13,7 @@ protocol GameModelProtocol: ObservableObject {
     var round: GameRoundEntity? { get }
     var player: PlayerEntity? { get }
     var players: [PlayerEntity] { get }
+    var selectedCard: AnswerCardEntity { get set }
 
     func showRound()
     func saveAnswers(answerCardIds: [String])
@@ -27,6 +28,7 @@ class GameModel: GameModelProtocol {
     @Published private(set) var round: GameRoundEntity? = nil
     @Published private(set) var player: PlayerEntity? = nil
     @Published private(set) var players: [PlayerEntity] = []
+    @Published var selectedCard: AnswerCardEntity = .placeholder
 
     // MARK: - Lifecycle
 
@@ -54,11 +56,14 @@ class GameModel: GameModelProtocol {
             guard let player = state.me else { return }
             guard let players = state.players else { return }
             guard let round = state.round else { return }
+            let answerCards = player.cards.compactMap {
+                AnswerCardEntity(id: $0.id, text: $0.answer)
+            }
             self?.player = PlayerEntity(
                 id: player.id,
                 nickname: player.nickname,
                 isOwner: player.gameOwner,
-                cards: player.cards.compactMap { AnswerCardEntity(id: $0.id, text: $0.answer) },
+                cards: answerCards,
                 state: PlayerEntity.State(rawValue: player.state.name) ?? .NOT_READY
             )
             let playerEntities = players.compactMap {
@@ -89,6 +94,9 @@ class GameModel: GameModelProtocol {
                 },
                 state: GameRoundEntity.State(rawValue: round.state.name) ?? .FINISHED
             )
+            if self?.selectedCard == .placeholder {
+                self?.selectedCard = answerCards[0]
+            }
         } onCompletion: { _ in
         }
     }
@@ -103,6 +111,7 @@ class MockGameModel: GameModelProtocol {
     @Published private(set) var round: GameRoundEntity? = GameRoundEntity.mock
     @Published private(set) var player: PlayerEntity? = PlayerEntity.mock.first
     @Published private(set) var players: [PlayerEntity] = PlayerEntity.mock
+    @Published var selectedCard: AnswerCardEntity = .placeholder
 
     // MARK: - Public
 

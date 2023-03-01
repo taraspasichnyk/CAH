@@ -23,7 +23,6 @@
 		712A95B629A78EAD0068A14C /* Unbounded-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 712A95AB29A78EAD0068A14C /* Unbounded-Regular.ttf */; };
 		712A95B829A78FCB0068A14C /* NavPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712A95B729A78FCB0068A14C /* NavPath.swift */; };
 		712A95BC29A790F30068A14C /* SquareSizeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712A95BB29A790F30068A14C /* SquareSizeModifier.swift */; };
-		7151AA3029A7C2B7002A2AF2 /* GameEffectProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7151AA2F29A7C2B7002A2AF2 /* GameEffectProcessor.swift */; };
 		71C9957A29AC9E1100FC5A8E /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C9957929AC9E1100FC5A8E /* GameModel.swift */; };
 		71C9957E29AC9EAE00FC5A8E /* GameRoundEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C9957D29AC9EAE00FC5A8E /* GameRoundEntity.swift */; };
 		71C9958029AC9ECB00FC5A8E /* PlayerEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C9957F29AC9ECB00FC5A8E /* PlayerEntity.swift */; };
@@ -59,6 +58,9 @@
 		92CD661B2992B83B0003634C /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CD661A2992B83B0003634C /* HeaderView.swift */; };
 		92CD661D2992BD770003634C /* InputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CD661C2992BD770003634C /* InputField.swift */; };
 		92CD661F2992DEA80003634C /* ContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CD661E2992DEA80003634C /* ContainerView.swift */; };
+		92CE1A8B29AEE16E00551F99 /* GameScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CE1A8A29AEE16E00551F99 /* GameScreen.swift */; };
+		92CE1A8D29AEEF5400551F99 /* GameEffectProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CE1A8C29AEEF5400551F99 /* GameEffectProcessor.swift */; };
+		92CE1A8F29AEF17600551F99 /* GameNavState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92CE1A8E29AEF17600551F99 /* GameNavState.swift */; };
 		92D5215229ABAC820053AE67 /* CardHandPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D5215129ABAC820053AE67 /* CardHandPicker.swift */; };
 		92DE7810299D7C1100B16131 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92DE780E299D7C1100B16131 /* Array+Extensions.swift */; };
 		92E17D91299CEED300A0EEFC /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E17D8F299CEED300A0EEFC /* Fonts.swift */; };
@@ -118,7 +120,6 @@
 		712A95AB29A78EAD0068A14C /* Unbounded-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Unbounded-Regular.ttf"; sourceTree = "<group>"; };
 		712A95B729A78FCB0068A14C /* NavPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavPath.swift; sourceTree = "<group>"; };
 		712A95BB29A790F30068A14C /* SquareSizeModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquareSizeModifier.swift; sourceTree = "<group>"; };
-		7151AA2F29A7C2B7002A2AF2 /* GameEffectProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameEffectProcessor.swift; sourceTree = "<group>"; };
 		71C9957929AC9E1100FC5A8E /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
 		71C9957D29AC9EAE00FC5A8E /* GameRoundEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameRoundEntity.swift; sourceTree = "<group>"; };
 		71C9957F29AC9ECB00FC5A8E /* PlayerEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerEntity.swift; sourceTree = "<group>"; };
@@ -154,6 +155,9 @@
 		92CD661A2992B83B0003634C /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		92CD661C2992BD770003634C /* InputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputField.swift; sourceTree = "<group>"; };
 		92CD661E2992DEA80003634C /* ContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerView.swift; sourceTree = "<group>"; };
+		92CE1A8A29AEE16E00551F99 /* GameScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScreen.swift; sourceTree = "<group>"; };
+		92CE1A8C29AEEF5400551F99 /* GameEffectProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameEffectProcessor.swift; sourceTree = "<group>"; };
+		92CE1A8E29AEF17600551F99 /* GameNavState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameNavState.swift; sourceTree = "<group>"; };
 		92D5215129ABAC820053AE67 /* CardHandPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardHandPicker.swift; sourceTree = "<group>"; };
 		92DE780E299D7C1100B16131 /* Array+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		92E17D8F299CEED300A0EEFC /* Fonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
@@ -222,7 +226,7 @@
 			children = (
 				92A0603D299FD18800C6CC3E /* MenuEffectProcessor.swift */,
 				92A0603B299FCEE900C6CC3E /* LobbyEffectProcessor.swift */,
-				7151AA2F29A7C2B7002A2AF2 /* GameEffectProcessor.swift */,
+				92CE1A8C29AEEF5400551F99 /* GameEffectProcessor.swift */,
 			);
 			path = EffectProcessors;
 			sourceTree = "<group>";
@@ -305,6 +309,7 @@
 			isa = PBXGroup;
 			children = (
 				712A95B729A78FCB0068A14C /* NavPath.swift */,
+				92CE1A8E29AEF17600551F99 /* GameNavState.swift */,
 				92CD661829926F220003634C /* Alerts.swift */,
 				712A959729A78B8E0068A14C /* EffectProcessors */,
 			);
@@ -396,6 +401,7 @@
 			children = (
 				7555FF82242A565900829871 /* ContentView.swift */,
 				92CD661E2992DEA80003634C /* ContainerView.swift */,
+				92CE1A8A29AEE16E00551F99 /* GameScreen.swift */,
 				712A959A29A78C580068A14C /* MainMenu */,
 				712A959B29A78C8F0068A14C /* Enter */,
 				92E9AC08299A35C9000367F2 /* Lobby */,
@@ -659,6 +665,7 @@
 				92E17D92299CEED300A0EEFC /* Size.swift in Sources */,
 				92F23D0029A503570093D043 /* QuestionCardView.swift in Sources */,
 				92A0603C299FCEE900C6CC3E /* LobbyEffectProcessor.swift in Sources */,
+				92CE1A8D29AEEF5400551F99 /* GameEffectProcessor.swift in Sources */,
 				92B925092995670C0089ED88 /* IconButton.swift in Sources */,
 				92D5215229ABAC820053AE67 /* CardHandPicker.swift in Sources */,
 				92A06038299FBB2A00C6CC3E /* LobbyContractState+Extensions.swift in Sources */,
@@ -667,6 +674,7 @@
 				71C9958529ACEEA400FC5A8E /* AnswerCardEntity.swift in Sources */,
 				927F7F62298D1EB800A158A8 /* EnterScreenView.swift in Sources */,
 				92CD661729925B720003634C /* Image+Extensions.swift in Sources */,
+				92CE1A8F29AEF17600551F99 /* GameNavState.swift in Sources */,
 				927F7F60298D075400A158A8 /* MainMenuView.swift in Sources */,
 				712A95BC29A790F30068A14C /* SquareSizeModifier.swift in Sources */,
 				921076662994E46900390F45 /* EnterScreenStage.swift in Sources */,
@@ -689,12 +697,12 @@
 				929F29CC29A50FE400A1714B /* GridButton.swift in Sources */,
 				92CD661B2992B83B0003634C /* HeaderView.swift in Sources */,
 				92F23CF929A4EEA50093D043 /* ButtonLoadingModifier.swift in Sources */,
+				92CE1A8B29AEE16E00551F99 /* GameScreen.swift in Sources */,
 				927295E8298D733500C5F0DE /* BackButton.swift in Sources */,
 				92A0604029A24FB400C6CC3E /* AnswerCardView.swift in Sources */,
 				712A95AC29A78EAD0068A14C /* Assets.swift in Sources */,
 				712A95B829A78FCB0068A14C /* NavPath.swift in Sources */,
 				92F57CA4299551C4005D5328 /* LobbyView.swift in Sources */,
-				7151AA3029A7C2B7002A2AF2 /* GameEffectProcessor.swift in Sources */,
 				92B9250B29956A1D0089ED88 /* LobbyRow.swift in Sources */,
 				92CD661929926F220003634C /* Alerts.swift in Sources */,
 				92CD661F2992DEA80003634C /* ContainerView.swift in Sources */,

@@ -10,37 +10,28 @@ import SwiftUI
 import shared
 
 final class GameEffectProcessor {
-    @Binding private var navState: [NavPath]
-    private let injector: Injector
-    private let shareController: PasteboardControlling
+    @Binding private var gameNavState: GameNavState
     private let alertState: AlertState
 
     init(
-        injector: Injector = Injector.shared,
-        navState: Binding<[NavPath]>,
-        alertState: AlertState,
-        shareController: PasteboardControlling
+        gameNavState: Binding<GameNavState>,
+        alertState: AlertState
     ) {
-        self.injector = injector
-        self._navState = navState
+        self._gameNavState = gameNavState
         self.alertState = alertState
-        self.shareController = shareController
     }
 
     func process(_ effect: GameContractEffect) {
         switch effect {
-        case is GameContractEffect.NavigationPreRound:
-            if let gameVm = navState.compactMap(\.gameViewModel).last {
-                navState.navigate(to: .preround(gameVm))
-            }
-        case is GameContractEffect.NavigationRound:
-            // TODO: connect round effect
-//            if let gameVm = navState.compactMap(\.gameViewModel).last {
-//                navState.navigate(to: .round(gameVm))
-//            }
-            break
         case is GameContractEffect.NavigationYourCards:
+            gameNavState = .yourCards
+        case is GameContractEffect.NavigationPreRound:
+            gameNavState = .preround
+        case is GameContractEffect.NavigationRound:
+            // TODO: Support if there is a good-looking solution
             break
+        case is GameContractEffect.NavigationVoting:
+            alertState.presentedAlertType = .noFeature
         default:
             alertState.presentedAlertType = .noFeature
         }

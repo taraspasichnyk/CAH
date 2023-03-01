@@ -2,6 +2,7 @@ package com.eleks.cah.domain.model
 
 data class AnswerCard(
     val id: AnswerCardID,
-    val answer: String
+    val answer: String,
+    val isUsed: Boolean = false
 )
 

@@ -340,10 +340,10 @@ class RoomsRepositoryImpl(
             val updatedPlayerCards = player.cards.toMutableList()
             val newCardsRequired = DEFAULT_PLAYER_CARDS_AMOUNT - updatedPlayerCards.size
             repeat(newCardsRequired) {
-                val newCard = deckAnswers.filter { !it.used }.random()
+                val newCard = deckAnswers.filter { it.used == 0L }.random()
                 updatedPlayerCards.add(newCard)
                 val index = deckAnswers.indexOfFirst { it.id == newCard.id }
-                deckAnswers[index] = deckAnswers[index].copy(used = true)
+                deckAnswers[index] = deckAnswers[index].copy(used = 1L)
             }
             player.copy(cards = updatedPlayerCards)
         }.associateBy { it.id }

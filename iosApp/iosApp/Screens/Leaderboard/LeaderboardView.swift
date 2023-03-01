@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct LeaderboardView<ViewModel>: View where ViewModel: GameModelProtocol {
+struct LeaderboardView<ViewModel: GameModelProtocol>: View {
 
     // MARK: - Properties
 

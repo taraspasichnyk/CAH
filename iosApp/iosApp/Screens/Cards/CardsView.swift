@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct CardsView<ViewModel>: View where ViewModel: GameModelProtocol {
+struct CardsView<ViewModel: GameModelProtocol>: View {
 
     // MARK: - Properties
 

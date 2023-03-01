@@ -66,6 +66,7 @@
 		92DE7810299D7C1100B16131 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92DE780E299D7C1100B16131 /* Array+Extensions.swift */; };
 		92E17D91299CEED300A0EEFC /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E17D8F299CEED300A0EEFC /* Fonts.swift */; };
 		92E17D92299CEED300A0EEFC /* Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E17D90299CEED300A0EEFC /* Size.swift */; };
+		92E36C8329AFAFBA0047D49E /* FullScreenHandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E36C8229AFAFBA0047D49E /* FullScreenHandView.swift */; };
 		92F23CF729A4EE5F0093D043 /* LoadingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F23CF629A4EE5F0093D043 /* LoadingModifier.swift */; };
 		92F23CF929A4EEA50093D043 /* ButtonLoadingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F23CF829A4EEA50093D043 /* ButtonLoadingModifier.swift */; };
 		92F23CFB29A4F45E0093D043 /* CurrentRoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F23CFA29A4F45E0093D043 /* CurrentRoundView.swift */; };
@@ -164,6 +165,7 @@
 		92DE780E299D7C1100B16131 /* Array+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		92E17D8F299CEED300A0EEFC /* Fonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		92E17D90299CEED300A0EEFC /* Size.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Size.swift; sourceTree = "<group>"; };
+		92E36C8229AFAFBA0047D49E /* FullScreenHandView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenHandView.swift; sourceTree = "<group>"; };
 		92F23CF629A4EE5F0093D043 /* LoadingModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingModifier.swift; sourceTree = "<group>"; };
 		92F23CF829A4EEA50093D043 /* ButtonLoadingModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonLoadingModifier.swift; sourceTree = "<group>"; };
 		92F23CFA29A4F45E0093D043 /* CurrentRoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentRoundView.swift; sourceTree = "<group>"; };
@@ -411,6 +413,7 @@
 				7100A98829A4E52B00B5B0AB /* Cards */,
 				71C9958129ACE90900FC5A8E /* Leaderboard */,
 				92F23CFA29A4F45E0093D043 /* CurrentRoundView.swift */,
+				92E36C8229AFAFBA0047D49E /* FullScreenHandView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -687,6 +690,7 @@
 				92F23CFB29A4F45E0093D043 /* CurrentRoundView.swift in Sources */,
 				92E17D91299CEED300A0EEFC /* Fonts.swift in Sources */,
 				71C9958929ACF70000FC5A8E /* RoundPlayerAnswerEntity.swift in Sources */,
+				92E36C8329AFAFBA0047D49E /* FullScreenHandView.swift in Sources */,
 				71C9958029AC9ECB00FC5A8E /* PlayerEntity.swift in Sources */,
 				7100A98A29A4E54600B5B0AB /* CardsView.swift in Sources */,
 				71C9958729ACF62C00FC5A8E /* QuestionCardEntity.swift in Sources */,

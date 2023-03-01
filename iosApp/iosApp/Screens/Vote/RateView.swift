@@ -10,9 +10,29 @@ import SwiftUI
 
 struct RateView: View {
 
+    enum Value: Int, CaseIterable, Identifiable {
+        case one = 1
+        case two = 2
+        case three = 3
+        case four = 4
+
+        var id: Int { rawValue }
+
+        var image: Image {
+            switch self {
+            case .one: return .one
+            case .two: return .two
+            case .three: return .three
+            case .four: return .four
+            }
+        }
+    }
+
+    private var selectedValue: Binding<Int>
     private let action: (Int) -> Void
 
-    init(action: @escaping (Int) -> Void) {
+    init(_ selectedValue: Binding<Int>, action: @escaping (Int) -> Void) {
+        self.selectedValue = selectedValue
         self.action = action
     }
 
@@ -25,10 +45,11 @@ struct RateView: View {
                 .foregroundColor(.white)
                 .font(.titleRegularPrimary)
             HStack(spacing: .large) {
-                IconButton(.one) { action(1) }
-                IconButton(.two) { action(2) }
-                IconButton(.three) { action(3) }
-                IconButton(.four) { action(4) }
+                ForEach(Value.allCases) { value in
+                    IconButton(value.image) { action(value.rawValue) }
+                        .opacity(value.rawValue != selectedValue.wrappedValue ? 1 : 0.33)
+                        .scaleEffect(value.rawValue != selectedValue.wrappedValue ? 1 : 0.4)
+                }
             }
         }
         .padding(16.0)
@@ -50,10 +71,17 @@ struct RateView: View {
 }
 
 struct RateView_Previews: PreviewProvider {
+
     static var previews: some View {
-        RateView { value in
-            print(value)
+        VStack {
+            RateView(.constant(0)) { value in
+                print(value)
+            }
+            .padding([.leading, .trailing], 50)
+            RateView(.constant(3)) { value in
+                print(value)
+            }
+            .padding([.leading, .trailing], 50)
         }
-        .padding([.leading, .trailing], 50)
     }
 }

@@ -23,7 +23,7 @@ struct GameScreen<ViewModel: GameModelProtocol>: View {
             case .preround:
                 CurrentRoundView(viewModel: viewModel)
             case .voting:
-                EmptyView()
+                VoteView(viewModel: viewModel)
             case .leaderBoard:
                 LeaderboardView(viewModel: viewModel)
             }

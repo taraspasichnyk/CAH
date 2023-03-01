@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import shared
 
 struct CurrentRoundView<ViewModel: GameModelProtocol>: View {
     @ObservedObject private(set) var gameModel: ViewModel
@@ -24,72 +23,80 @@ struct CurrentRoundView<ViewModel: GameModelProtocol>: View {
     // TODO: Move more logic inside new model, check if binding needed here
     private var cardsInHand: Binding<[AnswerCardEntity]> {
         Binding {
-            (gameModel.player?.cards ?? []).compactMap {
+            guard let player = gameModel.player else {
+                return []
+            }
+            return player.cards.compactMap {
                 $0 == confirmedCard ? nil : $0
             }
         } set: { value, _ in
-//            gameModel.player.cards = value
+//            gameModel.player?.cards = value
         }
     }
 
     // MARK: - Body
 
     var body: some View {
-        ZStack {
-            ContainerView(header: .small) {
-                VStack {
-                    Spacer()
-                    Text("Раунд \(gameModel.round?.number ?? 0)")
-                        .font(hasLoaded ? .titleSemiBold : .largeTitleSemiBold)
-                    Spacer()
-                    if hasLoaded {
-                        if hasShiftedTitle {
-                            ZStack(alignment: .bottom) {
-                                VStack {
-                                    QuestionCardView(question: gameModel.round?.questionCard.question ?? "")
-                                    Spacer()
-                                }
-                                if let confirmedCard {
+        // FIXME: Not cool, this check probably should be at least one level up
+        if case let .some(round) = gameModel.round {
+            ZStack {
+                ContainerView(header: .small) {
+                    VStack {
+                        Spacer()
+                        Text("Раунд \(round.number)")
+                            .font(hasLoaded ? .titleSemiBold : .largeTitleSemiBold)
+                        Spacer()
+                        if hasLoaded {
+                            if hasShiftedTitle {
+                                ZStack(alignment: .bottom) {
                                     VStack {
+                                        QuestionCardView(question: round.questionCard.question)
                                         Spacer()
-                                        AnswerCardView(answer: confirmedCard.text)
-                                            .font(.cardSmall)
-                                            .frame(width: 124, height: 168)
-                                            .rotationEffect(.degrees(-5))
-                                            .offset(x: -62)
+                                    }
+                                    if let confirmedCard {
+                                        VStack {
+                                            Spacer()
+                                            AnswerCardView(answer: confirmedCard.text)
+                                                .font(.cardSmall)
+                                                .frame(width: 124, height: 168)
+                                                .rotationEffect(.degrees(-5))
+                                                .offset(x: -62)
+                                        }
                                     }
                                 }
+                            } else {
+                                Spacer(minLength: 200)
                             }
-                        } else {
-                            Spacer(minLength: 200)
-                        }
-                        Spacer()
-                        Spacer()
-                        Text("Оберіть 1 відповідь:")
-                            .font(.bodyTertiaryThin)
+                            Spacer()
+                            Spacer()
+                            Text("Оберіть відповідь:")
+                                .font(.bodyTertiaryThin)
                             CardHandPicker(
                                 selectedCard: $selectedCard,
                                 answers: cardsInHand
                             )
                             .padding(.bottom, .large)
+                        }
+                    }
+                }
+                if hasLoaded {
+                    bottomButtonStack
+                }
+            }
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+                    withAnimation(.easeInOut(duration: 0.5)) {
+                        hasLoaded = true
+                    }
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1500)) {
+                    withAnimation {
+                        hasShiftedTitle = true
                     }
                 }
             }
-            if hasLoaded {
-                bottomButtonStack
-            }
-        }
-        .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-                withAnimation(.easeInOut(duration: 0.5)) {
-                    hasLoaded = true
-                }
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1500)) {
-                withAnimation {
-                    hasShiftedTitle = true
-                }
-            }
+        } else {
+            EmptyView()
         }
     }
 }

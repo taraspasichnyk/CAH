@@ -55,7 +55,7 @@ class GameViewModel(
                         room = newRoom,
                         me = newRoom?.getSelf(),
                         round = newRoom?.currentRound?.copy(
-                            playerCards = newRoom.currentRound.playerCards.filter {
+                            answers = newRoom.currentRound.answers.filter {
                                 it.playerID != me?.id
                             }
                         ),
@@ -66,11 +66,6 @@ class GameViewModel(
                     && newRoom?.currentRound?.state == GameRound.GameRoundState.VOTING
                 ) {
                     setEffect { Navigation.Voting }
-                }
-                else if(oldGameState.round?.state != GameRound.GameRoundState.FINISHED
-                    && newRoom?.currentRound?.state == GameRound.GameRoundState.FINISHED) {
-
-                    setEffect { Navigation.RoundLeaderBoard }
                 }
             }
         }
@@ -159,12 +154,6 @@ class GameViewModel(
      */
     fun showYourCards() {
         setEffect { Navigation.YourCards }
-    }
-
-    fun startNewRound() {
-        scope.launch {
-            startNextRound(roomId)
-        }
     }
 
     private fun GameRoom.getSelf() = players.firstOrNull { it.id == playerId }

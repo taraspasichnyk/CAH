@@ -5,12 +5,9 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,7 +33,6 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
-
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -207,14 +203,14 @@ private fun GameContainer(
             val round = currentRound ?: return@animatedComposable
             ScoreScreen(
                 round.masterCard,
-                round.answers.filter { it.playerID != player?.id },
+                round.answers,
                 round.number,
                 onVote = onScoreSubmitted
             )
         }
 
         animatedComposable(route = GameRoute.Results.path) {
-            val players = allPlayers ?: return@composable
+            val players = allPlayers ?: return@animatedComposable
             RoundResultsScreen(
                 currentRound,
                 players,

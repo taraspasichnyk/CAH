@@ -32,7 +32,7 @@ final class GameEffectProcessor {
             break
         case is GameContractEffect.NavigationVoting:
             alertState.presentedAlertType = .noFeature
-        case is GameContractEffect.NavigationRoundLeaderBoard:
+        case is GameContractEffect.NavigationResults:
             gameNavState = .leaderBoard
         default:
             alertState.presentedAlertType = .noFeature

@@ -425,11 +425,19 @@
 				92E9AC08299A35C9000367F2 /* Lobby */,
 				7100A98829A4E52B00B5B0AB /* Cards */,
 				71C9958129ACE90900FC5A8E /* Leaderboard */,
-				92F23CFA29A4F45E0093D043 /* CurrentRoundView.swift */,
-				92E36C8229AFAFBA0047D49E /* FullScreenHandView.swift */,
+				92E36C8429AFB2B70047D49E /* CurrentRound */,
 				71C9958E29AF89E000FC5A8E /* Vote */,
 			);
 			path = Screens;
+			sourceTree = "<group>";
+		};
+		92E36C8429AFB2B70047D49E /* CurrentRound */ = {
+			isa = PBXGroup;
+			children = (
+				92F23CFA29A4F45E0093D043 /* CurrentRoundView.swift */,
+				92E36C8229AFAFBA0047D49E /* FullScreenHandView.swift */,
+			);
+			path = CurrentRound;
 			sourceTree = "<group>";
 		};
 		92E9AC07299A358A000367F2 /* Buttons */ = {

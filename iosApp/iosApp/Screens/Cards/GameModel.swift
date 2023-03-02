@@ -100,6 +100,7 @@ class GameModel: GameModelProtocol {
                 state: GameRoundEntity.State(rawValue: round.state.name) ?? .FINISHED
             )
             if self?.selectedCard == .placeholder {
+                if answerCards.isEmpty { return }
                 self?.selectedCard = answerCards[0]
             }
         } onCompletion: { _ in

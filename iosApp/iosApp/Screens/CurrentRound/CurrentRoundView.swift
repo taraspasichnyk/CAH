@@ -51,6 +51,7 @@ struct CurrentRoundView<ViewModel: GameModelProtocol>: View {
                                     ZStack(alignment: .bottom) {
                                         VStack {
                                             QuestionCardView(question: round.questionCard.question)
+                                                .font(.inputPrimary)
                                             Spacer()
                                         }
                                         if let confirmedCard {

@@ -13,6 +13,7 @@ struct CurrentRoundView<ViewModel: GameModelProtocol>: View {
 
     @State private var hasLoaded = false
     @State private var hasShiftedTitle = false
+    @State private var hasFullScreenCards = false
 
     /// This card is chosen as the answer to the question
     @State private var confirmedCard: AnswerCardEntity?
@@ -36,42 +37,46 @@ struct CurrentRoundView<ViewModel: GameModelProtocol>: View {
         // FIXME: Not cool, this check probably should be at least one level up
         if case let .some(round) = viewModel.round {
             ZStack {
-                ContainerView(header: .small) {
-                    VStack {
-                        Spacer()
-                        Text("Раунд \(round.number)")
-                            .font(hasLoaded ? .titleSemiBold : .largeTitleSemiBold)
-                        Spacer()
-                        if hasLoaded {
-                            if hasShiftedTitle {
-                                ZStack(alignment: .bottom) {
-                                    VStack {
-                                        QuestionCardView(question: round.questionCard.question)
-                                        Spacer()
-                                    }
-                                    if let confirmedCard {
+                if hasFullScreenCards {
+                    FullScreenHandView(cards: viewModel.player?.cards ?? [])
+                } else {
+                    ContainerView(header: .small) {
+                        VStack {
+                            Spacer()
+                            Text("Раунд \(round.number)")
+                                .font(hasLoaded ? .titleSemiBold : .largeTitleSemiBold)
+                            Spacer()
+                            if hasLoaded {
+                                if hasShiftedTitle {
+                                    ZStack(alignment: .bottom) {
                                         VStack {
+                                            QuestionCardView(question: round.questionCard.question)
                                             Spacer()
-                                            AnswerCardView(answer: confirmedCard.text)
-                                                .font(.cardSmall)
-                                                .frame(width: 124, height: 168)
-                                                .rotationEffect(.degrees(-5))
-                                                .offset(x: -62)
+                                        }
+                                        if let confirmedCard {
+                                            VStack {
+                                                Spacer()
+                                                AnswerCardView(answer: confirmedCard.text)
+                                                    .font(.cardSmall)
+                                                    .frame(width: 124, height: 168)
+                                                    .rotationEffect(.degrees(-5))
+                                                    .offset(x: -62)
+                                            }
                                         }
                                     }
+                                } else {
+                                    Spacer(minLength: 200)
                                 }
-                            } else {
-                                Spacer(minLength: 200)
+                                Spacer()
+                                Spacer()
+                                Text("Оберіть відповідь:")
+                                    .font(.bodyTertiaryThin)
+                                CardHandPicker(
+                                    selectedCard: $viewModel.selectedCard,
+                                    answers: cardsInHand
+                                )
+                                .padding(.bottom, .large)
                             }
-                            Spacer()
-                            Spacer()
-                            Text("Оберіть відповідь:")
-                                .font(.bodyTertiaryThin)
-                            CardHandPicker(
-                                selectedCard: $viewModel.selectedCard,
-                                answers: cardsInHand
-                            )
-                            .padding(.bottom, .large)
                         }
                     }
                 }
@@ -108,6 +113,7 @@ extension CurrentRoundView {
                 PrimaryButton("Обрати") {
                     saveAnswers()
                 }
+                .opacity(hasFullScreenCards ? 0 : 1)
                 Spacer()
             }
             .padding(.bottom, 35)
@@ -115,8 +121,7 @@ extension CurrentRoundView {
                 HStack {
                     Spacer()
                     GridButton {
-
-                        print("TOGGLE CARD VIEW")
+                        hasFullScreenCards.toggle()
                     }
                     .padding([.bottom, .trailing], 35)
                 }

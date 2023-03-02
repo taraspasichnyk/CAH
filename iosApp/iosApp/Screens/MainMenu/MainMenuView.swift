@@ -113,5 +113,6 @@ extension MainMenuView {
 struct MainMenuView_Previews: PreviewProvider {
     static var previews: some View {
         MainMenuView(vm: .init())
+            .environmentObject(LoadingState())
     }
 }

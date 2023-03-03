@@ -11,10 +11,16 @@ on:
   pull_request:
       branches:
           - develop
+      types:
+          - opened
+          - reopened
+          - synchronize
+          - ready_for_review
 
 jobs:
   ios_tests:
     runs-on: macos-latest
+    if: github.event.pull_request.draft == false
 
     steps:
     - uses: devbotsxyz/xcode-select@v1

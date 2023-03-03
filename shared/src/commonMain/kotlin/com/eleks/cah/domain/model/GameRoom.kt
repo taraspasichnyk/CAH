@@ -7,4 +7,7 @@ data class GameRoom(
     val questions: List<QuestionCard>,
     val answers: List<AnswerCard>,
     val currentRound: GameRound?
-)
+) {
+    val gameOwner: Player?
+        get() = players.find { it.isGameOwner }
+}

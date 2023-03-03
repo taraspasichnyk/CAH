@@ -217,7 +217,6 @@ private fun AnswerCards(
                     Image(
                         painterRes,
                         "",
-
                         modifier = modifier
                             .align(Alignment.Center)
                     )

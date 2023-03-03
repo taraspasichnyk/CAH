@@ -25,9 +25,9 @@ struct LeaderboardView<ViewModel: GameModelProtocol>: View {
                         .font(.titleSemiBold)
                     if let round = viewModel.round {
                         LazyVStack {
-                            ForEach(round.playerCards) { item in
+                            ForEach(round.playerAnswers) { item in
                                 LeaderboardRow(
-                                    index: round.playerCards.firstIndex(
+                                    index: round.playerAnswers.firstIndex(
                                         where: { $0.player.id == item.player.id }
                                     ) ?? 0,
                                     playerRound: item

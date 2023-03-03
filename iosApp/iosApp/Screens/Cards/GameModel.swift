@@ -71,7 +71,12 @@ class GameModel: GameModelProtocol {
     }
 
     func startNewRound() {
-        vm.startNewRound()
+        if round != nil {
+            vm.showYourCards()
+        } else {
+            // TODO: Send an effect manually or hardcode pop from navigation stack ??
+//            vm.onExit()
+        }
     }
 
     // MARK: - Private
@@ -88,7 +93,7 @@ class GameModel: GameModelProtocol {
             self?.player = PlayerEntity(
                 id: player.id,
                 nickname: player.nickname,
-                isOwner: player.gameOwner,
+                isOwner: player.isGameOwner,
                 cards: answerCards,
                 state: PlayerEntity.State(rawValue: player.state.name) ?? .NOT_READY
             )
@@ -96,7 +101,7 @@ class GameModel: GameModelProtocol {
                 PlayerEntity(
                     id: $0.id,
                     nickname: $0.nickname,
-                    isOwner: $0.gameOwner,
+                    isOwner: $0.isGameOwner,
                     cards: $0.cards.compactMap { AnswerCardEntity(id: $0.id, text: $0.answer) },
                     state: PlayerEntity.State(rawValue: $0.state.name) ?? .NOT_READY
                 )
@@ -111,7 +116,7 @@ class GameModel: GameModelProtocol {
                     question: round.masterCard.question,
                     gaps: round.masterCard.gaps.compactMap { NSNumber(nonretainedObject: $0) }
                 ),
-                playerCards: round.playerCards.compactMap { playerCards in
+                playerAnswers: round.answers.compactMap { playerCards in
                     RoundPlayerAnswerEntity(
                         player: playerEntities.first(where: { $0.id == playerCards.playerID }) ?? PlayerEntity.mock[0],
                         playerAnswers: playerCards.playerAnswers.map({

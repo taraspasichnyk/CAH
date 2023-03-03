@@ -188,7 +188,7 @@ class LobbyViewModel : BaseViewModel<LobbyContract.State, LobbyContract.Effect>(
                             it.players.find { player -> player.state == Player.PlayerState.READY } != null
 
                         //test
-                        val onlyHost = it.players.size == 1 && it.players.first().gameOwner
+                        val onlyHost = it.players.size == 1 && it.players.first().isGameOwner
 
                         copy(
                             users = it.players,

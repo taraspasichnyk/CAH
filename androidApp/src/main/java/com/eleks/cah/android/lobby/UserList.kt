@@ -175,7 +175,7 @@ private fun UserItemView(user: Player, position: Int) {
                 modifier = Modifier.weight(1f, fill = false)
             )
 
-            if (user.gameOwner) {
+            if (user.isGameOwner) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_game_owner),
                     contentDescription = "",

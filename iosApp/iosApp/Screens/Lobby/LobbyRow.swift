@@ -20,7 +20,7 @@ struct LobbyRow: View {
             HStack(alignment: .center) {
                 Text("\(offset + 1). " + user.nickname)
                     .font(.bodySecondary)
-                if user.gameOwner {
+                if user.isGameOwner {
                     Image.host
                         .frame(width: .large, height: .large)
                 }
@@ -49,7 +49,7 @@ struct LobbyRow_Previews: PreviewProvider {
             user: .init(
                 id: "1",
                 nickname: "Гриць",
-                gameOwner: true,
+                isGameOwner: true,
                 cards: [],
                 score: 0,
                 state: .ready

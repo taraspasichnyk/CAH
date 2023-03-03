@@ -1,7 +1,6 @@
 package com.eleks.cah.data.repository
 
 import com.eleks.cah.data.extensions.roomOrException
-import com.eleks.cah.data.extensions.wordsCount
 import com.eleks.cah.data.model.*
 import com.eleks.cah.domain.Constants.DB_REF_ANSWERS
 import com.eleks.cah.domain.Constants.DB_REF_CURRENT_ROUND
@@ -306,11 +305,8 @@ class RoomsRepositoryImpl(
     override suspend fun startNextRound(roomID: RoomID) {
         roomsDbReference.roomOrException(roomID) {
             val preUpdatedPlayers = savePlayersScores(it)
-            refreshPlayersCards(it, preUpdatedPlayers)
+            refreshPlayers(it, preUpdatedPlayers)
             startNextRoundInRoom(it)
-            roomsDbReference.roomOrException(roomID) {
-                Napier.d("answers = ${it.currentRound?.answers}")
-            }
         }
     }
 
@@ -330,7 +326,7 @@ class RoomsRepositoryImpl(
         return updatedPlayers
     }
 
-    private suspend fun refreshPlayersCards(
+    private suspend fun refreshPlayers(
         gameRoom: GameRoomDTO,
         preUpdatedPlayers: List<PlayerDTO>
     ) {
@@ -345,7 +341,10 @@ class RoomsRepositoryImpl(
                 val index = deckAnswers.indexOfFirst { it.id == newCard.id }
                 deckAnswers[index] = deckAnswers[index].copy(used = 1L)
             }
-            player.copy(cards = updatedPlayerCards)
+            player.copy(
+                cards = updatedPlayerCards,
+                state = Player.PlayerState.ANSWERING.name
+            )
         }.associateBy { it.id }
 
         roomsDbReference.child(gameRoom.id).updateChildren(

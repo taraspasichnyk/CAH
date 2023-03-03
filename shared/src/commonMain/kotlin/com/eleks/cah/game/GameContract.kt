@@ -17,14 +17,12 @@ interface GameContract {
     ) : UiState
 
     sealed class Effect : UiEffect {
-
-
         sealed class Navigation : Effect() {
             object YourCards : Navigation()
             object PreRound : Navigation()
             object Round : Navigation()
             object Voting : Navigation()
-            object RoundLeaderBoard : Navigation()
+            object Results : Navigation()
         }
     }
 }

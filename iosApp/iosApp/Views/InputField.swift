@@ -26,8 +26,8 @@ struct InputField: View {
         TextField(prompt, text: $text)
             .focused(isFocused)
             .font(.inputPrimary)
-            .padding(.vertical, .medium)
             .padding(.horizontal, .medium)
+            .padding(.vertical, .medium)
             .background(
                 RoundedRectangle(cornerRadius: 4)
                     .strokeBorder(lineWidth: 1)

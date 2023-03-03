@@ -38,6 +38,7 @@ struct LeaderboardView<ViewModel: GameModelProtocol>: View {
                         .padding([.leading, .trailing], 50.0)
                     }
                 }
+                Spacer()
                 if viewModel.player?.isOwner == true {
                     PrimaryButton("Далі") {
                         viewModel.startNewRound()
@@ -45,11 +46,12 @@ struct LeaderboardView<ViewModel: GameModelProtocol>: View {
                     .padding(.bottom, 78.0)
                 }
             }
-            Spacer()
         }
-        .ignoresSafeArea()
+        .ignoresSafeArea(edges: .bottom)
     }
 }
+
+// MARK: - Previews
 
 struct LeaderboardView_Previews: PreviewProvider {
     static var previews: some View {

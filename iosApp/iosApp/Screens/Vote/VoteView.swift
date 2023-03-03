@@ -27,7 +27,7 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
                     .font(.titleSemiBold)
                 ZStack {
                     VStack {
-                        SelectorView($displayedCardIndex, count: viewModel.round?.playerCards.count ?? 0)
+                        SelectorView($displayedCardIndex, count: viewModel.round?.playerAnswers.count ?? 0)
                             .padding(.top, 16.0)
                             .padding([.leading, .trailing], 16.0)
                         if let question = viewModel.round?.questionCard {
@@ -36,7 +36,7 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
                                     QuestionCardView(question: question.question)
                                     Spacer()
                                 }
-                                if let answers = viewModel.round?.playerCards[displayedCardIndex].playerAnswers {
+                                if let answers = viewModel.round?.playerAnswers[displayedCardIndex].playerAnswers {
                                     VStack {
                                         Spacer()
                                         AnswerCardView(answer: answers[viewModel.round?.number ?? 0])
@@ -65,7 +65,7 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
                             .opacity(0.001)
                             .onTapGesture {
                                 // TODO: Pack logic into VM
-                                if displayedCardIndex < (viewModel.round?.playerCards.count ?? 0) - 1 {
+                                if displayedCardIndex < (viewModel.round?.playerAnswers.count ?? 0) - 1 {
                                     displayedCardIndex+=1
                                 }
                             }

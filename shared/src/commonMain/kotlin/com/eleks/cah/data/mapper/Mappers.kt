@@ -11,7 +11,7 @@ fun GameRoomDTO.toModel(): GameRoom {
     return GameRoom(
         id = id,
         inviteCode = inviteCode,
-        players = players.values.map { it.toModel() }.sortedBy { !it.gameOwner },
+        players = players.values.map { it.toModel() }.sortedBy { !it.isGameOwner },
         questions = availableQuestions,
         answers = allAnswers,
         currentRound = currentRound?.toModel(availableQuestions, allAnswers),
@@ -21,7 +21,7 @@ fun GameRoomDTO.toModel(): GameRoom {
 fun PlayerDTO.toModel() = Player(
     id = id,
     nickname = nickname,
-    gameOwner = gameOwner == 1L,
+    isGameOwner = gameOwner == 1L,
     cards = cards.map { it.toModel() },
     score = score,
     state = Player.PlayerState.valueOf(state),
@@ -48,7 +48,7 @@ fun GameRoundDTO.toModel(
         id = id,
         number = number,
         masterCard = allQuestions.first { it.id == question },
-        playerCards = answers.map { it.toModel(allAnswers) },
+        answers = answers.map { it.toModel(allAnswers) },
         state = GameRound.GameRoundState.valueOf(state),
     )
 }

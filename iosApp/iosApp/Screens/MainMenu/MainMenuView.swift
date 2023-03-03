@@ -26,12 +26,15 @@ struct MainMenuView: View {
             }
             VStack {
                 headerView
-                Spacer(minLength: 64)
-                if isLoaded {
-                    buttonStack
-                        .opacity(isShowingButtons ? 1 : 0)
+                VStack {
+                    Spacer()
+                        .frame(height: 64)
+                    if isLoaded {
+                        buttonStack
+                            .opacity(isShowingButtons ? 1 : 0)
+                        Spacer()
+                    }
                 }
-                Spacer(minLength: 262)
                 footerView
             }
             .ignoresSafeArea()

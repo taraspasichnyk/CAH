@@ -57,7 +57,6 @@ struct CardsView<ViewModel: GameModelProtocol>: View {
             }
             Spacer()
         }
-        .ignoresSafeArea()
     }
 }
 

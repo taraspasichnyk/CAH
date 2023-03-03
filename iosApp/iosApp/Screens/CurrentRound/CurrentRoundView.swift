@@ -47,27 +47,25 @@ struct CurrentRoundView<ViewModel: GameModelProtocol>: View {
                                 .font(hasLoaded ? .titleSemiBold : .largeTitleSemiBold)
                             Spacer()
                             if hasLoaded {
-                                if hasShiftedTitle {
-                                    ZStack(alignment: .bottom) {
+                                ZStack(alignment: .bottom) {
+                                    VStack {
+                                        QuestionCardView(question: round.questionCard.question)
+                                            .font(.inputPrimary)
+                                            .shadow(radius: 8.0, y: 4.0)
+                                        Spacer()
+                                    }
+                                    if let confirmedCard {
                                         VStack {
-                                            QuestionCardView(question: round.questionCard.question)
-                                                .font(.inputPrimary)
                                             Spacer()
-                                        }
-                                        if let confirmedCard {
-                                            VStack {
-                                                Spacer()
-                                                AnswerCardView(answer: confirmedCard.text)
-                                                    .font(.cardSmall)
-                                                    .frame(width: 124, height: 168)
-                                                    .rotationEffect(.degrees(-5))
-                                                    .offset(x: -62)
-                                            }
+                                            AnswerCardView(answer: confirmedCard.text)
+                                                .font(.cardSmall)
+                                                .frame(width: 124, height: 168)
+                                                .rotationEffect(.degrees(-5))
+                                                .offset(x: -62)
                                         }
                                     }
-                                } else {
-                                    Spacer(minLength: 200)
                                 }
+                                .opacity(hasShiftedTitle ? 1 : 0)
                                 Spacer()
                                 Spacer()
                                 Text("Оберіть відповідь:")
@@ -76,9 +74,9 @@ struct CurrentRoundView<ViewModel: GameModelProtocol>: View {
                                     selectedCard: $viewModel.selectedCard,
                                     answers: cardsInHand
                                 )
-                                .padding(.bottom, .large)
                             }
                         }
+                        .padding(.bottom, .extraLarge)
                     }
                 }
                 if hasLoaded {

@@ -26,7 +26,6 @@ struct QuestionCardView: View {
         .background(Color.mainBlack)
         .aspectRatio(124 / 168, contentMode: .fit)
         .cornerRadius(8.0)
-//        .shadow(radius: 8.0, y: 4.0)
     }
 }
 

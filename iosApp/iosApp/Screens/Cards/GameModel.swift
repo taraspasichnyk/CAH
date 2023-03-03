@@ -17,6 +17,7 @@ protocol GameModelProtocol: ObservableObject {
 
     func showRound()
     func saveAnswers(answerCardIds: [String])
+    func voteForCard(at index: Int, score: Int)
     func startNewRound()
 }
 
@@ -49,8 +50,24 @@ class GameModel: GameModelProtocol {
         vm.saveAnswers(answerCardIds: answerCardIds)
     }
 
-    func saveScore(answerCardIds: [String]) {
-        vm.saveScores(answerCardWithVotes: [])
+    func voteForCard(at index: Int, score: Int) {
+        // FIXME: This is bad, should be done inside shared KMM GameViewModel
+        // Should be something like vm.vote(cardId: ..., score: ...)
+        guard let round else { return }
+        guard index >= 0 && index < round.playerCards.count else { return }
+
+        let answerEntity = round.playerCards[index]
+        let playerAnswers = answerEntity.playerAnswers.map {
+            AnswerCard(id: $0.id, answer: $0.text, isUsed: $0.isUsed)
+        }
+
+        let answerCard = RoundPlayerAnswer(
+            playerID: answerEntity.player.id,
+            playerAnswers: playerAnswers,
+            score: Int32(score)
+        )
+
+        vm.saveScores(answerCardWithVotes: [answerCard])
     }
 
     func startNewRound() {
@@ -97,7 +114,9 @@ class GameModel: GameModelProtocol {
                 playerCards: round.playerCards.compactMap { playerCards in
                     RoundPlayerAnswerEntity(
                         player: playerEntities.first(where: { $0.id == playerCards.playerID }) ?? PlayerEntity.mock[0],
-                        playerAnswers: playerCards.playerAnswers.map(\.answer), // TODO: Map into entities if needed
+                        playerAnswers: playerCards.playerAnswers.map({
+                            AnswerCardEntity(id: $0.id, text: $0.answer, isUsed: $0.isUsed)
+                        }),
                         score: Int(playerCards.score)
                     )
                 },
@@ -141,6 +160,10 @@ class MockGameModel: GameModelProtocol {
     }
 
     func saveAnswers(answerCardIds: [String]) {
+        // TODO
+    }
+
+    func voteForCard(at index: Int, score: Int) {
         // TODO
     }
 

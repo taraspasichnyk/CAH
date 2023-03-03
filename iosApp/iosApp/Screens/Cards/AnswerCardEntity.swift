@@ -11,6 +11,7 @@ import Foundation
 struct AnswerCardEntity: Identifiable, Hashable {
     let id: String
     let text: String
+    var isUsed: Bool = false
 }
 
 extension AnswerCardEntity {

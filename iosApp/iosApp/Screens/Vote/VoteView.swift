@@ -40,7 +40,7 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
                                    let answer = round.playerCards[displayedCardIndex].playerAnswers.first {
                                     VStack {
                                         Spacer()
-                                        AnswerCardView(answer: answer)
+                                        AnswerCardView(answer: answer.text)
                                             .font(.cardSmall)
                                             .frame(width: 124, height: 168)
                                             .rotationEffect(.degrees(-8))
@@ -74,6 +74,7 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
                 }
                 RateView($selectedRateValue) { newValue in
                     selectedRateValue = newValue
+                    viewModel.voteForCard(at: displayedCardIndex, score: selectedRateValue)
                 }
                 .padding(.bottom, 40.0)
             }
@@ -81,6 +82,8 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
         .ignoresSafeArea()
     }
 }
+
+// MARK: - Previews
 
 struct VoteView_Previews: PreviewProvider {
     static var previews: some View {

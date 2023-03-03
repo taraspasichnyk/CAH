@@ -14,22 +14,18 @@ struct QuestionCardView: View {
     // MARK: - Body
 
     var body: some View {
-        ZStack {
-            Color.mainBlack
-            VStack {
-                Text(question)
-                    .multilineTextAlignment(.leading)
-                    .lineLimit(11)
-                    .foregroundColor(.white)
-                    .font(.inputPrimary)
-                Spacer()
-            }
-                .padding(.top, 20)
+        VStack {
+            Text(question)
+                .frame(maxWidth: .infinity)
+                .multilineTextAlignment(.leading)
+                .padding(.top, .medium)
                 .padding(.horizontal, .small)
+                .foregroundColor(.white)
+            Spacer()
         }
-        .frame(width: 180, height: 240, alignment: .center)
-        .cornerRadius(8)
-        .shadow(color: .black.opacity(0.25), radius: 8, x: 0, y: 4)
+        .background(Color.mainBlack)
+        .aspectRatio(124 / 168, contentMode: .fit)
+        .cornerRadius(8.0)
     }
 }
 
@@ -37,11 +33,23 @@ struct QuestionCardView: View {
 
 struct QuestionCard_Previews: PreviewProvider {
     static var previews: some View {
-        QuestionCardView(
-            question: """
-                Під час візиту до лікаря мені дають \
-                ___ та ___, щоб я почувався більш комфортно
-                """
-        )
+        VStack(spacing: 8.0) {
+            QuestionCardView(
+                question: """
+                    Під час візиту до лікаря мені дають \
+                    ___ та ___, щоб я почувався більш комфортно
+                    """
+            )
+            .frame(width: 180)
+            .font(.inputPrimary)
+            QuestionCardView(
+                question: """
+                    Під час візиту до лікаря мені дають \
+                    ___ та ___, щоб я почувався більш комфортно
+                    """
+            )
+            .frame(width: 124)
+            .font(.cardSmall)
+        }
     }
 }

@@ -33,12 +33,10 @@ struct ContainerView<Content: View>: View {
             VStack {
                 HeaderView(size: headerSize)
                     .fixedSize(horizontal: false, vertical: true)
-                    .ignoresSafeArea(.all)
                 content
                 Spacer()
                     .frame(height: .extraLarge)
             }
-            .ignoresSafeArea(.all, edges: .top)
         }
         .navigationBarBackButtonHidden(true)
     }

@@ -13,25 +13,21 @@ struct InputField: View {
     @Binding private var text: String
     private let prompt: String
     var isFocused: FocusState<Bool>.Binding
-    let onEditingChanged: (Bool) -> Void
-    let onCommit: () -> Void
 
-    init(_ prompt: String, text: Binding<String>, isFocused: FocusState<Bool>.Binding, onEditingChanged: @escaping (Bool) -> Void = { _ in }, onCommit: @escaping () -> Void = {}) {
+    init(_ prompt: String, text: Binding<String>, isFocused: FocusState<Bool>.Binding) {
         self.prompt = prompt
         self._text = text
         self.isFocused = isFocused
-        self.onEditingChanged = onEditingChanged
-        self.onCommit = onCommit
     }
 
     // MARK: - Body
 
     var body: some View {
-        TextField(prompt, text: $text, onEditingChanged: onEditingChanged, onCommit: onCommit)
+        TextField(prompt, text: $text)
             .focused(isFocused)
             .font(.inputPrimary)
-            .padding(.vertical, .medium)
             .padding(.horizontal, .medium)
+            .padding(.vertical, .medium)
             .background(
                 RoundedRectangle(cornerRadius: 4)
                     .strokeBorder(lineWidth: 1)
@@ -48,7 +44,7 @@ struct InputField_Previews: PreviewProvider {
     @FocusState private static var isFocused: Bool
 
     static var previews: some View {
-        InputField("Enter text", text: $text,  isFocused: $isFocused, onEditingChanged: { _ in })
+        InputField("Enter text", text: $text,  isFocused: $isFocused)
             .previewLayout(.sizeThatFits)
     }
 }

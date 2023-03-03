@@ -13,6 +13,7 @@ struct CurrentRoundView<ViewModel: GameModelProtocol>: View {
 
     @State private var hasLoaded = false
     @State private var hasShiftedTitle = false
+    @State private var hasFullScreenCards = false
 
     /// This card is chosen as the answer to the question
     @State private var confirmedCard: AnswerCardEntity?
@@ -36,17 +37,21 @@ struct CurrentRoundView<ViewModel: GameModelProtocol>: View {
         // FIXME: Not cool, this check probably should be at least one level up
         if case let .some(round) = viewModel.round {
             ZStack {
-                ContainerView(header: .small) {
-                    VStack {
-                        Spacer()
-                        Text("Раунд \(round.number)")
-                            .font(hasLoaded ? .titleSemiBold : .largeTitleSemiBold)
-                        Spacer()
-                        if hasLoaded {
-                            if hasShiftedTitle {
+                if hasFullScreenCards {
+                    FullScreenHandView(cards: viewModel.player?.cards ?? [])
+                } else {
+                    ContainerView(header: .small) {
+                        VStack {
+                            Spacer()
+                            Text("Раунд \(round.number)")
+                                .font(hasLoaded ? .titleSemiBold : .largeTitleSemiBold)
+                            Spacer()
+                            if hasLoaded {
                                 ZStack(alignment: .bottom) {
                                     VStack {
                                         QuestionCardView(question: round.questionCard.question)
+                                            .font(.inputPrimary)
+                                            .shadow(radius: 8.0, y: 4.0)
                                         Spacer()
                                     }
                                     if let confirmedCard {
@@ -60,19 +65,18 @@ struct CurrentRoundView<ViewModel: GameModelProtocol>: View {
                                         }
                                     }
                                 }
-                            } else {
-                                Spacer(minLength: 200)
+                                .opacity(hasShiftedTitle ? 1 : 0)
+                                Spacer()
+                                Spacer()
+                                Text("Оберіть відповідь:")
+                                    .font(.bodyTertiaryThin)
+                                CardHandPicker(
+                                    selectedCard: $viewModel.selectedCard,
+                                    answers: cardsInHand
+                                )
                             }
-                            Spacer()
-                            Spacer()
-                            Text("Оберіть відповідь:")
-                                .font(.bodyTertiaryThin)
-                            CardHandPicker(
-                                selectedCard: $viewModel.selectedCard,
-                                answers: cardsInHand
-                            )
-                            .padding(.bottom, .large)
                         }
+                        .padding(.bottom, .extraLarge)
                     }
                 }
                 if hasLoaded {
@@ -108,6 +112,7 @@ extension CurrentRoundView {
                 PrimaryButton("Обрати") {
                     saveAnswers()
                 }
+                .opacity(hasFullScreenCards ? 0 : 1)
                 Spacer()
             }
             .padding(.bottom, 35)
@@ -115,8 +120,7 @@ extension CurrentRoundView {
                 HStack {
                     Spacer()
                     GridButton {
-
-                        print("TOGGLE CARD VIEW")
+                        hasFullScreenCards.toggle()
                     }
                     .padding([.bottom, .trailing], 35)
                 }

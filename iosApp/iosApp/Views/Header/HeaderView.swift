@@ -16,6 +16,7 @@ struct HeaderView: View {
     var body: some View {
         ZStack {
             Image.bgTexture
+                .ignoresSafeArea()
                 .padding(.bottom, size.headerBackgroundBottomPadding)
             VStack {
                 Spacer()
@@ -25,7 +26,6 @@ struct HeaderView: View {
                     .frame(width: size.logoWidth)
             }
         }
-        .ignoresSafeArea()
         .frame(height: size.height)
     }
 }

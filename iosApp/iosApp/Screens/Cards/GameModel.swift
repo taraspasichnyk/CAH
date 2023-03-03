@@ -49,6 +49,10 @@ class GameModel: GameModelProtocol {
         vm.saveAnswers(answerCardIds: answerCardIds)
     }
 
+    func saveScore(answerCardIds: [String]) {
+        vm.saveScores(answerCardWithVotes: [])
+    }
+
     func startNewRound() {
         vm.startNewRound()
     }

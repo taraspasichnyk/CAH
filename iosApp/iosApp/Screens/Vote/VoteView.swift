@@ -36,10 +36,11 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
                                     QuestionCardView(question: question.question)
                                     Spacer()
                                 }
-                                if let answers = viewModel.round?.playerCards[displayedCardIndex].playerAnswers {
+                                if let round = viewModel.round,
+                                   let answer = round.playerCards[displayedCardIndex].playerAnswers.first {
                                     VStack {
                                         Spacer()
-                                        AnswerCardView(answer: answers[viewModel.round?.number ?? 0])
+                                        AnswerCardView(answer: answer)
                                             .font(.cardSmall)
                                             .frame(width: 124, height: 168)
                                             .rotationEffect(.degrees(-8))

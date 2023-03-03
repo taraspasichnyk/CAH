@@ -21,25 +21,24 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
 
     var body: some View {
         ContainerView(header: .small) {
-            VStack {
-                Text("Раунд \(viewModel.round?.number ?? 0) - Голосування")
-                    .padding(.top, .larger)
-                    .font(.titleSemiBold)
-                ZStack {
-                    VStack {
-                        SelectorView($displayedCardIndex, count: viewModel.round?.playerAnswers.count ?? 0)
-                            .padding(.top, 16.0)
-                            .padding([.leading, .trailing], 16.0)
-                        if let question = viewModel.round?.questionCard {
+            if let round = viewModel.round {
+                VStack {
+                    Text("Раунд \(round.number) - Голосування")
+                        .padding(.top, .larger)
+                        .font(.titleSemiBold)
+                    ZStack {
+                        VStack {
+                            SelectorView($displayedCardIndex, count: round.answers.count)
+                                .padding(.top, .medium)
+                                .padding([.leading, .trailing], .medium)
                             ZStack(alignment: .bottom) {
                                 VStack {
-                                    QuestionCardView(question: question.question)
+                                    QuestionCardView(question: round.questionCard.question)
                                     Spacer()
                                 }
-                                if let round = viewModel.round,
-                                   let answer = round.playerAnswers[displayedCardIndex].playerAnswers.first {
-                                    VStack {
-                                        Spacer()
+                                VStack {
+                                    Spacer()
+                                    if let answer = round.answers[displayedCardIndex].playerAnswers.first {
                                         AnswerCardView(answer: answer.text)
                                             .font(.cardSmall)
                                             .frame(width: 124, height: 168)
@@ -50,33 +49,33 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
                             }
                             .padding(.top, .larger)
                             .padding(.bottom, .large)
+                            Spacer()
                         }
-                        Spacer()
-                    }
-                    HStack {
-                        Rectangle()
-                            .opacity(0.001)
-                            .onTapGesture {
-                                // TODO: Pack logic into VM
-                                if displayedCardIndex > 0 {
-                                    displayedCardIndex-=1
+                        HStack {
+                            Rectangle()
+                                .opacity(0.001)
+                                .onTapGesture {
+                                    // TODO: Pack logic into VM
+                                    if displayedCardIndex > 0 {
+                                        displayedCardIndex-=1
+                                    }
                                 }
-                            }
-                        Rectangle()
-                            .opacity(0.001)
-                            .onTapGesture {
-                                // TODO: Pack logic into VM
-                                if displayedCardIndex < (viewModel.round?.playerAnswers.count ?? 0) - 1 {
-                                    displayedCardIndex+=1
+                            Rectangle()
+                                .opacity(0.001)
+                                .onTapGesture {
+                                    // TODO: Pack logic into VM
+                                    if displayedCardIndex < (viewModel.round?.answers.count ?? 0) - 1 {
+                                        displayedCardIndex+=1
+                                    }
                                 }
-                            }
+                        }
                     }
+                    RateView($selectedRateValue) { newValue in
+                        selectedRateValue = newValue
+                        viewModel.voteForCard(at: displayedCardIndex, score: selectedRateValue)
+                    }
+                    .padding(.bottom, 40.0)
                 }
-                RateView($selectedRateValue) { newValue in
-                    selectedRateValue = newValue
-                    viewModel.voteForCard(at: displayedCardIndex, score: selectedRateValue)
-                }
-                .padding(.bottom, 40.0)
             }
         }
         .ignoresSafeArea()

@@ -54,9 +54,9 @@ class GameModel: GameModelProtocol {
         // FIXME: This is bad, should be done inside shared KMM GameViewModel
         // Should be something like vm.vote(cardId: ..., score: ...)
         guard let round else { return }
-        guard index >= 0 && index < round.playerCards.count else { return }
+        guard index >= 0 && index < round.answers.count else { return }
 
-        let answerEntity = round.playerCards[index]
+        let answerEntity = round.answers[index]
         let playerAnswers = answerEntity.playerAnswers.map {
             AnswerCard(id: $0.id, answer: $0.text, isUsed: $0.isUsed)
         }
@@ -116,7 +116,7 @@ class GameModel: GameModelProtocol {
                     question: round.masterCard.question,
                     gaps: round.masterCard.gaps.compactMap { NSNumber(nonretainedObject: $0) }
                 ),
-                playerAnswers: round.answers.compactMap { playerCards in
+                answers: round.answers.compactMap { playerCards in
                     RoundPlayerAnswerEntity(
                         player: playerEntities.first(where: { $0.id == playerCards.playerID }) ?? PlayerEntity.mock[0],
                         playerAnswers: playerCards.playerAnswers.map({

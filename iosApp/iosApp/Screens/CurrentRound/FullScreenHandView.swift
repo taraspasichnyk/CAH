@@ -36,17 +36,14 @@ struct FullScreenHandView: View {
                 .padding(.top, HeaderSize.small.headerBackgroundBottomPadding + 12)
             }
             .offset(y: HeaderSize.small.height - HeaderSize.small.headerBackgroundBottomPadding)
-
-            .ignoresSafeArea(.all)
+            .ignoresSafeArea(.all, edges: .bottom)
             Spacer()
         }
         VStack {
             HeaderView(size: .small)
                 .fixedSize(horizontal: false, vertical: true)
-                .ignoresSafeArea(.all)
             Spacer()
         }
-        .ignoresSafeArea(.all)
         .navigationBarBackButtonHidden(true)
     }
 }

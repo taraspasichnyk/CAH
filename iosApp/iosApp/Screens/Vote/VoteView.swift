@@ -26,31 +26,30 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
                     Text("Раунд \(round.number) - Голосування")
                         .padding(.top, .larger)
                         .font(.titleSemiBold)
+                    SelectorView($displayedCardIndex, count: round.answers.count)
+                        .padding(.top, .medium)
+                        .padding([.leading, .trailing], .medium)
                     ZStack {
-                        VStack {
-                            SelectorView($displayedCardIndex, count: round.answers.count)
-                                .padding(.top, .medium)
-                                .padding([.leading, .trailing], .medium)
-                            ZStack(alignment: .bottom) {
-                                VStack {
-                                    QuestionCardView(question: round.questionCard.question)
-                                    Spacer()
-                                }
-                                VStack {
-                                    Spacer()
-                                    if let answer = round.answers[displayedCardIndex].playerAnswers.first {
-                                        AnswerCardView(answer: answer.text)
-                                            .font(.cardSmall)
-                                            .frame(width: 124, height: 168)
-                                            .rotationEffect(.degrees(-8))
-                                            .offset(x: -16.0)
-                                    }
+                        ZStack(alignment: .bottom) {
+                            VStack {
+                                QuestionCardView(question: round.questionCard.question)
+                                    .frame(minWidth: 124, maxWidth: 180)
+                                Spacer()
+                            }
+                            VStack {
+                                Spacer()
+                                if let answer = round.answers[displayedCardIndex].playerAnswers.first {
+                                    AnswerCardView(answer: answer.text)
+                                        .font(.inputPrimary)
+                                        .frame(minWidth: 124, maxWidth: 180)
+                                        .rotationEffect(.degrees(-8))
+                                        .offset(x: -20)
                                 }
                             }
-                            .padding(.top, .larger)
-                            .padding(.bottom, .large)
-                            Spacer()
                         }
+                        .padding(.top, .larger)
+                        .padding(.bottom, .large)
+                        Spacer()
                         HStack {
                             Rectangle()
                                 .opacity(0.001)
@@ -78,7 +77,7 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
                 }
             }
         }
-        .ignoresSafeArea()
+        .ignoresSafeArea(edges: .bottom)
     }
 }
 

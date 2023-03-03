@@ -14,8 +14,8 @@ enum HeaderSize {
 
     var height: CGFloat {
         switch self {
-        case .small: return 146
-        case .medium: return 210
+        case .small: return 100
+        case .medium: return 180
         }
     }
 

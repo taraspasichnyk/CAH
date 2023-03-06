@@ -31,7 +31,7 @@ final class GameEffectProcessor {
             // TODO: Support if there is a good-looking solution
             break
         case is GameContractEffect.NavigationVoting:
-            alertState.presentedAlertType = .noFeature
+            gameNavState = .voting
         case is GameContractEffect.NavigationResults:
             gameNavState = .leaderBoard
         default:

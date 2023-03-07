@@ -13,6 +13,7 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
     // MARK: - Properties
 
     @StateObject var viewModel: ViewModel
+    @State var answerOnTop: Bool = true
 
     // MARK: - Lifecycle
 
@@ -28,45 +29,52 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
                         .padding(.top, .medium)
                         .padding([.leading, .trailing], .medium)
                     ZStack {
+                        HStack {
+                            Rectangle()
+                                .opacity(0.001)
+                                .onTapGesture {
+                                    viewModel.previousAnswer()
+                                    answerOnTop = true
+                                }
+                            Rectangle()
+                                .opacity(0.001)
+                                .onTapGesture {
+                                    viewModel.nextAnswer()
+                                    answerOnTop = true
+                                }
+                        }
                         ZStack(alignment: .bottom) {
                             VStack {
                                 QuestionCardView(question: round.questionCard.question)
-                                    .frame(minWidth: 124, maxWidth: 180)
                                     .font(.cardSmall)
+                                    .frame(width: 124)
                                 Spacer()
                             }
+                            .zIndex(answerOnTop ? 0 : 1)
                             VStack {
                                 Spacer()
                                 if !round.answers.isEmpty,
                                    let answer = displayedAnswer.playerAnswers.first {
                                     AnswerCardView(answer: answer.text)
                                         .font(.cardSmall)
-                                        .frame(minWidth: 124, maxWidth: 180)
+                                        .frame(width: 124)
                                         .rotationEffect(.degrees(-8))
                                         .offset(x: -20)
                                 }
                             }
+                            .zIndex(answerOnTop ? 1 : 0)
                         }
                         .padding(.top, .larger)
                         .padding(.bottom, .large)
-                        Spacer()
-                        HStack {
-                            Rectangle()
-                                .opacity(0.001)
-                                .onTapGesture {
-                                    viewModel.previousAnswer()
-                                }
-                            Rectangle()
-                                .opacity(0.001)
-                                .onTapGesture {
-                                    viewModel.nextAnswer()
-                                }
+                        .onTapGesture {
+                            answerOnTop.toggle()
                         }
                     }
                     RateView(viewModel.localVotes[viewModel.displayedAnswerIndex] ?? 0) { newValue in
                         viewModel.voteForCard(score: newValue)
                     }
                     .padding(.bottom, 40.0)
+                    .padding([.leading, .trailing], 40.0)
                 }
             }
         }

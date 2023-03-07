@@ -112,18 +112,6 @@ class GameModel: GameModelProtocol {
                     score: Int(playerCards.score)
                 )
             }
-            var string = ""
-            string.append("❤️ --- Votes ----")
-            string.append("\n")
-            string.append("ID: \(round.masterCard.id), Question: \(round.masterCard.text)")
-            string.append("\n")
-            for i in roundAnswers {
-                string.append("ID: \(i.id), Score: \(i.score), Answer: \(i.playerAnswers.first?.text ?? "Empty")")
-                string.append("\n")
-            }
-            string.append("\n")
-            string.append("❤️ --- End ----")
-            print(string)
             self.round = GameRoundEntity(
                 id: round.id,
                 number: Int(round.number),

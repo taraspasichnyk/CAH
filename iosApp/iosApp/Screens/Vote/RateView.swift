@@ -46,9 +46,10 @@ struct RateView: View {
                 .font(.titleRegularPrimary)
             HStack(spacing: .large) {
                 ForEach(Value.allCases) { value in
-                    IconButton(value.image) { action(value.rawValue) }
+                    IconButton(value.image.resizable()) { action(value.rawValue) }
                         .opacity(value.rawValue != selectedValue ? 1 : 0.33)
                         .scaleEffect(value.rawValue != selectedValue ? 1 : 0.4)
+                        .aspectRatio(1.0, contentMode: .fit)
                 }
             }
         }
@@ -73,15 +74,9 @@ struct RateView: View {
 struct RateView_Previews: PreviewProvider {
 
     static var previews: some View {
-        VStack {
-            RateView(0) { value in
-                print(value)
-            }
-            .padding([.leading, .trailing], 50)
-            RateView(3) { value in
-                print(value)
-            }
-            .padding([.leading, .trailing], 50)
+        RateView(1) { value in
+            print(value)
         }
+        .padding([.leading, .trailing], 50)
     }
 }

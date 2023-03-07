@@ -63,7 +63,7 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
                                 }
                         }
                     }
-                    RateView(displayedAnswer.score) { newValue in
+                    RateView(viewModel.localVotes[viewModel.displayedAnswerIndex] ?? 0) { newValue in
                         viewModel.voteForCard(score: newValue)
                     }
                     .padding(.bottom, 40.0)

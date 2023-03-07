@@ -23,28 +23,27 @@ struct LeaderboardView<ViewModel: GameModelProtocol>: View {
                     Text("Результати")
                         .padding(.top, .larger)
                         .font(.titleSemiBold)
-                    if let round = viewModel.round {
                         LazyVStack {
-                            ForEach(round.answers) { item in
+                            let sortedPlayers = viewModel.players.sorted(by: { $0.score > $1.score })
+                            ForEach(sortedPlayers) { item in
                                 LeaderboardRow(
-                                    index: round.answers.firstIndex(
-                                        where: { $0.player.id == item.player.id }
-                                    ) ?? 0,
-                                    playerRound: item
+                                    index: (sortedPlayers.firstIndex(
+                                        where: { $0.id == item.id }
+                                    ) ?? 0) + 1,
+                                    nickname: item.nickname,
+                                    score: item.score,
+                                    isOwner: item.isOwner
                                 )
                             }
                         }
                         .padding(.top, .extraLarge)
                         .padding([.leading, .trailing], 50.0)
-                    }
                 }
                 Spacer()
-                if viewModel.player?.isOwner == true {
-                    PrimaryButton("Далі") {
-                        viewModel.startNewRound()
-                    }
-                    .padding(.bottom, 78.0)
+                PrimaryButton("Далі") {
+                    viewModel.startNewRound()
                 }
+                .padding(.bottom, 78.0)
             }
         }
         .ignoresSafeArea(edges: .bottom)

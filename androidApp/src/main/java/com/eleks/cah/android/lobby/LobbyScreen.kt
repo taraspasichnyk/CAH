@@ -58,7 +58,6 @@ fun LobbyScreen(lobbyViewModel: LobbyViewModel, navController: NavHostController
                 }
 
                 is Navigation.GameScreen -> {
-                    //TODO navigate to needed screen
                     navController.popBackStack(route = MainRoute.Menu(), inclusive = false)
                     navController.navigate(
                         MainRoute.Game.getPath(effect.roomId, effect.playerID)

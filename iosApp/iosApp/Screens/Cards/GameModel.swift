@@ -190,7 +190,7 @@ class MockGameModel: GameModelProtocol {
     @Published private(set) var players: [PlayerEntity]
     @Published var selectedCard: AnswerCardEntity = .placeholder
     @Published private(set) var displayedAnswerIndex: Int = 0
-    @Published private(set) var displayedAnswer: RoundPlayerAnswerEntity = .mock[0]
+    @Published private(set) var displayedAnswer: RoundPlayerAnswerEntity?
 
     // MARK: - Ligecycle
     init(

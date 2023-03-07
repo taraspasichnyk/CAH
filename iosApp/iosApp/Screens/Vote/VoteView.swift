@@ -60,40 +60,40 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
                                 Spacer()
                                 if !round.answers.isEmpty,
                                    let answer = displayedAnswer.playerAnswers.first {
-                                    AnswerCardView(answer: answer.text)
-                                        .font(.cardSmall)
-                                        .frame(width: 124)
-                                        .rotationEffect(.degrees(-8))
-                                        .offset(
-                                            x: isOut ? -20 : -40,
-                                            y: isOut ? 0 : 20
-                                        )
+                                    ZStack(alignment: .bottom) {
+                                        AnswerCardView(answer: answer.text)
+                                            .font(.cardSmall)
+                                            .frame(width: 124)
+                                        if let score = viewModel.localVotes[viewModel.displayedAnswerIndex],
+                                           let value = RateView.Value(rawValue: score) {
+                                            value.image.resizable()
+                                                .aspectRatio(1.0, contentMode: .fit)
+                                                .frame(width: 52)
+                                                .padding(.bottom, .large)
+                                        }
+                                    }
+                                    .rotationEffect(.degrees(-8))
+                                    .offset(
+                                        x: isOut ? -20 : -40,
+                                        y: isOut ? 0 : 20
+                                    )
                                 }
                             }
                             .zIndex(answerOnTop ? 1 : 0)
-                            if let score = viewModel.localVotes[viewModel.displayedAnswerIndex],
-                               let value = RateView.Value(rawValue: score) {
-                                VStack {
-                                    IconButton(value.image.resizable()) {}
-                                        .aspectRatio(1.0, contentMode: .fit)
-                                        .frame(width: 52)
-                                        .padding(.bottom, .large)
-                                }
-                                .zIndex(2)
-                            }
                         }
                         .padding(.top, .larger)
                         .padding(.bottom, .large)
                         .onTapGesture {
-                            withAnimation(.easeIn(duration: 0.22)) {
+                            let duration = 0.14
+                            withAnimation(.easeIn(duration: duration)) {
                                 isOut.toggle()
                             }
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.22) {
-                                withAnimation(.easeOut(duration: 0.22)) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+                                withAnimation(.easeOut(duration: duration)) {
                                     answerOnTop.toggle()
                                 }
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.22) {
-                                    withAnimation(.easeOut(duration: 0.22)) {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+                                    withAnimation(.easeOut(duration: duration)) {
                                         isOut.toggle()
                                     }
                                 }

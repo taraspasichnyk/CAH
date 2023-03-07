@@ -217,10 +217,12 @@ class MockGameModel: GameModelProtocol {
     }
     
     func nextAnswer() {
-        // TODO
+        displayedAnswerIndex = 1
+        displayedAnswer = .mock[1]
     }
     
     func previousAnswer() {
-        // TODO
+        displayedAnswerIndex = 0
+        displayedAnswer = .mock[0]
     }
 }

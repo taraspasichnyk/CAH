@@ -14,9 +14,6 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
 
     @ObservedObject var viewModel: ViewModel
 
-    @State var displayedCardIndex: Int = 0
-    @State var selectedRateValue: Int = 0
-
     // MARK: - Lifecycle
 
     var body: some View {
@@ -26,7 +23,7 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
                     Text("Раунд \(round.number) - Голосування")
                         .padding(.top, .larger)
                         .font(.titleSemiBold)
-                    SelectorView($displayedCardIndex, count: round.answers.count)
+                    SelectorView(viewModel.displayedAnswerIndex, count: round.answers.count)
                         .padding(.top, .medium)
                         .padding([.leading, .trailing], .medium)
                     ZStack {
@@ -34,13 +31,15 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
                             VStack {
                                 QuestionCardView(question: round.questionCard.question)
                                     .frame(minWidth: 124, maxWidth: 180)
+                                    .font(.cardSmall)
                                 Spacer()
                             }
                             VStack {
                                 Spacer()
-                                if let answer = round.answers[displayedCardIndex].playerAnswers.first {
+                                if !round.answers.isEmpty,
+                                   let answer = viewModel.displayedAnswer.playerAnswers.first {
                                     AnswerCardView(answer: answer.text)
-                                        .font(.inputPrimary)
+                                        .font(.cardSmall)
                                         .frame(minWidth: 124, maxWidth: 180)
                                         .rotationEffect(.degrees(-8))
                                         .offset(x: -20)
@@ -54,24 +53,17 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
                             Rectangle()
                                 .opacity(0.001)
                                 .onTapGesture {
-                                    // TODO: Pack logic into VM
-                                    if displayedCardIndex > 0 {
-                                        displayedCardIndex-=1
-                                    }
+                                    viewModel.previousAnswer()
                                 }
                             Rectangle()
                                 .opacity(0.001)
                                 .onTapGesture {
-                                    // TODO: Pack logic into VM
-                                    if displayedCardIndex < (viewModel.round?.answers.count ?? 0) - 1 {
-                                        displayedCardIndex+=1
-                                    }
+                                    viewModel.nextAnswer()
                                 }
                         }
                     }
-                    RateView($selectedRateValue) { newValue in
-                        selectedRateValue = newValue
-                        viewModel.voteForCard(at: displayedCardIndex, score: selectedRateValue)
+                    RateView(viewModel.displayedAnswer.score) { newValue in
+                        viewModel.voteForCard(score: newValue)
                     }
                     .padding(.bottom, 40.0)
                 }

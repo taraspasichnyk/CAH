@@ -28,10 +28,10 @@ struct RateView: View {
         }
     }
 
-    private var selectedValue: Binding<Int>
+    private var selectedValue: Int
     private let action: (Int) -> Void
 
-    init(_ selectedValue: Binding<Int>, action: @escaping (Int) -> Void) {
+    init(_ selectedValue: Int, action: @escaping (Int) -> Void) {
         self.selectedValue = selectedValue
         self.action = action
     }
@@ -47,8 +47,8 @@ struct RateView: View {
             HStack(spacing: .large) {
                 ForEach(Value.allCases) { value in
                     IconButton(value.image) { action(value.rawValue) }
-                        .opacity(value.rawValue != selectedValue.wrappedValue ? 1 : 0.33)
-                        .scaleEffect(value.rawValue != selectedValue.wrappedValue ? 1 : 0.4)
+                        .opacity(value.rawValue != selectedValue ? 1 : 0.33)
+                        .scaleEffect(value.rawValue != selectedValue ? 1 : 0.4)
                 }
             }
         }
@@ -74,11 +74,11 @@ struct RateView_Previews: PreviewProvider {
 
     static var previews: some View {
         VStack {
-            RateView(.constant(0)) { value in
+            RateView(0) { value in
                 print(value)
             }
             .padding([.leading, .trailing], 50)
-            RateView(.constant(3)) { value in
+            RateView(3) { value in
                 print(value)
             }
             .padding([.leading, .trailing], 50)

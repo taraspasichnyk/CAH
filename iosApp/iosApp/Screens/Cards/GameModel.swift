@@ -20,7 +20,7 @@ protocol GameModelProtocol: ObservableObject {
 
     func showRound()
     func voteForCard(score: Int)
-    func startNewRound()
+    func onLeaderboardNextClicked()
     
     func nextAnswer()
     func previousAnswer()
@@ -63,13 +63,8 @@ class GameModel: GameModelProtocol {
         vm.saveAnswers(answerCardIds: answerCardIds)
     }
 
-    func startNewRound() {
-        if round != nil {
-            vm.showYourCards()
-        } else {
-            // TODO: Send an effect manually or hardcode pop from navigation stack ??
-//            vm.onExit()
-        }
+    func onLeaderboardNextClicked() {
+        vm.onLeaderboardNextClicked()
     }
 
     // MARK: - Private
@@ -80,7 +75,6 @@ class GameModel: GameModelProtocol {
             guard let state else { return }
             guard let player = state.me else { return }
             guard let players = state.players else { return }
-            guard let round = state.round else { return }
             let answerCards = player.cards.compactMap {
                 AnswerCardEntity(id: $0.id, text: $0.answer)
             }
@@ -103,29 +97,33 @@ class GameModel: GameModelProtocol {
                 )
             }
             self.players = playerEntities
-            let roundAnswers = round.answers.compactMap { playerCards in
-                RoundPlayerAnswerEntity(
-                    player: playerEntities.first(where: { $0.id == playerCards.playerID }) ?? PlayerEntity.mock[0],
-                    playerAnswers: playerCards.playerAnswers.map({
-                        AnswerCardEntity(id: $0.id, text: $0.answer, isUsed: $0.isUsed)
-                    }),
-                    score: Int(playerCards.score)
+            if let round = state.round {
+                let roundAnswers = round.answers.compactMap { playerCards in
+                    RoundPlayerAnswerEntity(
+                        player: playerEntities.first(where: { $0.id == playerCards.playerID }) ?? PlayerEntity.mock[0],
+                        playerAnswers: playerCards.playerAnswers.map({
+                            AnswerCardEntity(id: $0.id, text: $0.answer, isUsed: $0.isUsed)
+                        }),
+                        score: Int(playerCards.score)
+                    )
+                }
+                self.round = GameRoundEntity(
+                    id: round.id,
+                    number: Int(round.number),
+                    questionCard: QuestionCardEntity(
+                        id: round.masterCard.id,
+                        text: round.masterCard.text,
+                        question: round.masterCard.question,
+                        gaps: round.masterCard.gaps.compactMap { NSNumber(nonretainedObject: $0) }
+                    ),
+                    answers: roundAnswers,
+                    state: GameRoundEntity.State(rawValue: round.state.name) ?? .FINISHED
                 )
-            }
-            self.round = GameRoundEntity(
-                id: round.id,
-                number: Int(round.number),
-                questionCard: QuestionCardEntity(
-                    id: round.masterCard.id,
-                    text: round.masterCard.text,
-                    question: round.masterCard.question,
-                    gaps: round.masterCard.gaps.compactMap { NSNumber(nonretainedObject: $0) }
-                ),
-                answers: roundAnswers,
-                state: GameRoundEntity.State(rawValue: round.state.name) ?? .FINISHED
-            )
-            if self.displayedAnswerIndex > roundAnswers.endIndex {
-                self.displayedAnswerIndex = 0
+                if self.displayedAnswerIndex > roundAnswers.endIndex {
+                    self.displayedAnswerIndex = 0
+                }
+            } else {
+                self.round = nil
             }
             if self.selectedCard == .placeholder {
                 if answerCards.isEmpty { return }
@@ -215,7 +213,7 @@ class MockGameModel: GameModelProtocol {
         // TODO
     }
 
-    func startNewRound() {
+    func onLeaderboardNextClicked() {
         // TODO
     }
     

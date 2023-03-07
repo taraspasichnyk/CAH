@@ -109,6 +109,16 @@ class GameModel: GameModelProtocol {
                     score: Int(playerCards.score)
                 )
             }
+            print("❤️ --- Votes ----")
+            print("\n")
+            print("ID: \(round.masterCard.id), Question: \(round.masterCard.text)")
+            print("\n")
+            for i in roundAnswers {
+                print("ID: \(i.id), Score: \(i.score), Answer: \(i.playerAnswers.first?.text ?? "Empty")")
+                print("\n")
+            }
+            print("\n")
+            print("❤️ --- End ----")
             self.round = GameRoundEntity(
                 id: round.id,
                 number: Int(round.number),
@@ -135,22 +145,24 @@ class GameModel: GameModelProtocol {
     // MARK: - Voting
     
     func nextAnswer() {
-        if let roundAnswers = round?.answers, displayedAnswerIndex < roundAnswers.endIndex {
-            displayedAnswerIndex = roundAnswers.index(after: displayedAnswerIndex)
+        if let roundAnswers = round?.answers {
+            let newValue = displayedAnswerIndex + 1
+            if newValue >= roundAnswers.count { return }
+            displayedAnswerIndex = newValue
         }
     }
     
     func previousAnswer() {
-        if let roundAnswers = round?.answers, displayedAnswerIndex > 0 {
-            displayedAnswerIndex = roundAnswers.index(before: displayedAnswerIndex)
-        }
+        let newValue = displayedAnswerIndex - 1
+        if newValue < 0 { return }
+        displayedAnswerIndex = newValue
     }
     
     func voteForCard(score: Int) {
         // FIXME: This is bad, should be done inside shared KMM GameViewModel
         // Should be something like vm.vote(cardId: ..., score: ...)
         guard let round else { return }
-        guard displayedAnswerIndex >= 0 && displayedAnswerIndex < round.answers.count else { return }
+        guard round.answers.indices.contains(displayedAnswerIndex) else { return }
 
         let answerEntity = round.answers[displayedAnswerIndex]
         let playerAnswers = answerEntity.playerAnswers.map {

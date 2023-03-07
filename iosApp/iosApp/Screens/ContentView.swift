@@ -84,6 +84,7 @@ extension ContentView {
         LobbyEffectProcessor(
             injector: injector,
             navState: $navState,
+            gameNavState: $gameNavState,
             alertState: alertState,
             shareController: shareController
         ).process(effect) { gameVm in

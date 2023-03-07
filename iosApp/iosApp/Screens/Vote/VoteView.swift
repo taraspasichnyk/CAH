@@ -14,6 +14,7 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
 
     @StateObject var viewModel: ViewModel
     @State var answerOnTop: Bool = true
+    @State var isOut: Bool = true
 
     // MARK: - Lifecycle
 
@@ -48,6 +49,10 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
                                 QuestionCardView(question: round.questionCard.question)
                                     .font(.cardSmall)
                                     .frame(width: 124)
+                                    .offset(
+                                        x: isOut ? 0 : 20,
+                                        y: isOut ? 0 : -20
+                                    )
                                 Spacer()
                             }
                             .zIndex(answerOnTop ? 0 : 1)
@@ -55,11 +60,23 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
                                 Spacer()
                                 if !round.answers.isEmpty,
                                    let answer = displayedAnswer.playerAnswers.first {
-                                    AnswerCardView(answer: answer.text)
-                                        .font(.cardSmall)
-                                        .frame(width: 124)
-                                        .rotationEffect(.degrees(-8))
-                                        .offset(x: -20)
+                                    ZStack(alignment: .bottom) {
+                                        AnswerCardView(answer: answer.text)
+                                            .font(.cardSmall)
+                                            .frame(width: 124)
+                                        if let score = viewModel.localVotes[viewModel.displayedAnswerIndex],
+                                           let value = RateView.Value(rawValue: score) {
+                                            value.image.resizable()
+                                                .aspectRatio(1.0, contentMode: .fit)
+                                                .frame(width: 52)
+                                                .padding(.bottom, .large)
+                                        }
+                                    }
+                                    .rotationEffect(.degrees(-8))
+                                    .offset(
+                                        x: isOut ? -20 : -40,
+                                        y: isOut ? 0 : 20
+                                    )
                                 }
                             }
                             .zIndex(answerOnTop ? 1 : 0)
@@ -67,7 +84,20 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
                         .padding(.top, .larger)
                         .padding(.bottom, .large)
                         .onTapGesture {
-                            answerOnTop.toggle()
+                            let duration = 0.14
+                            withAnimation(.easeIn(duration: duration)) {
+                                isOut.toggle()
+                            }
+                            DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+                                withAnimation(.easeOut(duration: duration)) {
+                                    answerOnTop.toggle()
+                                }
+                                DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+                                    withAnimation(.easeOut(duration: duration)) {
+                                        isOut.toggle()
+                                    }
+                                }
+                            }
                         }
                     }
                     RateView(viewModel.localVotes[viewModel.displayedAnswerIndex] ?? 0) { newValue in

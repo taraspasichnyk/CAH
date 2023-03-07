@@ -32,7 +32,7 @@ struct LeaderboardView<ViewModel: GameModelProtocol>: View {
                                     ) ?? 0) + 1,
                                     nickname: item.nickname,
                                     score: item.score,
-                                    isOwner: item.isOwner
+                                    isOwner: false
                                 )
                             }
                         }

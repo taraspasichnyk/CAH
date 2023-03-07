@@ -12,7 +12,7 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
     
     // MARK: - Properties
 
-    @ObservedObject var viewModel: ViewModel
+    @StateObject var viewModel: ViewModel
 
     // MARK: - Lifecycle
 

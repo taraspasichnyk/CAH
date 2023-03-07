@@ -40,8 +40,8 @@ struct LeaderboardView<ViewModel: GameModelProtocol>: View {
                         .padding([.leading, .trailing], 50.0)
                 }
                 Spacer()
-                PrimaryButton("Далі") {
-                    viewModel.startNewRound()
+                PrimaryButton(viewModel.round == nil ? "Завершити" : "Далі") {
+                    viewModel.onLeaderboardNextClicked()
                 }
                 .padding(.bottom, 78.0)
             }
@@ -54,6 +54,10 @@ struct LeaderboardView<ViewModel: GameModelProtocol>: View {
 
 struct LeaderboardView_Previews: PreviewProvider {
     static var previews: some View {
-        LeaderboardView(viewModel: MockGameModel(player: .mock[0]))
+        LeaderboardView(
+            viewModel: MockGameModel(
+                player: .mock[0]
+            )
+        )
     }
 }

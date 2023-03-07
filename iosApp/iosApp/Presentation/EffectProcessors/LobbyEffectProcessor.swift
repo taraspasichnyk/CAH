@@ -11,6 +11,7 @@ import shared
 
 final class LobbyEffectProcessor {
     @Binding private var navState: [NavPath]
+    @Binding private var gameNavState: GameNavState
     private let injector: Injector
     private let shareController: PasteboardControlling
     private let alertState: AlertState
@@ -18,11 +19,13 @@ final class LobbyEffectProcessor {
     init(
         injector: Injector = Injector.shared,
         navState: Binding<[NavPath]>,
+        gameNavState: Binding<GameNavState>,
         alertState: AlertState,
         shareController: PasteboardControlling
     ) {
         self.injector = injector
         self._navState = navState
+        self._gameNavState = gameNavState
         self.alertState = alertState
         self.shareController = shareController
     }
@@ -49,6 +52,7 @@ final class LobbyEffectProcessor {
                     playerID: gameEffect.playerID
                 )
                 subscribeToGameEffects(gameVm)
+                gameNavState = .yourCards
                 navState = [.game(gameVm)]
             }
         case let copyCodeEffect as LobbyContractEffect.CopyCode:

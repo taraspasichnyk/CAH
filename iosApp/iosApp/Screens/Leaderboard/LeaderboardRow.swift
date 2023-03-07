@@ -11,19 +11,21 @@ import SwiftUI
 struct LeaderboardRow: View {
 
     let index: Int
-    let playerRound: RoundPlayerAnswerEntity
+    let nickname: String
+    let score: Int
+    let isOwner: Bool
 
     var body: some View {
         VStack(alignment: .center, spacing: 6) {
             HStack(alignment: .center) {
-                Text("\(index). " + playerRound.player.nickname)
+                Text("\(index). " + nickname)
                     .font(.bodySecondary)
-                if playerRound.player.isOwner {
+                if isOwner {
                     Image.host
                         .frame(width: .large, height: .large)
                 }
                 Spacer()
-                Text(String(playerRound.score))
+                Text(String(score))
                     .font(.bodySecondary)
             }
             .padding(.horizontal, 4)
@@ -36,8 +38,8 @@ struct LeaderboardRow: View {
 struct LeaderboardRow_Previews: PreviewProvider {
     static var previews: some View {
         LazyVStack {
-            LeaderboardRow(index: 0, playerRound: RoundPlayerAnswerEntity.mock[0])
-            LeaderboardRow(index: 1, playerRound: RoundPlayerAnswerEntity.mock[1])
+            LeaderboardRow(index: 1, nickname: "A1sdaffdasds", score: 123, isOwner: false)
+            LeaderboardRow(index: 2, nickname: "A22asdasdf", score: 1342, isOwner: true)
         }
     }
 }

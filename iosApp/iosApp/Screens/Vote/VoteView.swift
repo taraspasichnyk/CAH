@@ -13,67 +13,68 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
     // MARK: - Properties
 
     @StateObject var viewModel: ViewModel
-
-    @State var displayedCardIndex: Int = 0
-    @State var selectedRateValue: Int = 0
+    @State var answerOnTop: Bool = true
 
     // MARK: - Lifecycle
 
     var body: some View {
         ContainerView(header: .small) {
-            if let round = viewModel.round {
+            if let round = viewModel.round,
+               let displayedAnswer = viewModel.displayedAnswer{
                 VStack {
                     Text("Раунд \(round.number) - Голосування")
                         .padding(.top, .larger)
                         .font(.titleSemiBold)
-                    SelectorView($displayedCardIndex, count: round.answers.count)
+                    SelectorView(viewModel.displayedAnswerIndex, count: round.answers.count)
                         .padding(.top, .medium)
                         .padding([.leading, .trailing], .medium)
                     ZStack {
-                        ZStack(alignment: .bottom) {
-                            VStack {
-                                QuestionCardView(question: round.questionCard.question)
-                                    .frame(minWidth: 124, maxWidth: 180)
-                                Spacer()
-                            }
-                            VStack {
-                                Spacer()
-                                if let answer = round.answers[displayedCardIndex].playerAnswers.first {
-                                    AnswerCardView(answer: answer.text)
-                                        .font(.inputPrimary)
-                                        .frame(minWidth: 124, maxWidth: 180)
-                                        .rotationEffect(.degrees(-8))
-                                        .offset(x: -20)
-                                }
-                            }
-                        }
-                        .padding(.top, .larger)
-                        .padding(.bottom, .large)
-                        Spacer()
                         HStack {
                             Rectangle()
                                 .opacity(0.001)
                                 .onTapGesture {
-                                    // TODO: Pack logic into VM
-                                    if displayedCardIndex > 0 {
-                                        displayedCardIndex-=1
-                                    }
+                                    viewModel.previousAnswer()
+                                    answerOnTop = true
                                 }
                             Rectangle()
                                 .opacity(0.001)
                                 .onTapGesture {
-                                    // TODO: Pack logic into VM
-                                    if displayedCardIndex < (viewModel.round?.answers.count ?? 0) - 1 {
-                                        displayedCardIndex+=1
-                                    }
+                                    viewModel.nextAnswer()
+                                    answerOnTop = true
                                 }
                         }
+                        ZStack(alignment: .bottom) {
+                            VStack {
+                                QuestionCardView(question: round.questionCard.question)
+                                    .font(.cardSmall)
+                                    .frame(width: 124)
+                                Spacer()
+                            }
+                            .zIndex(answerOnTop ? 0 : 1)
+                            VStack {
+                                Spacer()
+                                if !round.answers.isEmpty,
+                                   let answer = displayedAnswer.playerAnswers.first {
+                                    AnswerCardView(answer: answer.text)
+                                        .font(.cardSmall)
+                                        .frame(width: 124)
+                                        .rotationEffect(.degrees(-8))
+                                        .offset(x: -20)
+                                }
+                            }
+                            .zIndex(answerOnTop ? 1 : 0)
+                        }
+                        .padding(.top, .larger)
+                        .padding(.bottom, .large)
+                        .onTapGesture {
+                            answerOnTop.toggle()
+                        }
                     }
-                    RateView($selectedRateValue) { newValue in
-                        selectedRateValue = newValue
-                        viewModel.voteForCard(at: displayedCardIndex, score: selectedRateValue)
+                    RateView(viewModel.localVotes[viewModel.displayedAnswerIndex] ?? 0) { newValue in
+                        viewModel.voteForCard(score: newValue)
                     }
                     .padding(.bottom, 40.0)
+                    .padding([.leading, .trailing], 40.0)
                 }
             }
         }

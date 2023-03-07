@@ -53,10 +53,11 @@ struct CardsView<ViewModel: GameModelProtocol>: View {
                         }
                     }
                     .padding(.trailing, 20.0)
+                    .padding(.bottom, 12.0)
                 }
             }
-            Spacer()
         }
+        .ignoresSafeArea(edges: .bottom)
     }
 }
 

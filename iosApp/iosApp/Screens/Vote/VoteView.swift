@@ -85,15 +85,15 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
                         .padding(.top, .larger)
                         .padding(.bottom, .large)
                         .onTapGesture {
-                            withAnimation(.easeOut(duration: 0.34)) {
+                            withAnimation(.easeIn(duration: 0.22)) {
                                 isOut.toggle()
                             }
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.34) {
-                                withAnimation(.easeIn(duration: 0.34)) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.22) {
+                                withAnimation(.easeOut(duration: 0.22)) {
                                     answerOnTop.toggle()
                                 }
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.34) {
-                                    withAnimation(.easeIn(duration: 0.34)) {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.22) {
+                                    withAnimation(.easeOut(duration: 0.22)) {
                                         isOut.toggle()
                                     }
                                 }

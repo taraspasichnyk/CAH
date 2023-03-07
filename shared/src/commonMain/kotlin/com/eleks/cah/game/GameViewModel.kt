@@ -157,6 +157,13 @@ class GameViewModel(
     }
 
     private fun GameRoom.getSelf() = players.firstOrNull { it.id == playerId }
+    fun onLeaderboardNextClicked() {
+        if (state.value.round != null) {
+            showYourCards()
+        } else {
+            setEffect { Navigation.Menu }
+        }
+    }
 
     companion object {
         private const val PRE_ROUND_DELAY = 3000L

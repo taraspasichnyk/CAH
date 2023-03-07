@@ -2,8 +2,6 @@ package com.eleks.cah.game
 
 import com.eleks.cah.base.UiEffect
 import com.eleks.cah.base.UiState
-import com.eleks.cah.domain.model.AnswerCard
-import com.eleks.cah.domain.model.AnswerCardID
 import com.eleks.cah.domain.model.GameRoom
 import com.eleks.cah.domain.model.GameRound
 import com.eleks.cah.domain.model.Player
@@ -23,6 +21,7 @@ interface GameContract {
             object Round : Navigation()
             object Voting : Navigation()
             object Results : Navigation()
+            object Menu : Navigation()
         }
     }
 }

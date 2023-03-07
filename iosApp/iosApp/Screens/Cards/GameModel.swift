@@ -39,7 +39,10 @@ class GameModel: GameModelProtocol {
     @Published private(set) var votes: [Int: Int] = [:]
     
     @Published private(set) var displayedAnswerIndex: Int = 0
-    @Published private(set) var displayedAnswer: RoundPlayerAnswerEntity = .mock[0]
+    var displayedAnswer: RoundPlayerAnswerEntity {
+        guard let round else { return .mock[0] } // TODO: Don't use mocks in prod
+        return round.answers[displayedAnswerIndex]
+    }
 
     // MARK: - Lifecycle
 
@@ -118,12 +121,8 @@ class GameModel: GameModelProtocol {
                 answers: roundAnswers,
                 state: GameRoundEntity.State(rawValue: round.state.name) ?? .FINISHED
             )
-            if roundAnswers.endIndex > self.displayedAnswerIndex {
-                self.displayedAnswer = roundAnswers[self.displayedAnswerIndex]
-            } else {
-                if roundAnswers.isEmpty { return }
+            if self.displayedAnswerIndex > roundAnswers.endIndex {
                 self.displayedAnswerIndex = 0
-                self.displayedAnswer = roundAnswers[0]
             }
             if self.selectedCard == .placeholder {
                 if answerCards.isEmpty { return }
@@ -136,16 +135,14 @@ class GameModel: GameModelProtocol {
     // MARK: - Voting
     
     func nextAnswer() {
-        if let roundAnswers = round?.answers {
-            let currentIndex = displayedAnswerIndex
-            displayedAnswerIndex = roundAnswers.index(after: currentIndex)
+        if let roundAnswers = round?.answers, displayedAnswerIndex < roundAnswers.endIndex {
+            displayedAnswerIndex = roundAnswers.index(after: displayedAnswerIndex)
         }
     }
     
     func previousAnswer() {
-        if let roundAnswers = round?.answers {
-            let currentIndex = displayedAnswerIndex
-            displayedAnswerIndex = roundAnswers.index(before: currentIndex)
+        if let roundAnswers = round?.answers, displayedAnswerIndex > 0 {
+            displayedAnswerIndex = roundAnswers.index(before: displayedAnswerIndex)
         }
     }
     

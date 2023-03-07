@@ -26,7 +26,7 @@ import com.eleks.cah.domain.model.AnswerCardID
 import com.eleks.cah.domain.model.GameRound
 import com.eleks.cah.domain.model.Player
 import com.eleks.cah.domain.model.RoundPlayerAnswer
-import com.eleks.cah.game.GameContract
+import com.eleks.cah.game.GameContract.Effect.Navigation
 import com.eleks.cah.game.GameViewModel
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -89,28 +89,31 @@ fun GameScreen(
     LaunchedEffect(Unit) {
         gameViewModel.effect.collectLatest {
             when (it) {
-                is GameContract.Effect.Navigation.PreRound -> {
+                is Navigation.PreRound -> {
                     innerNavController.popBackStack()
                     innerNavController.navigate(GameRoute.PreRound.path)
                 }
 
-                is GameContract.Effect.Navigation.YourCards -> {
+                is Navigation.YourCards -> {
                     innerNavController.popBackStack()
                     innerNavController.navigate(GameRoute.YourCards.path)
                 }
 
-                is GameContract.Effect.Navigation.Round -> {
+                is Navigation.Round -> {
                     innerNavController.popBackStack()
                     innerNavController.navigate(GameRoute.Round.path)
                 }
 
-                is GameContract.Effect.Navigation.Voting -> {
+                is Navigation.Voting -> {
                     innerNavController.popBackStack()
                     innerNavController.navigate(GameRoute.Voting.path)
                 }
-                is GameContract.Effect.Navigation.Results -> {
+                is Navigation.Results -> {
                     innerNavController.popBackStack()
                     innerNavController.navigate(GameRoute.Results.path)
+                }
+                is Navigation.Menu -> {
+                    onExit()
                 }
                 else -> {}
             }
@@ -135,11 +138,7 @@ fun GameScreen(
             gameViewModel.saveScores(it)
         },
         onLeaderboardViewed = {
-            if (state.round != null) {
-                gameViewModel.showYourCards()
-            } else {
-                onExit()
-            }
+            gameViewModel.onLeaderboardNextClicked()
         }
     )
 }

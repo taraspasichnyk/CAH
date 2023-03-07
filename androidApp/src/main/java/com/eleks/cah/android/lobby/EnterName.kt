@@ -1,23 +1,14 @@
 package com.eleks.cah.android.lobby
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Card
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -36,6 +27,7 @@ import com.eleks.cah.android.R
 import com.eleks.cah.android.theme.HintColor
 import com.eleks.cah.android.theme.txtLight16
 import com.eleks.cah.android.theme.txtMedium16
+import com.eleks.cah.android.widgets.CardBackground
 import com.eleks.cah.android.widgets.GameHeader
 import com.eleks.cah.android.widgets.NavigationView
 import com.eleks.cah.lobby.LobbyViewModel
@@ -50,45 +42,62 @@ private fun EnterNameScreenPreview() {
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun EnterName(lobbyViewModel: LobbyViewModel) {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        GameHeader()
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .navigationBarsPadding()
-                .imePadding(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Spacer(Modifier.weight(1f))
-            EnterNameView(lobbyViewModel)
-            Spacer(Modifier.weight(1f))
-            val state by lobbyViewModel.state.collectAsState()
-            val focusManager = LocalFocusManager.current
-            NavigationView(
+        val headerHeight = animateDpAsState(
+            targetValue = if (WindowInsets.isImeVisible) 120.dp else 180.dp,
+            animationSpec = spring()
+        )
+
+        GameHeader(headerHeight = headerHeight.value)
+
+        Column(modifier = Modifier.fillMaxSize()) {
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        start = dimensionResource(R.dimen.padding_36),
-                        end = dimensionResource(R.dimen.padding_36),
-                        bottom = dimensionResource(R.dimen.padding_44)
-                    ),
-                actionButtonText = R.string.label_next,
-                backButtonEnabled = !state.isLoading,
-                actionButtonEnabled = state.isNextButtonEnabled,
-                isActionButtonLoading = state.isLoading,
-                onBackButtonClick = {
-                    focusManager.clearFocus()
-                    lobbyViewModel.onBackPressed()
-                },
-                onActionButtonClick = {
-                    focusManager.clearFocus()
-                    lobbyViewModel.onNextClicked()
-                },
-            )
+                    .weight(1f)
+                    .imePadding(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Spacer(Modifier.weight(1f))
+                EnterNameView(lobbyViewModel)
+                Spacer(Modifier.weight(1f))
+                val state by lobbyViewModel.state.collectAsState()
+                val focusManager = LocalFocusManager.current
+                NavigationView(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            start = dimensionResource(R.dimen.padding_36),
+                            end = dimensionResource(R.dimen.padding_36),
+                            bottom = dimensionResource(R.dimen.padding_44)
+                        ),
+                    actionButtonText = R.string.label_next,
+                    backButtonEnabled = !state.isLoading,
+                    actionButtonEnabled = state.isNextButtonEnabled,
+                    isActionButtonLoading = state.isLoading,
+                    onBackButtonClick = {
+                        focusManager.clearFocus()
+                        lobbyViewModel.onBackPressed()
+                    },
+                    onActionButtonClick = {
+                        focusManager.clearFocus()
+                        lobbyViewModel.onNextClicked()
+                    },
+                )
+            }
+            AnimatedVisibility(!WindowInsets.isImeVisible) {
+                CardBackground(R.drawable.bg_pattern_big, modifier = Modifier.fillMaxWidth()) {
+                    Spacer(
+                        modifier = Modifier
+                            .navigationBarsPadding()
+                            .height(44.dp)
+                    )
+                }
+            }
         }
     }
 }

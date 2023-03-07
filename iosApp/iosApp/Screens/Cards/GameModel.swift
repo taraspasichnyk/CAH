@@ -15,7 +15,7 @@ protocol GameModelProtocol: ObservableObject {
     var players: [PlayerEntity] { get }
     var selectedCard: AnswerCardEntity { get set }
     var displayedAnswerIndex: Int { get }
-    var displayedAnswer: RoundPlayerAnswerEntity { get }
+    var displayedAnswer: RoundPlayerAnswerEntity? { get }
 
     func showRound()
     func saveAnswers(answerCardIds: [String])
@@ -39,8 +39,8 @@ class GameModel: GameModelProtocol {
     @Published private(set) var votes: [Int: Int] = [:]
     
     @Published private(set) var displayedAnswerIndex: Int = 0
-    var displayedAnswer: RoundPlayerAnswerEntity {
-        guard let round else { return .mock[0] } // TODO: Don't use mocks in prod
+    var displayedAnswer: RoundPlayerAnswerEntity? {
+        guard let round, round.answers.indices.contains(displayedAnswerIndex) else { return nil }
         return round.answers[displayedAnswerIndex]
     }
 

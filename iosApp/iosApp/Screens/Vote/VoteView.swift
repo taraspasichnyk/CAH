@@ -18,7 +18,8 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
 
     var body: some View {
         ContainerView(header: .small) {
-            if let round = viewModel.round {
+            if let round = viewModel.round,
+               let displayedAnswer = viewModel.displayedAnswer{
                 VStack {
                     Text("Раунд \(round.number) - Голосування")
                         .padding(.top, .larger)
@@ -37,7 +38,7 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
                             VStack {
                                 Spacer()
                                 if !round.answers.isEmpty,
-                                   let answer = viewModel.displayedAnswer.playerAnswers.first {
+                                   let answer = displayedAnswer.playerAnswers.first {
                                     AnswerCardView(answer: answer.text)
                                         .font(.cardSmall)
                                         .frame(minWidth: 124, maxWidth: 180)
@@ -62,7 +63,7 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
                                 }
                         }
                     }
-                    RateView(viewModel.displayedAnswer.score) { newValue in
+                    RateView(displayedAnswer.score) { newValue in
                         viewModel.voteForCard(score: newValue)
                     }
                     .padding(.bottom, 40.0)

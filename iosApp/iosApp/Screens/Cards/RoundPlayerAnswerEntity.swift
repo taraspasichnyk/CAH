@@ -19,7 +19,7 @@ struct RoundPlayerAnswerEntity: Identifiable {
             .init(
                 player: $0,
                 playerAnswers: [
-                    AnswerCardEntity(id: UUID().uuidString, text: "Answer 0."),
+                    AnswerCardEntity(id: UUID().uuidString, text: "ТОБІ ПОТРІБНО ПОБУДУВАТИ ДОДАТКОВІ ПІЛОНИ."),
                     AnswerCardEntity(id: UUID().uuidString, text: "Very really unjustifiably long answer for this question that was much longer in my head then I initially suspected."),
                 ],
                 score: 42

@@ -23,7 +23,7 @@ struct GameRoundEntity {
     static let mock: GameRoundEntity = GameRoundEntity(
         id: "123",
         number: 1,
-        questionCard: QuestionCardEntity(id: "1", text: "What happened here?", question: "What happened there?", gaps: [0, 1, 2]),
+        questionCard: QuestionCardEntity(id: "1", text: "Вітаємо! Ви були обрані для нашої літньої інтернатури. Хоча ми не можемо пропонувати зарплату, ми можемо пропонувати \"вам\" ____ .", question: "Вітаємо! Ви були обрані для нашої літньої інтернатури. Хоча ми не можемо пропонувати зарплату, ми можемо пропонувати \"вам\" ____ .", gaps: [0, 1, 2]),
         answers: RoundPlayerAnswerEntity.mock,
         state: .VOTING
     )

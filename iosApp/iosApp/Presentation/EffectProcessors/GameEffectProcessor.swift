@@ -10,13 +10,16 @@ import SwiftUI
 import shared
 
 final class GameEffectProcessor {
+    @Binding private var navState: [NavPath]
     @Binding private var gameNavState: GameNavState
     private let alertState: AlertState
 
     init(
+        navState: Binding<[NavPath]>,
         gameNavState: Binding<GameNavState>,
         alertState: AlertState
     ) {
+        self._navState = navState
         self._gameNavState = gameNavState
         self.alertState = alertState
     }
@@ -34,6 +37,8 @@ final class GameEffectProcessor {
             gameNavState = .voting
         case is GameContractEffect.NavigationResults:
             gameNavState = .leaderBoard
+        case is GameContractEffect.NavigationMenu:
+            navState = []
         default:
             alertState.presentedAlertType = .noFeature
         }

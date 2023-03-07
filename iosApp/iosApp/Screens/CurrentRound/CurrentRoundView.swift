@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct CurrentRoundView<ViewModel: GameModelProtocol>: View {
-    @ObservedObject private(set) var viewModel: ViewModel
+    @StateObject var viewModel: ViewModel
 
     @State private var hasLoaded = false
     @State private var hasShiftedTitle = false

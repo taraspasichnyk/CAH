@@ -10,21 +10,18 @@ import Foundation
 import shared
 
 protocol GameModelProtocol: ObservableObject {
+    associatedtype VoteViewModelType: VoteViewModelProtocol
+
     var round: GameRoundEntity? { get }
     var player: PlayerEntity? { get }
     var players: [PlayerEntity] { get }
     var selectedCard: AnswerCardEntity { get set }
-    var displayedAnswerIndex: Int { get }
-    var displayedAnswer: RoundPlayerAnswerEntity? { get }
-    var localVotes: [Int: Int] { get }
 
     func showRound()
-    func voteForCard(score: Int)
     func onLeaderboardNextClicked()
-    
-    func nextAnswer()
-    func previousAnswer()
     func saveAnswers(answerCardIds: [String])
+
+    func makeVoteViewModel() -> VoteViewModelType
 }
 
 class GameModel: GameModelProtocol {
@@ -37,13 +34,6 @@ class GameModel: GameModelProtocol {
     @Published private(set) var player: PlayerEntity? = nil
     @Published private(set) var players: [PlayerEntity] = []
     @Published var selectedCard: AnswerCardEntity = .placeholder
-    @Published private(set) var localVotes: [Int: Int] = [:]
-    
-    @Published private(set) var displayedAnswerIndex: Int = 0
-    var displayedAnswer: RoundPlayerAnswerEntity? {
-        guard let round, round.answers.indices.contains(displayedAnswerIndex) else { return nil }
-        return round.answers[displayedAnswerIndex]
-    }
 
     // MARK: - Lifecycle
 
@@ -56,6 +46,13 @@ class GameModel: GameModelProtocol {
 
     func showRound() {
         vm.showRound()
+    }
+
+    func makeVoteViewModel() -> VoteViewModel {
+        return VoteViewModel(
+            vm: vm,
+            round: round
+        )
     }
 
     // TODO: Move more logic inside
@@ -100,7 +97,7 @@ class GameModel: GameModelProtocol {
             if let round = state.round {
                 let roundAnswers = round.answers.compactMap { playerCards in
                     RoundPlayerAnswerEntity(
-                        player: playerEntities.first(where: { $0.id == playerCards.playerID }) ?? PlayerEntity.mock[0],
+                        playerId: playerCards.playerID,
                         playerAnswers: playerCards.playerAnswers.map({
                             AnswerCardEntity(id: $0.id, text: $0.answer, isUsed: $0.isUsed)
                         }),
@@ -119,9 +116,6 @@ class GameModel: GameModelProtocol {
                     answers: roundAnswers,
                     state: GameRoundEntity.State(rawValue: round.state.name) ?? .FINISHED
                 )
-                if self.displayedAnswerIndex > roundAnswers.endIndex {
-                    self.displayedAnswerIndex = 0
-                }
             } else {
                 self.round = nil
             }
@@ -131,44 +125,6 @@ class GameModel: GameModelProtocol {
             }
         } onCompletion: { _ in
         }
-    }
-    
-    // MARK: - Voting
-    
-    func nextAnswer() {
-        if let roundAnswers = round?.answers {
-            let newValue = displayedAnswerIndex + 1
-            if newValue >= roundAnswers.count { return }
-            displayedAnswerIndex = newValue
-        }
-    }
-    
-    func previousAnswer() {
-        let newValue = displayedAnswerIndex - 1
-        if newValue < 0 { return }
-        displayedAnswerIndex = newValue
-    }
-    
-    func voteForCard(score: Int) {
-        // FIXME: This is bad, should be done inside shared KMM GameViewModel
-        // Should be something like vm.vote(cardId: ..., score: ...)
-        guard let round else { return }
-        guard round.answers.indices.contains(displayedAnswerIndex) else { return }
-        
-        localVotes[displayedAnswerIndex] = score
-
-        let answerEntity = round.answers[displayedAnswerIndex]
-        let playerAnswers = answerEntity.playerAnswers.map {
-            AnswerCard(id: $0.id, answer: $0.text, isUsed: $0.isUsed)
-        }
-
-        let answerCard = RoundPlayerAnswer(
-            playerID: answerEntity.player.id,
-            playerAnswers: playerAnswers,
-            score: Int32(score)
-        )
-
-        vm.saveScores(answerCardWithVotes: [answerCard])
     }
 }
 
@@ -184,7 +140,7 @@ class MockGameModel: GameModelProtocol {
     @Published var selectedCard: AnswerCardEntity = .placeholder
     @Published private(set) var displayedAnswerIndex: Int = 0
     @Published private(set) var displayedAnswer: RoundPlayerAnswerEntity?
-    @Published private(set) var localVotes: [Int: Int] = [:]
+    @Published private(set) var answerCardsWithVotes: [RoundPlayerAnswerEntity]
 
     // MARK: - Ligecycle
     init(
@@ -193,14 +149,14 @@ class MockGameModel: GameModelProtocol {
         players: [PlayerEntity] = PlayerEntity.mock,
         displayedAnswerIndex: Int = 0,
         displayedAnswer: RoundPlayerAnswerEntity = .mock[0],
-        localVotes: [Int: Int] = [:]
+        answerCardsWithVotes: [RoundPlayerAnswerEntity] = []
     ) {
         self.round = round
         self.player = player
         self.players = players
         self.displayedAnswerIndex = displayedAnswerIndex
         self.displayedAnswer = displayedAnswer
-        self.localVotes = localVotes
+        self.answerCardsWithVotes = answerCardsWithVotes
     }
 
     // MARK: - Public
@@ -213,21 +169,11 @@ class MockGameModel: GameModelProtocol {
         // TODO
     }
 
+    func makeVoteViewModel() -> MockVoteViewModel {
+        return MockVoteViewModel()
+    }
+
     func onLeaderboardNextClicked() {
         // TODO
-    }
-    
-    func nextAnswer() {
-        displayedAnswerIndex = 1
-        displayedAnswer = .mock[1]
-    }
-    
-    func previousAnswer() {
-        displayedAnswerIndex = 0
-        displayedAnswer = .mock[0]
-    }
-    
-    func voteForCard(score: Int) {
-        localVotes[displayedAnswerIndex] = score
     }
 }

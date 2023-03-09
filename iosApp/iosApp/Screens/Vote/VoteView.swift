@@ -21,12 +21,12 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
     var body: some View {
         ContainerView(header: .small) {
             if let round = viewModel.round,
-               let displayedAnswer = viewModel.displayedAnswer{
+               let displayedAnswer = viewModel.displayedAnswer {
                 VStack {
                     Text("Раунд \(round.number) - Голосування")
                         .padding(.top, .larger)
                         .font(.titleSemiBold)
-                    SelectorView(viewModel.displayedAnswerIndex, count: round.answers.count)
+                    SelectorView(viewModel.displayedAnswerIndex, count: viewModel.answerCardsWithVotes.count)
                         .padding(.top, .medium)
                         .padding([.leading, .trailing], .medium)
                     ZStack {
@@ -58,14 +58,14 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
                             .zIndex(answerOnTop ? 0 : 1)
                             VStack {
                                 Spacer()
-                                if !round.answers.isEmpty,
+                                if !viewModel.answerCardsWithVotes.isEmpty,
                                    let answer = displayedAnswer.playerAnswers.first {
                                     ZStack(alignment: .bottom) {
                                         AnswerCardView(answer: answer.text)
                                             .font(.cardSmall)
                                             .frame(width: 124)
-                                        if let score = viewModel.localVotes[viewModel.displayedAnswerIndex],
-                                           let value = RateView.Value(rawValue: score) {
+                                        let score = viewModel.answerCardsWithVotes[viewModel.displayedAnswerIndex].score
+                                        if let value = RateView.Value(rawValue: score) {
                                             value.image.resizable()
                                                 .aspectRatio(1.0, contentMode: .fit)
                                                 .frame(width: 52)
@@ -100,15 +100,20 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
                             }
                         }
                     }
-                    RateView(viewModel.localVotes[viewModel.displayedAnswerIndex] ?? 0) { newValue in
-                        viewModel.voteForCard(score: newValue)
+                    if !viewModel.answerCardsWithVotes.isEmpty {
+                        RateView(viewModel.answerCardsWithVotes[viewModel.displayedAnswerIndex].score) { newValue in
+                            viewModel.voteForCard(score: newValue)
+                        }
+                        .padding(.bottom, 40.0)
+                        .padding([.leading, .trailing], 40.0)
                     }
-                    .padding(.bottom, 40.0)
-                    .padding([.leading, .trailing], 40.0)
                 }
             }
         }
         .ignoresSafeArea(edges: .bottom)
+        .onAppear {
+            viewModel.onVoteViewAppear()
+        }
     }
 }
 

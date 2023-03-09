@@ -71,6 +71,8 @@ struct RateView: View {
     }
 }
 
+// MARK: - Previews
+
 struct RateView_Previews: PreviewProvider {
 
     static var previews: some View {

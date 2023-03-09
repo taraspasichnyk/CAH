@@ -91,7 +91,7 @@ fun RoundScreen(
                             .plus(
                                 Offset(
                                     -it.size.width / 2f,
-                                    it.size.height.toFloat() / 2
+                                    it.size.height / 2f
                                 )
                             )
                     }

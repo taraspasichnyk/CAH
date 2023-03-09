@@ -1,16 +1,6 @@
 package com.eleks.cah.android.game.user_cards
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -29,11 +19,7 @@ import com.eleks.cah.android.AppTheme
 import com.eleks.cah.android.MyApplicationTheme
 import com.eleks.cah.android.R
 import com.eleks.cah.android.theme.txtSemibold24
-import com.eleks.cah.android.widgets.BlackButton
-import com.eleks.cah.android.widgets.CardBackground
-import com.eleks.cah.android.widgets.ConflictCard
-import com.eleks.cah.android.widgets.GameHeader
-import com.eleks.cah.android.widgets.GameLabelSize
+import com.eleks.cah.android.widgets.*
 import com.eleks.cah.domain.model.AnswerCard
 
 @Composable
@@ -83,10 +69,8 @@ fun UserCardsScreen(
                 columns = GridCells.Fixed(COLUMN_COUNT),
                 verticalArrangement = Arrangement.spacedBy(AppTheme.dimens.sizeSmall),
                 contentPadding = PaddingValues(
-                    start = AppTheme.dimens.sizeMedium,
-                    end = AppTheme.dimens.sizeMedium,
-                    top = AppTheme.dimens.sizeSmall,
-                    bottom = AppTheme.dimens.sizeSmall
+                    horizontal = AppTheme.dimens.sizeMedium,
+                    vertical = AppTheme.dimens.sizeSmall
                 ),
                 modifier = Modifier.weight(1f)
             ) {

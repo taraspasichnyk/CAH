@@ -188,12 +188,12 @@ private fun UserItemView(user: Player, position: Int) {
             modifier = Modifier
                 .defaultMinSize(76.dp)
                 .background(
-                    color = if (user.state == Player.PlayerState.READY) Green else Yellow,
+                    color = if (user.state != Player.PlayerState.NOT_READY) Green else Yellow,
                     shape = MaterialTheme.shapes.small
                 )
                 .padding(8.dp),
             text = stringResource(
-                if (user.state == Player.PlayerState.READY) R.string.title_ready
+                if (user.state != Player.PlayerState.NOT_READY) R.string.title_ready
                 else R.string.title_is_waiting
             ),
             style = txtMedium12,

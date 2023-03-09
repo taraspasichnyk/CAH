@@ -51,6 +51,8 @@
 		92A0604029A24FB400C6CC3E /* AnswerCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A0603F29A24FB400C6CC3E /* AnswerCardView.swift */; };
 		92B925092995670C0089ED88 /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B925082995670C0089ED88 /* IconButton.swift */; };
 		92B9250B29956A1D0089ED88 /* LobbyRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B9250A29956A1D0089ED88 /* LobbyRow.swift */; };
+		92C88A0C29B9EFBC00B7D48C /* VoteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92C88A0B29B9EFBC00B7D48C /* VoteViewModel.swift */; };
+		92C88A0E29BA14D800B7D48C /* GameViewModel+Voting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92C88A0D29BA14D800B7D48C /* GameViewModel+Voting.swift */; };
 		92CAFB1B299A720900E0B1E2 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 92CAFB1A299A720900E0B1E2 /* FirebaseAuth */; };
 		92CAFB1D299A720900E0B1E2 /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 92CAFB1C299A720900E0B1E2 /* FirebaseAuthCombine-Community */; };
 		92CAFB1F299A720900E0B1E2 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 92CAFB1E299A720900E0B1E2 /* FirebaseDatabase */; };
@@ -156,6 +158,8 @@
 		92A0603F29A24FB400C6CC3E /* AnswerCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerCardView.swift; sourceTree = "<group>"; };
 		92B925082995670C0089ED88 /* IconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconButton.swift; sourceTree = "<group>"; };
 		92B9250A29956A1D0089ED88 /* LobbyRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyRow.swift; sourceTree = "<group>"; };
+		92C88A0B29B9EFBC00B7D48C /* VoteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteViewModel.swift; sourceTree = "<group>"; };
+		92C88A0D29BA14D800B7D48C /* GameViewModel+Voting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameViewModel+Voting.swift"; sourceTree = "<group>"; };
 		92CAFB22299A735600E0B1E2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		92CD661629925B720003634C /* Image+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extensions.swift"; sourceTree = "<group>"; };
 		92CD661829926F220003634C /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
@@ -348,6 +352,8 @@
 				71C9958F29AF8A1000FC5A8E /* VoteView.swift */,
 				71C9958C29AF540A00FC5A8E /* RateView.swift */,
 				7118341329AF91BD00EE2674 /* SelectorView.swift */,
+				92C88A0B29B9EFBC00B7D48C /* VoteViewModel.swift */,
+				92C88A0D29BA14D800B7D48C /* GameViewModel+Voting.swift */,
 			);
 			path = Vote;
 			sourceTree = "<group>";
@@ -705,6 +711,7 @@
 				92CE1A8F29AEF17600551F99 /* GameNavState.swift in Sources */,
 				927F7F60298D075400A158A8 /* MainMenuView.swift in Sources */,
 				712A95BC29A790F30068A14C /* SquareSizeModifier.swift in Sources */,
+				92C88A0E29BA14D800B7D48C /* GameViewModel+Voting.swift in Sources */,
 				921076662994E46900390F45 /* EnterScreenStage.swift in Sources */,
 				92F23CF729A4EE5F0093D043 /* LoadingModifier.swift in Sources */,
 				71C9958B29ACFCFF00FC5A8E /* LeaderboardRow.swift in Sources */,
@@ -714,6 +721,7 @@
 				71C9958929ACF70000FC5A8E /* RoundPlayerAnswerEntity.swift in Sources */,
 				92E36C8329AFAFBA0047D49E /* FullScreenHandView.swift in Sources */,
 				71C9958029AC9ECB00FC5A8E /* PlayerEntity.swift in Sources */,
+				92C88A0C29B9EFBC00B7D48C /* VoteViewModel.swift in Sources */,
 				7100A98A29A4E54600B5B0AB /* CardsView.swift in Sources */,
 				71C9958729ACF62C00FC5A8E /* QuestionCardEntity.swift in Sources */,
 				927295E3298D61F100C5F0DE /* PrimaryButton.swift in Sources */,

@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct VoteView<ViewModel: GameModelProtocol>: View {
+struct VoteView<ViewModel: VoteViewModelProtocol>: View {
     
     // MARK: - Properties
 
@@ -20,13 +20,11 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
 
     var body: some View {
         ContainerView(header: .small) {
-            if let round = viewModel.round,
-               let displayedAnswer = viewModel.displayedAnswer {
                 VStack {
-                    Text("Раунд \(round.number) - Голосування")
+                    Text("Раунд \(viewModel.roundNumber) - Голосування")
                         .padding(.top, .larger)
                         .font(.titleSemiBold)
-                    SelectorView(viewModel.displayedAnswerIndex, count: viewModel.answerCardsWithVotes.count)
+                    SelectorView(viewModel.displayedAnswerIndex, count: viewModel.answers.count)
                         .padding(.top, .medium)
                         .padding([.leading, .trailing], .medium)
                     ZStack {
@@ -46,7 +44,7 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
                         }
                         ZStack(alignment: .bottom) {
                             VStack {
-                                QuestionCardView(question: round.questionCard.question)
+                                QuestionCardView(question: viewModel.question)
                                     .font(.cardSmall)
                                     .frame(width: 124)
                                     .offset(
@@ -58,14 +56,12 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
                             .zIndex(answerOnTop ? 0 : 1)
                             VStack {
                                 Spacer()
-                                if !viewModel.answerCardsWithVotes.isEmpty,
-                                   let answer = displayedAnswer.playerAnswers.first {
+                                if let answer = viewModel.displayedAnswer.playerAnswers.first {
                                     ZStack(alignment: .bottom) {
                                         AnswerCardView(answer: answer.text)
                                             .font(.cardSmall)
                                             .frame(width: 124)
-                                        let score = viewModel.answerCardsWithVotes[viewModel.displayedAnswerIndex].score
-                                        if let value = RateView.Value(rawValue: score) {
+                                        if let value = RateView.Value(rawValue: viewModel.displayedAnswer.score) {
                                             value.image.resizable()
                                                 .aspectRatio(1.0, contentMode: .fit)
                                                 .frame(width: 52)
@@ -100,20 +96,14 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
                             }
                         }
                     }
-                    if !viewModel.answerCardsWithVotes.isEmpty {
-                        RateView(viewModel.answerCardsWithVotes[viewModel.displayedAnswerIndex].score) { newValue in
-                            viewModel.voteForCard(score: newValue)
-                        }
-                        .padding(.bottom, 40.0)
-                        .padding([.leading, .trailing], 40.0)
+                    RateView(viewModel.displayedAnswer.score) { newValue in
+                        viewModel.voteForCard(score: newValue)
                     }
+                    .padding(.bottom, 40.0)
+                    .padding([.leading, .trailing], 40.0)
                 }
-            }
         }
         .ignoresSafeArea(edges: .bottom)
-        .onAppear {
-            viewModel.onVoteViewAppear()
-        }
     }
 }
 
@@ -121,6 +111,6 @@ struct VoteView<ViewModel: GameModelProtocol>: View {
 
 struct VoteView_Previews: PreviewProvider {
     static var previews: some View {
-        VoteView(viewModel: MockGameModel(player: .mock[0]))
+        VoteView(viewModel: MockVoteViewModel())
     }
 }

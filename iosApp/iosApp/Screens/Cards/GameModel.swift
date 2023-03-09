@@ -10,22 +10,18 @@ import Foundation
 import shared
 
 protocol GameModelProtocol: ObservableObject {
+    associatedtype VoteViewModelType: VoteViewModelProtocol
+
     var round: GameRoundEntity? { get }
     var player: PlayerEntity? { get }
     var players: [PlayerEntity] { get }
     var selectedCard: AnswerCardEntity { get set }
-    var displayedAnswerIndex: Int { get }
-    var displayedAnswer: RoundPlayerAnswerEntity? { get }
-    var answerCardsWithVotes: [RoundPlayerAnswerEntity] { get }
 
     func showRound()
-    func onVoteViewAppear()
-    func voteForCard(score: Int)
     func onLeaderboardNextClicked()
-    
-    func nextAnswer()
-    func previousAnswer()
     func saveAnswers(answerCardIds: [String])
+
+    func makeVoteViewModel() -> VoteViewModelType
 }
 
 class GameModel: GameModelProtocol {
@@ -38,13 +34,6 @@ class GameModel: GameModelProtocol {
     @Published private(set) var player: PlayerEntity? = nil
     @Published private(set) var players: [PlayerEntity] = []
     @Published var selectedCard: AnswerCardEntity = .placeholder
-    @Published private(set) var answerCardsWithVotes: [RoundPlayerAnswerEntity] = []
-    
-    @Published private(set) var displayedAnswerIndex: Int = 0
-    var displayedAnswer: RoundPlayerAnswerEntity? {
-        guard let round, round.answers.indices.contains(displayedAnswerIndex) else { return nil }
-        return round.answers[displayedAnswerIndex]
-    }
 
     // MARK: - Lifecycle
 
@@ -59,8 +48,11 @@ class GameModel: GameModelProtocol {
         vm.showRound()
     }
 
-    func onVoteViewAppear() {
-        answerCardsWithVotes = round?.answers ?? []
+    func makeVoteViewModel() -> VoteViewModel {
+        return VoteViewModel(
+            vm: vm,
+            round: round
+        )
     }
 
     // TODO: Move more logic inside
@@ -124,9 +116,6 @@ class GameModel: GameModelProtocol {
                     answers: roundAnswers,
                     state: GameRoundEntity.State(rawValue: round.state.name) ?? .FINISHED
                 )
-                if self.displayedAnswerIndex > roundAnswers.endIndex {
-                    self.displayedAnswerIndex = 0
-                }
             } else {
                 self.round = nil
             }
@@ -136,40 +125,6 @@ class GameModel: GameModelProtocol {
             }
         } onCompletion: { _ in
         }
-    }
-    
-    // MARK: - Voting
-    
-    func nextAnswer() {
-        let newValue = displayedAnswerIndex + 1
-        if newValue >= answerCardsWithVotes.count { return }
-        displayedAnswerIndex = newValue
-    }
-    
-    func previousAnswer() {
-        let newValue = displayedAnswerIndex - 1
-        if newValue < 0 { return }
-        displayedAnswerIndex = newValue
-    }
-    
-    func voteForCard(score: Int) {
-        // FIXME: This is bad, should be done inside shared KMM GameViewModel
-        // Should be something like vm.vote(cardId: ..., score: ...)
-        guard answerCardsWithVotes.indices.contains(displayedAnswerIndex) else { return }
-        
-        answerCardsWithVotes[displayedAnswerIndex].score = score
-
-        let answerCards = answerCardsWithVotes.map {
-            RoundPlayerAnswer(
-                playerID: $0.playerId,
-                playerAnswers: $0.playerAnswers.map {
-                    AnswerCard(id: $0.id, answer: $0.text, isUsed: $0.isUsed)
-                },
-                score: Int32($0.score)
-            )
-        }
-
-        vm.saveScores(answerCardWithVotes: answerCards)
     }
 }
 
@@ -210,29 +165,15 @@ class MockGameModel: GameModelProtocol {
         // TODO
     }
 
-    func onVoteViewAppear() {
-        // TODO
-    }
-
     func saveAnswers(answerCardIds: [String]) {
         // TODO
     }
 
+    func makeVoteViewModel() -> MockVoteViewModel {
+        return MockVoteViewModel()
+    }
+
     func onLeaderboardNextClicked() {
         // TODO
-    }
-    
-    func nextAnswer() {
-        displayedAnswerIndex = 1
-        displayedAnswer = .mock[1]
-    }
-    
-    func previousAnswer() {
-        displayedAnswerIndex = 0
-        displayedAnswer = .mock[0]
-    }
-    
-    func voteForCard(score: Int) {
-        answerCardsWithVotes[displayedAnswerIndex].score = score
     }
 }

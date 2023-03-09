@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     kotlin("android")
     id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -34,6 +35,7 @@ android {
 
 dependencies {
     implementation(project(":shared"))
+    implementation("com.google.firebase:firebase-crashlytics-ktx:18.3.5")
     implementation("androidx.compose.ui:ui:1.3.3")
     implementation("androidx.compose.ui:ui-tooling:1.3.3")
     implementation("androidx.compose.ui:ui-tooling-preview:1.3.3")

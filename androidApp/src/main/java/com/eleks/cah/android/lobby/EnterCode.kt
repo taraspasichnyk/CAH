@@ -1,20 +1,18 @@
 package com.eleks.cah.android.lobby
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -47,58 +45,60 @@ private fun EnterCodeScreenPreview() {
 @Composable
 fun EnterCode(lobbyViewModel: LobbyViewModel) {
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        val isImeVisible =
+            WindowInsets.imeAnimationTarget.asPaddingValues().calculateBottomPadding() != 0.dp
+
         val headerHeight = animateDpAsState(
-            targetValue = if (WindowInsets.isImeVisible) 120.dp else 180.dp,
-            animationSpec = spring()
+            targetValue = if (isImeVisible) 120.dp else 180.dp
         )
 
         GameHeader(headerHeight = headerHeight.value)
 
-        Column(modifier = Modifier.fillMaxSize()) {
-            Column(
+        Spacer(Modifier.weight(1f))
+        EnterCodeView(lobbyViewModel)
+        Spacer(Modifier.weight(1f))
+        val state by lobbyViewModel.state.collectAsState()
+        val focusManager = LocalFocusManager.current
+        NavigationView(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    start = dimensionResource(R.dimen.padding_36),
+                    end = dimensionResource(R.dimen.padding_36),
+                    bottom = dimensionResource(R.dimen.padding_44)
+                ),
+            actionButtonText = R.string.label_next,
+            backButtonEnabled = !state.isLoading,
+            actionButtonEnabled = state.isNextButtonEnabled,
+            isActionButtonLoading = state.isLoading,
+            onBackButtonClick = {
+                focusManager.clearFocus()
+                lobbyViewModel.onBackPressed()
+            },
+            onActionButtonClick = {
+                focusManager.clearFocus()
+                lobbyViewModel.onNextClicked()
+            },
+        )
+
+        var footerHeightDp by remember { mutableStateOf(0.dp) }
+        val keyboardHeight = WindowInsets.ime.asPaddingValues().calculateBottomPadding()
+        Spacer(modifier = Modifier.height(0f.coerceAtLeast(keyboardHeight.value - footerHeightDp.value).dp))
+
+        val density = LocalDensity.current
+        CardBackground(R.drawable.bg_pattern_big, modifier = Modifier
+            .fillMaxWidth()
+            .onSizeChanged {
+                footerHeightDp = density.run { it.height.toDp() }
+            }) {
+            Spacer(
                 modifier = Modifier
-                    .weight(1f)
-                    .imePadding(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Spacer(Modifier.weight(1f))
-                EnterCodeView(lobbyViewModel)
-                Spacer(Modifier.weight(1f))
-                val state by lobbyViewModel.state.collectAsState()
-                val focusManager = LocalFocusManager.current
-                NavigationView(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            start = dimensionResource(R.dimen.padding_36),
-                            end = dimensionResource(R.dimen.padding_36),
-                            bottom = dimensionResource(R.dimen.padding_44)
-                        ),
-                    actionButtonText = R.string.label_next,
-                    backButtonEnabled = !state.isLoading,
-                    actionButtonEnabled = state.isNextButtonEnabled,
-                    isActionButtonLoading = state.isLoading,
-                    onBackButtonClick = {
-                        focusManager.clearFocus()
-                        lobbyViewModel.onBackPressed()
-                    },
-                    onActionButtonClick = {
-                        focusManager.clearFocus()
-                        lobbyViewModel.onNextClicked()
-                    },
-                )
-            }
-            AnimatedVisibility(!WindowInsets.isImeVisible) {
-                CardBackground(R.drawable.bg_pattern_big, modifier = Modifier.fillMaxWidth()) {
-                    Spacer(
-                        modifier = Modifier
-                            .navigationBarsPadding()
-                            .height(44.dp)
-                    )
-                }
-            }
+                    .navigationBarsPadding()
+                    .height(44.dp)
+            )
         }
     }
 }

@@ -74,18 +74,21 @@ struct CardsView<ViewModel: GameModelProtocol>: View {
                 GeometryReader { geometry in
                     let viewWidth = geometry.size.width
                     let deckWidth = deckWidth(viewWidth: viewWidth)
+                    let deckHeight = deckWidth / Size.answerCardAspectRatio.rawValue
                     ZStack {
                         ForEach(deckCards) {
                             AnswerCardView(answer: $0.text)
                                 .font(.cardSmall)
                                 .matchedGeometryEffect(id: $0.id, in: answerCardsNamespace)
                         }
+                        Image.bgTexture
+                            .background { Color.white }
                     }
                     .frame(width: deckWidth)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                     .shadow(radius: 8)
                     .offset(x: viewWidth - deckWidth - 20,
-                            y: geometry.size.height - 150)
+                            y: geometry.size.height - (deckHeight * 3 / 4))
                 }
                 .ignoresSafeArea()
             }

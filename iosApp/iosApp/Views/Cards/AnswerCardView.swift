@@ -24,7 +24,7 @@ struct AnswerCardView: View {
                 .padding(.horizontal, .small)
             Spacer()
         }
-        .aspectRatio(124 / 168, contentMode: .fit)
+        .aspectRatio(Size.answerCardAspectRatio.rawValue, contentMode: .fit)
         .background(
             LinearGradient(
                 colors: [

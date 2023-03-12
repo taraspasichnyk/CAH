@@ -21,6 +21,8 @@ enum Size: CGFloat {
     case larger = 32
     /// Defaults to 48.0
     case extraLarge = 48
+    /// Default Answer card aspect ratio
+    case answerCardAspectRatio = 0.738
 }
 
 extension View {

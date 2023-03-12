@@ -23,36 +23,41 @@ struct LeaderboardView<ViewModel: GameModelProtocol>: View {
                     Text("Результати")
                         .padding(.top, .larger)
                         .font(.titleSemiBold)
-                    if let round = viewModel.round {
                         LazyVStack {
-                            ForEach(round.playerCards) { item in
+                            let sortedPlayers = viewModel.players.sorted(by: { $0.score > $1.score })
+                            ForEach(sortedPlayers) { item in
                                 LeaderboardRow(
-                                    index: round.playerCards.firstIndex(
-                                        where: { $0.player.id == item.player.id }
-                                    ) ?? 0,
-                                    playerRound: item
+                                    index: (sortedPlayers.firstIndex(
+                                        where: { $0.id == item.id }
+                                    ) ?? 0) + 1,
+                                    nickname: item.nickname,
+                                    score: item.score,
+                                    isOwner: false
                                 )
                             }
                         }
                         .padding(.top, .extraLarge)
                         .padding([.leading, .trailing], 50.0)
-                    }
                 }
-                if viewModel.player?.isOwner == true {
-                    PrimaryButton("Далі") {
-                        viewModel.startNewRound()
-                    }
-                    .padding(.bottom, 78.0)
+                Spacer()
+                PrimaryButton(viewModel.round == nil ? "Завершити" : "Далі") {
+                    viewModel.onLeaderboardNextClicked()
                 }
+                .padding(.bottom, 78.0)
             }
-            Spacer()
         }
-        .ignoresSafeArea()
+        .ignoresSafeArea(edges: .bottom)
     }
 }
 
+// MARK: - Previews
+
 struct LeaderboardView_Previews: PreviewProvider {
     static var previews: some View {
-        LeaderboardView(viewModel: MockGameModel(player: .mock[0]))
+        LeaderboardView(
+            viewModel: MockGameModel(
+                player: .mock[0]
+            )
+        )
     }
 }

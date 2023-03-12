@@ -10,6 +10,7 @@
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
 		7100A98A29A4E54600B5B0AB /* CardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7100A98929A4E54600B5B0AB /* CardsView.swift */; };
+		7118341429AF91BD00EE2674 /* SelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7118341329AF91BD00EE2674 /* SelectorView.swift */; };
 		712A95AC29A78EAD0068A14C /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712A95A029A78EAD0068A14C /* Assets.swift */; };
 		712A95AD29A78EAD0068A14C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 712A95A129A78EAD0068A14C /* Assets.xcassets */; };
 		712A95AE29A78EAD0068A14C /* Unbounded-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 712A95A329A78EAD0068A14C /* Unbounded-Black.ttf */; };
@@ -31,6 +32,8 @@
 		71C9958729ACF62C00FC5A8E /* QuestionCardEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C9958629ACF62C00FC5A8E /* QuestionCardEntity.swift */; };
 		71C9958929ACF70000FC5A8E /* RoundPlayerAnswerEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C9958829ACF70000FC5A8E /* RoundPlayerAnswerEntity.swift */; };
 		71C9958B29ACFCFF00FC5A8E /* LeaderboardRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C9958A29ACFCFF00FC5A8E /* LeaderboardRow.swift */; };
+		71C9958D29AF540A00FC5A8E /* RateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C9958C29AF540A00FC5A8E /* RateView.swift */; };
+		71C9959029AF8A1000FC5A8E /* VoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C9958F29AF8A1000FC5A8E /* VoteView.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 		8FEC9BD42991E381009EE174 /* iosAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEC9BD32991E381009EE174 /* iosAppUITests.swift */; };
 		8FEC9BD62991E381009EE174 /* iosAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEC9BD52991E381009EE174 /* iosAppUITestsLaunchTests.swift */; };
@@ -48,6 +51,8 @@
 		92A0604029A24FB400C6CC3E /* AnswerCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A0603F29A24FB400C6CC3E /* AnswerCardView.swift */; };
 		92B925092995670C0089ED88 /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B925082995670C0089ED88 /* IconButton.swift */; };
 		92B9250B29956A1D0089ED88 /* LobbyRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B9250A29956A1D0089ED88 /* LobbyRow.swift */; };
+		92C88A0C29B9EFBC00B7D48C /* VoteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92C88A0B29B9EFBC00B7D48C /* VoteViewModel.swift */; };
+		92C88A0E29BA14D800B7D48C /* GameViewModel+Voting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92C88A0D29BA14D800B7D48C /* GameViewModel+Voting.swift */; };
 		92CAFB1B299A720900E0B1E2 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 92CAFB1A299A720900E0B1E2 /* FirebaseAuth */; };
 		92CAFB1D299A720900E0B1E2 /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 92CAFB1C299A720900E0B1E2 /* FirebaseAuthCombine-Community */; };
 		92CAFB1F299A720900E0B1E2 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 92CAFB1E299A720900E0B1E2 /* FirebaseDatabase */; };
@@ -65,6 +70,7 @@
 		92DE7810299D7C1100B16131 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92DE780E299D7C1100B16131 /* Array+Extensions.swift */; };
 		92E17D91299CEED300A0EEFC /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E17D8F299CEED300A0EEFC /* Fonts.swift */; };
 		92E17D92299CEED300A0EEFC /* Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E17D90299CEED300A0EEFC /* Size.swift */; };
+		92E36C8329AFAFBA0047D49E /* FullScreenHandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92E36C8229AFAFBA0047D49E /* FullScreenHandView.swift */; };
 		92F23CF729A4EE5F0093D043 /* LoadingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F23CF629A4EE5F0093D043 /* LoadingModifier.swift */; };
 		92F23CF929A4EEA50093D043 /* ButtonLoadingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F23CF829A4EEA50093D043 /* ButtonLoadingModifier.swift */; };
 		92F23CFB29A4F45E0093D043 /* CurrentRoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92F23CFA29A4F45E0093D043 /* CurrentRoundView.swift */; };
@@ -107,6 +113,7 @@
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
 		7100A98929A4E54600B5B0AB /* CardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsView.swift; sourceTree = "<group>"; };
+		7118341329AF91BD00EE2674 /* SelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorView.swift; sourceTree = "<group>"; };
 		712A95A029A78EAD0068A14C /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		712A95A129A78EAD0068A14C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		712A95A329A78EAD0068A14C /* Unbounded-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Unbounded-Black.ttf"; sourceTree = "<group>"; };
@@ -128,6 +135,8 @@
 		71C9958629ACF62C00FC5A8E /* QuestionCardEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionCardEntity.swift; sourceTree = "<group>"; };
 		71C9958829ACF70000FC5A8E /* RoundPlayerAnswerEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundPlayerAnswerEntity.swift; sourceTree = "<group>"; };
 		71C9958A29ACFCFF00FC5A8E /* LeaderboardRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardRow.swift; sourceTree = "<group>"; };
+		71C9958C29AF540A00FC5A8E /* RateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateView.swift; sourceTree = "<group>"; };
+		71C9958F29AF8A1000FC5A8E /* VoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteView.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -149,6 +158,8 @@
 		92A0603F29A24FB400C6CC3E /* AnswerCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerCardView.swift; sourceTree = "<group>"; };
 		92B925082995670C0089ED88 /* IconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconButton.swift; sourceTree = "<group>"; };
 		92B9250A29956A1D0089ED88 /* LobbyRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyRow.swift; sourceTree = "<group>"; };
+		92C88A0B29B9EFBC00B7D48C /* VoteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteViewModel.swift; sourceTree = "<group>"; };
+		92C88A0D29BA14D800B7D48C /* GameViewModel+Voting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameViewModel+Voting.swift"; sourceTree = "<group>"; };
 		92CAFB22299A735600E0B1E2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		92CD661629925B720003634C /* Image+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Extensions.swift"; sourceTree = "<group>"; };
 		92CD661829926F220003634C /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
@@ -162,6 +173,7 @@
 		92DE780E299D7C1100B16131 /* Array+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		92E17D8F299CEED300A0EEFC /* Fonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		92E17D90299CEED300A0EEFC /* Size.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Size.swift; sourceTree = "<group>"; };
+		92E36C8229AFAFBA0047D49E /* FullScreenHandView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenHandView.swift; sourceTree = "<group>"; };
 		92F23CF629A4EE5F0093D043 /* LoadingModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingModifier.swift; sourceTree = "<group>"; };
 		92F23CF829A4EEA50093D043 /* ButtonLoadingModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonLoadingModifier.swift; sourceTree = "<group>"; };
 		92F23CFA29A4F45E0093D043 /* CurrentRoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentRoundView.swift; sourceTree = "<group>"; };
@@ -334,6 +346,18 @@
 			path = Leaderboard;
 			sourceTree = "<group>";
 		};
+		71C9958E29AF89E000FC5A8E /* Vote */ = {
+			isa = PBXGroup;
+			children = (
+				71C9958F29AF8A1000FC5A8E /* VoteView.swift */,
+				71C9958C29AF540A00FC5A8E /* RateView.swift */,
+				7118341329AF91BD00EE2674 /* SelectorView.swift */,
+				92C88A0B29B9EFBC00B7D48C /* VoteViewModel.swift */,
+				92C88A0D29BA14D800B7D48C /* GameViewModel+Voting.swift */,
+			);
+			path = Vote;
+			sourceTree = "<group>";
+		};
 		7555FF72242A565900829871 = {
 			isa = PBXGroup;
 			children = (
@@ -407,9 +431,19 @@
 				92E9AC08299A35C9000367F2 /* Lobby */,
 				7100A98829A4E52B00B5B0AB /* Cards */,
 				71C9958129ACE90900FC5A8E /* Leaderboard */,
-				92F23CFA29A4F45E0093D043 /* CurrentRoundView.swift */,
+				92E36C8429AFB2B70047D49E /* CurrentRound */,
+				71C9958E29AF89E000FC5A8E /* Vote */,
 			);
 			path = Screens;
+			sourceTree = "<group>";
+		};
+		92E36C8429AFB2B70047D49E /* CurrentRound */ = {
+			isa = PBXGroup;
+			children = (
+				92F23CFA29A4F45E0093D043 /* CurrentRoundView.swift */,
+				92E36C8229AFAFBA0047D49E /* FullScreenHandView.swift */,
+			);
+			path = CurrentRound;
 			sourceTree = "<group>";
 		};
 		92E9AC07299A358A000367F2 /* Buttons */ = {
@@ -677,19 +711,24 @@
 				92CE1A8F29AEF17600551F99 /* GameNavState.swift in Sources */,
 				927F7F60298D075400A158A8 /* MainMenuView.swift in Sources */,
 				712A95BC29A790F30068A14C /* SquareSizeModifier.swift in Sources */,
+				92C88A0E29BA14D800B7D48C /* GameViewModel+Voting.swift in Sources */,
 				921076662994E46900390F45 /* EnterScreenStage.swift in Sources */,
 				92F23CF729A4EE5F0093D043 /* LoadingModifier.swift in Sources */,
 				71C9958B29ACFCFF00FC5A8E /* LeaderboardRow.swift in Sources */,
+				71C9958D29AF540A00FC5A8E /* RateView.swift in Sources */,
 				92F23CFB29A4F45E0093D043 /* CurrentRoundView.swift in Sources */,
 				92E17D91299CEED300A0EEFC /* Fonts.swift in Sources */,
 				71C9958929ACF70000FC5A8E /* RoundPlayerAnswerEntity.swift in Sources */,
+				92E36C8329AFAFBA0047D49E /* FullScreenHandView.swift in Sources */,
 				71C9958029AC9ECB00FC5A8E /* PlayerEntity.swift in Sources */,
+				92C88A0C29B9EFBC00B7D48C /* VoteViewModel.swift in Sources */,
 				7100A98A29A4E54600B5B0AB /* CardsView.swift in Sources */,
 				71C9958729ACF62C00FC5A8E /* QuestionCardEntity.swift in Sources */,
 				927295E3298D61F100C5F0DE /* PrimaryButton.swift in Sources */,
 				92DE7810299D7C1100B16131 /* Array+Extensions.swift in Sources */,
 				92A0603E299FD18800C6CC3E /* MenuEffectProcessor.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
+				7118341429AF91BD00EE2674 /* SelectorView.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				92F23CFD29A4F91B0093D043 /* HeaderSize.swift in Sources */,
 				92CD661D2992BD770003634C /* InputField.swift in Sources */,
@@ -707,6 +746,7 @@
 				92CD661929926F220003634C /* Alerts.swift in Sources */,
 				92CD661F2992DEA80003634C /* ContainerView.swift in Sources */,
 				9291175D2998454C00B23AF3 /* PasteboardController.swift in Sources */,
+				71C9959029AF8A1000FC5A8E /* VoteView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

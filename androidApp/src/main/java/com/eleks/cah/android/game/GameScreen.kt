@@ -5,39 +5,34 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.eleks.cah.android.MyApplicationTheme
+import com.eleks.cah.android.*
 import com.eleks.cah.android.R
+import com.eleks.cah.android.game.results.RoundResultsScreen
 import com.eleks.cah.android.game.round.PreRoundScreen
 import com.eleks.cah.android.game.round.RoundScreen
 import com.eleks.cah.android.game.user_cards.UserCardsScreen
 import com.eleks.cah.android.game.vote.ScoreScreen
-import com.eleks.cah.android.mockedPlayer
-import com.eleks.cah.android.mockedRound
 import com.eleks.cah.android.router.GameRoute
 import com.eleks.cah.android.widgets.animatedComposable
 import com.eleks.cah.domain.model.AnswerCardID
 import com.eleks.cah.domain.model.GameRound
 import com.eleks.cah.domain.model.Player
 import com.eleks.cah.domain.model.RoundPlayerAnswer
-import com.eleks.cah.game.GameContract
+import com.eleks.cah.game.GameContract.Effect.Navigation
 import com.eleks.cah.game.GameViewModel
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
-
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -94,31 +89,32 @@ fun GameScreen(
     LaunchedEffect(Unit) {
         gameViewModel.effect.collectLatest {
             when (it) {
-                is GameContract.Effect.Navigation.PreRound -> {
+                is Navigation.PreRound -> {
                     innerNavController.popBackStack()
                     innerNavController.navigate(GameRoute.PreRound.path)
                 }
 
-                is GameContract.Effect.Navigation.YourCards -> {
+                is Navigation.YourCards -> {
                     innerNavController.popBackStack()
                     innerNavController.navigate(GameRoute.YourCards.path)
                 }
 
-                is GameContract.Effect.Navigation.Round -> {
+                is Navigation.Round -> {
                     innerNavController.popBackStack()
                     innerNavController.navigate(GameRoute.Round.path)
                 }
 
-                is GameContract.Effect.Navigation.Voting -> {
+                is Navigation.Voting -> {
                     innerNavController.popBackStack()
                     innerNavController.navigate(GameRoute.Voting.path)
                 }
-
-                is GameContract.Effect.Navigation.RoundLeaderBoard -> {
+                is Navigation.Results -> {
                     innerNavController.popBackStack()
-                    innerNavController.navigate(GameRoute.PostRound.path)
+                    innerNavController.navigate(GameRoute.Results.path)
                 }
-
+                is Navigation.Menu -> {
+                    onExit()
+                }
                 else -> {}
             }
         }
@@ -128,6 +124,7 @@ fun GameScreen(
         innerNavController,
         state.round,
         state.me,
+        state.players,
         onFabClicked = {
             gameViewModel.showYourCards()
         },
@@ -140,8 +137,8 @@ fun GameScreen(
         onScoreSubmitted = {
             gameViewModel.saveScores(it)
         },
-        onNewRoundStart = {
-            gameViewModel.startNewRound()
+        onLeaderboardViewed = {
+            gameViewModel.onLeaderboardNextClicked()
         }
     )
 }
@@ -152,11 +149,12 @@ private fun GameContainer(
     innerNavController: NavHostController,
     currentRound: GameRound?,
     player: Player?,
+    allPlayers: List<Player>?,
     onFabClicked: () -> Unit = {},
     onUserCardsDismissed: () -> Unit = {},
     onAnswerSubmitted: (List<AnswerCardID>) -> Unit = {},
     onScoreSubmitted: (List<RoundPlayerAnswer>) -> Unit = { _ -> },
-    onNewRoundStart: () -> Unit = {}
+    onLeaderboardViewed: () -> Unit = {},
 ) {
     AnimatedNavHost(
         navController = innerNavController,
@@ -204,26 +202,19 @@ private fun GameContainer(
             val round = currentRound ?: return@animatedComposable
             ScoreScreen(
                 round.masterCard,
-                round.playerCards,
+                round.answers,
                 round.number,
                 onVote = onScoreSubmitted
             )
         }
 
-        animatedComposable(route = GameRoute.PostRound.path) {
-            val me = player ?: return@animatedComposable
-            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Column {
-                    Text("LEADERBOARD")
-                    if (me.gameOwner) {
-                        Button(onClick = {
-                            onNewRoundStart()
-                        }) {
-                            Text("Далі")
-                        }
-                    }
-                }
-            }
+        animatedComposable(route = GameRoute.Results.path) {
+            val players = allPlayers ?: return@animatedComposable
+            RoundResultsScreen(
+                currentRound,
+                players,
+                onNextPressed = onLeaderboardViewed
+            )
         }
     }
 }
@@ -235,7 +226,8 @@ private fun GamePreview() {
         GameContainer(
             innerNavController = rememberNavController(),
             currentRound = mockedRound(),
-            player = mockedPlayer()
+            player = mockedPlayer(),
+            allPlayers = mockedGameRoom().players,
         )
     }
 }

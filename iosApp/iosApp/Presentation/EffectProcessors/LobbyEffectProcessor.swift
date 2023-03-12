@@ -11,6 +11,7 @@ import shared
 
 final class LobbyEffectProcessor {
     @Binding private var navState: [NavPath]
+    @Binding private var gameNavState: GameNavState
     private let injector: Injector
     private let shareController: PasteboardControlling
     private let alertState: AlertState
@@ -18,11 +19,13 @@ final class LobbyEffectProcessor {
     init(
         injector: Injector = Injector.shared,
         navState: Binding<[NavPath]>,
+        gameNavState: Binding<GameNavState>,
         alertState: AlertState,
         shareController: PasteboardControlling
     ) {
         self.injector = injector
         self._navState = navState
+        self._gameNavState = gameNavState
         self.alertState = alertState
         self.shareController = shareController
     }
@@ -43,16 +46,15 @@ final class LobbyEffectProcessor {
             let lobbyVm = navState.compactMap(\.lobbyViewModel).last ?? injector.lobbyOwnerViewModel
             navState.navigate(to: .enterName(lobbyVm))
         case let gameEffect as LobbyContractEffect.NavigationGameScreen:
-            let gameVm = injector.makeGameViewModel(
-                roomID: gameEffect.roomId,
-                playerID: gameEffect.playerID
-            )
-            subscribeToGameEffects(gameVm)
-
-            if navState.compactMap(\.gameViewModel).last != nil {
-                navState.removeLast()
+            if navState.compactMap(\.gameViewModel).last == nil {
+                let gameVm = injector.makeGameViewModel(
+                    roomID: gameEffect.roomId,
+                    playerID: gameEffect.playerID
+                )
+                subscribeToGameEffects(gameVm)
+                gameNavState = .yourCards
+                navState = [.game(gameVm)]
             }
-            navState.append(.game(gameVm))
         case let copyCodeEffect as LobbyContractEffect.CopyCode:
             shareController.copyToPasteboard(copyCodeEffect.code)
         case let errorEffect as LobbyContractEffect.ShowError:

@@ -2,8 +2,6 @@ package com.eleks.cah.game
 
 import com.eleks.cah.base.UiEffect
 import com.eleks.cah.base.UiState
-import com.eleks.cah.domain.model.AnswerCard
-import com.eleks.cah.domain.model.AnswerCardID
 import com.eleks.cah.domain.model.GameRoom
 import com.eleks.cah.domain.model.GameRound
 import com.eleks.cah.domain.model.Player
@@ -17,14 +15,13 @@ interface GameContract {
     ) : UiState
 
     sealed class Effect : UiEffect {
-
-
         sealed class Navigation : Effect() {
             object YourCards : Navigation()
             object PreRound : Navigation()
             object Round : Navigation()
             object Voting : Navigation()
-            object RoundLeaderBoard : Navigation()
+            object Results : Navigation()
+            object Menu : Navigation()
         }
     }
 }

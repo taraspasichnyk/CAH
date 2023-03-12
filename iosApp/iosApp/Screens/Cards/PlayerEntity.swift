@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct PlayerEntity: Equatable {
+struct PlayerEntity: Identifiable {
 
     enum State: String {
         case NOT_READY, READY, ANSWERING, ANSWER_SUBMITTED, VOTING, VOTE_SUBMITTED
@@ -19,6 +19,7 @@ struct PlayerEntity: Equatable {
     let isOwner: Bool
     let cards: [AnswerCardEntity]
     let state: State
+    let score: Int
 
     static let mock: [PlayerEntity] = [
         .init(
@@ -26,14 +27,16 @@ struct PlayerEntity: Equatable {
             nickname: "@rt3m",
             isOwner: true,
             cards: AnswerCardEntity.mock,
-            state: .ANSWERING
+            state: .ANSWERING,
+            score: 2
         ),
         .init(
             id: "2",
             nickname: "Taras P",
             isOwner: false,
             cards: AnswerCardEntity.mock,
-            state: .ANSWERING
+            state: .ANSWERING,
+            score: 5
         )
         ,
         .init(
@@ -41,7 +44,8 @@ struct PlayerEntity: Equatable {
             nickname: "Andriy P",
             isOwner: false,
             cards: AnswerCardEntity.mock,
-            state: .ANSWERING
+            state: .ANSWERING,
+            score: 10
         )
         ,
         .init(
@@ -49,7 +53,8 @@ struct PlayerEntity: Equatable {
             nickname: "Taras Y",
             isOwner: false,
             cards: AnswerCardEntity.mock,
-            state: .ANSWERING
+            state: .ANSWERING,
+            score: 25
         )
         ,
         .init(
@@ -57,7 +62,8 @@ struct PlayerEntity: Equatable {
             nickname: "Dmytro S",
             isOwner: false,
             cards: AnswerCardEntity.mock,
-            state: .ANSWERING
+            state: .ANSWERING,
+            score: 3
         )
         ,
         .init(
@@ -65,7 +71,8 @@ struct PlayerEntity: Equatable {
             nickname: "Andriy K",
             isOwner: false,
             cards: AnswerCardEntity.mock,
-            state: .ANSWERING
+            state: .ANSWERING,
+            score: 13
         )
         ,
         .init(
@@ -73,7 +80,8 @@ struct PlayerEntity: Equatable {
             nickname: "Oleh S",
             isOwner: false,
             cards: AnswerCardEntity.mock,
-            state: .ANSWERING
+            state: .ANSWERING,
+            score: 7
         )
     ]
 }

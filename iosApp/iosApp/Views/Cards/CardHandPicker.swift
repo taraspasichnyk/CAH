@@ -25,7 +25,6 @@ struct CardHandPicker: View {
                     ForEach(Array(answers.enumerated()), id: \.offset) { (offset, answerItem) in
                         AnswerCardView(answer: answerItem.text)
                             .font(.inputPrimary)
-                            .frame(width: 180, height: 240)
                             .scaleEffect(getScale(offset), anchor: .bottom)
                             .rotationEffect(.degrees(getRotation(offset)))
                             .offset(x: CGFloat(offset) * 90)

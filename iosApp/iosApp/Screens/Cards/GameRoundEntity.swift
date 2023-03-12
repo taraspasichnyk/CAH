@@ -17,14 +17,14 @@ struct GameRoundEntity {
     let id: String
     let number: Int
     let questionCard: QuestionCardEntity
-    let playerCards: [RoundPlayerAnswerEntity]
+    let answers: [RoundPlayerAnswerEntity]
     let state: State
 
     static let mock: GameRoundEntity = GameRoundEntity(
         id: "123",
         number: 1,
-        questionCard: QuestionCardEntity(id: "1", text: "What?", question: "What?", gaps: [0, 1, 2]),
-        playerCards: RoundPlayerAnswerEntity.mock,
+        questionCard: QuestionCardEntity(id: "1", text: "Вітаємо! Ви були обрані для нашої літньої інтернатури. Хоча ми не можемо пропонувати зарплату, ми можемо пропонувати \"вам\" ____ .", question: "Вітаємо! Ви були обрані для нашої літньої інтернатури. Хоча ми не можемо пропонувати зарплату, ми можемо пропонувати \"вам\" ____ .", gaps: [0, 1, 2]),
+        answers: RoundPlayerAnswerEntity.mock,
         state: .VOTING
     )
 }

@@ -22,6 +22,7 @@ struct AnswerCardView: View {
                 .multilineTextAlignment(.center)
                 .padding(.top, .medium)
                 .padding(.horizontal, .small)
+                .foregroundColor(.mainBlack)
             Spacer()
         }
         .aspectRatio(Size.answerCardAspectRatio.rawValue, contentMode: .fit)

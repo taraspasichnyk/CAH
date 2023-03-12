@@ -5,18 +5,8 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.toMutableStateList
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -101,7 +91,7 @@ fun RoundScreen(
                             .plus(
                                 Offset(
                                     -it.size.width / 2f,
-                                    it.size.height.toFloat() / 2
+                                    it.size.height / 2f
                                 )
                             )
                     }
@@ -155,8 +145,8 @@ fun RoundScreen(
                     modifier = Modifier
                         .scale(0.75f, 0.75f)
                         .padding(
-                            start = selectedCardPosition.x.pxToDp(),
-                            top = selectedCardPosition.y.pxToDp()
+                            start = selectedCardPosition.x.coerceAtLeast(0f).pxToDp(),
+                            top = selectedCardPosition.y.coerceAtLeast(0f).pxToDp()
                         )
                         .rotate(-20f)
                         .clickable {

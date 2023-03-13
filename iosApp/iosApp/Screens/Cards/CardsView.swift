@@ -88,7 +88,7 @@ struct CardsView<ViewModel: GameModelProtocol>: View {
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                     .shadow(radius: 8)
                     .offset(x: viewWidth - deckWidth - 20,
-                            y: geometry.size.height - (deckHeight * 3 / 4))
+                            y: geometry.size.height - deckHeight)
                 }
                 .ignoresSafeArea()
             }

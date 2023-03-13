@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct PlayerEntity: Identifiable {
+struct PlayerEntity: Identifiable, Equatable {
 
     enum State: String {
         case NOT_READY, READY, ANSWERING, ANSWER_SUBMITTED, VOTING, VOTE_SUBMITTED

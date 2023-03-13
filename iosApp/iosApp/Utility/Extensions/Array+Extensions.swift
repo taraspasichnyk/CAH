@@ -19,4 +19,9 @@ extension Array {
             removeLast()
         }
     }
+
+    mutating func removeElement(_ element: Element) where Element: Equatable {
+        guard let elementIndex = self.firstIndex(where: { $0 == element }) else { return }
+        self.remove(at: elementIndex)
+    }
 }

@@ -34,9 +34,15 @@ struct HeaderView: View {
 
 struct HeaderView_Previews: PreviewProvider {
     static var previews: some View {
-        VStack {
-            HeaderView(size: .medium)
-            Spacer()
+        Group {
+            VStack {
+                HeaderView(size: .medium)
+                Spacer()
+            }
+            VStack {
+                HeaderView(size: .small)
+                Spacer()
+            }
         }
     }
 }

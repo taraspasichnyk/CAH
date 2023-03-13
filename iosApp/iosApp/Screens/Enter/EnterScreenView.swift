@@ -97,5 +97,7 @@ struct EnterNameView_Previews: PreviewProvider {
         EnterScreenView(
             stage: .playerName(.init())
         )
+        .environmentObject(LoadingState())
+        .environmentObject(AlertState())
     }
 }

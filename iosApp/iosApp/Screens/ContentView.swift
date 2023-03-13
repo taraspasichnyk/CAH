@@ -108,7 +108,13 @@ extension ContentView {
 // MARK: - Previews
 
 struct ContentView_Previews: PreviewProvider {
-	static var previews: some View {
+
+    @StateObject private static var loading = LoadingState()
+    @StateObject private static var alert = AlertState()
+
+    static var previews: some View {
         ContentView()
-	}
+            .environmentObject(loading)
+            .environmentObject(alert)
+    }
 }
